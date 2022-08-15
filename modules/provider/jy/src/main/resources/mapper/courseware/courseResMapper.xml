@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.courseware.ICourseResDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('lv1')">
+                        T.lv1,
+                    </if>
+                    <if test="!pager.excludes.contains('lv2')">
+                        T.lv2,
+                    </if>
+                    <if test="!pager.excludes.contains('lv3')">
+                        T.lv3,
+                    </if>
+                    <if test="!pager.excludes.contains('lv4')">
+                        T.lv4,
+                    </if>
+                    <if test="!pager.excludes.contains('fileType')">
+                        T.file_type,
+                    </if>
+                    <if test="!pager.excludes.contains('resType')">
+                        T.res_type,
+                    </if>
+                    <if test="!pager.excludes.contains('resUrl')">
+                        T.res_url,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('resSize')">
+                        T.res_size,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('textbook')">
+                        T.textbook,
+                    </if>
+                    <if test="!pager.excludes.contains('title')">
+                        T.title,
+                    </if>
+                    <if test="!pager.excludes.contains('subjectMateriaId')">
+                        T.subject_materia_id,
+                    </if>
+                    <if test="!pager.excludes.contains('remark')">
+                        T.remark,
+                    </if>
+                    <if test="!pager.excludes.contains('duration')">
+                        T.duration,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lv1!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('lv1')">
+                        and T.lv1 like concat('%',#{lv1},'%')
+                    </when>
+                    <otherwise>
+                        and T.lv1=#{lv1}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lv2!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('lv2')">
+                        and T.lv2 like concat('%',#{lv2},'%')
+                    </when>
+                    <otherwise>
+                        and T.lv2=#{lv2}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lv3!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('lv3')">
+                        and T.lv3 like concat('%',#{lv3},'%')
+                    </when>
+                    <otherwise>
+                        and T.lv3=#{lv3}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lv4!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('lv4')">
+                        and T.lv4 like concat('%',#{lv4},'%')
+                    </when>
+                    <otherwise>
+                        and T.lv4=#{lv4}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('fileType')">
+                        and T.file_type like concat('%',#{fileType},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_type=#{fileType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="resType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('resType')">
+                        and T.res_type like concat('%',#{resType},'%')
+                    </when>
+                    <otherwise>
+                        and T.res_type=#{resType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="resUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('resUrl')">
+                        and T.res_url like concat('%',#{resUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.res_url=#{resUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('teacherId')">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="resSize!=null">
+                and T.res_size=#{resSize}
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="textbook!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('textbook')">
+                        and T.textbook like concat('%',#{textbook},'%')
+                    </when>
+                    <otherwise>
+                        and T.textbook=#{textbook}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="title!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('title')">
+                        and T.title like concat('%',#{title},'%')
+                    </when>
+                    <otherwise>
+                        and T.title=#{title}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="subjectMateriaId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('subjectMateriaId')">
+                        and T.subject_materia_id like concat('%',#{subjectMateriaId},'%')
+                    </when>
+                    <otherwise>
+                        and T.subject_materia_id=#{subjectMateriaId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="remark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('remark')">
+                        and T.remark like concat('%',#{remark},'%')
+                    </when>
+                    <otherwise>
+                        and T.remark=#{remark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="duration!=null">
+                and T.duration=#{duration}
+            </if>
+            <if test="unCategorized">
+                and(T.lv1 is null and T.lv2 is null and T.lv3 is null and T.lv4 is null)
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findCourseResListByCondition" parameterType="CourseRes" resultType="CourseRes">
+        select
+        <include refid="projection"/>
+        from jy_course_res T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+    </select>
+
+    <!--查询老师当前最近的课件-->
+    <select id="findRecentlyCourseWare" parameterType="CourseWare" resultType="CourseRes">
+        SELECT subject_materia_id,lv1,lv2,lv3,lv4, create_time FROM jy_course_res
+        WHERE teacher_id = #{teacherId} AND school_id = #{schoolId} and res_type="COURSEWARE"
+        ORDER BY create_time DESC LIMIT 1
+    </select>
+
+
+    <select id="findCourseResCountByCondition" parameterType="CourseRes" resultType="long">
+        select count(*) from jy_course_res T
+        <include refid="match"/>
+    </select>
+    <select id="findCourseResById" resultType="CourseRes">
+        select * from jy_course_res where id=#{id}
+    </select>
+    <select id="findOneCourseResByCondition" parameterType="CourseRes" resultType="CourseRes">
+        select
+        <include refid="projection"/>
+        from jy_course_res T
+        <include refid="match"/>
+    </select>
+    <insert id="saveCourseRes" parameterType="CourseRes">
+        INSERT INTO jy_course_res (  id,  name,  lv1,  lv2,  lv3,  lv4,  file_type,  res_type,  res_url,  school_id,  teacher_id,  res_size,  create_time,  textbook,  title,  subject_materia_id,  remark,  duration )
+        values
+        (   #{id}  ,   #{name}  ,   #{lv1}  ,   #{lv2}  ,   #{lv3}  ,   #{lv4}  ,   #{fileType}  ,   #{resType}  ,   #{resUrl}  ,   #{schoolId}  ,   #{teacherId}  ,   #{resSize}  ,   now()  ,   #{textbook}  ,   #{title}  ,   #{subjectMateriaId}  ,   #{remark}  ,   #{duration}    )
+    </insert>
+    <update id="updateCourseRes" parameterType="CourseRes">
+        update jy_course_res
+        <set>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="lv1!=null ">
+                lv1=#{lv1},
+            </if>
+            <if test="lv2!=null ">
+                lv2=#{lv2},
+            </if>
+            <if test="lv3!=null ">
+                lv3=#{lv3},
+            </if>
+            <if test="lv4!=null ">
+                lv4=#{lv4},
+            </if>
+            <if test="fileType!=null ">
+                file_type=#{fileType},
+            </if>
+            <if test="resType!=null ">
+                res_type=#{resType},
+            </if>
+            <if test="resUrl!=null ">
+                res_url=#{resUrl},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="resSize!=null ">
+                res_size=#{resSize},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="textbook!=null ">
+                textbook=#{textbook},
+            </if>
+            <if test="title!=null ">
+                title=#{title},
+            </if>
+            <if test="subjectMateriaId!=null ">
+                subject_materia_id=#{subjectMateriaId},
+            </if>
+            <if test="remark!=null ">
+                remark=#{remark},
+            </if>
+            <if test="duration!=null ">
+                duration=#{duration}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateCourseResForAll" parameterType="CourseRes">
+        update jy_course_res
+        <set>
+            name=#{name},
+            lv1=#{lv1},
+            lv2=#{lv2},
+            lv3=#{lv3},
+            lv4=#{lv4},
+            file_type=#{fileType},
+            res_type=#{resType},
+            res_url=#{resUrl},
+            school_id=#{schoolId},
+            teacher_id=#{teacherId},
+            res_size=#{resSize},
+            create_time=#{createTime},
+            textbook=#{textbook},
+            title=#{title},
+            subject_materia_id=#{subjectMateriaId},
+            remark=#{remark},
+            duration=#{duration}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteCourseRes" >
+        delete from jy_course_res where id=#{id}
+    </delete>
+    <delete id="deleteCourseResByCondition" >
+        delete T from jy_course_res T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveCourseRes" parameterType="CourseRes">
+        INSERT INTO jy_course_res (  id,  name,  lv1,  lv2,  lv3,  lv4,  file_type,  res_type,  res_url,  school_id,  teacher_id,  res_size,  create_time,  textbook,  title,  subject_materia_id,  remark,  duration )
+        VALUES
+        <foreach collection="list" item="jyCourseRes" separator=",">
+            (   #{jyCourseRes.id}  ,   #{jyCourseRes.name}  ,   #{jyCourseRes.lv1}  ,   #{jyCourseRes.lv2}  ,   #{jyCourseRes.lv3}  ,   #{jyCourseRes.lv4}  ,   #{jyCourseRes.fileType}  ,   #{jyCourseRes.resType}  ,   #{jyCourseRes.resUrl}  ,   #{jyCourseRes.schoolId}  ,   #{jyCourseRes.teacherId}  ,   #{jyCourseRes.resSize}  ,   now()  ,   #{jyCourseRes.textbook}  ,   #{jyCourseRes.title}  ,   #{jyCourseRes.subjectMateriaId}  ,   #{jyCourseRes.remark}  ,   #{jyCourseRes.duration}    )
+        </foreach>
+    </insert>
+
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <update id="batchUpdateCourseRes" parameterType="com.yice.edu.cn.common.pojo.jy.courseware.CourseRes">
+        update jy_course_res
+        <set>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="lv1!=null ">
+                lv1=#{lv1},
+            </if>
+            <if test="lv2!=null ">
+                lv2=#{lv2},
+            </if>
+            <if test="lv3!=null ">
+                lv3=#{lv3},
+            </if>
+            <if test="lv4!=null ">
+                lv4=#{lv4},
+            </if>
+            <if test="fileType!=null ">
+                file_type=#{fileType},
+            </if>
+            <if test="resType!=null ">
+                res_type=#{resType},
+            </if>
+            <if test="resUrl!=null ">
+                res_url=#{resUrl},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="resSize!=null ">
+                res_size=#{resSize},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="textbook!=null ">
+                textbook=#{textbook},
+            </if>
+            <if test="title!=null ">
+                title=#{title},
+            </if>
+            <if test="subjectMateriaId!=null ">
+                subject_materia_id=#{subjectMateriaId},
+            </if>
+        </set>
+        <where>
+            id in
+            <foreach collection="ids" item="idd" open="(" close=")" separator=",">
+                #{idd}
+            </foreach>
+        </where>
+    </update>
+
+
+    <delete id="deletes">
+        delete from jy_course_res
+        <where>
+            id in
+            <foreach collection="list" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <update id="mv0" parameterType="com.yice.edu.cn.common.pojo.jy.courseware.CourseRes">
+        update jy_course_res
+        <set>
+            lv1=null,
+            lv2=null,
+            lv3=null,
+            lv4=null
+        </set>
+        <where>
+            <if test="teacherId !=null ">
+                teacher_id = #{teacherId}
+            </if>
+             <if test="schoolId !=null">
+                 and school_id = #{schoolId}
+             </if>
+            <if test="lv1!=null ">
+                and lv1=#{lv1}
+            </if>
+            <if test="lv2!=null ">
+                and lv2=#{lv2}
+            </if>
+            <if test="lv3!=null ">
+                and lv3=#{lv3}
+            </if>
+            <if test="lv4!=null ">
+                and lv4=#{lv4}
+            </if>
+        </where>
+    </update>
+
+    <update id="remark" parameterType="com.yice.edu.cn.common.pojo.jy.courseware.CourseRes">
+        update jy_course_res
+        <set>
+            remark=#{remark}
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <select id="findLastRes"
+            parameterType="com.yice.edu.cn.common.pojo.jy.courseware.CourseRes"
+            resultType="com.yice.edu.cn.common.pojo.jy.courseware.CourseRes">
+
+        select * from jy_course_res
+        <where>
+            teacher_id = #{teacherId}
+            and school_id = #{schoolId}
+
+            <if test="resType!=null ">
+                and res_type = #{resType}
+            </if>
+
+        </where>
+        order by create_time desc
+        limit 1
+
+    </select>
+</mapper>

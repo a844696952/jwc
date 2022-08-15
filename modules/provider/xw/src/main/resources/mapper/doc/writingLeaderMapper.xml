@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.doc.WritingLeaderDao">
+    <!--########################################################################################################################-->
+    <select id="findWritingLeaderListByCondition" parameterType="WritingLeader" resultType="WritingLeader">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('writingId')">
+                        T.writing_id,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderId')">
+                        T.leader_id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderName')">
+                        T.leader_name,
+                    </if>
+                    <if test="!pager.excludes.contains('remarks')">
+                        T.remarks,
+                    </if>
+                    <if test="!pager.excludes.contains('writingTime')">
+                        T.writing_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_writing_leader T
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="writingId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingId'">
+                        and T.writing_id like concat('%',#{writingId},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_id=#{writingId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="leaderId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderId'">
+                        and T.leader_id like concat('%',#{leaderId},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_id=#{leaderId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="leaderName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderName'">
+                        and T.leader_name like concat('%',#{leaderName},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_name=#{leaderName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="remarks!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='remarks'">
+                        and T.remarks like concat('%',#{remarks},'%')
+                    </when>
+                    <otherwise>
+                        and T.remarks=#{remarks}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingTime'">
+                        and T.writing_time like concat('%',#{writingTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_time=#{writingTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId!=null'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)}
+            ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWritingLeaderCountByCondition" parameterType="WritingLeader" resultType="long">
+        select count(*) from xw_writing_leader T
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="writingId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingId'">
+                        and T.writing_id like concat('%',#{writingId},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_id=#{writingId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="leaderId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderId'">
+                        and T.leader_id like concat('%',#{leaderId},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_id=#{leaderId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="leaderName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderName'">
+                        and T.leader_name like concat('%',#{leaderName},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_name=#{leaderName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="remarks!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='remarks'">
+                        and T.remarks like concat('%',#{remarks},'%')
+                    </when>
+                    <otherwise>
+                        and T.remarks=#{remarks}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingTime'">
+                        and T.writing_time like concat('%',#{writingTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_time=#{writingTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findWritingLeaderById" resultType="WritingLeader">
+        select * from xw_writing_leader where id=#{id}
+    </select>
+    <select id="findOneWritingLeaderByCondition" parameterType="WritingLeader" resultType="WritingLeader">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('writingId')">
+                        T.writing_id,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderId')">
+                        T.leader_id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderName')">
+                        T.leader_name,
+                    </if>
+                    <if test="!pager.excludes.contains('remarks')">
+                        T.remarks,
+                    </if>
+                    <if test="!pager.excludes.contains('writingTime')">
+                        T.writing_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_writing_leader T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="writingId!=null">
+                and T.writing_id=#{writingId}
+            </if>
+            <if test="leaderId!=null">
+                and T.leader_id=#{leaderId}
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="leaderName!=null">
+                and T.leader_name=#{leaderName}
+            </if>
+            <if test="remarks!=null">
+                and T.remarks=#{remarks}
+            </if>
+            <if test="writingTime!=null">
+                and T.writing_time=#{writingTime}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id!=null
+            </if>
+        </where>
+    </select>
+    <insert id="saveWritingLeader" parameterType="WritingLeader">
+        insert into xw_writing_leader
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            writing_id,
+            leader_id,
+            type,
+            leader_name,
+            remarks,
+            writing_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{writingId}
+                ,
+                #{leaderId}
+                ,
+                #{type}
+                ,
+                #{leaderName}
+                ,
+                #{remarks}
+                ,
+                #{writingTime}
+                ,
+                #{schoolId}
+         )
+    </insert>
+    <update id="updateWritingLeader" parameterType="WritingLeader">
+        update xw_writing_leader
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="writingId!=null ">
+                writing_id=#{writingId},
+            </if>
+            <if test="leaderId!=null ">
+                leader_id=#{leaderId},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="leaderName!=null ">
+                leader_name=#{leaderName},
+            </if>
+            <if test="remarks!=null ">
+                remarks=#{remarks},
+            </if>
+            <if test="writingTime!=null ">
+                writing_time=now(),
+            </if>
+            <if test="schoolId!=null">
+                school_id = #{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteWritingLeader">
+        delete from xw_writing_leader where id=#{id}
+    </delete>
+    <delete id="deleteWritingLeaderByCondition">
+        delete from xw_writing_leader
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and del=#{del}
+            </if>
+            <if test="writingId!=null">
+                and writing_id=#{writingId}
+            </if>
+            <if test="leaderId!=null">
+                and leader_id=#{leaderId}
+            </if>
+            <if test="type!=null">
+                and type=#{type}
+            </if>
+            <if test="leaderName!=null">
+                and leader_name=#{leaderName}
+            </if>
+            <if test="remarks!=null">
+                and remarks=#{remarks}
+            </if>
+            <if test="writingTime!=null">
+                and writing_time=#{writingTime}
+            </if>
+            <if test="schoolId!=null">
+                and school_id = #{schoolId}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveWritingLeader" parameterType="WritingLeader">
+        INSERT INTO xw_writing_leader ( id, create_time, update_time, del, writing_id, leader_id, type, leader_name,
+        remarks, writing_time,school_id )
+        VALUES
+        <foreach collection="list" item="writingLeader" separator=",">
+            ( #{writingLeader.id}, #{writingLeader.createTime}, #{writingLeader.updateTime}, #{writingLeader.del},
+            #{writingLeader.writingId}, #{writingLeader.leaderId}, #{writingLeader.type}, #{writingLeader.leaderName},
+            #{writingLeader.remarks}, #{writingLeader.writingTime},#{writingLeader.schoolId} )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

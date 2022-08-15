@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IWxTemplateConfigDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('appletesType')">
+                             T.appletes_type,
+                         </if>
+                         <if test="!pager.excludes.contains('templateId')">
+                             T.template_id,
+                         </if>
+                         <if test="!pager.excludes.contains('templateType')">
+                             T.template_type,
+                         </if>
+                         <if test="!pager.excludes.contains('templateName')">
+                             T.template_name,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('remark')">
+                             T.remark,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="appletesType!=null">
+                and T.appletes_type=#{appletesType}
+          </if>
+          <if test="templateId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('templateId')">
+                        and T.template_id like concat('%',#{templateId},'%')
+                     </when>
+                     <otherwise>
+                        and T.template_id=#{templateId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="templateType!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('templateType')">
+                        and T.template_type like concat('%',#{templateType},'%')
+                     </when>
+                     <otherwise>
+                        and T.template_type=#{templateType}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="templateName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('templateName')">
+                        and T.template_name like concat('%',#{templateName},'%')
+                     </when>
+                     <otherwise>
+                        and T.template_name=#{templateName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="status!=null">
+                and T.status=#{status}
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="remark!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('remark')">
+                        and T.remark like concat('%',#{remark},'%')
+                     </when>
+                     <otherwise>
+                        and T.remark=#{remark}
+                     </otherwise>
+                  </choose>
+          </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findWxTemplateConfigListByCondition" parameterType="WxTemplateConfig" resultType="WxTemplateConfig">
+        select
+         <include refid="projection"/>
+         from wx_template_config T
+         <where>
+            <include refid="match"/>
+         </where>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findWxTemplateConfigCountByCondition" parameterType="WxTemplateConfig" resultType="long">
+        select count(*) from wx_template_config T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <select id="findWxTemplateConfigById" resultType="WxTemplateConfig">
+        select * from wx_template_config where id=#{id}
+    </select>
+    <select id="findOneWxTemplateConfigByCondition" parameterType="WxTemplateConfig" resultType="WxTemplateConfig">
+        select
+         <include refid="projection"/>
+         from wx_template_config T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="saveWxTemplateConfig" parameterType="WxTemplateConfig">
+        INSERT INTO wx_template_config (  id,  appletes_type,  template_id,  template_type,  template_name,  status,  create_time,  remark )
+         values
+         (   #{id}  ,   #{appletesType}  ,   #{templateId}  ,   #{templateType}  ,   #{templateName}  ,   #{status}  ,   now()  ,   #{remark}    )
+    </insert>
+    <update id="updateWxTemplateConfig" parameterType="WxTemplateConfig">
+        update wx_template_config
+        <set>
+                    <if test="appletesType!=null ">
+                        appletes_type=#{appletesType},
+                    </if>
+                    <if test="templateId!=null ">
+                        template_id=#{templateId},
+                    </if>
+                    <if test="templateType!=null ">
+                        template_type=#{templateType},
+                    </if>
+                    <if test="templateName!=null ">
+                        template_name=#{templateName},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="remark!=null ">
+                        remark=#{remark}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateWxTemplateConfigForAll" parameterType="WxTemplateConfig">
+        update wx_template_config
+        <set>
+                    appletes_type=#{appletesType},
+                    template_id=#{templateId},
+                    template_type=#{templateType},
+                    template_name=#{templateName},
+                    status=#{status},
+                    create_time=#{createTime},
+                    remark=#{remark}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteWxTemplateConfig" >
+        delete from wx_template_config where id=#{id}
+    </delete>
+    <delete id="deleteWxTemplateConfigByCondition" >
+        delete T from wx_template_config T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSaveWxTemplateConfig" parameterType="WxTemplateConfig">
+        INSERT INTO wx_template_config (  id,  appletes_type,  template_id,  template_type,  template_name,  status,  create_time,  remark )
+        VALUES
+        <foreach collection="list" item="wxTemplateConfig" separator=",">
+            (   #{wxTemplateConfig.id}  ,   #{wxTemplateConfig.appletesType}  ,   #{wxTemplateConfig.templateId}  ,   #{wxTemplateConfig.templateType}  ,   #{wxTemplateConfig.templateName}  ,   #{wxTemplateConfig.status}  ,   now()  ,   #{wxTemplateConfig.remark}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

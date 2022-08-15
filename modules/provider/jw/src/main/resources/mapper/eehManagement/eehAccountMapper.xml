@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.eehManagement.IEehAccountDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('tel')">
+                             T.tel,
+                         </if>
+                         <if test="!pager.excludes.contains('eehId')">
+                             T.eeh_id,
+                         </if>
+                         <if test="!pager.excludes.contains('eehName')">
+                             T.eeh_name,
+                         </if>
+                         <if test="!pager.excludes.contains('accountType')">
+                             T.account_type,
+                         </if>
+                         <if test="!pager.excludes.contains('account')">
+                             T.account,
+                         </if>
+                         <if test="!pager.excludes.contains('password')">
+                             T.password,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('platform')">
+                             T.platform,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="name!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        and T.name like concat('%',#{name},'%')
+                     </when>
+                     <otherwise>
+                        and T.name=#{name}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="tel!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('tel')">
+                        and T.tel like concat('%',#{tel},'%')
+                     </when>
+                     <otherwise>
+                        and T.tel=#{tel}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="eehId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('eehId')">
+                        and T.eeh_id like concat('%',#{eehId},'%')
+                     </when>
+                     <otherwise>
+                        and T.eeh_id=#{eehId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="eehName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('eehName')">
+                        and T.eeh_name like concat('%',#{eehName},'%')
+                     </when>
+                     <otherwise>
+                        and T.eeh_name=#{eehName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="accountType!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('accountType')">
+                        and T.account_type like concat('%',#{accountType},'%')
+                     </when>
+                     <otherwise>
+                        and T.account_type=#{accountType}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="account!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('account')">
+                        and T.account like concat('%',#{account},'%')
+                     </when>
+                     <otherwise>
+                        and T.account=#{account}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="password!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('password')">
+                        and T.password like concat('%',#{password},'%')
+                     </when>
+                     <otherwise>
+                        and T.password=#{password}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="updateTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.update_time=#{updateTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="platform!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('platform')">
+                        and T.platform like concat('%',#{platform},'%')
+                     </when>
+                     <otherwise>
+                        and T.platform=#{platform}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="status!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('status')">
+                        and T.status like concat('%',#{status},'%')
+                     </when>
+                     <otherwise>
+                        and T.status=#{status}
+                     </otherwise>
+                  </choose>
+          </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findEehAccountListByCondition" parameterType="EehAccount" resultType="EehAccount">
+        select
+         <include refid="projection"/>
+         from eeh_account T
+         <where>
+            <include refid="match"/>
+         </where>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findEehAccountCountByCondition" parameterType="EehAccount" resultType="long">
+        select count(*) from eeh_account T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <select id="findEehAccountById" resultType="EehAccount">
+        select * from eeh_account where id=#{id}
+    </select>
+    <select id="findOneEehAccountByCondition" parameterType="EehAccount" resultType="EehAccount">
+        select
+         <include refid="projection"/>
+         from eeh_account T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="saveEehAccount" parameterType="EehAccount">
+        INSERT INTO eeh_account (  id,  name,  tel,  eeh_id,  eeh_name,  account_type,  account,  password,  create_time,  update_time,  platform,  status )
+         values
+         (   #{id}  ,   #{name}  ,   #{tel}  ,   #{eehId}  ,   #{eehName}  ,   #{accountType}  ,   #{account}  ,   #{password}  ,   now()  ,   #{updateTime}  ,   #{platform}  ,   #{status}    )
+    </insert>
+    <update id="updateEehAccount" parameterType="EehAccount">
+        update eeh_account
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="tel!=null ">
+                        tel=#{tel},
+                    </if>
+                    <if test="eehId!=null ">
+                        eeh_id=#{eehId},
+                    </if>
+                    <if test="eehName!=null ">
+                        eeh_name=#{eehName},
+                    </if>
+                    <if test="accountType!=null ">
+                        account_type=#{accountType},
+                    </if>
+                    <if test="account!=null ">
+                        account=#{account},
+                    </if>
+                    <if test="password!=null ">
+                        password=#{password},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="platform!=null ">
+                        platform=#{platform},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateEehAccountForAll" parameterType="EehAccount">
+        update eeh_account
+        <set>
+                    name=#{name},
+                    tel=#{tel},
+                    eeh_id=#{eehId},
+                    eeh_name=#{eehName},
+                    account_type=#{accountType},
+                    account=#{account},
+                    password=#{password},
+                    create_time=#{createTime},
+                    update_time=now(),
+                    platform=#{platform},
+                    status=#{status}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteEehAccount" >
+        delete from eeh_account where id=#{id}
+    </delete>
+    <delete id="deleteEehAccountByCondition" >
+        delete T from eeh_account T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSaveEehAccount" parameterType="EehAccount">
+        INSERT INTO eeh_account (  id,  name,  tel,  eeh_id,  eeh_name,  account_type,  account,  password,  create_time,  update_time,  platform,  status )
+        VALUES
+        <foreach collection="list" item="eehAccount" separator=",">
+            (   #{eehAccount.id}  ,   #{eehAccount.name}  ,   #{eehAccount.tel}  ,   #{eehAccount.eehId}  ,   #{eehAccount.eehName}  ,   #{eehAccount.accountType}  ,   #{eehAccount.account}  ,   #{eehAccount.password}  ,   now()  ,   #{eehAccount.updateTime}  ,   #{eehAccount.platform}  ,   #{eehAccount.status}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <update id="updatePassword" parameterType="EehAccount">
+        update eeh_account set  password=#{password} where  eeh_id=#{eehId}
+    </update>
+
+    <select id="EehAccountLogin" parameterType="EehAccount" resultType="EehAccount">
+        select
+        <include refid="projection"/>
+        from eeh_account T
+        <where>
+            <if test="tel!=null">
+                (T.account=#{tel} or T.tel=#{tel})
+            </if>
+            <if test="password!=null">
+                and T.password=#{password}
+            </if>
+            <if test="status!=null">
+                and T.status=#{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="findEehAccountByOldPs" parameterType="EehAccount" resultType="EehAccount">
+        select * from eeh_account T where T.id=#{id} and T.password=#{oldPassword}
+    </select>
+
+
+    <update id="updateEehAccountStatus" parameterType="EehAccount">
+        update eeh_account set status=#{status}  where eeh_id=#{eehId}
+    </update>
+
+    <select id="findOneEehAccountByAccountType" parameterType="EehAccount" resultType="EehAccount">
+        select
+        <include refid="projection"/>
+        from eeh_account T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+</mapper>

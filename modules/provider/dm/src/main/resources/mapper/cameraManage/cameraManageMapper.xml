@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.cameraManage.ICameraManageDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('cameraName')">
+                             T.camera_name,
+                         </if>
+                         <if test="!pager.excludes.contains('remark')">
+                             T.remark,
+                         </if>
+                         <if test="!pager.excludes.contains('urlA')">
+                             T.url_a,
+                         </if>
+                         <if test="!pager.excludes.contains('urlaName')">
+                             T.urla_name,
+                         </if>
+                         <if test="!pager.excludes.contains('urlB')">
+                             T.url_b,
+                         </if>
+                         <if test="!pager.excludes.contains('urlbName')">
+                             T.urlb_name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="cameraName!=null">
+                    <choose>
+                         <when test="pager!=null or pager.like=='cameraName'">
+                            and T.camera_name like concat('%',#{cameraName},'%')
+                         </when>
+                         <otherwise>
+                            and T.camera_name=#{cameraName}
+                         </otherwise>
+                    </choose>
+              </if>
+                <if test="schoolId!=null">
+                    and T.school_id=#{schoolId}
+                </if>
+                <if test="searchStearTime!=null">
+                    and  T.create_time &gt;= #{searchStearTime}
+                </if>
+                <if test="searchEndTime!=null">
+                    and  T.create_time &lt;= #{searchEndTime}
+                </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.create_time desc
+
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findCameraManageListByCondition" parameterType="CameraManage" resultType="CameraManage">
+        select
+         <include refid="projection"/>
+         from dm_camera_manage T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findCameraManageCountByCondition" parameterType="CameraManage" resultType="long">
+        select count(*) from dm_camera_manage T
+        <include refid="match"/>
+    </select>
+    <select id="findCameraManageById" resultType="CameraManage">
+        select * from dm_camera_manage where id=#{id}
+    </select>
+    <select id="findOneCameraManageByCondition" parameterType="CameraManage" resultType="CameraManage">
+        select
+         <include refid="projection"/>
+         from dm_camera_manage T
+        <include refid="match"/>
+    </select>
+    <insert id="saveCameraManage" parameterType="CameraManage">
+        insert into dm_camera_manage
+         (
+            id,
+            school_id,
+            camera_name,
+            remark,
+            url_a,
+            urla_name,
+            url_b,
+            urlb_name,
+            create_time,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{cameraName}
+                ,
+                #{remark}
+                ,
+                #{urlA}
+                ,
+                #{urlaName}
+                ,
+                #{urlB}
+                ,
+                #{urlbName}
+                ,
+                now()
+                ,
+                #{updateTime}
+                
+         )
+    </insert>
+    <update id="updateCameraManage" parameterType="CameraManage">
+        update dm_camera_manage
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="cameraName!=null ">
+                        camera_name=#{cameraName},
+                    </if>
+                    <if test="remark!=null ">
+                        remark=#{remark},
+                    </if>
+                    <if test="urlA!=null ">
+                        url_a=#{urlA},
+                    </if>
+                    <if test="urlaName!=null ">
+                        urla_name=#{urlaName},
+                    </if>
+                    <if test="urlB!=null ">
+                        url_b=#{urlB},
+                    </if>
+                    <if test="urlbName!=null ">
+                        urlb_name=#{urlbName},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteCameraManage" >
+        delete from dm_camera_manage where id=#{id}
+    </delete>
+    <delete id="deleteCameraManageByCondition" >
+        delete T from dm_camera_manage T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveCameraManage" parameterType="CameraManage">
+        INSERT INTO dm_camera_manage (  id,  school_id,  camera_name,  remark,  url_a,  urla_name,  url_b,  urlb_name,  create_time,  update_time )
+        VALUES
+        <foreach collection="list" item="cameraManage" separator=",">
+            (  #{cameraManage.id},  #{cameraManage.schoolId},  #{cameraManage.cameraName},  #{cameraManage.remark},  #{cameraManage.urlA},  #{cameraManage.urlaName},  #{cameraManage.urlB},  #{cameraManage.urlbName},  #{cameraManage.createTime},  #{cameraManage.updateTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findCameraManageListByCondition2" parameterType="CameraManage" resultType="CameraManage">
+        select
+        <include refid="projection"/>
+        from dm_camera_manage T
+        <where>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId} order by T.create_time desc
+            </if>
+        </where>
+
+
+
+    </select>
+</mapper>

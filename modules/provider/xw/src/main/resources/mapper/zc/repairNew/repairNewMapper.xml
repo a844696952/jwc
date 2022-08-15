@@ -1,0 +1,1639 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.repairNew.IRepairNewDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('repairNo')">
+                        T.repair_no,
+                    </if>
+                    <if test="!pager.excludes.contains('repairType')">
+                        T.repair_type,
+                    </if>
+                    <if test="!pager.excludes.contains('repairPriority')">
+                        T.repair_priority,
+                    </if>
+                    <if test="!pager.excludes.contains('remark1')">
+                        T.remark1,
+                    </if>
+                    <if test="!pager.excludes.contains('img')">
+                        T.img,
+                    </if>
+                    <if test="!pager.excludes.contains('repairTime')">
+                        T.repair_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('status')">
+                        T.status,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('submitterId')">
+                        T.submitter_id,
+                    </if>
+                    <if test="!pager.excludes.contains('submitterName')">
+                        T.submitter_name,
+                    </if>
+                    <if test="!pager.excludes.contains('submitterTel')">
+                        T.submitter_tel,
+                    </if>
+                    <if test="!pager.excludes.contains('submitterDepartementId')">
+                        T.submitter_departementId,
+                    </if>
+                    <if test="!pager.excludes.contains('submitterDepartement')">
+                        T.submitter_departement,
+                    </if>
+                    <if test="!pager.excludes.contains('assetNo')">
+                        T.asset_no,
+                    </if>
+                    <if test="!pager.excludes.contains('assetType')">
+                        T.asset_type,
+                    </if>
+                    <if test="!pager.excludes.contains('assetClassification')">
+                        T.asset_classification,
+                    </if>
+                    <if test="!pager.excludes.contains('assetName')">
+                        T.asset_name,
+                    </if>
+                    <if test="!pager.excludes.contains('assetModel')">
+                        T.asset_model,
+                    </if>
+                    <if test="!pager.excludes.contains('warehouseId')">
+                        T.warehouse_id,
+                    </if>
+
+                        B.name as warehouse_name,
+
+                    <if test="!pager.excludes.contains('repairStaffId')">
+                        T.repair_staff_id,
+                    </if>
+                    <if test="!pager.excludes.contains('repairStaffName')">
+                        T.repair_staff_name,
+                    </if>
+                    <if test="!pager.excludes.contains('repairStaffTel')">
+                        T.repair_staff_tel,
+                    </if>
+                    <if test="!pager.excludes.contains('processType')">
+                        T.process_type,
+                    </if>
+                    <if test="!pager.excludes.contains('upkeepCosts')">
+                        T.upkeep_costs,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('processRemark')">
+                        T.process_remark,
+                    </if>
+                    <if test="!pager.excludes.contains('scrapTime')">
+                        T.scrap_time,
+                    </if>
+                    <if test="!pager.excludes.contains('scrapRemark')">
+                        T.scrap_remark,
+                    </if>
+                    <if test="!pager.excludes.contains('operatorId')">
+                        T.operator_id,
+                    </if>
+                    <if test="!pager.excludes.contains('operatorName')">
+                        T.operator_name,
+                    </if>
+                    <if test="!pager.excludes.contains('recordStaffId')">
+                        T.record_staff_id,
+                    </if>
+                    <if test="!pager.excludes.contains('recordStaffName')">
+                        T.record_staff_name,
+                    </if>
+                    <if test="!pager.excludes.contains('disposeStaffId')">
+                        T.dispose_staff_id,
+                    </if>
+                    <if test="!pager.excludes.contains('disposeStaffName')">
+                        T.dispose_staff_name,
+                    </if>
+                    <if test="!pager.excludes.contains('staffTime')">
+                        T.staff_time,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsStockDetailId')">
+                        T.assets_stock_detail_id,
+                    </if>
+
+                        T.building_id,
+
+                        A.name as buildingName,
+                    <if test="!pager.excludes.contains('typeId')">
+                        T.type_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairNo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairNo'">
+                        and T.repair_no like concat('%',#{repairNo},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_no=#{repairNo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairType'">
+                        and T.repair_type like concat('%',#{repairType},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_type=#{repairType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairPriority!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairPriority'">
+                        and T.repair_priority like concat('%',#{repairPriority},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_priority=#{repairPriority}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="remark1!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='remark1'">
+                        and T.remark1 like concat('%',#{remark1},'%')
+                    </when>
+                    <otherwise>
+                        and T.remark1=#{remark1}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="img!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='img'">
+                        and T.img like concat('%',#{img},'%')
+                    </when>
+                    <otherwise>
+                        and T.img=#{img}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairTime'">
+                        and T.repair_time like concat('%',#{repairTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_time=#{repairTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='status'">
+                        and T.status like concat('%',#{status},'%')
+                    </when>
+                    <otherwise>
+                        and T.status=#{status}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="submitterId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='submitterId'">
+                        and T.submitter_id like concat('%',#{submitterId},'%')
+                    </when>
+                    <otherwise>
+                        and T.submitter_id=#{submitterId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="submitterName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='submitterName'">
+                        and T.submitter_name like concat('%',#{submitterName},'%')
+                    </when>
+                    <otherwise>
+                        and T.submitter_name=#{submitterName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="submitterTel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='submitterTel'">
+                        and T.submitter_tel like concat('%',#{submitterTel},'%')
+                    </when>
+                    <otherwise>
+                        and T.submitter_tel=#{submitterTel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="submitterDepartementId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='submitterDepartementId'">
+                        and T.submitter_departementId like concat('%',#{submitterDepartementId},'%')
+                    </when>
+                    <otherwise>
+                        and T.submitter_departementId=#{submitterDepartementId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="submitterDepartement!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='submitterDepartement'">
+                        and T.submitter_departement like concat('%',#{submitterDepartement},'%')
+                    </when>
+                    <otherwise>
+                        and T.submitter_departement=#{submitterDepartement}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetNo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetNo'">
+                        and T.asset_no like concat('%',#{assetNo},'%')
+                    </when>
+                    <otherwise>
+                        and T.asset_no=#{assetNo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetType'">
+                        and T.asset_type like concat('%',#{assetType},'%')
+                    </when>
+                    <otherwise>
+                        and T.asset_type=#{assetType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetClassification!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetClassification'">
+                        and T.asset_classification like concat('%',#{assetClassification},'%')
+                    </when>
+                    <otherwise>
+                        and T.asset_classification=#{assetClassification}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetName'">
+                        and T.asset_name like concat('%',#{assetName},'%')
+                    </when>
+                    <otherwise>
+                        and T.asset_name=#{assetName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetModel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetModel'">
+                        and T.asset_model like concat('%',#{assetModel},'%')
+                    </when>
+                    <otherwise>
+                        and T.asset_model=#{assetModel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="warehouseId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='warehouseId'">
+                        and T.warehouse_id like concat('%',#{warehouseId},'%')
+                    </when>
+                    <otherwise>
+                        and T.warehouse_id=#{warehouseId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="warehouseName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='warehouseName'">
+                        and T.warehouse_name like concat('%',#{warehouseName},'%')
+                    </when>
+                    <otherwise>
+                        and T.warehouse_name=#{warehouseName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairStaffId'">
+                        and T.repair_staff_id like concat('%',#{repairStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_id=#{repairStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairStaffName'">
+                        and T.repair_staff_name like concat('%',#{repairStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_name=#{repairStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffTel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairStaffTel'">
+                        and T.repair_staff_tel like concat('%',#{repairStaffTel},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_tel=#{repairStaffTel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="processType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='processType'">
+                        and T.process_type like concat('%',#{processType},'%')
+                    </when>
+                    <otherwise>
+                        and T.process_type=#{processType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="upkeepCosts!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='upkeepCosts'">
+                        and T.upkeep_costs like concat('%',#{upkeepCosts},'%')
+                    </when>
+                    <otherwise>
+                        and T.upkeep_costs=#{upkeepCosts}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="processRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='processRemark'">
+                        and T.process_remark like concat('%',#{processRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.process_remark=#{processRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="scrapTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='scrapTime'">
+                        and T.scrap_time like concat('%',#{scrapTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.scrap_time=#{scrapTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="scrapRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='scrapRemark'">
+                        and T.scrap_remark like concat('%',#{scrapRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.scrap_remark=#{scrapRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="operatorId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='operatorId'">
+                        and T.operator_id like concat('%',#{operatorId},'%')
+                    </when>
+                    <otherwise>
+                        and T.operator_id=#{operatorId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="operatorName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='operatorName'">
+                        and T.operator_name like concat('%',#{operatorName},'%')
+                    </when>
+                    <otherwise>
+                        and T.operator_name=#{operatorName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordStaffId'">
+                        and T.record_staff_id like concat('%',#{recordStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_staff_id=#{recordStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordStaffName'">
+                        and T.record_staff_name like concat('%',#{recordStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_staff_name=#{recordStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="disposeStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='disposeStaffId'">
+                        and T.dispose_staff_id like concat('%',#{disposeStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.dispose_staff_id=#{disposeStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="disposeStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='disposeStaffName'">
+                        and T.dispose_staff_name like concat('%',#{disposeStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.dispose_staff_name=#{disposeStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="staffTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='staffTime'">
+                        and T.staff_time like concat('%',#{staffTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.staff_time=#{staffTime}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="searchStearTime!=null">
+                and  T.create_time &gt;= #{searchStearTime}
+            </if>
+            <if test="searchEndTime!=null">
+                and  T.create_time &lt;= #{searchEndTime}
+            </if>
+
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+    <sql id="match1">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairNo!=null">
+                <choose>
+                    <when test="pager!=null">
+                        and T.repair_no like concat('%',#{repairNo},'%')
+                    </when>
+                </choose>
+            </if>
+            <if test="repairType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairType'">
+                        and T.repair_type like concat('%',#{repairType},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_type=#{repairType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairPriority!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairPriority'">
+                        and T.repair_priority like concat('%',#{repairPriority},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_priority=#{repairPriority}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="remark1!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='remark1'">
+                        and T.remark1 like concat('%',#{remark1},'%')
+                    </when>
+                    <otherwise>
+                        and T.remark1=#{remark1}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="img!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='img'">
+                        and T.img like concat('%',#{img},'%')
+                    </when>
+                    <otherwise>
+                        and T.img=#{img}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairTime'">
+                        and T.repair_time like concat('%',#{repairTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_time=#{repairTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='status'">
+                        and T.status like concat('%',#{status},'%')
+                    </when>
+                    <otherwise>
+                        and T.status=#{status}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="submitterId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='submitterId'">
+                        and T.submitter_id like concat('%',#{submitterId},'%')
+                    </when>
+                    <otherwise>
+                        and T.submitter_id=#{submitterId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="submitterName!=null">
+                <choose>
+                    <when test="pager!=null ">
+                        and T.submitter_name like concat('%',#{submitterName},'%')
+                    </when>
+
+                </choose>
+            </if>
+            <if test="submitterTel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='submitterTel'">
+                        and T.submitter_tel like concat('%',#{submitterTel},'%')
+                    </when>
+                    <otherwise>
+                        and T.submitter_tel=#{submitterTel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="submitterDepartementId!=null">
+                <choose>
+                    <when test="pager!=null ">
+                        and T.submitter_departementId like concat('%',#{submitterDepartementId},'%')
+                    </when>
+
+                </choose>
+            </if>
+            <if test="submitterDepartement!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='submitterDepartement'">
+                        and T.submitter_departement like concat('%',#{submitterDepartement},'%')
+                    </when>
+                    <otherwise>
+                        and T.submitter_departement=#{submitterDepartement}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetNo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetNo'">
+                        and T.asset_no like concat('%',#{assetNo},'%')
+                    </when>
+                    <otherwise>
+                        and T.asset_no=#{assetNo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetType'">
+                        and T.asset_type like concat('%',#{assetType},'%')
+                    </when>
+                    <otherwise>
+                        and T.asset_type=#{assetType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetClassification!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetClassification'">
+                        and T.asset_classification like concat('%',#{assetClassification},'%')
+                    </when>
+                    <otherwise>
+                        and T.asset_classification=#{assetClassification}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetName!=null">
+                <choose>
+                    <when test="pager!=null ">
+                        and T.asset_name like concat('%',#{assetName},'%')
+                    </when>
+                </choose>
+            </if>
+            <if test="assetModel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetModel'">
+                        and T.asset_model like concat('%',#{assetModel},'%')
+                    </when>
+                    <otherwise>
+                        and T.asset_model=#{assetModel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="warehouseId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='warehouseId'">
+                        and T.warehouse_id like concat('%',#{warehouseId},'%')
+                    </when>
+                    <otherwise>
+                        and T.warehouse_id=#{warehouseId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="warehouseName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='warehouseName'">
+                        and T.warehouse_name like concat('%',#{warehouseName},'%')
+                    </when>
+                    <otherwise>
+                        and T.warehouse_name=#{warehouseName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairStaffId'">
+                        and T.repair_staff_id like concat('%',#{repairStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_id=#{repairStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairStaffName'">
+                        and T.repair_staff_name like concat('%',#{repairStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_name=#{repairStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffTel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairStaffTel'">
+                        and T.repair_staff_tel like concat('%',#{repairStaffTel},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_tel=#{repairStaffTel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="processType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='processType'">
+                        and T.process_type like concat('%',#{processType},'%')
+                    </when>
+                    <otherwise>
+                        and T.process_type=#{processType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="upkeepCosts!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='upkeepCosts'">
+                        and T.upkeep_costs like concat('%',#{upkeepCosts},'%')
+                    </when>
+                    <otherwise>
+                        and T.upkeep_costs=#{upkeepCosts}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="processRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='processRemark'">
+                        and T.process_remark like concat('%',#{processRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.process_remark=#{processRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="scrapTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='scrapTime'">
+                        and T.scrap_time like concat('%',#{scrapTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.scrap_time=#{scrapTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="scrapRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='scrapRemark'">
+                        and T.scrap_remark like concat('%',#{scrapRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.scrap_remark=#{scrapRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="operatorId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='operatorId'">
+                        and T.operator_id like concat('%',#{operatorId},'%')
+                    </when>
+                    <otherwise>
+                        and T.operator_id=#{operatorId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="operatorName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='operatorName'">
+                        and T.operator_name like concat('%',#{operatorName},'%')
+                    </when>
+                    <otherwise>
+                        and T.operator_name=#{operatorName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordStaffId'">
+                        and T.record_staff_id like concat('%',#{recordStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_staff_id=#{recordStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordStaffName'">
+                        and T.record_staff_name like concat('%',#{recordStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_staff_name=#{recordStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="disposeStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='disposeStaffId'">
+                        and T.dispose_staff_id like concat('%',#{disposeStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.dispose_staff_id=#{disposeStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="disposeStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='disposeStaffName'">
+                        and T.dispose_staff_name like concat('%',#{disposeStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.dispose_staff_name=#{disposeStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="staffTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='staffTime'">
+                        and T.staff_time like concat('%',#{staffTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.staff_time=#{staffTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsStockDetailId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetsStockDetailId'">
+                        and T.assets_stock_detail_id like concat('%',#{assetsStockDetailId},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_stock_detail_id=#{assetsStockDetailId}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="searchStearTime!=null">
+                and  T.create_time &gt;= #{searchStearTime}
+            </if>
+            <if test="searchEndTime!=null">
+                and  T.create_time &lt;= #{searchEndTime}
+            </if>
+            <if test="buildingId!=null">
+                and  T.building_id = #{buildingId}
+            </if>
+            <if test="buildingIdStr!=null">
+                and T.building_id in
+                <foreach collection="buildingIdStr" open="(" close=")" separator="," index="index" item="item">
+                    #{item, jdbcType=VARCHAR}
+                </foreach>
+            </if>
+            <if test="typeId!=null">
+                and  T.type_id = #{typeId}
+            </if>
+
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort1">
+            order by
+	                  T.repair_time DESC
+
+    </sql>
+
+    <select id="findRepairNewListByCondition1" parameterType="RepairNew" resultType="RepairNew">
+        select
+        <include refid="projection"/>
+        from xw_repair_new T
+        left join jw_building A on T.building_id = A.id
+        left join jw_building B on T.warehouse_id = B.id
+        <include refid="match1"/>
+        <include refid="sort1"/>
+        <include refid="page"/>
+
+    </select>
+
+    <select id="findRepairNewListByCondition" parameterType="RepairNew" resultType="RepairNew">
+        select
+        T.id,
+        T.repair_no,
+        T.repair_type,
+        T.repair_priority,
+        T.remark1,
+        T.img,
+        T.repair_time,
+        T.create_time,
+        T.status,
+        T.school_id,
+        T.submitter_id,
+        T.submitter_name,
+        T.submitter_tel,
+        T.submitter_departementId,
+        T.submitter_departement,
+        T.asset_no,
+        T.asset_type,
+        T.asset_classification,
+        T.asset_name,
+        T.asset_model,
+        T.warehouse_id,
+        B.name as warehouse_name,
+        T.repair_staff_id,
+        T.repair_staff_name,
+        T.repair_staff_tel,
+        T.process_type,
+        T.upkeep_costs,
+        T.update_time,
+        T.process_remark,
+        T.scrap_time,
+        T.scrap_remark,
+        T.operator_id,
+        T.operator_name,
+        T.record_staff_id,
+        T.record_staff_name,
+        T.dispose_staff_id,
+        T.dispose_staff_name,
+        T.staff_time,
+        T.assets_stock_detail_id,
+        T.building_id,
+        A.name as buildingName,
+        T.type_id
+        from xw_repair_new T
+        left join jw_building A on T.building_id = A.id
+        left join jw_building B on T.warehouse_id = B.id
+        <include refid="match1"/>
+        <include refid="sort1"/>
+        <include refid="page"/>
+
+    </select>
+
+    <select id="findRepairNewCountByCondition" parameterType="RepairNew" resultType="long">
+        select count(*) from xw_repair_new T
+        <include refid="match1"/>
+    </select>
+    <select id="findRepairNewById" resultType="RepairNew">
+        select
+          T.id,
+        T.repair_no,
+        T.repair_type,
+        T.repair_priority,
+        T.remark1,
+        T.img,
+        T.repair_time,
+        T.create_time,
+        T.status,
+        T.school_id,
+        T.submitter_id,
+        T.submitter_name,
+        T.submitter_tel,
+        T.submitter_departementId,
+        T.submitter_departement,
+        T.asset_no,
+        T.asset_type,
+        T.asset_classification,
+        T.asset_name,
+        T.asset_model,
+        T.warehouse_id,
+        B.name as warehouse_name,
+        T.repair_staff_id,
+        T.repair_staff_name,
+        T.repair_staff_tel,
+        T.process_type,
+        T.upkeep_costs,
+        T.update_time,
+        T.process_remark,
+        T.scrap_time,
+        T.scrap_remark,
+        T.operator_id,
+        T.operator_name,
+        T.record_staff_id,
+        T.record_staff_name,
+        T.dispose_staff_id,
+        T.dispose_staff_name,
+        T.staff_time,
+        T.assets_stock_detail_id,
+        T.building_id,
+        A.name as buildingName,
+        T.type_id
+         from xw_repair_new T
+          left join jw_building A on T.building_id = A.id
+          left join jw_building B on T.warehouse_id = B.id
+        where T.id=#{id}
+    </select>
+    <select id="findOneRepairNewByCondition" parameterType="RepairNew" resultType="RepairNew">
+        select
+        <include refid="projection"/>
+        from xw_repair_new T
+        <include refid="match"/>
+    </select>
+    <insert id="saveRepairNew" parameterType="RepairNew">
+        insert into xw_repair_new
+         (
+            id,
+            repair_no,
+            repair_type,
+            repair_priority,
+            remark1,
+            img,
+            repair_time,
+            create_time,
+            status,
+            school_id,
+            submitter_id,
+            submitter_name,
+            submitter_tel,
+            submitter_departementId,
+            submitter_departement,
+            asset_no,
+            asset_type,
+            asset_classification,
+            asset_name,
+            asset_model,
+            warehouse_id,
+            warehouse_name,
+            repair_staff_id,
+            repair_staff_name,
+            repair_staff_tel,
+            process_type,
+            upkeep_costs,
+            update_time,
+            process_remark,
+            scrap_time,
+            scrap_remark,
+            operator_id,
+            operator_name,
+            record_staff_id,
+            record_staff_name,
+            dispose_staff_id,
+            dispose_staff_name,
+            staff_time,
+            assets_stock_detail_id,
+            assets_file_id,
+            building_id,
+            type_id
+        ) values
+         (
+                #{id}
+                ,
+                #{repairNo}
+                ,
+                #{repairType}
+                ,
+                #{repairPriority}
+                ,
+                #{remark1}
+                ,
+                #{img}
+                ,
+                #{repairTime}
+                ,
+                now()
+                ,
+                #{status}
+                ,
+                #{schoolId}
+                ,
+                #{submitterId}
+                ,
+                #{submitterName}
+                ,
+                #{submitterTel}
+                ,
+                #{submitterDepartementId}
+                ,
+                #{submitterDepartement}
+                ,
+                #{assetNo}
+                ,
+                #{assetType}
+                ,
+                #{assetClassification}
+                ,
+                #{assetName}
+                ,
+                #{assetModel}
+                ,
+                #{warehouseId}
+                ,
+                #{warehouseName}
+                ,
+                #{repairStaffId}
+                ,
+                #{repairStaffName}
+                ,
+                #{repairStaffTel}
+                ,
+                #{processType}
+                ,
+                #{upkeepCosts}
+                ,
+                #{updateTime}
+                ,
+                #{processRemark}
+                ,
+                #{scrapTime}
+                ,
+                #{scrapRemark}
+                ,
+                #{operatorId}
+                ,
+                #{operatorName}
+                ,
+                #{recordStaffId}
+                ,
+                #{recordStaffName}
+                ,
+                #{disposeStaffId}
+                ,
+                #{disposeStaffName}
+                ,
+                #{staffTime}
+                ,
+                #{assetsStockDetailId}
+                ,
+                #{assetsFileId}
+                ,
+                #{buildingId}
+                ,
+                #{typeId}
+         )
+    </insert>
+    <update id="updateRepairNew" parameterType="RepairNew">
+        update xw_repair_new
+        <set>
+            <if test="repairNo!=null ">
+                repair_no=#{repairNo},
+            </if>
+            <if test="repairType!=null ">
+                repair_type=#{repairType},
+            </if>
+            <if test="repairPriority!=null ">
+                repair_priority=#{repairPriority},
+            </if>
+            <if test="remark1!=null ">
+                remark1=#{remark1},
+            </if>
+            <if test="img!=null ">
+                img=#{img},
+            </if>
+            <if test="repairTime!=null ">
+                repair_time=#{repairTime},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="submitterId!=null ">
+                submitter_id=#{submitterId},
+            </if>
+            <if test="submitterName!=null ">
+                submitter_name=#{submitterName},
+            </if>
+            <if test="submitterTel!=null ">
+                submitter_tel=#{submitterTel},
+            </if>
+            <if test="submitterDepartementId!=null ">
+                submitter_departementId=#{submitterDepartementId},
+            </if>
+            <if test="submitterDepartement!=null ">
+                submitter_departement=#{submitterDepartement},
+            </if>
+            <if test="assetNo!=null ">
+                asset_no=#{assetNo},
+            </if>
+            <if test="assetType!=null ">
+                asset_type=#{assetType},
+            </if>
+            <if test="assetClassification!=null ">
+                asset_classification=#{assetClassification},
+            </if>
+            <if test="assetName!=null ">
+                asset_name=#{assetName},
+            </if>
+            <if test="assetModel!=null ">
+                asset_model=#{assetModel},
+            </if>
+            <if test="warehouseId!=null ">
+                warehouse_id=#{warehouseId},
+            </if>
+            <if test="warehouseName!=null ">
+                warehouse_name=#{warehouseName},
+            </if>
+            <if test="repairStaffId!=null ">
+                repair_staff_id=#{repairStaffId},
+            </if>
+            <if test="repairStaffName!=null ">
+                repair_staff_name=#{repairStaffName},
+            </if>
+            <if test="repairStaffTel!=null ">
+                repair_staff_tel=#{repairStaffTel},
+            </if>
+            <if test="processType!=null ">
+                process_type=#{processType},
+            </if>
+            <if test="upkeepCosts!=null ">
+                upkeep_costs=#{upkeepCosts},
+            </if>
+                update_time=#{updateTime},
+            <if test="processRemark!=null ">
+                process_remark=#{processRemark},
+            </if>
+            <if test="scrapTime!=null ">
+                scrap_time=#{scrapTime},
+            </if>
+            <if test="scrapRemark!=null ">
+                scrap_remark=#{scrapRemark},
+            </if>
+            <if test="operatorId!=null ">
+                operator_id=#{operatorId},
+            </if>
+            <if test="operatorName!=null ">
+                operator_name=#{operatorName},
+            </if>
+            <if test="recordStaffId!=null ">
+                record_staff_id=#{recordStaffId},
+            </if>
+            <if test="recordStaffName!=null ">
+                record_staff_name=#{recordStaffName},
+            </if>
+            <if test="disposeStaffId!=null ">
+                dispose_staff_id=#{disposeStaffId},
+            </if>
+            <if test="disposeStaffName!=null ">
+                dispose_staff_name=#{disposeStaffName},
+            </if>
+            <if test="staffTime!=null ">
+                staff_time=#{staffTime}
+            </if>
+        </set>
+        where repair_no=#{repairNo} and school_id=#{schoolId}
+    </update>
+    <delete id="deleteRepairNew" >
+        delete from xw_repair_new where id=#{id}
+    </delete>
+    <delete id="deleteRepairNewByCondition" >
+        delete T from xw_repair_new T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveRepairNew" parameterType="RepairNew">
+        INSERT INTO xw_repair_new (  id,  repair_no,  repair_type,  repair_priority,  remark1,  img,  repair_time,  create_time,  status,  school_id,  submitter_id,  submitter_name,  submitter_tel,  submitter_departementId,  submitter_departement,  asset_no,  asset_type,  asset_classification,  asset_name,  asset_model,  warehouse_id,  warehouse_name,  repair_staff_id,  repair_staff_name,  repair_staff_tel,  process_type,  upkeep_costs,  update_time,  process_remark,  scrap_time,  scrap_remark,  operator_id,  operator_name,  record_staff_id,  record_staff_name,  dispose_staff_id,  dispose_staff_name,  staff_time )
+        VALUES
+        <foreach collection="list" item="repairNew" separator=",">
+            (  #{repairNew.id},  #{repairNew.repairNo},  #{repairNew.repairType},  #{repairNew.repairPriority},  #{repairNew.remark1},  #{repairNew.img},  #{repairNew.repairTime},  #{repairNew.createTime},  #{repairNew.status},  #{repairNew.schoolId},  #{repairNew.submitterId},  #{repairNew.submitterName},  #{repairNew.submitterTel},  #{repairNew.submitterDepartementId},  #{repairNew.submitterDepartement},  #{repairNew.assetNo},  #{repairNew.assetType},  #{repairNew.assetClassification},  #{repairNew.assetName},  #{repairNew.assetModel},  #{repairNew.warehouseId},  #{repairNew.warehouseName},  #{repairNew.repairStaffId},  #{repairNew.repairStaffName},  #{repairNew.repairStaffTel},  #{repairNew.processType},  #{repairNew.upkeepCosts},  #{repairNew.updateTime},  #{repairNew.processRemark},  #{repairNew.scrapTime},  #{repairNew.scrapRemark},  #{repairNew.operatorId},  #{repairNew.operatorName},  #{repairNew.recordStaffId},  #{repairNew.recordStaffName},  #{repairNew.disposeStaffId},  #{repairNew.disposeStaffName},  #{repairNew.staffTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <update id="updateRepairNewPerson" parameterType="RepairNew">
+        update xw_repair_new
+        <set>
+
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+
+
+            <if test="repairStaffId!=null ">
+                repair_staff_id=#{repairStaffId},
+            </if>
+            <if test="repairStaffName!=null ">
+                repair_staff_name=#{repairStaffName},
+            </if>
+            <if test="repairStaffTel!=null ">
+                repair_staff_tel=#{repairStaffTel},
+            </if>
+
+            <if test="recordStaffId!=null ">
+                record_staff_id=#{recordStaffId},
+            </if>
+            <if test="recordStaffName!=null ">
+                record_staff_name=#{recordStaffName},
+            </if>
+
+            <if test="staffTime!=null ">
+                staff_time=#{staffTime}
+            </if>
+        </set>
+        where repair_no=#{repairNo} and school_id=#{schoolId}
+    </update>
+
+    <update id="scrapRepairNew" parameterType="RepairNew">
+        update xw_repair_new
+        <set>
+            <if test="repairNo!=null ">
+                repair_no=#{repairNo},
+            </if>
+            <if test="repairType!=null ">
+                repair_type=#{repairType},
+            </if>
+            <if test="repairPriority!=null ">
+                repair_priority=#{repairPriority},
+            </if>
+            <if test="remark1!=null ">
+                remark1=#{remark1},
+            </if>
+            <if test="img!=null ">
+                img=#{img},
+            </if>
+            <if test="repairTime!=null ">
+                repair_time=#{repairTime},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="submitterId!=null ">
+                submitter_id=#{submitterId},
+            </if>
+            <if test="submitterName!=null ">
+                submitter_name=#{submitterName},
+            </if>
+            <if test="submitterTel!=null ">
+                submitter_tel=#{submitterTel},
+            </if>
+            <if test="submitterDepartementId!=null ">
+                submitter_departementId=#{submitterDepartementId},
+            </if>
+            <if test="submitterDepartement!=null ">
+                submitter_departement=#{submitterDepartement},
+            </if>
+            <if test="assetNo!=null ">
+                asset_no=#{assetNo},
+            </if>
+            <if test="assetType!=null ">
+                asset_type=#{assetType},
+            </if>
+            <if test="assetClassification!=null ">
+                asset_classification=#{assetClassification},
+            </if>
+            <if test="assetName!=null ">
+                asset_name=#{assetName},
+            </if>
+            <if test="assetModel!=null ">
+                asset_model=#{assetModel},
+            </if>
+            <if test="warehouseId!=null ">
+                warehouse_id=#{warehouseId},
+            </if>
+            <if test="warehouseName!=null ">
+                warehouse_name=#{warehouseName},
+            </if>
+            <if test="repairStaffId!=null ">
+                repair_staff_id=#{repairStaffId},
+            </if>
+            <if test="repairStaffName!=null ">
+                repair_staff_name=#{repairStaffName},
+            </if>
+            <if test="repairStaffTel!=null ">
+                repair_staff_tel=#{repairStaffTel},
+            </if>
+            <if test="processType!=null ">
+                process_type=#{processType},
+            </if>
+            <if test="upkeepCosts!=null ">
+                upkeep_costs=#{upkeepCosts},
+            </if>
+                update_time=#{updateTime},
+            <if test="processRemark!=null ">
+                process_remark=#{processRemark},
+            </if>
+            <if test="scrapTime!=null ">
+                scrap_time=#{scrapTime},
+            </if>
+            <if test="scrapRemark!=null ">
+                scrap_remark=#{scrapRemark},
+            </if>
+            <if test="operatorId!=null ">
+                operator_id=#{operatorId},
+            </if>
+            <if test="operatorName!=null ">
+                operator_name=#{operatorName},
+            </if>
+            <if test="recordStaffId!=null ">
+                record_staff_id=#{recordStaffId},
+            </if>
+            <if test="recordStaffName!=null ">
+                record_staff_name=#{recordStaffName},
+            </if>
+            <if test="disposeStaffId!=null ">
+                dispose_staff_id=#{disposeStaffId},
+            </if>
+            <if test="disposeStaffName!=null ">
+                dispose_staff_name=#{disposeStaffName},
+            </if>
+            <if test="staffTime!=null ">
+                staff_time=#{staffTime}
+            </if>
+        </set>
+        where repair_no=#{repairNo} and school_id=#{schoolId}
+    </update>
+
+
+    <select id="findAssetsNoByToday" parameterType="java.lang.String" resultType="java.lang.String">
+        select
+            ain.repair_no
+        from xw_repair_new ain
+         where ain.repair_no like concat(#{today},'%')
+         order by ain.repair_no DESC
+         limit 1
+    </select>
+
+
+    <select id="lookRepairNewByAssetNo" resultType="RepairNew">
+        select * from xw_repair_new where assetNo =#{assetNo}
+    </select>
+
+
+    <select id="findRepairNewListByConditionNew" parameterType="RepairNew" resultType="RepairNew">
+        select
+        <include refid="projection"/>
+        from xw_repair_new T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findRepairNewByIdNew" resultType="RepairNew">
+        select r.*,rs.name as repair_staff_name,rs.tel as repair_staff_tel,rs.id as repair_staff_id from xw_repair_new r left join xw_repair_staff rs on rs.id = r.repair_staff_id  where r.id=#{id}
+    </select>
+
+
+    <select id="findRepairNewUpkeepCostsBySchool" parameterType="RepairNew" resultType="double">
+        select ifnull(sum(upkeep_costs),0) from xw_repair_new  where school_id = #{schoolId}
+    </select>
+
+
+    <select id="findRepairNewsCountByWeek" parameterType="RepairNew" resultType="long">
+        SELECT
+        count(*)
+        FROM
+        xw_repair_new T
+        WHERE
+        T.school_id =  #{schoolId}
+        and  T.create_time &gt;= #{searchStearTime}
+        and  T.create_time &lt;= #{searchEndTime}
+        ORDER BY
+        T.repair_time
+    </select>
+
+    <select id="selectBuildingNameList" parameterType="RepairNew" resultType="RepairNew">
+        SELECT B.id building_id,B.name building_name from jw_building B
+        WHERE B.school_id=#{schoolId}
+        and B.id in(select distinct building_id from xw_repair_new A  WHERE school_id=#{schoolId})
+    </select>
+
+    <select id="selectRoomName" parameterType="RepairNew" resultType="RepairNew">
+        SELECT B.id warehouse_id, B.NAME warehouse_name  from jw_building B
+        WHERE B.school_id=#{schoolId}
+        and B.id in(select distinct warehouse_id from xw_repair_new A  WHERE school_id=#{schoolId}
+
+        <if test="buildingIdStr!=null">
+            and A.building_id in
+            <foreach collection="buildingIdStr" open="(" close=")" separator="," index="index" item="item">
+                #{item, jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        )
+    </select>
+
+
+    <select id="findRepairNewsBySchoolIds" parameterType="RepairNew" resultType="RepairNew">
+        select
+        <include refid="projection"/>,
+        A.name as schoolName
+        from xw_repair_new T left join school A on T.school_id=A.id
+        <where>
+            T.school_id in (
+            <foreach collection="schoolIds" item="id" separator=",">
+                #{id}
+            </foreach>
+            )
+            <if test="schoolName!=null">
+                and A.name like concat('%',#{schoolName},'%')
+            </if>
+            <if test="repairNo!=null">
+                and T.repair_no like concat('%',#{repairNo},'%')
+            </if>
+            <if test="assetName!=null">
+                and  T.asset_name like concat('%',#{assetName},'%')
+            </if>
+            <if test="status!=null">
+                and  T.status =#{status}
+            </if>
+        </where>
+        <include refid="sort1"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findRepairNewCountBySchoolIds"  parameterType="RepairNew" resultType="long">
+        select count(*)
+        from xw_repair_new T left join school A on T.school_id=A.id
+        <where>
+            T.school_id in (
+            <foreach collection="schoolIds" item="id" separator=",">
+                #{id}
+            </foreach>
+            )
+            <if test="schoolName!=null">
+                and A.name like concat('%',#{schoolName},'%')
+            </if>
+            <if test="repairNo!=null">
+                and T.repair_no like concat('%',#{repairNo},'%')
+            </if>
+            <if test="assetName!=null">
+                and  T.asset_name like concat('%',#{assetName},'%')
+            </if>
+            <if test="status!=null">
+                and  T.status =#{status}
+            </if>
+        </where>
+    </select>
+</mapper>

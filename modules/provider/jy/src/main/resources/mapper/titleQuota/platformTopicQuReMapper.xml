@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.titleQuota.IPlatformTopicQuReDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('platformId')">
+                             T.platform_id,
+                         </if>
+                         <if test="!pager.excludes.contains('topicQuotaResourceId')">
+                             T.topic_quota_resource_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="platformId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('platformId')">
+                            and T.platform_id like concat('%',#{platformId},'%')
+                         </when>
+                         <otherwise>
+                            and T.platform_id=#{platformId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="topicQuotaResourceId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('topicQuotaResourceId')">
+                            and T.topic_quota_resource_id like concat('%',#{topicQuotaResourceId},'%')
+                         </when>
+                         <otherwise>
+                            and T.topic_quota_resource_id=#{topicQuotaResourceId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findPlatformTopicQuReListByCondition" parameterType="PlatformTopicQuRe" resultType="PlatformTopicQuRe">
+        select
+         <include refid="projection"/>
+         from jy_platform_topicQuRe T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findPlatformTopicQuReCountByCondition" parameterType="PlatformTopicQuRe" resultType="long">
+        select count(*) from jy_platform_topicQuRe T
+        <include refid="match"/>
+    </select>
+    <select id="findPlatformTopicQuReById" resultType="PlatformTopicQuRe">
+        select * from jy_platform_topicQuRe where id=#{id}
+    </select>
+    <select id="findOnePlatformTopicQuReByCondition" parameterType="PlatformTopicQuRe" resultType="PlatformTopicQuRe">
+        select
+         <include refid="projection"/>
+         from jy_platform_topicQuRe T
+        <include refid="match"/>
+    </select>
+    <insert id="savePlatformTopicQuRe" parameterType="PlatformTopicQuRe">
+        INSERT INTO jy_platform_topicQuRe (  id,  platform_id,  topic_quota_resource_id,  create_time )
+         values
+         (   #{id}  ,   #{platformId}  ,   #{topicQuotaResourceId}  ,   now()    )
+    </insert>
+    <update id="updatePlatformTopicQuRe" parameterType="PlatformTopicQuRe">
+        update jy_platform_topicQuRe
+        <set>
+                    <if test="platformId!=null ">
+                        platform_id=#{platformId},
+                    </if>
+                    <if test="topicQuotaResourceId!=null ">
+                        topic_quota_resource_id=#{topicQuotaResourceId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updatePlatformTopicQuReForAll" parameterType="PlatformTopicQuRe">
+        update jy_platform_topicQuRe
+        <set>
+                    platform_id=#{platformId},
+                    topic_quota_resource_id=#{topicQuotaResourceId},
+                    create_time=#{createTime}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deletePlatformTopicQuRe" >
+        delete from jy_platform_topicQuRe where id=#{id}
+    </delete>
+    <delete id="deletePlatformTopicQuReByCondition" >
+        delete T from jy_platform_topicQuRe T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSavePlatformTopicQuRe" parameterType="PlatformTopicQuRe">
+        INSERT INTO jy_platform_topicQuRe (  id,  platform_id,  topic_quota_resource_id,  create_time )
+        VALUES
+        <foreach collection="list" item="platformTopicQuRe" separator=",">
+            (   #{platformTopicQuRe.id}  ,   #{platformTopicQuRe.platformId}  ,   #{platformTopicQuRe.topicQuotaResourceId}  ,   now()    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

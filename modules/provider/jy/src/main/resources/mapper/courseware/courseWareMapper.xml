@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.courseware.ICourseWareDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('resoucesId')">
+                             T.resouces_id,
+                         </if>
+                         <if test="!pager.excludes.contains('coursewareName')">
+                             T.courseware_name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('coursewareUrl')">
+                             T.courseware_url,
+                         </if>
+                         <if test="!pager.excludes.contains('coursewareSize')">
+                             T.courseware_size,
+                         </if>
+                         <if test="!pager.excludes.contains('lv1')">
+                             T.lv1,
+                         </if>
+                         <if test="!pager.excludes.contains('lv2')">
+                             T.lv2,
+                         </if>
+                         <if test="!pager.excludes.contains('lv3')">
+                             T.lv3,
+                         </if>
+                         <if test="!pager.excludes.contains('lv4')">
+                             T.lv4,
+                         </if>
+                         <if test="!pager.excludes.contains('textbook')">
+                             T.textbook,
+                         </if>
+                         <if test="!pager.excludes.contains('title')">
+                             T.title,
+                         </if>
+                         <if test="!pager.excludes.contains('subjectMateriaId')">
+                             T.subject_materia_id,
+                         </if>
+                         <if test="!pager.excludes.contains('remark')">
+                             T.remark,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="resoucesId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='resoucesId'">
+                            and T.resouces_id like concat('%',#{resoucesId},'%')
+                         </when>
+                         <otherwise>
+                            and T.resouces_id=#{resoucesId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="coursewareName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='coursewareName'">
+                            and T.courseware_name like concat('%',#{coursewareName},'%')
+                         </when>
+                         <otherwise>
+                            and T.courseware_name=#{coursewareName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="coursewareUrl!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='coursewareUrl'">
+                            and T.courseware_url like concat('%',#{coursewareUrl},'%')
+                         </when>
+                         <otherwise>
+                            and T.courseware_url=#{coursewareUrl}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="coursewareSize!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='coursewareSize'">
+                            and T.courseware_size like concat('%',#{coursewareSize},'%')
+                         </when>
+                         <otherwise>
+                            and T.courseware_size=#{coursewareSize}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="lv1!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='lv1'">
+                            and T.lv1 like concat('%',#{lv1},'%')
+                         </when>
+                         <otherwise>
+                            and T.lv1=#{lv1}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="lv2!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='lv2'">
+                            and T.lv2 like concat('%',#{lv2},'%')
+                         </when>
+                         <otherwise>
+                            and T.lv2=#{lv2}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="lv3!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='lv3'">
+                            and T.lv3 like concat('%',#{lv3},'%')
+                         </when>
+                         <otherwise>
+                            and T.lv3=#{lv3}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="lv4!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='lv4'">
+                            and T.lv4 like concat('%',#{lv4},'%')
+                         </when>
+                         <otherwise>
+                            and T.lv4=#{lv4}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="textbook!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='textbook'">
+                            and T.textbook like concat('%',#{textbook},'%')
+                         </when>
+                         <otherwise>
+                            and T.textbook=#{textbook}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="title!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='title'">
+                            and T.title like concat('%',#{title},'%')
+                         </when>
+                         <otherwise>
+                            and T.title=#{title}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="subjectMateriaId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='subjectMateriaId'">
+                            and T.subject_materia_id like concat('%',#{subjectMateriaId},'%')
+                         </when>
+                         <otherwise>
+                            and T.subject_materia_id=#{subjectMateriaId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="unCategorized">
+                and(T.lv1 is null and T.lv2 is null and T.lv3 is null and T.lv4 is null)
+            </if>
+            <if test="remark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='remark'">
+                        and T.remark like concat('%',#{remark},'%')
+                    </when>
+                    <otherwise>
+                        and T.remark=#{remark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findCourseWareListByCondition" parameterType="CourseWare" resultType="CourseWare">
+        select
+         <include refid="projection"/>
+         from jy_course_ware T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findCourseWareCountByCondition" parameterType="CourseWare" resultType="long">
+        select count(*) from jy_course_ware T
+        <include refid="match"/>
+    </select>
+    <select id="findCourseWareById" resultType="CourseWare">
+        select * from jy_course_ware where id=#{id}
+    </select>
+    <select id="findOneCourseWareByCondition" parameterType="CourseWare" resultType="CourseWare">
+        select
+         <include refid="projection"/>
+         from jy_course_ware T
+        <include refid="match"/>
+    </select>
+    <insert id="saveCourseWare" parameterType="CourseWare">
+        insert into jy_course_ware
+         (
+            id,
+            school_id,
+            teacher_id,
+            resouces_id,
+            courseware_name,
+            create_time,
+            update_time,
+            courseware_url,
+            courseware_size,
+            lv1,
+            lv2,
+            lv3,
+            lv4,
+            textbook,
+            title,
+            subject_materia_id,
+            remark
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{teacherId}
+                ,
+                #{resoucesId}
+                ,
+                #{coursewareName}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{coursewareUrl}
+                ,
+                #{coursewareSize}
+                ,
+                #{lv1}
+                ,
+                #{lv2}
+                ,
+                #{lv3}
+                ,
+                #{lv4}
+                ,
+                #{textbook}
+                ,
+                #{title}
+                ,
+                #{subjectMateriaId}
+                ,
+                #{remark}
+
+                
+         )
+    </insert>
+    <update id="updateCourseWare" parameterType="CourseWare">
+        update jy_course_ware
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="resoucesId!=null ">
+                        resouces_id=#{resoucesId},
+                    </if>
+                    <if test="coursewareName!=null ">
+                        courseware_name=#{coursewareName},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="coursewareUrl!=null ">
+                        courseware_url=#{coursewareUrl},
+                    </if>
+                    <if test="coursewareSize!=null ">
+                        courseware_size=#{coursewareSize},
+                    </if>
+                    <if test="lv1!=null ">
+                        lv1=#{lv1},
+                    </if>
+                    <if test="lv2!=null ">
+                        lv2=#{lv2},
+                    </if>
+                    <if test="lv3!=null ">
+                        lv3=#{lv3},
+                    </if>
+                    <if test="lv4!=null ">
+                        lv4=#{lv4},
+                    </if>
+                    <if test="textbook!=null ">
+                        textbook=#{textbook},
+                    </if>
+                    <if test="title!=null ">
+                        title=#{title},
+                    </if>
+                    <if test="subjectMateriaId!=null ">
+                        subject_materia_id=#{subjectMateriaId},
+                    </if>
+                    <if test="remark!=null ">
+                        remark=#{remark}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteCourseWare" >
+        delete from jy_course_ware where id=#{id}
+    </delete>
+    <delete id="deleteCourseWareByCondition" >
+        delete T from jy_course_ware T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveCourseWare" parameterType="CourseWare">
+        INSERT INTO jy_course_ware (  id,  school_id,  teacher_id,  resouces_id,  courseware_name,  create_time,  update_time,  courseware_url,  courseware_size,  lv1,  lv2,  lv3,  lv4,  textbook,  title,  subject_materia_id ,remark)
+        VALUES
+        <foreach collection="list" item="courseWare" separator=",">
+            (  #{courseWare.id},  #{courseWare.schoolId},  #{courseWare.teacherId},  #{courseWare.resoucesId},  #{courseWare.coursewareName},  #{courseWare.createTime},  #{courseWare.updateTime},  #{courseWare.coursewareUrl},  #{courseWare.coursewareSize},  #{courseWare.lv1},  #{courseWare.lv2},  #{courseWare.lv3},  #{courseWare.lv4},  #{courseWare.textbook},  #{courseWare.title},  #{courseWare.subjectMateriaId},#{courseWare.remark}   )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <delete id="deleteCourseWareByIds" parameterType = "java.util.List">
+        delete jy_course_ware,jy_course_res  from jy_course_ware LEFT JOIN jy_course_res on jy_course_ware.resouces_id = jy_course_res.id
+          where   jy_course_ware.id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="batchUpdateCourseWare" parameterType="CourseWare">
+        update jy_course_ware
+          <set>
+              <if test="subjectMateriaId!=null ">
+                  subject_materia_id = #{subjectMateriaId},
+              </if>
+              <if test="title!=null ">
+                  title = #{title},
+              </if>
+              <if test="lv1!=null ">
+                  lv1=#{lv1},
+              </if>
+              <if test="lv2!=null ">
+                  lv2=#{lv2},
+              </if>
+              <if test="lv3!=null ">
+                  lv3=#{lv3},
+              </if>
+              <if test="lv4!=null ">
+                  lv4=#{lv4}
+              </if>
+          </set>
+        where id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="updateCourseWareToNoType" parameterType="CourseWare">
+    update jy_course_ware
+    <set>
+        lv1=null,
+        lv2=null,
+        lv3=null,
+        lv4=null
+    </set>
+        <where>
+            <if test="teacherId !=null ">
+                teacher_id = #{teacherId}
+            </if>
+            <if test="schoolId !=null">
+                and school_id = #{schoolId}
+            </if>
+            <if test="lv1!=null ">
+                and lv1=#{lv1}
+            </if>
+            <if test="lv2!=null ">
+                and lv2=#{lv2}
+            </if>
+            <if test="lv3!=null ">
+                and lv3=#{lv3}
+            </if>
+            <if test="lv4!=null ">
+                and lv4=#{lv4}
+            </if>
+        </where>
+    </update>
+
+
+    <!-- 查询该教师最近一次的备课课件-->
+    <select id="findRecentlyCourseWare" parameterType="CourseWare" resultType="CourseWare">
+        SELECT
+            subject_materia_id,
+            lv1,
+            lv2,
+            lv3,
+            lv4,
+            create_time
+        FROM
+            jy_course_res
+        WHERE
+            teacher_id = #{teacherId}
+            AND school_id = #{schoolId}
+        ORDER BY
+            create_time DESC
+            LIMIT 1
+    </select>
+
+</mapper>

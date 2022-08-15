@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.equipmentType.EquipmentManagementDerviceNameDao">
+    <!--########################################################################################################################-->
+    <select id="findEquipmentManagementDerviceNameListByCondition" parameterType="EquipmentManagementDerviceName" resultType="EquipmentManagementDerviceName">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('deviceId')">
+                             T.device_id,
+                         </if>
+                         <if test="!pager.excludes.contains('vendorManagementId')">
+                             T.vendor_management_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_management_dervice_name T
+        <where>
+              <if test="deviceId!=null">
+                 T.device_id=#{deviceId}
+              </if>
+              <if test="vendorManagementId!=null">
+                and T.vendor_management_id=#{vendorManagementId}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findEquipmentManagementDerviceNameCountByCondition" parameterType="EquipmentManagementDerviceName" resultType="long">
+        select count(*) from equipment_management_dervice_name
+        <where>
+              <if test="deviceId!=null">
+                 device_id=#{deviceId}
+              </if>
+              <if test="vendorManagementId!=null">
+                and vendor_management_id=#{vendorManagementId}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+        </where>
+    </select>
+    <select id="findEquipmentManagementDerviceNameById" resultType="EquipmentManagementDerviceName">
+        select * from equipment_management_dervice_name where id=#{id}
+    </select>
+    <select id="findOneEquipmentManagementDerviceNameByCondition" parameterType="EquipmentManagementDerviceName" resultType="EquipmentManagementDerviceName">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('deviceId')">
+                             T.device_id,
+                         </if>
+                         <if test="!pager.excludes.contains('vendorManagementId')">
+                             T.vendor_management_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_management_dervice_name T
+        <where>
+              <if test="deviceId!=null">
+                 T.device_id=#{deviceId}
+              </if>
+              <if test="vendorManagementId!=null">
+                and T.vendor_management_id=#{vendorManagementId}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+        </where>
+    </select>
+    <insert id="saveEquipmentManagementDerviceName" parameterType="EquipmentManagementDerviceName">
+        insert into equipment_management_dervice_name
+         (
+            id,
+            device_id,
+            vendor_management_id,
+            create_time,
+            update_time,
+            del
+        ) values
+         (
+                #{id}
+                ,
+                #{deviceId}
+                ,
+                #{vendorManagementId}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                
+         )
+    </insert>
+    <update id="updateEquipmentManagementDerviceName" parameterType="EquipmentManagementDerviceName">
+        update equipment_management_dervice_name
+        <set>
+                    <if test="deviceId!=null ">
+                        device_id=#{deviceId},
+                    </if>
+                    <if test="vendorManagementId!=null ">
+                        vendor_management_id=#{vendorManagementId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="del!=null ">
+                        del=#{del}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteEquipmentManagementDerviceName" >
+        delete from equipment_management_dervice_name where id=#{id}
+    </delete>
+    <delete id="deleteEquipmentManagementDerviceNameByCondition" >
+        delete from equipment_management_dervice_name
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="deviceId!=null">
+                and device_id=#{deviceId}
+              </if>
+              <if test="vendorManagementId!=null">
+                and vendor_management_id=#{vendorManagementId}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveEquipmentManagementDerviceName" parameterType="EquipmentManagementDerviceName">
+        INSERT INTO equipment_management_dervice_name (  id,  device_id,  vendor_management_id,  create_time,  update_time,  del )
+        VALUES
+        <foreach collection="list" item="equipmentManagementDerviceName" separator=",">
+            (  #{equipmentManagementDerviceName.id},  #{equipmentManagementDerviceName.deviceId},  #{equipmentManagementDerviceName.vendorManagementId},  #{equipmentManagementDerviceName.createTime},  #{equipmentManagementDerviceName.updateTime},  #{equipmentManagementDerviceName.del}  )
+        </foreach>
+    </insert>
+
+
+    <!--########################################################################################################################-->
+</mapper>

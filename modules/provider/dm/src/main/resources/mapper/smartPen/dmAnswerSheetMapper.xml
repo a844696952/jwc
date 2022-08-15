@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.smartPen.IDmAnswerSheetDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('shcoolId')">
+                             T.shcool_id,
+                         </if>
+                         <if test="!pager.excludes.contains('factoryId')">
+                             T.factory_id,
+                         </if>
+                         <if test="!pager.excludes.contains('factoryName')">
+                             T.factory_name,
+                         </if>
+                         <if test="!pager.excludes.contains('coordinate')">
+                             T.coordinate,
+                         </if>
+                         <if test="!pager.excludes.contains('width')">
+                             T.width,
+                         </if>
+                         <if test="!pager.excludes.contains('height')">
+                             T.height,
+                         </if>
+                         <if test="!pager.excludes.contains('topicName')">
+                             T.topic_name,
+                         </if>
+                         <if test="!pager.excludes.contains('topicType')">
+                             T.topic_type,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createDate')">
+                             T.create_date,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+         <!--     <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>-->
+              <if test="factoryId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='factoryId'">
+                            and T.factory_id like concat('%',#{factoryId},'%')
+                         </when>
+                         <otherwise>
+                            and T.factory_id=#{factoryId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="factoryName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='factoryName'">
+                            and T.factory_name like concat('%',#{factoryName},'%')
+                         </when>
+                         <otherwise>
+                            and T.factory_name=#{factoryName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="coordinate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='coordinate'">
+                            and T.coordinate like concat('%',#{coordinate},'%')
+                         </when>
+                         <otherwise>
+                            and T.coordinate=#{coordinate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="width!=null">
+                    and T.width=#{width}
+              </if>
+              <if test="height!=null">
+                    and T.height=#{height}
+              </if>
+            <if test="answerType!=null">
+                and T.answer_type=#{answerType}
+            </if>
+              <if test="topicName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='topicName'">
+                            and T.topic_name like concat('%',#{topicName},'%')
+                         </when>
+                         <otherwise>
+                            and T.topic_name=#{topicName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="topicType!=null">
+                    and T.topic_type=#{topicType}
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createDate'">
+                            and T.create_date like concat('%',#{createDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_date=#{createDate}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmAnswerSheetListByCondition" parameterType="DmAnswerSheet" resultType="DmAnswerSheet">
+        select
+         <include refid="projection"/>
+         from dm_answer_sheet T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDmAnswerSheetCountByCondition" parameterType="DmAnswerSheet" resultType="long">
+        select count(*) from dm_answer_sheet T
+        <include refid="match"/>
+    </select>
+    <select id="findDmAnswerSheetById" resultType="DmAnswerSheet">
+        select * from dm_answer_sheet where id=#{id}
+    </select>
+    <select id="findOneDmAnswerSheetByCondition" parameterType="DmAnswerSheet" resultType="DmAnswerSheet">
+        select
+         <include refid="projection"/>
+         from dm_answer_sheet T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmAnswerSheet" parameterType="DmAnswerSheet">
+        insert into dm_answer_sheet
+         (
+            id,
+            shcool_id,
+            factory_id,
+            factory_name,
+            coordinate,
+            width,
+            height,
+            topic_name,
+            topic_type,
+            teacher_id,
+            create_date
+        ) values
+         (
+                #{id}
+                ,
+                #{shcoolId}
+                ,
+                #{factoryId}
+                ,
+                #{factoryName}
+                ,
+                #{coordinate}
+                ,
+                #{width}
+                ,
+                #{height}
+                ,
+                #{topicName}
+                ,
+                #{topicType}
+                ,
+                #{teacherId}
+                ,
+                #{createDate}
+                
+         )
+    </insert>
+    <update id="updateDmAnswerSheet" parameterType="DmAnswerSheet">
+        update dm_answer_sheet
+        <set>
+                    <if test="shcoolId!=null ">
+                        shcool_id=#{shcoolId},
+                    </if>
+                    <if test="factoryId!=null ">
+                        factory_id=#{factoryId},
+                    </if>
+                    <if test="factoryName!=null ">
+                        factory_name=#{factoryName},
+                    </if>
+                    <if test="coordinate!=null ">
+                        coordinate=#{coordinate},
+                    </if>
+                    <if test="width!=null ">
+                        width=#{width},
+                    </if>
+                    <if test="height!=null ">
+                        height=#{height},
+                    </if>
+                    <if test="topicName!=null ">
+                        topic_name=#{topicName},
+                    </if>
+                    <if test="topicType!=null ">
+                        topic_type=#{topicType},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="createDate!=null ">
+                        create_date=#{createDate}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmAnswerSheet" >
+        delete from dm_answer_sheet where id=#{id}
+    </delete>
+    <delete id="deleteDmAnswerSheetByCondition" >
+        delete T from dm_answer_sheet T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmAnswerSheet" parameterType="DmAnswerSheet">
+        INSERT INTO dm_answer_sheet (  id,  shcool_id,  factory_id,  factory_name,  coordinate,  width,  height,  topic_name,  topic_type,  teacher_id,  create_date )
+        VALUES
+        <foreach collection="list" item="dmAnswerSheet" separator=",">
+            (  #{dmAnswerSheet.id},  #{dmAnswerSheet.shcoolId},  #{dmAnswerSheet.factoryId},  #{dmAnswerSheet.factoryName},  #{dmAnswerSheet.coordinate},  #{dmAnswerSheet.width},  #{dmAnswerSheet.height},  #{dmAnswerSheet.topicName},  #{dmAnswerSheet.topicType},  #{dmAnswerSheet.teacherId},  #{dmAnswerSheet.createDate}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

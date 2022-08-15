@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.assetsInOutQuery.IAssetsInOutQueryDao">
+
+    <!--出入库统计首页查询-->
+    <select id="findInOutQueryByCondition" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile">
+
+        select
+        in_table.assets_category_ancestor_id,
+        F.assets_name ,
+        F.assets_property,
+        in_table.put_in_time,
+        F.assets_unit,
+        in_table.assets_file_id,
+        in_table.inCount,
+        ifnull(out_table.outCount,0) as outCount,
+        ifnull(scrap_table.scrapCount,0) as scrapCount,
+        ifnull(return_table.returnCount,0) as returnCount,
+        ifnull(repairs_table.repairCount,0) as repairCount,
+        ifnull(repairs_table.repairTotalCost,0) as repairTotalCost
+
+        from
+        ( SELECT  T.assets_file_id,
+        T.assets_category_ancestor_id,
+        count(T.assets_file_id) as inCount,T.put_in_time FROM xw_assets_stock_detail T
+        where del = 1 and T.school_id = #{schoolId}
+        <!-- 学年 -->
+        <if test="schoolYearId!=null">
+            and T.school_year_id =  #{schoolYearId}
+        </if>
+        <!-- 学期 -->
+        <if test="term!=null">
+            and T.term =  #{term}
+        </if>
+        group by T.assets_file_id) in_table
+
+        left join
+        (
+        SELECT
+        o.assets_file_id,
+        count( o.assets_file_id ) as outCount
+        FROM
+        xw_assets_stock_detail o
+        where
+        del = 1
+        and o.status = 2
+        and school_id = #{schoolId}
+        GROUP by o.assets_file_id
+        ) out_table
+        on in_table.assets_file_id = out_table.assets_file_id
+
+        left join
+        (select TT.assets_file_id,sum(TT.scarp) as scrapCount
+        from
+        (SELECT  T.assets_file_id, case when T.scrap_time is not null then 1 else 0 end AS scarp FROM 		      xw_assets_stock_detail T  where school_id = #{schoolId} and del = 1) TT group by           assets_file_id)    scrap_table on in_table.assets_file_id = scrap_table.assets_file_id
+
+        left join
+        (
+        SELECT
+        r.assets_file_id,
+        count( r.assets_file_id ) as repairCount
+        ,sum( ifnull( r.upkeep_costs,0 ) ) as repairTotalCost
+        from xw_repair_new r  where school_id = #{schoolId}
+        GROUP BY
+        r.assets_file_id
+        )   repairs_table on in_table.assets_file_id = repairs_table.assets_file_id
+
+
+
+        left join
+        (
+        SELECT
+        s.assets_file_id,count(s.assets_file_id) as returnCount
+        FROM
+        (SELECT
+        case
+        when return_time = '' then null
+        else  return_time
+        end as return_time,
+        assets_file_id,
+        school_id
+        FROM
+        xw_assets_stock_detail ) s
+        where s.return_time is not null and school_id = #{schoolId}
+        group by s.assets_file_id ) return_table
+        on in_table.assets_file_id = return_table.assets_file_id
+
+        left join xw_assets_file F on in_table.assets_file_id = F.id
+        where
+              1 = 1
+            <if test="assetsCategoryId != null">
+                and  in_table.assets_category_ancestor_id like concat('%',#{assetsCategoryId},'%')
+            </if>
+            <if test="assetsProperty!=null">
+               and F.assets_property = #{assetsProperty}
+            </if>
+            <if test="fileYear!=null">
+                and  in_table.put_in_time like  concat(#{fileYear},'%')
+            </if>
+            <if test="assertsStartTime!=null">
+                and str_to_date( in_table.put_in_time , '%Y-%m-%d' ) >= str_to_date( #{assertsStartTime}, '%Y-%m-%d' )
+            </if>
+            <if test="assertsEndTime!=null">
+              <![CDATA[
+                and str_to_date( in_table.put_in_time , '%Y-%m-%d' ) <= str_to_date( #{assertsEndTime}, '%Y-%m-%d' )
+              ]]>
+            </if>
+
+            order by F.create_time desc
+            <if test="pager!=null and  pager.paging">
+                limit #{pager.beginRow},#{pager.pageSize}
+            </if>
+    </select>
+
+<select id="findInOutQueryCountByCondition" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile" resultType="long">
+
+    select
+    count(1)
+    from
+    ( SELECT  T.assets_file_id,
+    T.assets_category_ancestor_id,
+    count(T.assets_file_id) as inCount,T.put_in_time
+    FROM xw_assets_stock_detail T
+    where del = 1 and T.school_id = #{schoolId}
+    <!-- 学年 -->
+    <if test="schoolYearId!=null">
+        and T.school_year_id =  #{schoolYearId}
+    </if>
+    <!-- 学期 -->
+    <if test="term!=null">
+        and T.term =  #{term}
+    </if>
+
+    group by T.assets_file_id) in_table
+
+    left join
+    (SELECT
+    o.assets_file_id,
+    count( o.assets_file_id ) as outCount
+    FROM
+    xw_assets_out_new o where school_id = #{schoolId}  GROUP by o.assets_file_id) out_table
+    on in_table.assets_file_id = out_table.assets_file_id
+
+    left join
+    (select TT.assets_file_id,sum(TT.scarp) as scrapCount
+    from
+    (SELECT  T.assets_file_id, case when T.scrap_time is not null then 1 else 0 end AS scarp FROM 		      xw_assets_stock_detail T  where school_id = #{schoolId} and del = 1) TT group by           assets_file_id)    scrap_table on in_table.assets_file_id = scrap_table.assets_file_id
+
+    left join
+    (
+    SELECT
+    r.assets_file_id,
+    count( r.assets_file_id ) as repairCount
+    ,sum( ifnull( r.upkeep_costs,0 ) ) as repairTotalCost
+    from xw_repair_new r  where school_id = #{schoolId}
+    GROUP BY
+    r.assets_file_id
+    )   repairs_table on in_table.assets_file_id = repairs_table.assets_file_id
+
+
+
+    left join
+    (
+    SELECT
+    s.assets_file_id,count(s.assets_file_id) as returnCount
+    FROM
+    (SELECT
+    case
+    when return_time = '' then null
+    else  return_time
+    end as return_time,
+    assets_file_id,
+    school_id
+    FROM
+    xw_assets_stock_detail ) s
+    where s.return_time is not null and school_id = #{schoolId}
+    group by s.assets_file_id ) return_table
+    on in_table.assets_file_id = return_table.assets_file_id
+
+    left join xw_assets_file F on in_table.assets_file_id = F.id
+    where
+        1 = 1
+        <if test="assetsCategoryId != null">
+            and  in_table.assets_category_ancestor_id like concat('%',#{assetsCategoryId},'%')
+        </if>
+        <if test="assetsProperty!=null">
+            and F.assets_property = #{assetsProperty}
+        </if>
+        <if test="fileYear!=null">
+            and  in_table.put_in_time like  concat(#{fileYear},'%')
+        </if>
+        <if test="assertsStartTime!=null">
+            and str_to_date( in_table.put_in_time , '%Y-%m-%d' ) >= str_to_date( #{assertsStartTime}, '%Y-%m-%d' )
+        </if>
+        <if test="assertsEndTime!=null">
+            <![CDATA[
+                and str_to_date( in_table.put_in_time , '%Y-%m-%d' ) <= str_to_date( #{assertsEndTime}, '%Y-%m-%d' )
+              ]]>
+        </if>
+
+
+</select>
+
+<select id="findAssetUseDataByCondition" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile">
+    SELECT
+        T.assets_name AS assetsName,
+        T.assets_category_ancestor_id,
+        T.assets_property AS assetsProperty,
+        GROUP_CONCAT( DISTINCT T.building_id ) AS buildingId,
+        GROUP_CONCAT( DISTINCT bui.`name` ) AS buildingName,
+        GROUP_CONCAT( DISTINCT T.use_place_id ) AS usePlaceId,
+        GROUP_CONCAT( DISTINCT T.use_place ) AS usePlace,
+        GROUP_CONCAT( DISTINCT usep.`name` ) AS usePlaceName,
+        T.use_place_id AS usePlaceId,
+        T.duty_person_name AS dutyPersonName,
+        T.duty_person AS dutyPersonId,
+        count( T.duty_person_name ) AS useCount,
+        T.put_in_time as put_in_time
+    FROM
+        xw_assets_stock_detail T
+        LEFT JOIN xw_assets_file afi ON T.assets_file_id = afi.id
+        LEFT JOIN jw_building bui ON T.building_id = bui.id
+        LEFT JOIN jw_building usep ON T.use_place_id = usep.id
+    WHERE
+          del = 1
+          and T.`status` = 2
+            <!-- 学年 -->
+            <if test="schoolYearId!=null">
+                and T.school_year_id =  #{schoolYearId}
+            </if>
+            <!-- 学期 -->
+            <if test="term!=null">
+                and T.term =  #{term}
+            </if>
+            <!-- 场地类型 -->
+            <if test="typeId!=null">
+                and T.type_id =  #{typeId}
+            </if>
+          and T.school_id = #{schoolId}
+
+    group by T.duty_person_name,T.assets_name
+    having 1=1
+    <if test="assetsCategoryId != null">
+        and  T.assets_category_ancestor_id like concat('%',#{assetsCategoryId},'%')
+    </if>
+    <if test="assetsProperty!=null">
+       and assetsProperty = #{assetsProperty}
+    </if>
+    <if test="assetsName!=null">
+        and assetsName like  concat('%',#{assetsName},'%')
+    </if>
+
+    <if test="dutyPersonName!=null">
+        and dutyPersonName like  concat('%',#{dutyPersonName},'%')
+    </if>
+
+    <if test="usePlaceId !=null">
+        and GROUP_CONCAT( T.use_place_id )  like concat('%',#{usePlaceId},'%')
+    </if>
+
+    <if test="fileYear!=null">
+       and T.put_in_time like  concat(#{fileYear},'%')
+    </if>
+
+    <if test="buildingId!=null">
+        and GROUP_CONCAT( DISTINCT T.building_id ) like concat('%',#{buildingId},'%')
+    </if>
+
+    <if test="assertsStartTime!=null">
+        and str_to_date( T.put_in_time , '%Y-%m-%d' ) >= str_to_date( #{assertsStartTime}, '%Y-%m-%d' )
+    </if>
+    <if test="assertsEndTime!=null">
+        <![CDATA[
+            and str_to_date( T.put_in_time , '%Y-%m-%d' ) <= str_to_date( #{assertsEndTime}, '%Y-%m-%d' )
+            ]]>
+    </if>
+    order by afi.create_time desc
+    <if test="pager!=null and  pager.paging">
+        limit #{pager.beginRow},#{pager.pageSize}
+    </if>
+
+</select>
+<select id="findAssetUseDataCountByCondition" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile"  resultType="long">
+    SELECT count(*)
+    from (
+        SELECT
+        T.*
+        FROM
+        xw_assets_stock_detail T
+        LEFT JOIN xw_assets_file afi ON T.assets_file_id = afi.id
+        LEFT JOIN jw_building bui ON T.building_id = bui.id
+        WHERE
+         del = 1 and
+        T.`status` = 2
+        and T.school_id = #{schoolId}
+        <!-- 学年 -->
+        <if test="schoolYearId!=null">
+            and T.school_year_id =  #{schoolYearId}
+        </if>
+        <!-- 学期 -->
+        <if test="term!=null">
+            and T.term =  #{term}
+        </if>
+        <!-- 场地类型 -->
+        <if test="typeId!=null">
+            and T.type_id =  #{typeId}
+        </if>
+        group by T.duty_person_name,T.assets_name
+        having 1=1
+        <if test="assetsCategoryId != null">
+            and  T.assets_category_ancestor_id like concat('%',#{assetsCategoryId},'%')
+        </if>
+        <if test="assetsProperty!=null">
+            and T.assets_property = #{assetsProperty}
+        </if>
+        <if test="assetsName!=null">
+            and T.assets_name like  concat('%',#{assetsName},'%')
+        </if>
+
+        <if test="dutyPersonName!=null">
+            and T.duty_person_name like  concat('%',#{dutyPersonName},'%')
+        </if>
+
+        <if test="usePlaceId !=null">
+            and GROUP_CONCAT( T.use_place_id )  like concat('%',#{usePlaceId},'%')
+        </if>
+
+        <if test="fileYear!=null">
+            and T.put_in_time like  concat(#{fileYear},'%')
+        </if>
+
+        <if test="buildingId!=null">
+            and GROUP_CONCAT( DISTINCT T.building_id ) like concat('%',#{buildingId},'%')
+        </if>
+
+        <if test="assertsStartTime!=null">
+            and str_to_date( T.put_in_time , '%Y-%m-%d' ) >= str_to_date( #{assertsStartTime}, '%Y-%m-%d' )
+        </if>
+        <if test="assertsEndTime!=null">
+            <![CDATA[
+            and str_to_date( T.put_in_time , '%Y-%m-%d' ) <= str_to_date( #{assertsEndTime}, '%Y-%m-%d' )
+            ]]>
+        </if>
+
+    ) a
+</select>
+
+
+</mapper>

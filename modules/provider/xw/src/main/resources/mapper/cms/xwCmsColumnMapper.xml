@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.cms.IXwCmsColumnDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('columnName')">
+                             T.column_name,
+                         </if>
+                         <if test="!pager.excludes.contains('columnNumber')">
+                             T.column_number,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('columnType')">
+                             T.column_type,
+                         </if>
+                         <if test="!pager.excludes.contains('isShow')">
+                             T.is_show,
+                         </if>
+                         <if test="!pager.excludes.contains('columnLevel')">
+                             T.column_level,
+                         </if>
+                         <if test="!pager.excludes.contains('columnIcon')">
+                             T.column_icon,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('position')">
+                             T.position,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="columnName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('columnName')">
+                            and T.column_name like concat('%',#{columnName},'%')
+                         </when>
+                         <otherwise>
+                            and T.column_name=#{columnName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="columnNumber!=null">
+                    and T.column_number=#{columnNumber}
+              </if>
+              <if test="parentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('parentId')">
+                            and T.parent_id like concat('%',#{parentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.parent_id=#{parentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="columnType!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('columnType')">
+                            and T.column_type like concat('%',#{columnType},'%')
+                         </when>
+                         <otherwise>
+                            and T.column_type=#{columnType}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isShow!=null">
+                    and T.is_show=#{isShow}
+              </if>
+              <if test="columnLevel!=null">
+                    and T.column_level=#{columnLevel}
+              </if>
+              <if test="columnIcon!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('columnIcon')">
+                            and T.column_icon like concat('%',#{columnIcon},'%')
+                         </when>
+                         <otherwise>
+                            and T.column_icon=#{columnIcon}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                  and T.school_id=#{schoolId}
+              </if>
+              <if test="position!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('position')">
+                            and T.position like concat('%',#{position},'%')
+                         </when>
+                         <otherwise>
+                            and T.position=#{position}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        ORDER BY column_level ASC,column_number ASC
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwCmsColumnListByCondition" parameterType="XwCmsColumn" resultType="XwCmsColumn">
+        select
+         <include refid="projection"/>
+         from xw_cms_column T
+         <include refid="match"/>
+         <include refid="sort"/>
+
+
+
+    </select>
+    <select id="findXwCmsColumnCountByCondition" parameterType="XwCmsColumn" resultType="long">
+        select count(*) from xw_cms_column T
+        <include refid="match"/>
+    </select>
+    <select id="findXwCmsColumnById" resultType="XwCmsColumn">
+        select * from xw_cms_column where id=#{id}
+    </select>
+    <select id="findOneXwCmsColumnByCondition" parameterType="XwCmsColumn" resultType="XwCmsColumn">
+        select
+         <include refid="projection"/>
+         from xw_cms_column T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwCmsColumn" parameterType="XwCmsColumn">
+        INSERT INTO xw_cms_column (  id,  column_name,  column_number,  parent_id,  column_type,  is_show,  column_level,  column_icon,  school_id,  position,create_time )
+         values
+         (   #{id}  ,   #{columnName}  ,   #{columnNumber}  ,   #{parentId}  ,   #{columnType}  ,   #{isShow}  ,   #{columnLevel}  ,   #{columnIcon}  ,   #{schoolId}  ,   #{position} , NOW()   )
+    </insert>
+    <update id="updateXwCmsColumn" parameterType="XwCmsColumn">
+        update xw_cms_column
+        <set>
+                    <if test="columnName!=null ">
+                        column_name=#{columnName},
+                    </if>
+                    <if test="columnNumber!=null ">
+                        column_number=#{columnNumber},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_id=#{parentId},
+                    </if>
+                    <if test="columnType!=null ">
+                        column_type=#{columnType},
+                    </if>
+                    <if test="isShow!=null ">
+                        is_show=#{isShow},
+                    </if>
+                    <if test="columnLevel!=null ">
+                        column_level=#{columnLevel},
+                    </if>
+                    <if test="columnIcon!=null ">
+                        column_icon=#{columnIcon},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="position!=null ">
+                        position=#{position},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateXwCmsColumnForAll" parameterType="XwCmsColumn">
+        update xw_cms_column
+        <set>
+                    column_name=#{columnName},
+                    column_number=#{columnNumber},
+                    parent_id=#{parentId},
+                    column_type=#{columnType},
+                    is_show=#{isShow},
+                    column_level=#{columnLevel},
+                    column_icon=#{columnIcon},
+                    school_id=#{schoolId},
+                    position=#{position},
+                    create_time=#{createTime}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwCmsColumn" >
+        delete from xw_cms_column where id=#{id}
+    </delete>
+    <delete id="deleteXwCmsColumnByCondition" >
+        delete T from xw_cms_column T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwCmsColumn" parameterType="XwCmsColumn">
+        INSERT INTO xw_cms_column (  id,  column_name,  column_number,  parent_id,  column_type,  is_show,  column_level,  column_icon,  school_id,  position ,create_time)
+        VALUES
+        <foreach collection="list" item="xwCmsColumn" separator=",">
+            (   #{xwCmsColumn.id}  ,   #{xwCmsColumn.columnName}  ,   #{xwCmsColumn.columnNumber}  ,   #{xwCmsColumn.parentId}  ,   #{xwCmsColumn.columnType}  ,   #{xwCmsColumn.isShow}  ,   #{xwCmsColumn.columnLevel}  ,   #{xwCmsColumn.columnIcon}  ,   #{xwCmsColumn.schoolId}  ,   #{xwCmsColumn.position},#{xwCmsColumn.createTime}    )
+        </foreach>
+    </insert>
+    <select id="selectBannerAndApp" resultType="com.yice.edu.cn.common.pojo.xw.cms.XwCmsColumn">
+        select id,column_name from xw_cms_column where column_name='Banner' and school_id=#{schoolId}  or column_name ='应用中心' and school_id=#{schoolId}
+    </select>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

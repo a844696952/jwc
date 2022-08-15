@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.educationBureau.IEducationBureauDao">
+    <!--########################################################################################################################-->
+    <select id="findEducationBureauListByCondition" parameterType="EducationBureau" resultType="EducationBureau">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from education_bureau T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findEducationBureauCountByCondition" parameterType="EducationBureau" resultType="long">
+        select count(*) from education_bureau
+        <where>
+              <if test="name!=null">
+                 name=#{name}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+        </where>
+    </select>
+    <select id="findEducationBureauById" resultType="EducationBureau">
+        select * from education_bureau where id=#{id}
+    </select>
+    <select id="findOneEducationBureauByCondition" parameterType="EducationBureau" resultType="EducationBureau">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from education_bureau T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveEducationBureau" parameterType="EducationBureau">
+        insert into education_bureau
+         (
+            id,
+            name,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateEducationBureau" parameterType="EducationBureau">
+        update education_bureau
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteEducationBureau" >
+        delete from education_bureau where id=#{id}
+    </delete>
+    <delete id="deleteEducationBureauByCondition" >
+        delete from education_bureau
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveEducationBureau" parameterType="EducationBureau">
+        INSERT INTO education_bureau (  id,  name,  create_time )
+        VALUES
+        <foreach collection="list" item="educationBureau" separator=",">
+            (  #{educationBureau.id},  #{educationBureau.name},  #{educationBureau.createTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findUnSelectedSchoolsById" resultType="com.yice.edu.cn.common.pojo.jw.school.School">
+        select S.id,S.name from school S left join school_education_bureau SEB on S.id=SEB.school_id and SEB.education_bureau_id=#{educationBureauId}
+    </select>
+    <select id="findSelectedSchoolsById" resultType="java.lang.String">
+        select S.id from school S inner join school_education_bureau SEB on S.id=SEB.school_id and SEB.education_bureau_id=#{educationBureauId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.eehManagement.IEehSchoolDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('eehId')">
+                             T.eeh_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="eehId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='eehId'">
+                            and T.eeh_id like concat('%',#{eehId},'%')
+                         </when>
+                         <otherwise>
+                            and T.eeh_id=#{eehId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="type!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='type'">
+                            and T.type like concat('%',#{type},'%')
+                         </when>
+                         <otherwise>
+                            and T.type=#{type}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findEehSchoolListByCondition" parameterType="EehSchool" resultType="EehSchool">
+        select
+         <include refid="projection"/>
+         from eeh_school T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findEehSchoolCountByCondition" parameterType="EehSchool" resultType="long">
+        select count(*) from eeh_school T
+        <include refid="match"/>
+    </select>
+    <select id="findEehSchoolById" resultType="EehSchool">
+        select * from eeh_school where id=#{id}
+    </select>
+    <select id="findOneEehSchoolByCondition" parameterType="EehSchool" resultType="EehSchool">
+        select
+         <include refid="projection"/>
+         from eeh_school T
+        <include refid="match"/>
+    </select>
+    <insert id="saveEehSchool" parameterType="EehSchool">
+        insert into eeh_school
+         (
+            id,
+            eeh_id,
+            school_id,
+            type
+        ) values
+         (
+                #{id}
+                ,
+                #{eehId}
+                ,
+                #{schoolId}
+                ,
+                #{type}
+                
+         )
+    </insert>
+    <update id="updateEehSchool" parameterType="EehSchool">
+        update eeh_school
+        <set>
+                    <if test="eehId!=null ">
+                        eeh_id=#{eehId},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteEehSchool" >
+        delete from eeh_school where id=#{id}
+    </delete>
+    <delete id="deleteEehSchoolByCondition" >
+        delete T from eeh_school T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveEehSchool" parameterType="EehSchool">
+        INSERT INTO eeh_school (  id,  eeh_id,  school_id,  type )
+        VALUES
+        <foreach collection="list" item="eehSchool" separator=",">
+            (  #{eehSchool.id},  #{eehSchool.eehId},  #{eehSchool.schoolId},  #{eehSchool.type}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findCheckEehSchoolListById" resultType="EehSchool">
+        SELECT T.school_id,A.name as schoolName from eeh_school T left join school A on T.school_id=A.id where T.eeh_id=#{id}
+    </select>
+
+    <select id="findEehSchoolListByEehIds" resultType="EehSchool">
+        select * from eeh_school where eeh_id in
+        (
+        <foreach collection="list" separator="," item="id">
+            #{id}
+        </foreach>
+        )
+    </select>
+</mapper>

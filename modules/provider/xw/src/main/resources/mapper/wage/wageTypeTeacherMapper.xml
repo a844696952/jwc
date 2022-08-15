@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.wage.IWageTypeTeacherDao">
+    <!--########################################################################################################################-->
+    <select id="findWageTypeTeacherListByCondition" parameterType="WageTypeTeacher" resultType="WageTypeTeacher">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('workNumber')">
+                             T.work_number,
+                         </if>
+                         <if test="!pager.excludes.contains('wageTypeId')">
+                             T.wage_type_id,
+                         </if>
+                         <if test="!pager.excludes.contains('releaseTime')">
+                             T.release_time,
+                         </if>
+                         <if test="!pager.excludes.contains('releaseState')">
+                             T.release_state,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('salaryTime')">
+                             T.salary_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from xw_wage_type_teacher T
+        <where>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                             T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                             T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="workNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='workNumber'">
+                            and T.work_number like concat('%',#{workNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.work_number=#{workNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="wageTypeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageTypeId'">
+                            and T.wage_type_id like concat('%',#{wageTypeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.wage_type_id=#{wageTypeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="releaseTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='releaseTime'">
+                            and T.release_time like concat('%',#{releaseTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.release_time=#{releaseTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="releaseState!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='releaseState'">
+                            and T.release_state like concat('%',#{releaseState},'%')
+                         </when>
+                         <otherwise>
+                            and T.release_state=#{releaseState}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="salaryTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='salaryTime'">
+                            and T.salary_time like concat('%',#{salaryTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.salary_time=#{salaryTime}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWageTypeTeacherCountByCondition" parameterType="WageTypeTeacher" resultType="long">
+        select count(*) from xw_wage_type_teacher T
+        <where>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                             T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                             T.name=#{name}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="workNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='workNumber'">
+                            and T.work_number like concat('%',#{workNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.work_number=#{workNumber}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="wageTypeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageTypeId'">
+                            and T.wage_type_id like concat('%',#{wageTypeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.wage_type_id=#{wageTypeId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="releaseTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='releaseTime'">
+                            and T.release_time like concat('%',#{releaseTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.release_time=#{releaseTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="releaseState!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='releaseState'">
+                            and T.release_state like concat('%',#{releaseState},'%')
+                         </when>
+                         <otherwise>
+                            and T.release_state=#{releaseState}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="salaryTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='salaryTime'">
+                            and T.salary_time like concat('%',#{salaryTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.salary_time=#{salaryTime}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findWageTypeTeacherById" resultType="WageTypeTeacher">
+        select * from xw_wage_type_teacher where id=#{id}
+    </select>
+    <select id="findOneWageTypeTeacherByCondition" parameterType="WageTypeTeacher" resultType="WageTypeTeacher">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('workNumber')">
+                             T.work_number,
+                         </if>
+                         <if test="!pager.excludes.contains('wageTypeId')">
+                             T.wage_type_id,
+                         </if>
+                         <if test="!pager.excludes.contains('releaseTime')">
+                             T.release_time,
+                         </if>
+                         <if test="!pager.excludes.contains('releaseState')">
+                             T.release_state,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('salaryTime')">
+                             T.salary_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from xw_wage_type_teacher T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="workNumber!=null">
+                and T.work_number=#{workNumber}
+              </if>
+              <if test="wageTypeId!=null">
+                and T.wage_type_id=#{wageTypeId}
+              </if>
+              <if test="releaseTime!=null">
+                and T.release_time=#{releaseTime}
+              </if>
+              <if test="releaseState!=null">
+                and T.release_state=#{releaseState}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+              </if>
+              <if test="salaryTime!=null">
+                and T.salary_time=#{salaryTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveWageTypeTeacher" parameterType="WageTypeTeacher">
+        insert into xw_wage_type_teacher
+         (
+            id,
+            name,
+            work_number,
+            wage_type_id,
+            release_time,
+            release_state,
+            create_time,
+            school_id,
+            teacher_id,
+            salary_time
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{workNumber}
+                ,
+                #{wageTypeId}
+                ,
+                #{releaseTime}
+                ,
+                #{releaseState}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                #{teacherId}
+                ,
+                #{salaryTime}
+                
+         )
+    </insert>
+    <update id="updateWageTypeTeacher" parameterType="WageTypeTeacher">
+        update xw_wage_type_teacher
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="workNumber!=null ">
+                        work_number=#{workNumber},
+                    </if>
+                    <if test="wageTypeId!=null ">
+                        wage_type_id=#{wageTypeId},
+                    </if>
+                    <if test="releaseTime!=null ">
+                        release_time=#{releaseTime},
+                    </if>
+                    <if test="releaseState!=null ">
+                        release_state=#{releaseState},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="salaryTime!=null ">
+                        salary_time=#{salaryTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteWageTypeTeacher" >
+        delete from xw_wage_type_teacher where id=#{id}
+    </delete>
+    <delete id="deleteWageTypeTeacherByCondition" >
+        delete from xw_wage_type_teacher
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="workNumber!=null">
+                and work_number=#{workNumber}
+              </if>
+              <if test="wageTypeId!=null">
+                and wage_type_id=#{wageTypeId}
+              </if>
+              <if test="releaseTime!=null">
+                and release_time=#{releaseTime}
+              </if>
+              <if test="releaseState!=null">
+                and release_state=#{releaseState}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+              </if>
+              <if test="salaryTime!=null">
+                and salary_time=#{salaryTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveWageTypeTeacher" parameterType="WageTypeTeacher">
+        INSERT INTO xw_wage_type_teacher (  id,  name,  work_number,  wage_type_id,  release_time,  release_state,  create_time,  school_id,  teacher_id,  salary_time )
+        VALUES
+        <foreach collection="list" item="wageTypeTeacher" separator=",">
+            (  #{wageTypeTeacher.id},  #{wageTypeTeacher.name},  #{wageTypeTeacher.workNumber},  #{wageTypeTeacher.wageTypeId},  #{wageTypeTeacher.releaseTime},  #{wageTypeTeacher.releaseState},  #{wageTypeTeacher.createTime},  #{wageTypeTeacher.schoolId},  #{wageTypeTeacher.teacherId},  #{wageTypeTeacher.salaryTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findWageValueByTypeId" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+        SELECT T.id,T.work_number,T.name,T.release_time,T.release_state,T.salary_time,
+        <foreach collection="wageTypeList" item="wageType" separator="," index="index">
+            MAX(CASE A.wage_attribute_id WHEN #{wageType.wageAttributeId} THEN A.value_size ELSE 0 END) AS #{wageType.wageAttributeId}
+        </foreach>
+        FROM xw_wage_type_teacher T
+        INNER JOIN xw_wage_value A ON A.record_id = T.id
+        <where>
+            <if test="name!=null">
+                and  T.name like "%"#{name}"%"
+            </if>
+            <if test="releaseState!=null">
+                and  T.release_state in (${releaseState})
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and T.release_time  between #{startTime} and #{endTime}
+            </if>
+        </where>
+        and T.wage_type_id = #{id}
+        GROUP BY T.id
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+
+    <select id="findWageValueByRecordId" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+        SELECT T.name,T.work_number,T.salary_time,
+        <foreach collection="WageTypeRecordList" item="WageTypeRecord" separator="," index="index">
+            MAX(CASE A.wage_attribute_id WHEN #{WageTypeRecord.wageAttributeId} THEN A.value_size ELSE 0 END) AS #{WageTypeRecord.wageAttributeId}
+        </foreach>
+        FROM xw_wage_type_teacher T
+        INNER JOIN xw_wage_value A ON A.record_id = T.id
+        WHERE A.record_id = #{id}
+        GROUP BY T.id
+    </select>
+
+    <select id="findWageValueByTeacherId" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+        SELECT T.name,T.work_number,T.salary_time,
+        <foreach collection="WageTypeTeacherList" item="WageTypeTeacher" separator="," index="index">
+            MAX(CASE A.wage_attribute_id WHEN #{WageTypeTeacher.wageAttributeId} THEN A.value_size ELSE 0 END) AS #{WageTypeTeacher.wageAttributeId}
+        </foreach>
+        FROM xw_wage_type_teacher T
+        INNER JOIN xw_wage_value A ON A.record_id = T.id
+        WHERE T.teacher_id = #{id} and T.salary_time=#{salaryTime}
+    </select>
+
+    <select id="findWageAttributeListByRecordId" parameterType="WageTypeTeacher" resultType="WageTypeTeacher">
+       SELECT T.wage_attribute_id from xw_wage_value T inner join xw_wage_type_teacher A on A.id=T.record_id inner join
+				xw_wage_attribute B on T.wage_attribute_id=B.id
+				where T.record_id=#{id} and T.school_id=#{schoolId}
+    </select>
+
+    <select id="findWageAttributeListByTeacherId" parameterType="WageTypeTeacher" resultType="WageTypeTeacher">
+        SELECT T.wage_attribute_id from xw_wage_value T inner join xw_wage_type_teacher A on A.id=T.record_id inner join
+        xw_wage_attribute B on T.wage_attribute_id=B.id
+        <where>
+            A.teacher_id=#{teacherId} and A.school_id=#{schoolId} and A.salary_time=#{salaryTime}
+        </where>
+    </select>
+
+    <select id="findWageAttributeNameByTeacherId" parameterType="WageTypeTeacher" resultType="WageTypeTeacher">
+    select A.wage_attribute_id,B.attribute_name
+    from xw_wage_type_teacher T  left join xw_wage_attribute_type A on T.wage_type_id=A.wage_type_id
+    left join xw_wage_attribute B on A.wage_attribute_id=B.id
+    where T.teacher_id=#{teacherId} and T.school_id=#{schoolId}
+    and T.salary_time=#{salaryTime}
+    ORDER BY CAST(A.sort AS SIGNED),A.wage_attribute_id
+    </select>
+
+
+    <select id="findWageValueByTypeIdCount" parameterType="WageTypeTeacher" resultType="long">
+        SELECT count(*) FROM xw_wage_type_teacher T
+        <where>
+            <if test="name!=null">
+                and  T.name like "%"#{name}"%"
+            </if>
+            <if test="releaseState!=null">
+                and  T.release_state in (${releaseState})
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and T.release_time  between #{startTime} and #{endTime}
+            </if>
+            <if test="wageTypeId!=null">
+                and T.wage_type_id = #{wageTypeId}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="findWageTypeTeacherListByWorkNum" parameterType="WageTypeTeacher" resultType="WageTypeTeacher">
+        select * from xw_wage_type_teacher T
+        <where>
+            <if test="name!=null">
+                and  T.name = #{name}
+            </if>
+            <if test="workNumber!=null">
+                and  T.work_number = #{workNumber}
+            </if>
+            <if test="salaryTime!=null">
+                and  T.salary_time = #{salaryTime}
+            </if>
+            <if test="schoolId!=null">
+                and   T.school_id=#{schoolId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findWageTeacherIdByRecordId" parameterType="WageTypeTeacher" resultType="WageTypeTeacher">
+        select  teacher_id from xw_wage_type_teacher where id=#{id}
+    </select>
+
+
+</mapper>

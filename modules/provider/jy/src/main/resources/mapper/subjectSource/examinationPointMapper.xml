@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.subjectSource.IExaminationPointDao">
+    <!--########################################################################################################################-->
+    <select id="findExaminationPointListByCondition" parameterType="ExaminationPoint" resultType="ExaminationPoint">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('subjectId')">
+                             T.subject_id,
+                         </if>
+                         <if test="!pager.excludes.contains('level')">
+                             T.level,
+                         </if>
+                         <if test="!pager.excludes.contains('leaf')">
+                             T.leaf,
+                         </if>
+                         <if test="!pager.excludes.contains('path')">
+                             T.path,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createUserId')">
+                             T.create_user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateUserId')">
+                             T.update_user_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from examination_point T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="parentId!=null">
+                and T.parent_id=#{parentId}
+              </if>
+              <if test="subjectId!=null">
+                and T.subject_id=#{subjectId}
+              </if>
+              <if test="level!=null">
+                and T.level=#{level}
+              </if>
+              <if test="leaf!=null">
+                and T.leaf=#{leaf}
+              </if>
+              <if test="path!=null">
+                and T.path=#{path}
+              </if>
+              <if test="sort!=null">
+                and T.sort=#{sort}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="createUserId!=null">
+                and T.create_user_id=#{createUserId}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="updateUserId!=null">
+                and T.update_user_id=#{updateUserId}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findExaminationPointCountByCondition" parameterType="ExaminationPoint" resultType="long">
+        select count(*) from examination_point
+        <where>
+              <if test="name!=null">
+                 name=#{name}
+              </if>
+              <if test="parentId!=null">
+                and parent_id=#{parentId}
+              </if>
+              <if test="subjectId!=null">
+                and subject_id=#{subjectId}
+              </if>
+              <if test="level!=null">
+                and level=#{level}
+              </if>
+              <if test="leaf!=null">
+                and leaf=#{leaf}
+              </if>
+              <if test="path!=null">
+                and path=#{path}
+              </if>
+              <if test="sort!=null">
+                and sort=#{sort}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="createUserId!=null">
+                and create_user_id=#{createUserId}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="updateUserId!=null">
+                and update_user_id=#{updateUserId}
+              </if>
+        </where>
+    </select>
+    <select id="findExaminationPointById" resultType="ExaminationPoint">
+        select * from examination_point where id=#{id}
+    </select>
+    <select id="findOneExaminationPointByCondition" parameterType="ExaminationPoint" resultType="ExaminationPoint">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('subjectId')">
+                             T.subject_id,
+                         </if>
+                         <if test="!pager.excludes.contains('level')">
+                             T.level,
+                         </if>
+                         <if test="!pager.excludes.contains('leaf')">
+                             T.leaf,
+                         </if>
+                         <if test="!pager.excludes.contains('path')">
+                             T.path,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createUserId')">
+                             T.create_user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateUserId')">
+                             T.update_user_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from examination_point T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="parentId!=null">
+                and T.parent_id=#{parentId}
+              </if>
+              <if test="subjectId!=null">
+                and T.subject_id=#{subjectId}
+              </if>
+              <if test="level!=null">
+                and T.level=#{level}
+              </if>
+              <if test="leaf!=null">
+                and T.leaf=#{leaf}
+              </if>
+              <if test="path!=null">
+                and T.path=#{path}
+              </if>
+              <if test="sort!=null">
+                and T.sort=#{sort}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="createUserId!=null">
+                and T.create_user_id=#{createUserId}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="updateUserId!=null">
+                and T.update_user_id=#{updateUserId}
+              </if>
+        </where>
+    </select>
+    <insert id="saveExaminationPoint" parameterType="ExaminationPoint">
+        insert into examination_point
+         (
+            id,
+            name,
+            parent_id,
+            subject_id,
+            level,
+            leaf,
+            path,
+            sort,
+            create_time,
+            create_user_id,
+            update_time,
+            update_user_id
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{parentId}
+                ,
+                #{subjectId}
+                ,
+                #{level}
+                ,
+                #{leaf}
+                ,
+                #{path}
+                ,
+                #{sort}
+                ,
+                now()
+                ,
+                #{createUserId}
+                ,
+                #{updateTime}
+                ,
+                #{updateUserId}
+                
+         )
+    </insert>
+    <update id="updateExaminationPoint" parameterType="ExaminationPoint">
+        update examination_point
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_id=#{parentId},
+                    </if>
+                    <if test="subjectId!=null ">
+                        subject_id=#{subjectId},
+                    </if>
+                    <if test="level!=null ">
+                        level=#{level},
+                    </if>
+                    <if test="leaf!=null ">
+                        leaf=#{leaf},
+                    </if>
+                    <if test="path!=null ">
+                        path=#{path},
+                    </if>
+                    <if test="sort!=null ">
+                        sort=#{sort},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="createUserId!=null ">
+                        create_user_id=#{createUserId},
+                    </if>
+                    update_time=now(),
+                    <if test="updateUserId!=null ">
+                        update_user_id=#{updateUserId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteExaminationPoint" >
+        delete from examination_point where id=#{id}
+    </delete>
+    <delete id="deleteExaminationPointByCondition" >
+        delete from examination_point
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="parentId!=null">
+                and parent_id=#{parentId}
+              </if>
+              <if test="subjectId!=null">
+                and subject_id=#{subjectId}
+              </if>
+              <if test="level!=null">
+                and level=#{level}
+              </if>
+              <if test="leaf!=null">
+                and leaf=#{leaf}
+              </if>
+              <if test="path!=null">
+                and path=#{path}
+              </if>
+              <if test="sort!=null">
+                and sort=#{sort}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="createUserId!=null">
+                and create_user_id=#{createUserId}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="updateUserId!=null">
+                and update_user_id=#{updateUserId}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveExaminationPoint" parameterType="ExaminationPoint">
+        INSERT INTO examination_point (  id,  name,  parent_id,  subject_id,  level,  leaf,  path,  sort,  create_time,  create_user_id,  update_time,  update_user_id )
+        VALUES
+        <foreach collection="list" item="examinationPoint" separator=",">
+            (  #{examinationPoint.id},  #{examinationPoint.name},  #{examinationPoint.parentId},  #{examinationPoint.subjectId},  #{examinationPoint.level},  #{examinationPoint.leaf},  #{examinationPoint.path},  #{examinationPoint.sort},  #{examinationPoint.createTime},  #{examinationPoint.createUserId},  #{examinationPoint.updateTime},  #{examinationPoint.updateUserId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    
+    <select id="findKnowledgePointListByExamPoint" parameterType="ExamPointKnowledge" resultType="KnowledgePoint">
+        select T.*
+         from exam_point_knowledge M inner join knowledge_point T on M.knowledge_point_id = T.id
+        <where>
+             <if test="examPointId!=null">
+               M.exam_point_id=#{examPointId}
+            </if>
+              <if test="knowledgeName!=null">
+                and T.name like "%"#{knowledgeName}"%"
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    
+    <select id="findKnowledgePointCountByExamPoint" parameterType="ExamPointKnowledge" resultType="long">
+        select count(*) 
+         from exam_point_knowledge M left join knowledge_point T on M.knowledge_point_id = T.id
+        <where>
+             <if test="examPointId!=null">
+               M.exam_point_id=#{examPointId}
+            </if>
+              <if test="knowledgeName!=null">
+                and T.name like "%"#{knowledgeName}"%"
+              </if>
+        </where>
+    </select>
+
+
+</mapper>

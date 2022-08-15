@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.feedback.IFeedbackDao">
+    <!--########################################################################################################################-->
+    <select id="findFeedbackListByCondition" parameterType="Feedback" resultType="Feedback">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('problemDescription')">
+                             T.problem_description,
+                         </if>
+                         <if test="!pager.excludes.contains('sourceProblems')">
+                             T.source_problems,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from sys_feedback T
+        <where>
+              <if test="problemDescription!=null">
+                 T.problem_description=#{problemDescription}
+              </if>
+              <if test="sourceProblems!=null">
+                and T.source_problems=#{sourceProblems}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="status!=null">
+                and T.status=#{status}
+              </if>
+              <if test="remarks!=null">
+                and T.remarks=#{remarks}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findFeedbackCountByCondition" parameterType="Feedback" resultType="long">
+        select count(*) from sys_feedback
+        <where>
+              <if test="problemDescription!=null">
+                 problem_description=#{problemDescription}
+              </if>
+              <if test="sourceProblems!=null">
+                and source_problems=#{sourceProblems}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="status!=null">
+                and status=#{status}
+              </if>
+              <if test="remarks!=null">
+                and remarks=#{remarks}
+              </if>
+        </where>
+    </select>
+    <select id="findFeedbackById" resultType="Feedback">
+        select * from sys_feedback where id=#{id}
+    </select>
+    <select id="findOneFeedbackByCondition" parameterType="Feedback" resultType="Feedback">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('problemDescription')">
+                             T.problem_description,
+                         </if>
+                         <if test="!pager.excludes.contains('sourceProblems')">
+                             T.source_problems,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from sys_feedback T
+        <where>
+              <if test="problemDescription!=null">
+                 T.problem_description=#{problemDescription}
+              </if>
+              <if test="sourceProblems!=null">
+                and T.source_problems=#{sourceProblems}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="status!=null">
+                and T.status=#{status}
+              </if>
+              <if test="remarks!=null">
+                and T.remarks=#{remarks}
+              </if>
+        </where>
+    </select>
+    <insert id="saveFeedback" parameterType="Feedback">
+        insert into sys_feedback
+         (
+            id,
+            problem_description,
+            source_problems,
+            update_time,
+            status,
+            remarks
+        ) values
+         (
+                #{id}
+                ,
+                #{problemDescription}
+                ,
+                #{sourceProblems}
+                ,
+                #{updateTime}
+                ,
+                #{status}
+                ,
+                #{remarks}
+                
+         )
+    </insert>
+    <update id="updateFeedback" parameterType="Feedback">
+        update sys_feedback
+        <set>
+                    <if test="problemDescription!=null ">
+                        problem_description=#{problemDescription},
+                    </if>
+                    <if test="sourceProblems!=null ">
+                        source_problems=#{sourceProblems},
+                    </if>
+                    update_time=#{updateTime},
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="remarks!=null ">
+                        remarks=#{remarks}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteFeedback" >
+        delete from sys_feedback where id=#{id}
+    </delete>
+    <delete id="deleteFeedbackByCondition" >
+        delete from sys_feedback
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="problemDescription!=null">
+                and problem_description=#{problemDescription}
+              </if>
+              <if test="sourceProblems!=null">
+                and source_problems=#{sourceProblems}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="status!=null">
+                and status=#{status}
+              </if>
+              <if test="remarks!=null">
+                and remarks=#{remarks}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveFeedback" parameterType="Feedback">
+        INSERT INTO sys_feedback (  id,  problem_description,  source_problems,  update_time,  status,  remarks )
+        VALUES
+        <foreach collection="list" item="feedback" separator=",">
+            (  #{feedback.id},  #{feedback.problemDescription},  #{feedback.sourceProblems},  #{feedback.updateTime},  #{feedback.status},  #{feedback.remarks}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findFeedbackListByCondition4Like" parameterType="Feedback" resultType="Feedback">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('problemDescription')">
+                        T.problem_description,
+                    </if>
+                    <if test="!pager.excludes.contains('sourceProblems')">
+                        T.source_problems,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('status')">
+                        T.status,
+                    </if>
+                    <if test="!pager.excludes.contains('remarks')">
+                        T.remarks,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from sys_feedback T
+        <where>
+            <if test="problemDescription!=null">
+                T.problem_description like "%"#{problemDescription}"%"
+            </if>
+            <if test="sourceProblems!=null">
+                and T.source_problems=#{sourceProblems}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="status!=null">
+                and T.status=#{status}
+            </if>
+            <if test="remarks!=null">
+                and T.remarks=#{remarks}
+            </if>
+
+        </where>
+         order by T.update_time desc,T.status desc
+        <!--<if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">-->
+            <!--order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}-->
+        <!--</if>-->
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findFeedbackCountByCondition4Like" parameterType="Feedback" resultType="long">
+        select count(*) from sys_feedback
+        <where>
+            <if test="problemDescription!=null">
+                problem_description like "%"#{problemDescription}"%"
+            </if>
+            <if test="sourceProblems!=null">
+                and source_problems=#{sourceProblems}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+            <if test="remarks!=null">
+                and remarks=#{remarks}
+            </if>
+        </where>
+    </select>
+</mapper>

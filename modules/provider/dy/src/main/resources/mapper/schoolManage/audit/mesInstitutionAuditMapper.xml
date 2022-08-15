@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.audit.IMesInstitutionAuditDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('recordId')">
+                             T.record_id,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('claimantName')">
+                             T.claimant_name,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="recordId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='recordId'">
+                            and T.record_id like concat('%',#{recordId},'%')
+                         </when>
+                         <otherwise>
+                            and T.record_id=#{recordId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+              <if test="searchTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and date_format(T.create_time,'%Y-%m-%d') = #{searchTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="claimantName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='claimantName'">
+                            and T.claimant_name like concat('%',#{claimantName},'%')
+                         </when>
+                         <otherwise>
+                            and T.claimant_name=#{claimantName}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesInstitutionAuditListByCondition" parameterType="MesInstitutionAudit" resultType="MesInstitutionAudit">
+        select
+         <include refid="projection"/>
+         from mes_institution_audit T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findMesInstitutionAuditCountByCondition" parameterType="MesInstitutionAudit" resultType="long">
+        select count(*) from mes_institution_audit T
+        <include refid="match"/>
+    </select>
+    <select id="findMesInstitutionAuditById" resultType="MesInstitutionAudit">
+        select * from mes_institution_audit where id=#{id}
+    </select>
+    <select id="findOneMesInstitutionAuditByCondition" parameterType="MesInstitutionAudit" resultType="MesInstitutionAudit">
+        select
+         <include refid="projection"/>
+         from mes_institution_audit T
+        <include refid="match"/>
+    </select>
+    <insert id="saveMesInstitutionAudit" parameterType="MesInstitutionAudit">
+        insert into mes_institution_audit
+         (
+            id,
+            record_id,
+            status,
+            create_time,
+            school_id,
+            claimant_name
+        ) values
+         (
+                #{id}
+                ,
+                #{recordId}
+                ,
+                #{status}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                #{claimantName}
+                
+         )
+    </insert>
+    <update id="updateMesInstitutionAudit" parameterType="MesInstitutionAudit">
+        update mes_institution_audit
+        <set>
+                    <if test="recordId!=null ">
+                        record_id=#{recordId},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="claimantName!=null ">
+                        claimant_name=#{claimantName}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteMesInstitutionAudit" >
+        delete from mes_institution_audit where id=#{id}
+    </delete>
+    <delete id="deleteMesInstitutionAuditByCondition" >
+        delete T from mes_institution_audit T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesInstitutionAudit" parameterType="MesInstitutionAudit">
+        INSERT INTO mes_institution_audit (  id,  record_id,  status,  create_time,  school_id,  claimant_name )
+        VALUES
+        <foreach collection="list" item="mesInstitutionAudit" separator=",">
+            (  #{mesInstitutionAudit.id},  #{mesInstitutionAudit.recordId},  #{mesInstitutionAudit.status},  #{mesInstitutionAudit.createTime},  #{mesInstitutionAudit.schoolId},  #{mesInstitutionAudit.claimantName}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="selectMesInstitutionAuditListByCondition" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.audit.MesInstitutionAudit">
+        select T.* from mes_institution_audit T
+        <include refid="match"/>
+        order by create_time desc
+        <include refid="page"/>
+    </select>
+
+    <update id="updateStatus" parameterType="com.yice.edu.cn.common.pojo.mes.schoolManage.audit.MesOperateRecord">
+        update mes_institution_audit set status=#{operateStatus} where id=#{auditId}  and status='0'
+    </update>
+    <select id="selectAuditStatusZero" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.audit.MesInstitutionAudit">
+        SELECT * from mes_institution_audit where status='0' and <![CDATA[create_time < #{dateTime} ]]>
+    </select>
+    <update id="updateStatusByIds">
+        update mes_institution_audit set status='2' where id in
+        <foreach collection="list" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </update>
+    <select id="selectRecordIdById" resultType="java.lang.String">
+        select record_id from mes_institution_audit where id=#{auditId}
+    </select>
+    <select id="selectMesInstitutionAuditListBySchoolId" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.audit.MesInstitutionAudit">
+        select * from mes_institution_audit where school_id=#{schoolId} and status='0'
+    </select>
+    <update id="updateStatusBySchoolId">
+        update mes_institution_audit  set status='1' where school_id=#{schoolId} and status='0'
+    </update>
+    <select id="findMesInstitutionAuditListCountByCondition" resultType="long">
+        select count(*) from mes_institution_audit T
+        <include refid="match"/>
+    </select>
+
+
+</mapper>

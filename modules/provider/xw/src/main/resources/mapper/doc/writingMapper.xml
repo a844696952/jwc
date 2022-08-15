@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.doc.WritingDao">
+    <!--########################################################################################################################-->
+    <select id="findWritingListByCondition" parameterType="Writing" resultType="Writing">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('serviceUnit')">
+                        T.service_unit,
+                    </if>
+                    <if test="!pager.excludes.contains('subject')">
+                        T.subject,
+                    </if>
+                    <if test="!pager.excludes.contains('documentNumber')">
+                        T.document_number,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderId')">
+                        T.leader_id,
+                    </if>
+                    <if test="!pager.excludes.contains('userId')">
+                        T.user_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('writingType')">
+                        T.writing_type,
+                    </if>
+                    <if test="!pager.excludes.contains('writingTime')">
+                        T.writing_time,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderName')">
+                        T.leader_name,
+                    </if>
+                    <if test="!pager.excludes.contains('fileUrl')">
+                        T.file_url,
+                    </if>
+                    <if test="!pager.excludes.contains('fileName')">
+                        T.file_name,
+                    </if>
+                    <if test="!pager.excludes.contains('writingNumberType')">
+                        T.writing_number_type,
+                    </if>
+                    <if test="!pager.excludes.contains('userName')">
+                        T.userName,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderImg')">
+                        T.leaderImg,
+                    </if>
+                    <if test="!pager.excludes.contains('reject')">
+                        T.leaderImg,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        ,xl.remarks remarks,Group_CONCAT(xw.type) nameList
+        from xw_writing T left join xw_writing_leader xl  on T.id = xl.writing_id
+        left join xw_writing_management xw on T.id = xw.writing_id
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="startTime!=null">
+                 and T.create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                 and T.create_time &lt;= #{endTime}
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="serviceUnit!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='serviceUnit'">
+                        and T.service_unit like concat('%',#{serviceUnit},'%')
+                    </when>
+                    <otherwise>
+                        and T.service_unit=#{serviceUnit}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="subject!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='subject'">
+                        and T.subject like concat('%',#{subject},'%')
+                    </when>
+                    <otherwise>
+                        and T.subject=#{subject}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="documentNumber!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='documentNumber'">
+                        and T.document_number like concat('%',#{documentNumber},'%')
+                    </when>
+                    <otherwise>
+                        and T.document_number=#{documentNumber}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="leaderId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderId'">
+                        and T.leader_id like concat('%',#{leaderId},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_id=#{leaderId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="userId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='userId'">
+                        and T.user_id like concat('%',#{userId},'%')
+                    </when>
+                    <otherwise>
+                        and T.user_id=#{userId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingType!=null">
+                and T.writing_type=#{writingType}
+            </if>
+            <if test="writingTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingTime'">
+                        and T.create_time like concat('%',#{writingTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{writingTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="leaderName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderName'">
+                        and T.leader_name like concat('%',#{leaderName},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_name=#{leaderName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fileUrl'">
+                        and T.file_url like concat('%',#{fileUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_url=#{fileUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fileName'">
+                        and T.file_name like concat('%',#{fileName},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_name=#{fileName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingNumberType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingNumberType'">
+                        and T.writing_number_type like concat('%',#{writingNumberType},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_number_type=#{writingNumberType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="userName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='userName'">
+                        and T.user_name like concat('%',#{userName},'%')
+                    </when>
+                    <otherwise>
+                        and T.user_name=#{userName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="leaderImg!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderImg'">
+                        and T.leader_img like concat('%',#{leaderImg},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_img=#{leaderImg}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="reject!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='reject'">
+                        and T.reject like concat('%',#{reject},'%')
+                    </when>
+                    <otherwise>
+                        and T.reject=#{reject}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        group by T.id
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="order!=null">
+            order by T.create_time desc
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWritingCountByCondition" parameterType="Writing" resultType="long">
+        select count(*)
+        from xw_writing T
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="startTime!=null">
+                and T.create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.create_time &lt;= #{endTime}
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="serviceUnit!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='serviceUnit'">
+                        and T.service_unit like concat('%',#{serviceUnit},'%')
+                    </when>
+                    <otherwise>
+                        and T.service_unit=#{serviceUnit}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="subject!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='subject'">
+                        and T.subject like concat('%',#{subject},'%')
+                    </when>
+                    <otherwise>
+                        and T.subject=#{subject}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="documentNumber!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='documentNumber'">
+                        and T.document_number like concat('%',#{documentNumber},'%')
+                    </when>
+                    <otherwise>
+                        and T.document_number=#{documentNumber}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="leaderId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderId'">
+                        and T.leader_id like concat('%',#{leaderId},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_id=#{leaderId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="userId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='userId'">
+                        and T.user_id like concat('%',#{userId},'%')
+                    </when>
+                    <otherwise>
+                        and T.user_id=#{userId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingType!=null">
+                and T.writing_type=#{writingType}
+            </if>
+            <if test="writingTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingTime'">
+                        and T.create_time like concat('%',#{writingTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{writingTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="leaderName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderName'">
+                        and T.leader_name like concat('%',#{leaderName},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_name=#{leaderName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fileUrl'">
+                        and T.file_url like concat('%',#{fileUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_url=#{fileUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fileName'">
+                        and T.file_name like concat('%',#{fileName},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_name=#{fileName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingNumberType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingNumberType'">
+                        and T.writing_number_type like concat('%',#{writingNumberType},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_number_type=#{writingNumberType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="userName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='userName'">
+                        and T.user_name like concat('%',#{userName},'%')
+                    </when>
+                    <otherwise>
+                        and T.user_name=#{userName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="leaderImg!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='leaderImg'">
+                        and T.leader_img like concat('%',#{leaderImg},'%')
+                    </when>
+                    <otherwise>
+                        and T.leader_img=#{leaderImg}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="reject!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='reject'">
+                        and T.reject like concat('%',#{reject},'%')
+                    </when>
+                    <otherwise>
+                        and T.reject=#{reject}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findWritingById" resultType="Writing">
+        select x.*,wl.leader_name leaderName,wl.remarks remarks from xw_writing x left join xw_writing_leader wl on  x.id = wl.writing_id where x.id=#{id}
+    </select>
+    <select id="findOneWritingByCondition" parameterType="Writing" resultType="Writing">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('serviceUnit')">
+                        T.service_unit,
+                    </if>
+                    <if test="!pager.excludes.contains('subject')">
+                        T.subject,
+                    </if>
+                    <if test="!pager.excludes.contains('documentNumber')">
+                        T.document_number,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderId')">
+                        T.leader_id,
+                    </if>
+                    <if test="!pager.excludes.contains('userId')">
+                        T.user_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('writingType')">
+                        T.writing_type,
+                    </if>
+                    <if test="!pager.excludes.contains('writingTime')">
+                        T.writing_time,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderName')">
+                        T.leader_name,
+                    </if>
+                    <if test="!pager.excludes.contains('fileUrl')">
+                        T.file_url,
+                    </if>
+                    <if test="!pager.excludes.contains('fileUrl')">
+                        T.file_name,
+                    </if>
+                    <if test="!pager.excludes.contains('writingNumberType')">
+                        T.writing_number_type,
+                    </if>
+                    <if test="!pager.excludes.contains('userName')">
+                        T.user_name,
+                    </if>
+                    <if test="!pager.excludes.contains('leaderImg')">
+                        T.leader_img,
+                    </if>
+                    <if test="!pager.excludes.contains('reject')">
+                        T.reject,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        ,wm.type type
+        from xw_writing T left join xw_writing_management wm on T.id = wm.writing_id
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="id!=null">
+                and T.id = #{id}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="serviceUnit!=null">
+                and T.service_unit=#{serviceUnit}
+            </if>
+            <if test="subject!=null">
+                and T.subject=#{subject}
+            </if>
+            <if test="documentNumber!=null">
+                and T.document_number=#{documentNumber}
+            </if>
+            <if test="leaderId!=null">
+                and T.leader_id=#{leaderId}
+            </if>
+            <if test="userId!=null">
+                and T.user_id=#{userId}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="writingType!=null">
+                and T.writing_type=#{writingType}
+            </if>
+            <if test="writingTime!=null">
+                and T.writing_time=#{writingTime}
+            </if>
+            <if test="leaderName!=null">
+                and T.leader_name=#{leaderName}
+            </if>
+            <if test="fileUrl!=null">
+                and T.file_url = #{fileUrl}
+            </if>
+            <if test="fileName!=null">
+                and T.file_name = #{fileName}
+            </if>
+            <if test="writingNumberType!=null">
+                and T.writing_number_type=#{writingNumberType}
+            </if>
+            <if test="userName!=null">
+                and T.user_name=#{userName}
+            </if>
+            <if test="leaderImg!=null">
+                and T.leader_img=#{leaderImg}
+            </if>
+            <if test="reject!=null">
+                and T.leader_img=#{reject}
+            </if>
+        </where>
+    </select>
+    <insert id="saveWriting" parameterType="Writing">
+        insert into xw_writing
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            service_unit,
+            subject,
+            document_number,
+            leader_id,
+            user_id,
+            school_id,
+            writing_type,
+            writing_time,
+            leader_name,
+            file_url,
+            file_name,
+            writing_number_type,
+            user_name,
+            leader_img,
+            reject
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{serviceUnit}
+                ,
+                #{subject}
+                ,
+                #{documentNumber}
+                ,
+                #{leaderId}
+                ,
+                #{userId}
+                ,
+                #{schoolId}
+                ,
+                #{writingType}
+                ,
+                #{writingTime}
+                ,
+                #{leaderName}
+                ,
+                #{fileUrl}
+                ,
+                #{fileName}
+                ,
+                #{writingNumberType}
+                ,
+                #{userName}
+                ,
+                #{leaderImg}
+                ,
+                #{reject}
+         )
+    </insert>
+    <update id="updateWriting" parameterType="Writing">
+        update xw_writing
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+                update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="serviceUnit!=null ">
+                service_unit=#{serviceUnit},
+            </if>
+            <if test="subject!=null ">
+                subject=#{subject},
+            </if>
+            <if test="documentNumber!=null ">
+                document_number=#{documentNumber},
+            </if>
+            <if test="leaderId!=null ">
+                leader_id=#{leaderId},
+            </if>
+            <if test="userId!=null ">
+                user_id=#{userId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="writingType!=null ">
+                writing_type=#{writingType},
+            </if>
+            <if test="writingTime!=null ">
+                writing_time=#{writingTime},
+            </if>
+            <if test="leaderName!=null ">
+                leader_name=#{leaderName},
+            </if>
+            <if test="fileUrl!=null">
+                file_url = #{fileUrl},
+            </if>
+            <if test="fileName!=null">
+                file_name = #{fileName},
+            </if>
+            <if test="writingNumberType!=null">
+                writing_number_type = #{writingNumberType},
+            </if>
+            <if test="userName!=null">
+                user_name = #{userName},
+            </if>
+            <if test="leaderImg!=null">
+                leader_img = #{leaderImg},
+            </if>
+            <if test="reject!=null">
+                reject = #{reject}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteWriting" >
+        delete from xw_writing where id=#{id}
+    </delete>
+    <delete id="deleteWritingByCondition" >
+        delete from xw_writing
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and del=#{del}
+            </if>
+            <if test="serviceUnit!=null">
+                and service_unit=#{serviceUnit}
+            </if>
+            <if test="subject!=null">
+                and subject=#{subject}
+            </if>
+            <if test="documentNumber!=null">
+                and document_number=#{documentNumber}
+            </if>
+            <if test="leaderId!=null">
+                and leader_id=#{leaderId}
+            </if>
+            <if test="userId!=null">
+                and user_id=#{userId}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="writingType!=null">
+                and writing_type=#{writingType}
+            </if>
+            <if test="writingTime!=null">
+                and writing_time=#{writingTime}
+            </if>
+            <if test="leaderName!=null">
+                and leader_name=#{leaderName}
+            </if>
+            <if test="fileUrl!=null">
+                and file_url = #{fileUrl}
+            </if>
+            <if test="fileName!=null">
+                and file_name = #{fileName}
+            </if>
+            <if test="writingNumberType!=null">
+                and writing_number_type = #{writingNumberType}
+            </if>
+            <if test="userName!=null">
+                and user_name = #{userName}
+            </if>
+            <if test="leaderImg!=null">
+                and leader_img = #{leaderImg}
+            </if>
+            <if test="reject!=null">
+                and reject = #{reject}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveWriting" parameterType="Writing">
+        INSERT INTO xw_writing (  id,  create_time,  update_time,  del,  service_unit,  subject,  document_number,  leader_id,  user_id,  school_id,  writing_type,  writing_time,  leader_name,file_url,file_name,writing_number_type,user_name,leader_img,reject )
+        VALUES
+        <foreach collection="list" item="writing" separator=",">
+            (  #{writing.id},  #{writing.createTime},  #{writing.updateTime},  #{writing.del},  #{writing.serviceUnit},  #{writing.subject},  #{writing.documentNumber},  #{writing.leaderId},  #{writing.userId},  #{writing.schoolId},  #{writing.writingType},  #{writing.writingTime},  #{writing.leaderName} ,#{writing.fileUrl},#{writing.fileName},#{writing.writingNumberType},#{writing.userName},#{writing.leaderImg},#{writing.reject} )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <!--通过id查找的原型-->
+   <!-- <select id="findWritingById" resultType="Writing">
+        select * from xw_writing where id=#{id}
+    </select>  -->
+</mapper>

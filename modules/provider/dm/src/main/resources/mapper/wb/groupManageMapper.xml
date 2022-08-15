@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.wb.groupManage.IGroupManageDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                     <if test="!pager.excludes.contains('id')">
+                         T.id,
+                     </if>
+                     <if test="!pager.excludes.contains('groupNumber')">
+                         T.group_number,
+                     </if>
+                     <if test="!pager.excludes.contains('groupName')">
+                         T.group_name,
+                     </if>
+                     <if test="!pager.excludes.contains('groupType')">
+                         T.group_type,
+                     </if>
+                     <if test="!pager.excludes.contains('peopleNumber')">
+                         T.people_number,
+                     </if>
+                     <if test="!pager.excludes.contains('createDate')">
+                         T.create_date,
+                     </if>
+                     <if test="!pager.excludes.contains('schoolId')">
+                         T.school_id,
+                     </if>
+                     <if test="!pager.excludes.contains('classesId')">
+                         T.classes_id,
+                     </if>
+                     <if test="!pager.excludes.contains('createTime')">
+                         T.create_time,
+                     </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.id,
+                 T.group_name,
+                 T.group_type,
+                 T.people_number,
+                 T.create_date,
+                 T.school_id,
+                 T.classes_id,
+                 T.create_time,
+                 C.number,
+                 C.grade_name
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="groupNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='groupNumber'">
+                            and T.group_number like concat('%',#{groupNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.group_number=#{groupNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="groupName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='groupName'">
+                            and T.group_name like concat('%',#{groupName},'%')
+                         </when>
+                         <otherwise>
+                            and T.group_name=#{groupName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="groupType!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='groupType'">
+                            and T.group_type like concat('%',#{groupType},'%')
+                         </when>
+                         <otherwise>
+                            and T.group_type=#{groupType}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="peopleNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='peopleNumber'">
+                            and T.people_number like concat('%',#{peopleNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.people_number=#{peopleNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="startTime!=null and endTime!=null">
+                  and T.create_date <![CDATA[ >= ]]> #{startTime} and T.create_date <![CDATA[ <= ]]> #{endTime}
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              and T.classes_id=#{classesId}
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <resultMap id="ClassName" type="com.yice.edu.cn.common.pojo.jw.classes.JwClasses">
+        <result column="number" property="number" ></result>
+        <result column="grade_name" property="gradeName" ></result>
+    </resultMap>
+    <resultMap id="Group" type="com.yice.edu.cn.common.pojo.wb.groupManage.GroupManage">
+        <id column="id" property="id" ></id>
+        <result column="group_number" property="groupNumber" ></result>
+        <result column="group_name" property="groupName" ></result>
+        <result column="group_type" property="groupType" ></result>
+        <result column="people_number" property="peopleNumber" ></result>
+        <result column="create_date" property="createDate" ></result>
+        <result column="school_id" property="schoolId" ></result>
+        <result column="create_time" property="createTime"></result>
+        <association property="jwClasses" resultMap="ClassName"></association>
+    </resultMap>
+
+    <select id="findGroupManageListByCondition" parameterType="GroupManage" resultMap="Group">
+        select
+         <include refid="projection"/>
+         from group_manage T left join jw_classes C on T.classes_id=C.id
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findGroupManageCountByCondition" parameterType="GroupManage" resultType="long">
+        select count(*) from group_manage T
+        <include refid="match"/>
+    </select>
+
+    <resultMap id="GroupManageStudent" type="com.yice.edu.cn.common.pojo.wb.groupManage.GroupManage">
+        <id column="id" property="id" ></id>
+        <result column="group_number" property="groupNumber" ></result>
+        <result column="group_name" property="groupName" ></result>
+        <result column="group_type" property="groupType" ></result>
+        <result column="people_number" property="peopleNumber" ></result>
+        <result column="create_date" property="createDate" ></result>
+        <result column="school_id" property="schoolId" ></result>
+        <result column="classes_id" property="classesId" ></result>
+        <collection property="studentGroups" ofType="com.yice.edu.cn.common.pojo.wb.groupManage.StudentGroup">
+            <id column="studentGroupId" property="id" ></id>
+            <result column="student_id" property="studentId" ></result>
+            <result column="group_id" property="groupId" ></result>
+            <result column="classesId" property="classesId" ></result>
+        </collection>
+    </resultMap>
+    
+    
+    <select id="findGroupManageById" resultMap="GroupManageStudent">
+        select
+            t1.id,
+            t1.group_number,
+            t1.group_name,
+            t1.group_type,
+            t1.people_number,
+            t1.create_date,
+            t1.school_id,
+            t1.classes_id,
+            t2.id as studentGroupId,
+            t2.student_id,
+            t2.group_id,
+            t2.classes_id as classesId
+        from group_manage t1 left join student_group t2 on t1.id=t2.group_id where t1.id=#{id}
+    </select>
+    <select id="findOneGroupManageByCondition" parameterType="GroupManage" resultType="GroupManage">
+        select
+         <include refid="projection"/>
+         from group_manage T
+        <include refid="match"/>
+    </select>
+    <insert id="saveGroupManage" parameterType="GroupManage">
+        insert into group_manage
+         (
+            id,
+            group_number,
+            group_name,
+            group_type,
+            people_number,
+            create_date,
+            school_id,
+            classes_id,
+            create_time
+        ) values
+         (
+            #{id}
+            ,
+            #{groupNumber}
+            ,
+            #{groupName}
+            ,
+            #{groupType}
+            ,
+            #{peopleNumber}
+            ,
+            now()
+            ,
+            #{schoolId}
+            ,
+            #{classesId}
+            ,
+            now()
+         )
+    </insert>
+    <update id="updateGroupManage" parameterType="GroupManage">
+        update group_manage
+        <set>
+            <if test="groupNumber!=null ">
+                group_number=#{groupNumber},
+            </if>
+            <if test="groupName!=null ">
+                group_name=#{groupName},
+            </if>
+            <if test="groupType!=null ">
+                group_type=#{groupType},
+            </if>
+            <if test="peopleNumber!=null ">
+                people_number=#{peopleNumber},
+            </if>
+            <if test="createDate == null">
+                create_date=now(),
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="classesId!=null ">
+                classes_id=#{classesId},
+            </if>
+            <if test="createTime == null">
+                create_time=now(),
+            </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteGroupManage" >
+        delete from group_manage where id=#{id}
+    </delete>
+    <delete id="deleteGroupManageByCondition" >
+        delete T from group_manage T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveGroupManage" parameterType="GroupManage">
+        INSERT INTO group_manage ( id, group_number, group_name, group_type, people_number, create_date, school_id,
+        classes_id, create_time)
+        VALUES
+        <foreach collection="list" item="groupManage" separator=",">
+            ( #{groupManage.id}, #{groupManage.groupNumber}, #{groupManage.groupName}, #{groupManage.groupType},
+            #{groupManage.peopleNumber}, #{groupManage.createDate}, #{groupManage.schoolId}, #{groupManage.classesId},
+            #{groupManage.createTime} )
+        </foreach>
+    </insert>
+    <select id="selectMaxGroupNumber" resultType="java.lang.Integer">
+        select max(group_number) from group_manage where classes_id=#{classesId} limit 1
+    </select>
+    <select id="selectRepeatNameByName" resultType="int">
+        select count(1) from group_manage where group_name=#{groupName} and classes_id=#{classesId} and id <![CDATA[ <> ]]> #{id}
+
+    </select>
+    <update id="moveGroupManage" parameterType="GroupManage">
+        update group_manage set group_number=#{groupNumber} where id=#{id}
+    </update>
+    <delete id="deleteGroupManageByClassIds">
+        delete from group_manage where classes_id in
+        <foreach collection="list" open="(" separator="," item="classesId" close=")">
+            #{classesId}
+        </foreach>
+    </delete>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

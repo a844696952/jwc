@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.school.ISchoolDao">
+    <!--########################################################generated code start,do not update################################################################-->
+  <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolBadge')">
+                             T.school_badge,
+                         </if>
+                         <if test="!pager.excludes.contains('outing')">
+                             T.outing,
+                         </if>
+                         <if test="!pager.excludes.contains('propertyId')">
+                             T.property_id,
+                         </if>
+                         <if test="!pager.excludes.contains('propertyName')">
+                             T.property_name,
+                         </if>
+                         <if test="!pager.excludes.contains('levelId')">
+                             T.level_id,
+                         </if>
+                         <if test="!pager.excludes.contains('levelName')">
+                             T.level_name,
+                         </if>
+                         <if test="!pager.excludes.contains('provinceId')">
+                             T.province_id,
+                         </if>
+                         <if test="!pager.excludes.contains('provinceName')">
+                             T.province_name,
+                         </if>
+                         <if test="!pager.excludes.contains('cityId')">
+                             T.city_id,
+                         </if>
+                         <if test="!pager.excludes.contains('cityName')">
+                             T.city_name,
+                         </if>
+                         <if test="!pager.excludes.contains('districtId')">
+                             T.district_id,
+                         </if>
+                         <if test="!pager.excludes.contains('districtName')">
+                             T.district_name,
+                         </if>
+                         <if test="!pager.excludes.contains('address')">
+                             T.address,
+                         </if>
+                         <if test="!pager.excludes.contains('buildTime')">
+                             T.build_time,
+                         </if>
+                         <if test="!pager.excludes.contains('principal')">
+                             T.principal,
+                         </if>
+                         <if test="!pager.excludes.contains('motto')">
+                             T.motto,
+                         </if>
+                         <if test="!pager.excludes.contains('descr')">
+                             T.descr,
+                         </if>
+                         <if test="!pager.excludes.contains('culture')">
+                             T.culture,
+                         </if>
+                         <if test="!pager.excludes.contains('typeId')">
+                             T.type_id,
+                         </if>
+                         <if test="!pager.excludes.contains('typeName')">
+                             T.type_name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('outTime')">
+                             T.out_time,
+                         </if>
+                         <if test="!pager.excludes.contains('lon')">
+                             T.lon,
+                         </if>
+                         <if test="!pager.excludes.contains('lat')">
+                             T.lat,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('showLogo')">
+                             T.show_logo,
+                         </if>
+                         <if test="!pager.excludes.contains('riseBeginTime')">
+                             T.rise_begin_time,
+                         </if>
+                         <if test="!pager.excludes.contains('terraceName')">
+                             T.terrace_name,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolFontSize')">
+                             T.school_font_size,
+                         </if>
+                         <if test="!pager.excludes.contains('clockInRange')">
+                             T.clock_in_range,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="name!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        and T.name like concat('%',#{name},'%')
+                     </when>
+                     <otherwise>
+                        and T.name=#{name}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="schoolBadge!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('schoolBadge')">
+                        and T.school_badge like concat('%',#{schoolBadge},'%')
+                     </when>
+                     <otherwise>
+                        and T.school_badge=#{schoolBadge}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="outing!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('outing')">
+                        and T.outing like concat('%',#{outing},'%')
+                     </when>
+                     <otherwise>
+                        and T.outing=#{outing}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="propertyId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('propertyId')">
+                        and T.property_id like concat('%',#{propertyId},'%')
+                     </when>
+                     <otherwise>
+                        and T.property_id=#{propertyId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="propertyName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('propertyName')">
+                        and T.property_name like concat('%',#{propertyName},'%')
+                     </when>
+                     <otherwise>
+                        and T.property_name=#{propertyName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="levelId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('levelId')">
+                        and T.level_id like concat('%',#{levelId},'%')
+                     </when>
+                     <otherwise>
+                        and T.level_id=#{levelId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="levelName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('levelName')">
+                        and T.level_name like concat('%',#{levelName},'%')
+                     </when>
+                     <otherwise>
+                        and T.level_name=#{levelName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="provinceId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('provinceId')">
+                        and T.province_id like concat('%',#{provinceId},'%')
+                     </when>
+                     <otherwise>
+                        and T.province_id=#{provinceId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="provinceName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('provinceName')">
+                        and T.province_name like concat('%',#{provinceName},'%')
+                     </when>
+                     <otherwise>
+                        and T.province_name=#{provinceName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="cityId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('cityId')">
+                        and T.city_id like concat('%',#{cityId},'%')
+                     </when>
+                     <otherwise>
+                        and T.city_id=#{cityId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="cityName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('cityName')">
+                        and T.city_name like concat('%',#{cityName},'%')
+                     </when>
+                     <otherwise>
+                        and T.city_name=#{cityName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="districtId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('districtId')">
+                        and T.district_id like concat('%',#{districtId},'%')
+                     </when>
+                     <otherwise>
+                        and T.district_id=#{districtId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="districtName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('districtName')">
+                        and T.district_name like concat('%',#{districtName},'%')
+                     </when>
+                     <otherwise>
+                        and T.district_name=#{districtName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="address!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('address')">
+                        and T.address like concat('%',#{address},'%')
+                     </when>
+                     <otherwise>
+                        and T.address=#{address}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="buildTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('buildTime')">
+                        and T.build_time like concat('%',#{buildTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.build_time=#{buildTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="principal!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('principal')">
+                        and T.principal like concat('%',#{principal},'%')
+                     </when>
+                     <otherwise>
+                        and T.principal=#{principal}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="motto!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('motto')">
+                        and T.motto like concat('%',#{motto},'%')
+                     </when>
+                     <otherwise>
+                        and T.motto=#{motto}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="descr!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('descr')">
+                        and T.descr like concat('%',#{descr},'%')
+                     </when>
+                     <otherwise>
+                        and T.descr=#{descr}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="culture!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('culture')">
+                        and T.culture like concat('%',#{culture},'%')
+                     </when>
+                     <otherwise>
+                        and T.culture=#{culture}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="typeId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('typeId')">
+                        and T.type_id like concat('%',#{typeId},'%')
+                     </when>
+                     <otherwise>
+                        and T.type_id=#{typeId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="typeName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('typeName')">
+                        and T.type_name like concat('%',#{typeName},'%')
+                     </when>
+                     <otherwise>
+                        and T.type_name=#{typeName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="updateTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.update_time=#{updateTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="outTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('outTime')">
+                        and T.out_time like concat('%',#{outTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.out_time=#{outTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="lon!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('lon')">
+                        and T.lon like concat('%',#{lon},'%')
+                     </when>
+                     <otherwise>
+                        and T.lon=#{lon}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="lat!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('lat')">
+                        and T.lat like concat('%',#{lat},'%')
+                     </when>
+                     <otherwise>
+                        and T.lat=#{lat}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="status!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('status')">
+                        and T.status like concat('%',#{status},'%')
+                     </when>
+                     <otherwise>
+                        and T.status=#{status}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="showLogo!=null">
+                and T.show_logo=#{showLogo}
+          </if>
+          <if test="riseBeginTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('riseBeginTime')">
+                        and T.rise_begin_time like concat('%',#{riseBeginTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.rise_begin_time=#{riseBeginTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="terraceName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('terraceName')">
+                        and T.terrace_name like concat('%',#{terraceName},'%')
+                     </when>
+                     <otherwise>
+                        and T.terrace_name=#{terraceName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="schoolFontSize!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('schoolFontSize')">
+                        and T.school_font_size like concat('%',#{schoolFontSize},'%')
+                     </when>
+                     <otherwise>
+                        and T.school_font_size=#{schoolFontSize}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="clockInRange!=null">
+                and T.clock_in_range=#{clockInRange}
+          </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findSchoolListByCondition" parameterType="School" resultType="School">
+        select
+         <include refid="projection"/>
+         from school T
+         <where>
+            <include refid="match"/>
+         </where>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findSchoolCountByCondition" parameterType="School" resultType="long">
+        select count(*) from school T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <select id="findSchoolById" resultType="School">
+        select * from school where id=#{id}
+    </select>
+    <select id="findOneSchoolByCondition" parameterType="School" resultType="School">
+        select
+         <include refid="projection"/>
+         from school T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="saveSchool" parameterType="School">
+        INSERT INTO school (  id,  name,  school_badge,  outing,  property_id,  property_name,  level_id,  level_name,  province_id,  province_name,  city_id,  city_name,  district_id,  district_name,  address,  build_time,  principal,  motto,  descr,  culture,  type_id,  type_name,  create_time,  update_time,  out_time,  lon,  lat,  status,  show_logo,  rise_begin_time,  terrace_name,  school_font_size,  clock_in_range )
+         values
+         (   #{id}  ,   #{name}  ,   #{schoolBadge}  ,   #{outing}  ,   #{propertyId}  ,   #{propertyName}  ,   #{levelId}  ,   #{levelName}  ,   #{provinceId}  ,   #{provinceName}  ,   #{cityId}  ,   #{cityName}  ,   #{districtId}  ,   #{districtName}  ,   #{address}  ,   #{buildTime}  ,   #{principal}  ,   #{motto}  ,   #{descr}  ,   #{culture}  ,   #{typeId}  ,   #{typeName}  ,   now()  ,   #{updateTime}  ,   #{outTime}  ,   #{lon}  ,   #{lat}  ,   #{status}  ,   #{showLogo}  ,   #{riseBeginTime}  ,   #{terraceName}  ,   #{schoolFontSize}  ,   #{clockInRange}    )
+    </insert>
+    <update id="updateSchool" parameterType="School">
+        update school
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="schoolBadge!=null ">
+                        school_badge=#{schoolBadge},
+                    </if>
+                    <if test="outing!=null ">
+                        outing=#{outing},
+                    </if>
+                    <if test="propertyId!=null ">
+                        property_id=#{propertyId},
+                    </if>
+                    <if test="propertyName!=null ">
+                        property_name=#{propertyName},
+                    </if>
+                    <if test="levelId!=null ">
+                        level_id=#{levelId},
+                    </if>
+                    <if test="levelName!=null ">
+                        level_name=#{levelName},
+                    </if>
+                    <if test="provinceId!=null ">
+                        province_id=#{provinceId},
+                    </if>
+                    <if test="provinceName!=null ">
+                        province_name=#{provinceName},
+                    </if>
+                    <if test="cityId!=null ">
+                        city_id=#{cityId},
+                    </if>
+                    <if test="cityName!=null ">
+                        city_name=#{cityName},
+                    </if>
+                    <if test="districtId!=null ">
+                        district_id=#{districtId},
+                    </if>
+                    <if test="districtName!=null ">
+                        district_name=#{districtName},
+                    </if>
+                    <if test="address!=null ">
+                        address=#{address},
+                    </if>
+                    <if test="buildTime!=null ">
+                        build_time=#{buildTime},
+                    </if>
+                    <if test="principal!=null ">
+                        principal=#{principal},
+                    </if>
+                    <if test="motto!=null ">
+                        motto=#{motto},
+                    </if>
+                    <if test="descr!=null ">
+                        descr=#{descr},
+                    </if>
+                    <if test="culture!=null ">
+                        culture=#{culture},
+                    </if>
+                    <if test="typeId!=null ">
+                        type_id=#{typeId},
+                    </if>
+                    <if test="typeName!=null ">
+                        type_name=#{typeName},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="outTime!=null ">
+                        out_time=#{outTime},
+                    </if>
+                    <if test="lon!=null ">
+                        lon=#{lon},
+                    </if>
+                    <if test="lat!=null ">
+                        lat=#{lat},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="showLogo!=null ">
+                        show_logo=#{showLogo},
+                    </if>
+                    <if test="riseBeginTime!=null ">
+                        rise_begin_time=#{riseBeginTime},
+                    </if>
+                    <if test="terraceName!=null ">
+                        terrace_name=#{terraceName},
+                    </if>
+                    <if test="schoolFontSize!=null ">
+                        school_font_size=#{schoolFontSize},
+                    </if>
+                    <if test="clockInRange!=null ">
+                        clock_in_range=#{clockInRange}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateSchoolForAll" parameterType="School">
+        update school
+        <set>
+                    name=#{name},
+                    school_badge=#{schoolBadge},
+                    outing=#{outing},
+                    property_id=#{propertyId},
+                    property_name=#{propertyName},
+                    level_id=#{levelId},
+                    level_name=#{levelName},
+                    province_id=#{provinceId},
+                    province_name=#{provinceName},
+                    city_id=#{cityId},
+                    city_name=#{cityName},
+                    district_id=#{districtId},
+                    district_name=#{districtName},
+                    address=#{address},
+                    build_time=#{buildTime},
+                    principal=#{principal},
+                    motto=#{motto},
+                    descr=#{descr},
+                    culture=#{culture},
+                    type_id=#{typeId},
+                    type_name=#{typeName},
+                    create_time=#{createTime},
+                    update_time=now(),
+                    out_time=#{outTime},
+                    lon=#{lon},
+                    lat=#{lat},
+                    status=#{status},
+                    show_logo=#{showLogo},
+                    rise_begin_time=#{riseBeginTime},
+                    terrace_name=#{terraceName},
+                    school_font_size=#{schoolFontSize},
+                    clock_in_range=#{clockInRange}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteSchool" >
+        delete from school where id=#{id}
+    </delete>
+    <delete id="deleteSchoolByCondition" >
+        delete T from school T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSaveSchool" parameterType="School">
+        INSERT INTO school (  id,  name,  school_badge,  outing,  property_id,  property_name,  level_id,  level_name,  province_id,  province_name,  city_id,  city_name,  district_id,  district_name,  address,  build_time,  principal,  motto,  descr,  culture,  type_id,  type_name,  create_time,  update_time,  out_time,  lon,  lat,  status,  show_logo,  rise_begin_time,  terrace_name,  school_font_size,  clock_in_range )
+        VALUES
+        <foreach collection="list" item="school" separator=",">
+            (   #{school.id}  ,   #{school.name}  ,   #{school.schoolBadge}  ,   #{school.outing}  ,   #{school.propertyId}  ,   #{school.propertyName}  ,   #{school.levelId}  ,   #{school.levelName}  ,   #{school.provinceId}  ,   #{school.provinceName}  ,   #{school.cityId}  ,   #{school.cityName}  ,   #{school.districtId}  ,   #{school.districtName}  ,   #{school.address}  ,   #{school.buildTime}  ,   #{school.principal}  ,   #{school.motto}  ,   #{school.descr}  ,   #{school.culture}  ,   #{school.typeId}  ,   #{school.typeName}  ,   now()  ,   #{school.updateTime}  ,   #{school.outTime}  ,   #{school.lon}  ,   #{school.lat}  ,   #{school.status}  ,   #{school.showLogo}  ,   #{school.riseBeginTime}  ,   #{school.terraceName}  ,   #{school.schoolFontSize}  ,   #{school.clockInRange}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findSchoolNoRepetitionSchoolName" parameterType="School" resultType="long">
+        select count(*) from school
+        <where>
+            <if test="name!=null">
+                name = #{name}
+            </if>
+            <if test="id!=null">
+                and id != #{id}
+            </if>
+
+        </where>
+    </select>
+
+</mapper>

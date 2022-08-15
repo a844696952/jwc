@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.prepareLessons.ItemPackageDao">
+    
+    <select id="findItemPackageByCondition" parameterType="ItemPackage" resultType="ItemPackage">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('topicIds')">
+                             T.topicIds,
+                         </if>
+                         <if test="!pager.excludes.contains('teachingPlanId')">
+                             T.teaching_plan_id,
+                         </if>
+                         <if test="!pager.excludes.contains('chapterId')">
+                             T.chapter_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacherId,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_item_package T
+        <where>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                           and  T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                           and T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                           and  T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                           and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="topicIds!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='topicIds'">
+                            and T.topicIds like concat('%',#{topicIds},'%')
+                         </when>
+                         <otherwise>
+                            and T.topicIds=#{topicIds}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teachingPlanId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teachingPlanId'">
+                            and T.teaching_plan_id like concat('%',#{teachingPlanId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teaching_plan_id=#{teachingPlanId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="chapterId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='chapterId'">
+                            and T.chapter_id like concat('%',#{chapterId},'%')
+                         </when>
+                         <otherwise>
+                            and T.chapter_id=#{chapterId}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    
+    <select id="findItemPackageByIds" resultType="ItemPackage">
+    
+    	select * from jy_item_package where id in 
+    	<foreach collection="ids" item="id" open="(" close=")" separator=",">
+    		
+    		#{id}
+    	</foreach>
+    </select>
+    
+    
+    <select id="findItemPackageCountByCondition" parameterType="ItemPackage" resultType="long">
+        select count(*) from jy_item_package T
+        <where>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                             T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                             T.name=#{name}
+                         </otherwise>
+                      </choose>
+            </if>
+             <if test="topicIds!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='topicIds'">
+                            and T.topicIds like concat('%',#{topicIds},'%')
+                         </when>
+                         <otherwise>
+                            and T.topicIds=#{topicIds}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teachingPlanId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teachingPlanId'">
+                            and T.teaching_plan_id like concat('%',#{teachingPlanId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teaching_plan_id=#{teachingPlanId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="chapterId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='chapterId'">
+                            and T.chapter_id like concat('%',#{chapterId},'%')
+                         </when>
+                         <otherwise>
+                            and T.chapter_id=#{chapterId}
+                         </otherwise>
+                      </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    
+    
+    
+    <insert id="save" parameterType="ItemPackage">
+        insert into jy_item_package
+         (
+            id,
+            name,
+            topicIds,
+            teaching_plan_id,
+            chapter_id,
+            teacher_id,
+            create_time,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{topicIds}
+                ,
+                #{teachingPlanId}
+                ,
+                #{chapterId}
+                ,
+                #{teacherId}
+                ,
+                now()
+                ,
+                now()
+         )
+    </insert>
+    
+    
+     <select id="findItemPackageById"  resultType="ItemPackage">
+        select * from jy_item_package  where  id=#{id}
+     </select>
+     
+     <delete id="removeItemPackage" >
+        delete from jy_item_package where id=#{id} 
+    </delete>
+     
+     <select id="findTopicCat" resultType="TopicCart">
+    
+    	select * from jy_topic_cart  where  teaching_plan_id=#{teachingPlanId}
+    </select>
+     
+    <insert id="addTopic2Cart" parameterType="TopicCart">
+    	
+    	insert into jy_topic_cart
+         (
+            id,
+            teaching_plan_id,
+            create_time,
+            topic_id
+        ) values
+         (
+                #{id}
+                ,
+                #{teachingPlanId}
+                ,
+                now()
+                ,
+                #{topicId}
+                
+         )
+    	
+    	
+    </insert>
+    
+    
+    
+    <delete id="removeTopic2Cart" >
+        delete from jy_topic_cart where teaching_plan_id=#{teachingPlanId} and topic_id=#{topicId}
+    </delete>
+    
+    <delete id="removeTopic2CartByTPlanId" >
+        delete from jy_topic_cart where teaching_plan_id=#{teachingPlanId} 
+    </delete>
+    
+    <delete id="batchRemoveTopic2Cart" parameterType="String">
+        delete from jy_topic_cart where teaching_plan_id=#{teachingPlanId} 
+        and 
+        topic_id 
+        in
+        <foreach collection="topicIds"  item="topicId" open="(" separator="," close=")"  >
+           #{topicId}
+      	</foreach>
+    </delete>
+    
+    <insert id="batchSaveTopicCart" parameterType="TopicCart">
+        INSERT INTO jy_topic_cart (  id,  teaching_plan_id,  create_time,  topic_id )
+        VALUES
+        <foreach collection="topicCarts" item="topicCart" separator=",">
+            (  #{topicCart.id},  #{topicCart.teachingPlanId},  #{topicCart.createTime},  #{topicCart.topicId}  )
+        </foreach>
+    </insert>
+    
+    
+    
+</mapper>

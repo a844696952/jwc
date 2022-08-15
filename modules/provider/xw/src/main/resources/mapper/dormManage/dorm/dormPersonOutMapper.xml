@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dormManage.dorm.IDormPersonOutDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('personId')">
+                             T.person_id,
+                         </if>
+                         <if test="!pager.excludes.contains('personName')">
+                             T.person_name,
+                         </if>
+                         <if test="!pager.excludes.contains('personType')">
+                             T.person_type,
+                         </if>
+                         <if test="!pager.excludes.contains('sex')">
+                             T.sex,
+                         </if>
+                         <if test="!pager.excludes.contains('guardianContact')">
+                             T.guardian_contact,
+                         </if>
+                         <if test="!pager.excludes.contains('studentNo')">
+                             T.student_no,
+                         </if>
+                         <if test="!pager.excludes.contains('imgUrl')">
+                             T.img_url,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherName')">
+                             T.teacher_name,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherTel')">
+                             T.teacher_tel,
+                         </if>
+                         <if test="!pager.excludes.contains('classesId')">
+                             T.classes_id,
+                         </if>
+                         <if test="!pager.excludes.contains('workNumber')">
+                             T.work_number,
+                         </if>
+                         <if test="!pager.excludes.contains('tel')">
+                             T.tel,
+                         </if>
+                         <if test="!pager.excludes.contains('departments')">
+                             T.departments,
+                         </if>
+                         <if test="!pager.excludes.contains('outTime')">
+                             T.out_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="personId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='personId'">
+                            and T.person_id like concat('%',#{personId},'%')
+                         </when>
+                         <otherwise>
+                            and T.person_id=#{personId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="personName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='personName'">
+                            and T.person_name like concat('%',#{personName},'%')
+                         </when>
+                         <otherwise>
+                            and T.person_name=#{personName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="personType!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='personType'">
+                            and T.person_type like concat('%',#{personType},'%')
+                         </when>
+                         <otherwise>
+                            and T.person_type=#{personType}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="sex!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='sex'">
+                            and T.sex like concat('%',#{sex},'%')
+                         </when>
+                         <otherwise>
+                            and T.sex=#{sex}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="guardianContact!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='guardianContact'">
+                            and T.guardian_contact like concat('%',#{guardianContact},'%')
+                         </when>
+                         <otherwise>
+                            and T.guardian_contact=#{guardianContact}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="studentNo!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='studentNo'">
+                            and T.student_no like concat('%',#{studentNo},'%')
+                         </when>
+                         <otherwise>
+                            and T.student_no=#{studentNo}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="imgUrl!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='imgUrl'">
+                            and T.img_url like concat('%',#{imgUrl},'%')
+                         </when>
+                         <otherwise>
+                            and T.img_url=#{imgUrl}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherName'">
+                            and T.teacher_name like concat('%',#{teacherName},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_name=#{teacherName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherTel!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherTel'">
+                            and T.teacher_tel like concat('%',#{teacherTel},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_tel=#{teacherTel}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classesId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classesId'">
+                            and T.classes_id like concat('%',#{classesId},'%')
+                         </when>
+                         <otherwise>
+                            and T.classes_id=#{classesId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="workNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='workNumber'">
+                            and T.work_number like concat('%',#{workNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.work_number=#{workNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="tel!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='tel'">
+                            and T.tel like concat('%',#{tel},'%')
+                         </when>
+                         <otherwise>
+                            and T.tel=#{tel}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="departments!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='departments'">
+                            and T.departments like concat('%',#{departments},'%')
+                         </when>
+                         <otherwise>
+                            and T.departments=#{departments}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="outTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='outTime'">
+                            and T.out_time like concat('%',#{outTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.out_time=#{outTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDormPersonOutListByCondition" parameterType="DormPersonOut" resultType="DormPersonOut">
+        select
+         <include refid="projection"/>
+         from xw_dorm_person_out T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDormPersonOutCountByCondition" parameterType="DormPersonOut" resultType="long">
+        select count(*) from xw_dorm_person_out T
+        <include refid="match"/>
+    </select>
+    <select id="findDormPersonOutById" resultType="DormPersonOut">
+        select * from xw_dorm_person_out where id=#{id}
+    </select>
+    <select id="findOneDormPersonOutByCondition" parameterType="DormPersonOut" resultType="DormPersonOut">
+        select
+         <include refid="projection"/>
+         from xw_dorm_person_out T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDormPersonOut" parameterType="DormPersonOut">
+        insert into xw_dorm_person_out
+         (
+            id,
+            person_id,
+            person_name,
+            person_type,
+            sex,
+            guardian_contact,
+            student_no,
+            img_url,
+            teacher_name,
+            teacher_tel,
+            classes_id,
+            work_number,
+            tel,
+            departments,
+            out_time,
+            create_time,
+            update_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{personId}
+                ,
+                #{personName}
+                ,
+                #{personType}
+                ,
+                #{sex}
+                ,
+                #{guardianContact}
+                ,
+                #{studentNo}
+                ,
+                #{imgUrl}
+                ,
+                #{teacherName}
+                ,
+                #{teacherTel}
+                ,
+                #{classesId}
+                ,
+                #{workNumber}
+                ,
+                #{tel}
+                ,
+                #{departments}
+                ,
+                #{outTime}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updateDormPersonOut" parameterType="DormPersonOut">
+        update xw_dorm_person_out
+        <set>
+                    <if test="personId!=null ">
+                        person_id=#{personId},
+                    </if>
+                    <if test="personName!=null ">
+                        person_name=#{personName},
+                    </if>
+                    <if test="personType!=null ">
+                        person_type=#{personType},
+                    </if>
+                    <if test="sex!=null ">
+                        sex=#{sex},
+                    </if>
+                    <if test="guardianContact!=null ">
+                        guardian_contact=#{guardianContact},
+                    </if>
+                    <if test="studentNo!=null ">
+                        student_no=#{studentNo},
+                    </if>
+                    <if test="imgUrl!=null ">
+                        img_url=#{imgUrl},
+                    </if>
+                    <if test="teacherName!=null ">
+                        teacher_name=#{teacherName},
+                    </if>
+                    <if test="teacherTel!=null ">
+                        teacher_tel=#{teacherTel},
+                    </if>
+                    <if test="classesId!=null ">
+                        classes_id=#{classesId},
+                    </if>
+                    <if test="workNumber!=null ">
+                        work_number=#{workNumber},
+                    </if>
+                    <if test="tel!=null ">
+                        tel=#{tel},
+                    </if>
+                    <if test="departments!=null ">
+                        departments=#{departments},
+                    </if>
+                    <if test="outTime!=null ">
+                        out_time=#{outTime},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDormPersonOut" >
+        delete from xw_dorm_person_out where id=#{id}
+    </delete>
+    <delete id="deleteDormPersonOutByCondition" >
+        delete T from xw_dorm_person_out T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDormPersonOut" parameterType="DormPersonOut">
+        INSERT INTO xw_dorm_person_out (  id,  person_id,  person_name,  person_type,  sex,  guardian_contact,  student_no,  img_url,  teacher_name,  teacher_tel,  classes_id,  work_number,  tel,  departments,  out_time,  create_time,  update_time,  school_id )
+        VALUES
+        <foreach collection="list" item="dormPersonOut" separator=",">
+            (  #{dormPersonOut.id},  #{dormPersonOut.personId},  #{dormPersonOut.personName},  #{dormPersonOut.personType},  #{dormPersonOut.sex},  #{dormPersonOut.guardianContact},  #{dormPersonOut.studentNo},  #{dormPersonOut.imgUrl},  #{dormPersonOut.teacherName},  #{dormPersonOut.teacherTel},  #{dormPersonOut.classesId},  #{dormPersonOut.workNumber},  #{dormPersonOut.tel},  #{dormPersonOut.departments},  #{dormPersonOut.outTime},  #{dormPersonOut.createTime},  #{dormPersonOut.updateTime},  #{dormPersonOut.schoolId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+	
+	<select id="findDormPersonOutListByConditionAndPersonType" parameterType="DormPersonOut" resultType="DormPersonOut">
+        SELECT
+          T.*
+        FROM
+          xw_dorm_person_out T
+        <where>
+            <if test="personType!=null">
+                <choose>
+                    <when test="personType==1">
+                        AND T.person_type = '1'
+                    </when>
+                    <otherwise>
+                        AND T.person_type in ('2','3')
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="personName!=null">
+                AND T.person_name LIKE concat('%',#{personName},'%')
+            </if>
+            <if test="studentNo!=null">
+                AND T.student_no = #{studentNo}
+            </if>
+            <if test="classesId!=null">
+                AND T.classes_id = #{classesId}
+            </if>
+            <if test="workNumber!=null">
+                AND T.work_number = #{workNumber}
+            </if>
+            <if test="tel">
+                AND T.tel = #{tel}
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                AND T.out_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+            <if test="schoolId">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="classesId">
+                AND T.classes_id = #{classesId}
+            </if>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findDormPersonOutCountByConditionAndPersonType" parameterType="DormPersonOut" resultType="long">
+        SELECT
+          count(*)
+        FROM
+          xw_dorm_person_out T
+        <where>
+            <if test="personType!=null">
+                <choose>
+                    <when test="personType==1">
+                        AND T.person_type = '1'
+                    </when>
+                    <otherwise>
+                        AND T.person_type in ('2','3')
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="personName!=null">
+                AND T.person_name LIKE concat('%',#{personName},'%')
+            </if>
+            <if test="studentNo!=null">
+                AND T.student_no = #{studentNo}
+            </if>
+            <if test="classesId!=null">
+                AND T.classes_id = #{classesId}
+            </if>
+            <if test="workNumber!=null">
+                AND T.work_number = #{workNumber}
+            </if>
+            <if test="tel">
+                AND T.tel = #{tel}
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                AND T.out_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+            <if test="schoolId">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="classesId">
+                AND T.classes_id = #{classesId}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteDormPersonOutForStudentByTime">
+        DELETE
+        FROM
+            xw_dorm_person_out
+        WHERE
+            person_type = '1'
+            AND NOT EXISTS ( SELECT A.id FROM jw_student A WHERE A.id = person_id )
+    </delete>
+
+    <delete id="deleteDormPersonLogForStudentByTime">
+        DELETE
+        FROM
+            xw_dorm_person_log
+        WHERE
+            person_type = '1'
+            AND NOT EXISTS ( SELECT A.id FROM jw_student A WHERE A.id = person_id )
+    </delete>
+</mapper>

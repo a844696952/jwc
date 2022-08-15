@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.sysPerm.ISysPermDao">
+    <!--########################################################################################################################-->
+    <select id="findSysPermListByCondition" parameterType="SysPerm" resultType="SysPerm">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="includes" item="field" separator=",">
+                    T.${field}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!excludes.contains('title')">
+                        T.title,
+                    </if>
+                    <if test="!excludes.contains('identify')">
+                        T.identify,
+                    </if>
+                    <if test="!excludes.contains('icon')">
+                        T.icon,
+                    </if>
+                    <if test="!excludes.contains('parentId')">
+                        T.parent_id,
+                    </if>
+                    <if test="!excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!excludes.contains('routeName')">
+                        T.routeName,
+                    </if>
+                    <if test="!excludes.contains('urlPath')">
+                        T.url_path,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from sys_perm T
+        <where>
+            <if test="title!=null and title!=''">
+                T.title=#{title}
+            </if>
+            <if test="identify!=null and identify!=''">
+                and T.identify=#{identify}
+            </if>
+            <if test="icon!=null and icon!=''">
+                and T.icon=#{icon}
+            </if>
+            <if test="parentId!=null and parentId!=''">
+                and T.parent_id=#{parentId}
+            </if>
+            <if test="type!=null and type!=''">
+                and T.type=#{type}
+            </if>
+            <if test="routeName!=null and routeName!=''">
+                and T.routeName=#{routeName}
+            </if>
+            <if test="urlPath!=null and urlPath!=''">
+                and T.url_path=#{urlPath}
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortField!='' and pager.sortOrder!=null and pager.sortOrder!=''">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findSysPermCountByCondition" parameterType="SysPerm" resultType="long">
+        select count(*) from sys_perm
+        <where>
+            <if test="title!=null and title!=''">
+                title=#{title}
+            </if>
+            <if test="identify!=null and identify!=''">
+                and identify=#{identify}
+            </if>
+            <if test="icon!=null and icon!=''">
+                and icon=#{icon}
+            </if>
+            <if test="parentId!=null and parentId!=''">
+                and parent_id=#{parentId}
+            </if>
+            <if test="type!=null and type!=''">
+                and type=#{type}
+            </if>
+            <if test="routeName!=null and routeName!=''">
+                and routeName=#{routeName}
+            </if>
+            <if test="urlPath!=null and urlPath!=''">
+                and url_path=#{urlPath}
+            </if>
+        </where>
+    </select>
+    <select id="findSysPermById" resultType="SysPerm">
+        select * from sys_perm where id=#{0}
+    </select>
+    <insert id="saveSysPerm" parameterType="SysPerm" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_perm
+         (
+            id,
+            title,
+            identify,
+            icon,
+            parent_id,
+            type,
+            routeName,
+            url_path
+        ) values
+         (
+             #{id},
+             #{title},
+             #{identify},
+             #{icon},
+             #{parentId},
+             #{type},
+             #{routeName},
+             #{urlPath}
+         )
+    </insert>
+    <update id="updateSysPerm" parameterType="SysPerm">
+        update sys_perm
+        <set>
+            <if test="title!=null and title!=''">
+                title=#{title},
+            </if>
+            <if test="identify!=null and identify!=''">
+                identify=#{identify},
+            </if>
+            <if test="icon!=null and icon!=''">
+                icon=#{icon},
+            </if>
+            <if test="parentId!=null and parentId!=''">
+                parent_id=#{parentId},
+            </if>
+            <if test="type!=null and type!=''">
+                type=#{type},
+            </if>
+            <if test="routeName!=null and routeName!=''">
+                routeName=#{routeName},
+            </if>
+            <if test="urlPath!=null and urlPath!=''">
+                url_path=#{urlPath}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteSysPerm" >
+        delete from sys_perm where id=#{0}
+    </delete>
+    <insert id="batchSaveSysPerm" parameterType="SysPerm" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_perm (
+        id,
+        title,
+        identify,
+        icon,
+        parent_id,
+        type,
+        routeName,
+        url_path
+        )
+        VALUES
+        <foreach collection="list" item="sysPerm" separator=",">
+            (
+            #{sysPerm.id},
+            #{sysPerm.title},
+            #{sysPerm.identify},
+            #{sysPerm.icon},
+            #{sysPerm.parentId},
+            #{sysPerm.type},
+            #{sysPerm.routeName},
+            #{sysPerm.urlPath}
+            )
+        </foreach>
+
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findRootSysPerm" resultType="com.yice.edu.cn.common.pojo.yedAdmin.SysPerm">
+        select * from sys_perm where  parent_id is null
+    </select>
+    <select id="findSysPermByPId" resultType="com.yice.edu.cn.common.pojo.yedAdmin.SysPerm">
+        select * from sys_perm where  parent_id=#{arg0}
+    </select>
+    <select id="findSysPermsByPId" resultType="com.yice.edu.cn.common.pojo.yedAdmin.SysPerm">
+        select * from sys_perm where parent_id
+        <choose>
+            <when test="pId==null">
+                is null
+            </when>
+            <otherwise>
+                =#{pId}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="findSysPermChecked" resultType="java.lang.String">
+        SELECT SP.id id from sys_role SR inner join role_perm RP on SR.id=RP.role_id
+											inner join sys_perm SP on SP.id=RP.perm_id
+											left join sys_perm SP1 on SP.id=SP1.parent_id
+											where SR.id=#{arg0} and SP1.id is null
+    </select>
+    <select id="findAminTreeMenuV2" resultType="com.yice.edu.cn.common.pojo.yedAdmin.SysPerm">
+        select SP.* from admin_role AR inner join sys_role SR on AR.role_id= SR.id
+											inner join role_perm RP on SR.id=RP.role_id
+											inner join sys_perm SP on RP.perm_id=SP.id
+											where AR.admin_id=#{adminId}
+											group by SP.id
+    </select>
+
+</mapper>

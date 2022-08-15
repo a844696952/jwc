@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.repairNew.IRepairStaffDao">
+    <!--########################################################################################################################-->
+    <select id="findRepairStaffListByCondition" parameterType="RepairStaff" resultType="RepairStaff">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('tel')">
+                             T.tel,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from xw_repair_staff T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="tel!=null">
+                and T.tel=#{tel}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+                <if test="staffType!=null">
+                    and T.staff_type=#{staffType}
+                </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findRepairStaffCountByCondition" parameterType="RepairStaff" resultType="long">
+        select count(*) from xw_repair_staff
+        <where>
+              <if test="name!=null">
+                 name=#{name}
+              </if>
+              <if test="tel!=null">
+                and tel=#{tel}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+        </where>
+    </select>
+    <select id="findRepairStaffById" resultType="RepairStaff">
+        select * from xw_repair_staff where id=#{id}
+    </select>
+    <select id="findOneRepairStaffByCondition" parameterType="RepairStaff" resultType="RepairStaff">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('tel')">
+                             T.tel,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from xw_repair_staff T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="tel!=null">
+                and T.tel=#{tel}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+        </where>
+    </select>
+    <insert id="saveRepairStaff" parameterType="RepairStaff">
+        insert into xw_repair_staff
+         (
+            id,
+            name,
+            tel,
+            create_time,
+            school_id,
+            staff_type,
+            remark
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{tel}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                #{staffType}
+                ,
+                #{remark}
+                
+         )
+    </insert>
+    <update id="updateRepairStaff" parameterType="RepairStaff">
+        update xw_repair_staff
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="tel!=null ">
+                        tel=#{tel},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="staffType!=null ">
+                        staff_type=#{staffType},
+                    </if>
+                    <if test="remark!=null">
+                        remark=#{remark}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteRepairStaff" >
+        delete from xw_repair_staff where id=#{id}
+    </delete>
+    <delete id="deleteRepairStaffByCondition" >
+        delete from xw_repair_staff
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="tel!=null">
+                and tel=#{tel}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveRepairStaff" parameterType="RepairStaff">
+        INSERT INTO xw_repair_staff (  id,  name,  tel,  create_time,  school_id )
+        VALUES
+        <foreach collection="list" item="repairStaff" separator=",">
+            (  #{repairStaff.id},  #{repairStaff.name},  #{repairStaff.tel},  #{repairStaff.createTime},  #{repairStaff.schoolId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+
+
+    <select id="findRepairStaffDormsByCondition" parameterType="RepairStaff" resultType="RepairStaff">
+        select *
+        from xw_repair_staff T
+        where
+        T.staff_type=#{staffType}
+        and T.school_id=#{schoolId}
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findRepairStaffCountByCondition1" parameterType="RepairStaff" resultType="long">
+        select count(*) from xw_repair_staff T
+        where
+        T.staff_type=#{staffType}
+        and T.school_id=#{schoolId}
+    </select>
+
+</mapper>

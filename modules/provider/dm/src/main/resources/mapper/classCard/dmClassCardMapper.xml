@@ -1,0 +1,983 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.classCard.IDmClassCardDao">
+    <!--########################################################################################################################-->
+    <select id="findDmClassCardListByCondition_zzh" parameterType="DmClassCard" resultType="DmClassCard">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentId')">
+                             T.equipment_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentName')">
+                             T.equipment_name,
+                         </if>
+                         <if test="!pager.excludes.contains('newVersion')">
+                             T.new_version,
+                         </if>
+                         <if test="!pager.excludes.contains('installStatus')">
+                             T.install_status,
+                         </if>
+                         <if test="!pager.excludes.contains('downStatus')">
+                             T.down_status,
+                         </if>
+                         <if test="!pager.excludes.contains('apkUrl')">
+                             T.apk_url,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('version')">
+                             T.version,
+                         </if>
+                         <if test="!pager.excludes.contains('position')">
+                             T.position,
+                         </if>
+                         <if test="!pager.excludes.contains('remark')">
+                             T.remark,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('userName')">
+                             T.user_name,
+                         </if>
+                         <if test="!pager.excludes.contains('password')">
+                             T.password,
+                         </if>
+                         <if test="!pager.excludes.contains('lockStatus')">
+                             T.lock_status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from dm_class_card T
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="equipmentId!=null">
+                and T.equipment_id=#{equipmentId}
+              </if>
+              <if test="classId!=null">
+                and T.class_id=#{classId}
+              </if>
+              <if test="equipmentName!=null">
+                and T.equipment_name=#{equipmentName}
+              </if>
+              <if test="newVersion!=null">
+                and T.new_version=#{newVersion}
+              </if>
+              <if test="installStatus!=null">
+                and T.install_status=#{installStatus}
+              </if>
+              <if test="downStatus!=null">
+                and T.down_status=#{downStatus}
+              </if>
+              <if test="apkUrl!=null">
+                and T.apk_url=#{apkUrl}
+              </if>
+              <if test="status!=null">
+                and T.status=#{status}
+              </if>
+              <if test="version!=null">
+                and T.version=#{version}
+              </if>
+              <if test="position!=null">
+                and T.position=#{position}
+              </if>
+              <if test="remark!=null">
+                and T.remark=#{remark}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+              </if>
+            <if test="userName!=null">
+                and T.user_name=#{userName}
+            </if>
+            <if test="password!=null">
+                and T.password=#{password}
+            </if>
+            <if test="lockStatus!=null">
+                and T.lock_status=#{lockStatus}
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findDmClassCardCountByCondition" parameterType="DmClassCard" resultType="long">
+        select count(*) from dm_class_card T
+        LEFT JOIN jw_classes T3 ON T.class_id = T3.id
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="equipmentId!=null">
+                and T.equipment_id=#{equipmentId}
+              </if>
+              <if test="gradeId!=null">
+                and T3.grade_id=#{gradeId}
+              </if>
+              <if test="classId!=null">
+                and T.class_id=#{classId}
+              </if>
+              <if test="equipmentName!=null">
+                and T.equipment_name=#{equipmentName}
+              </if>
+              <if test="newVersion!=null">
+                and T.new_version=#{newVersion}
+              </if>
+              <if test="installStatus!=null">
+                and T.install_status=#{installStatus}
+              </if>
+              <if test="downStatus!=null">
+                and T.down_status=#{downStatus}
+              </if>
+              <if test="apkUrl!=null">
+                and T.apk_url=#{apkUrl}
+              </if>
+              <if test="status!=null">
+                and T.status=#{status}
+              </if>
+              <if test="version!=null">
+                and T.version=#{version}
+              </if>
+              <if test="position!=null">
+                and T.position=#{position}
+              </if>
+              <if test="remark!=null">
+                and T.remark=#{remark}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+            <if test="userName!=null">
+                and T.user_name=#{userName}
+            </if>
+            <if test="password!=null">
+                and T.password=#{password}
+            </if>
+            <if test="lockStatus!=null">
+                and T.lock_status=#{lockStatus}
+            </if>
+        </where>
+    </select>
+    <select id="findDmClassCardById" resultType="DmClassCard">
+        select
+            T.id,
+            (SELECT GROUP_CONCAT(c.name)  from jw_teacher c where find_in_set(c.id,T.teacher_id) ) as teacherName,
+            T.teacher_id,
+            T.school_id,
+            T.equipment_id,
+            T3.grade_id,
+            T.class_id,
+            T3.grade_name AS gradeName,
+            T3.number AS classNumber,
+            T.equipment_name,
+            T.new_version,
+            IFNULL(T.install_status,'0') AS installStatus,
+            IFNULL(T.down_status,'0') AS downStatus,
+            T.apk_url,
+            IFNULL(T.status,'0') AS status,
+            T.version,
+            T4.name as position,
+            T.remark,
+            T.create_time,
+            T.update_time,
+            T.user_name,
+            T.password,
+            T.lock_status,
+            T.teacher_id
+       from 	dm_class_card T
+                left JOIN jw_classes T3 ON T.class_id = T3.id
+                left JOIN jw_teacher T4 ON T.position = T4.id
+                where T.id=#{id}
+    </select>
+    <select id="findOneDmClassCardByCondition" parameterType="DmClassCard" resultType="DmClassCard">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentId')">
+                             T.equipment_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentName')">
+                             T.equipment_name,
+                         </if>
+                         <if test="!pager.excludes.contains('newVersion')">
+                             T.new_version,
+                         </if>
+                         <if test="!pager.excludes.contains('installStatus')">
+                             T.install_status,
+                         </if>
+                         <if test="!pager.excludes.contains('downStatus')">
+                             T.down_status,
+                         </if>
+                         <if test="!pager.excludes.contains('apkUrl')">
+                             T.apk_url,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('version')">
+                             T.version,
+                         </if>
+                         <if test="!pager.excludes.contains('position')">
+                             T.position,
+                         </if>
+                         <if test="!pager.excludes.contains('remark')">
+                             T.remark,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('userName')">
+                             T.user_name,
+                         </if>
+                         <if test="!pager.excludes.contains('password')">
+                             T.password,
+                         </if>
+                         <if test="!pager.excludes.contains('lockStatus')">
+                             T.lock_status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*,C.grade_id
+             </otherwise>
+         </choose>
+         from dm_class_card T
+         left join jw_classes C on T.class_id = C.id
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+            <if test="id!=null">
+                T.id=#{id}
+            </if>
+              <if test="equipmentId!=null">
+                and T.equipment_id=#{equipmentId}
+              </if>
+              <if test="classId!=null">
+                and T.class_id=#{classId}
+              </if>
+              <if test="equipmentName!=null">
+                and T.equipment_name=#{equipmentName}
+              </if>
+              <if test="newVersion!=null">
+                and T.new_version=#{newVersion}
+              </if>
+              <if test="installStatus!=null">
+                and T.install_status=#{installStatus}
+              </if>
+              <if test="downStatus!=null">
+                and T.down_status=#{downStatus}
+              </if>
+              <if test="apkUrl!=null">
+                and T.apk_url=#{apkUrl}
+              </if>
+              <if test="status!=null">
+                and T.status=#{status}
+              </if>
+              <if test="version!=null">
+                and T.version=#{version}
+              </if>
+              <if test="position!=null">
+                and T.position=#{position}
+              </if>
+              <if test="remark!=null">
+                and T.remark=#{remark}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+              </if>
+              <if test="userName!=null">
+                and T.user_name=#{userName}
+              </if>
+             <if test="password!=null">
+                and T.password=#{password}
+             </if>
+            <if test="lockStatus!=null">
+                and T.lock_status=#{lockStatus}
+            </if>
+        </where>
+    </select>
+    <insert id="saveDmClassCard" parameterType="DmClassCard">
+        insert into dm_class_card
+         (
+            id,
+            school_id,
+            equipment_id,
+            class_id,
+            equipment_name,
+            new_version,
+            install_status,
+            down_status,
+            apk_url,
+            status,
+            version,
+            position,
+            remark,
+            create_time,
+            update_time,
+            teacher_id,
+            user_name,
+            password,
+            lock_status
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{equipmentId}
+                ,
+                #{classId}
+                ,
+                #{equipmentName}
+                ,
+                #{newVersion}
+                ,
+                #{installStatus}
+                ,
+                #{downStatus}
+                ,
+                #{apkUrl}
+                ,
+                #{status}
+                ,
+                #{version}
+                ,
+                #{position}
+                ,
+                #{remark}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{teacherId}
+                ,
+                #{userName}
+                ,
+                #{password}
+                ,
+                #{lockStatus}
+
+         )
+    </insert>
+    <update id="updateDmClassCard" parameterType="DmClassCard">
+        update dm_class_card
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="equipmentId!=null ">
+                        equipment_id=#{equipmentId},
+                    </if>
+                    <if test="classId!=null ">
+                        class_id=#{classId},
+                    </if>
+                    <if test="equipmentName!=null ">
+                        equipment_name=#{equipmentName},
+                    </if>
+                    <if test="newVersion!=null ">
+                        new_version=#{newVersion},
+                    </if>
+                    <if test="installStatus!=null ">
+                        install_status=#{installStatus},
+                    </if>
+                    <if test="downStatus!=null ">
+                        down_status=#{downStatus},
+                    </if>
+                    <if test="apkUrl!=null ">
+                        apk_url=#{apkUrl},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="version!=null ">
+                        version=#{version},
+                    </if>
+                    <if test="position!=null ">
+                        position=#{position},
+                    </if>
+                    <if test="remark!=null ">
+                        remark=#{remark},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                        update_time=now(),
+                        teacher_id=#{teacherId},
+                   <if test="userName!=null ">
+                        user_name=#{userName},
+                   </if>
+                   <if test="password!=null ">
+                       `password`=#{password},
+                   </if>
+                    <if test="lockStatus!=null">
+                        lock_status=#{lockStatus}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmClassCard" >
+        delete from dm_class_card where id=#{id}
+    </delete>
+    <delete id="deleteDmClassCardByCondition" >
+        delete from dm_class_card
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="equipmentId!=null">
+                and equipment_id=#{equipmentId}
+              </if>
+              <if test="classId!=null">
+                and class_id=#{classId}
+              </if>
+              <if test="equipmentName!=null">
+                and equipment_name=#{equipmentName}
+              </if>
+              <if test="newVersion!=null">
+                and new_version=#{newVersion}
+              </if>
+              <if test="installStatus!=null">
+                and install_status=#{installStatus}
+              </if>
+              <if test="downStatus!=null">
+                and down_status=#{downStatus}
+              </if>
+              <if test="apkUrl!=null">
+                and apk_url=#{apkUrl}
+              </if>
+              <if test="status!=null">
+                and status=#{status}
+              </if>
+              <if test="version!=null">
+                and version=#{version}
+              </if>
+              <if test="position!=null">
+                and position=#{position}
+              </if>
+              <if test="remark!=null">
+                and remark=#{remark}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+              </if>
+              <if test="userName!=null">
+                and user_name=#{userName}
+              </if>
+              <if test="password!=null">
+                and password=#{password}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveDmClassCard" parameterType="DmClassCard">
+        INSERT INTO dm_class_card ( id, school_id, equipment_id, class_id, equipment_name, new_version, install_status,
+        down_status, apk_url, status, version, position, remark, create_time, update_time, teacher_id, user_name,
+        password, lock_status)
+        VALUES
+        <foreach collection="list" item="dmClassCard" separator=",">
+            ( #{dmClassCard.id}, #{dmClassCard.schoolId}, #{dmClassCard.equipmentId}, #{dmClassCard.classId},
+            #{dmClassCard.equipmentName}, #{dmClassCard.newVersion}, #{dmClassCard.installStatus},
+            #{dmClassCard.downStatus}, #{dmClassCard.apkUrl}, #{dmClassCard.status}, #{dmClassCard.version},
+            #{dmClassCard.position}, #{dmClassCard.remark}, #{dmClassCard.createTime}, #{dmClassCard.updateTime},
+            #{dmClassCard.teacherId}, #{dmClassCard.userName}, #{dmClassCard.password}, #{dmClassCard.lockStatus} )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findDmClassCardListByCondition" parameterType="DmClassCard" resultType="DmClassCard">
+        select
+        T.id,
+        T.equipment_name,
+        T.user_name,
+        T.password,
+        T.version,
+        T.new_version,
+        T.lock_status,
+        T3.grade_name AS gradeName,
+        T3.number AS className
+        from 	dm_class_card T
+                left JOIN jw_classes T3 ON T.class_id = T3.id
+        <where>
+            <if test="schoolId!=null">
+                T.school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and FIND_IN_SET( #{teacherId},T.teacher_id)
+            </if>
+            <if test="equipmentId!=null">
+                and T.equipment_id=#{equipmentId}
+            </if>
+            <if test="gradeId!=null">
+                and T3.grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and T3.id=#{classId}
+            </if>
+            <if test="equipmentName!=null">
+                and T.equipment_name=#{equipmentName}
+            </if>
+            <if test="installStatus!=null">
+                and T.install_status=#{installStatus}
+            </if>
+            <if test="downStatus!=null">
+                and T.down_status=#{downStatus}
+            </if>
+            <if test="version!=null">
+                and T.version=#{version}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="userName!=null">
+                and T.user_name=#{userName}
+            </if>
+            <if test="password!=null">
+                and T.password=#{password}
+            </if>
+            <if test="lockStatus!=null">
+                and T.lock_status=#{lockStatus}
+            </if>
+            <if test="keyWord != null and keyWord != '' ">
+                AND concat(IFNULL(T.equipment_name, ''),
+                IFNULL(T.user_name, ''),
+                IFNULL(T.version, '')) LIKE concat(concat('%',#{keyWord}),'%')
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findDmClassCardListByclassId" parameterType="DmClassCard" resultType="DmClassCard">
+        select * from dm_class_card where
+             class_id=#{classId}
+        <if test="id!=null">
+            and id <![CDATA[ <> ]]> #{id}
+        </if>
+    </select>
+
+    <!-- 批量解绑设备 -->
+    <update id="relieveDmClassCardAll" parameterType="string">
+        update dm_class_card
+        <set>
+            update_time=now(),
+            class_id='',
+            down_status=1
+        </set>
+        where id in
+        <foreach item="rowData" collection="array" open="(" separator="," close=")">
+            #{rowData}
+        </foreach>
+    </update>
+ <!-- 导出设备信息xls-->
+    <select id="findDmClassCardToXls" resultType="DmClassCard">
+        select
+        T.id,
+        T.school_id,
+        T.equipment_id,
+        T3.grade_id,
+        T.class_id,
+        T3.grade_name AS gradeName,
+        T3.number AS classNumber,
+        T.equipment_name,
+        T.new_version,
+        T.install_status,
+        T.down_status,
+        T.apk_url,
+        T.status,
+        T.version,
+        T.position,
+        T.remark,
+        T.create_time,
+        T.update_time,
+        T.user_name,
+        T.password,
+        T.lock_status,
+        T.teacher_id
+        from 	dm_class_card T
+        left JOIN jw_classes T3 ON T.class_id = T3.id
+        where
+        T.school_id=#{schoolId}
+        <if test="installStatus!=null">
+            and T.install_status=#{installStatus}
+        </if>
+        <if test="gradeId!=null">
+            and T3.grade_id=#{gradeId}
+        </if>
+        <if test="classId!=null">
+            and T.class_id=#{classId}
+        </if>
+        <if test="keyWord != null and keyWord != '' ">
+            AND concat(IFNULL(T.equipment_name, ''),
+            IFNULL(T.equipment_id, ''),
+            IFNULL(T.version, '')) LIKE concat(concat('%',#{keyWord}),'%')
+        </if>
+    </select>
+
+    <select id="selectSchoolByUserName" parameterType="String" resultType="DmClassCard">
+        select T.school_id,C.grade_id from dm_class_card T
+        left join jw_classes C on T.class_id = C.id
+        where T.user_name =#{userName} limit 1;
+    </select>
+
+
+    <!-- 查询登陆的账号密码是否正确-->
+    <select id="findDmClassCardUser" parameterType="DmClassCard" resultType="DmClassCard">
+        select
+        T.id,
+        T.school_id,
+        T3.grade_id,
+        T.user_name,
+        T.teacher_id,
+        T.apk_url,
+        T.new_version,
+        T.install_status,
+        T3.grade_name AS gradeName,
+        T3.number AS classNumber,
+        T.class_id,
+        T5.class_logan as motto,
+        T5.class_alias as classAlias,
+        T4.school_badge
+        from 	dm_class_card T
+        left JOIN jw_classes T3 ON T.class_id = T3.id
+        LEFT JOIN school T4 ON T.school_id = T4.id
+        LEFT JOIN dm_class_desc T5 ON  T.class_id = T5.class_id
+        where
+        1 = 1
+        <if test="userName!=null">
+            and T.user_name=#{userName}
+        </if>
+        <if test="password!=null">
+            and T.password=#{password}
+        </if>
+        <if test="equipmentName!=null">
+            and T.equipment_name=#{equipmentName}
+        </if>
+        <if test="id!=null">
+            and T.id <![CDATA[ <> ]]> #{id}
+        </if>
+    </select>
+    <!-- 修改设备的状态和版本号-->
+    <update id="dmClassCardStatus" parameterType="DmClassCard">
+        update dm_class_card
+        <set>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="equipmentId!=null ">
+                equipment_id=#{equipmentId},
+            </if>
+            <if test="classId!=null ">
+                class_id=#{classId},
+            </if>
+            <if test="equipmentName!=null ">
+                equipment_name=#{equipmentName},
+            </if>
+            <if test="newVersion!=null ">
+                new_version=#{newVersion},
+            </if>
+            <if test="installStatus!=null ">
+                install_status=#{installStatus},
+            </if>
+            <if test="downStatus!=null ">
+                down_status=#{downStatus},
+            </if>
+            <if test="apkUrl!=null ">
+                apk_url=#{apkUrl},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="version!=null ">
+                version=#{version},
+            </if>
+            <if test="position!=null ">
+                position=#{position},
+            </if>
+            <if test="remark!=null ">
+                remark=#{remark},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="userName!=null ">
+                user_name=#{userName},
+            </if>
+            <if test="password!=null ">
+                password=#{password}
+            </if>
+            <if test="lockStatus!=null ">
+                lock_status=#{lockStatus}
+            </if>
+        </set>
+        where
+        user_name=#{userName}
+
+    </update>
+
+    <!-- 修改设备的状态-->
+    <update id="updateEquipmentName" parameterType="DmClassCard">
+        update dm_class_card
+        <set>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="equipmentId!=null ">
+                equipment_id=#{equipmentId},
+            </if>
+            <if test="classId!=null ">
+                class_id=#{classId},
+            </if>
+            <if test="equipmentName!=null ">
+                equipment_name=#{equipmentName},
+            </if>
+            <if test="newVersion!=null ">
+                new_version=#{newVersion},
+            </if>
+            <if test="installStatus!=null ">
+                install_status=#{installStatus},
+            </if>
+            <if test="downStatus!=null ">
+                down_status=#{downStatus},
+            </if>
+            <if test="apkUrl!=null ">
+                apk_url=#{apkUrl},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="version!=null ">
+                version=#{version},
+            </if>
+            <if test="position!=null ">
+                position=#{position},
+            </if>
+            <if test="remark!=null ">
+                remark=#{remark},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="userName!=null ">
+                user_name=#{userName},
+            </if>
+            <if test="password!=null ">
+                password=#{password}
+            </if>
+            <if test="lockStatus!=null ">
+                lock_status=#{lockStatus}
+            </if>
+        </set>
+        where
+        equipment_name=#{equipmentName}
+    </update>
+
+
+    <!-- 批量设置最新班牌版本号 -->
+    <update id="setVersionAll" parameterType="DmTimedTask">
+            update dm_class_card
+            <set>
+                new_version=#{version},
+                apk_url=#{apkUrl},
+                status=#{status},
+                remark=#{remark},
+                install_status=#{installStatus},
+                down_status=#{downStatus},
+                position=#{position}
+
+            </set>
+            where user_name in
+            <foreach item="equipments" collection="equipments" open="(" separator="," close=")">
+                #{equipments}
+            </foreach>
+    </update>
+
+    <update id="batchChangeLockStatusByIds" parameterType="ClassCardLock">
+        update dm_class_card set lock_status = #{lockStatus} where user_name in
+        <foreach item="item" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="lockDmScreen">
+        update dm_class_card set lock_status = '1' where user_name = #{id}
+    </update>
+    <update id="unLockDmScreen">
+        update dm_class_card set lock_status = '0' where user_name = #{id}
+    </update>
+    <select id="getDmClassCardByTeacherId" resultType="DmClassCard">
+      select T.user_name,CONCAT(c.grade_name,'(',c.number,')班班牌') as 'name' from dm_class_card T left join jw_classes c on T.class_id = c.id
+      where find_in_set(#{id},T.teacher_id) and T.class_id is not null and T.lock_status = #{lockStatus}
+    </select>
+
+    <select id="getDmClassCardTree" resultType="DmClassCard">
+        select -1 as 'parentId',name,id as 'id' from  ad_dd  where type_id = 4
+
+        union all
+
+        (SELECT
+            c.grade_id AS 'parentId',
+            c.number AS 'name',
+            T.class_id AS 'id'
+        FROM
+            dm_class_card T
+            LEFT JOIN jw_classes c ON T.class_id = c.id
+        WHERE
+            T.school_id = #{schoolId}
+            and T.class_id is not null
+            <if test="remark!=null ">
+                and ( ISNULL(T.teacher_id)  or  find_in_set(#{teacherId},T.teacher_id))
+            </if>
+            <if test="keyWord!=null ">
+                and  find_in_set(#{teacherId},T.teacher_id)
+            </if>) ORDER BY   LENGTH(NAME),NAME ,id
+    </select>
+
+    <!-- 批量设置班牌权限 -->
+    <update id="updateDmClassManage" parameterType="DmClassCard">
+        update dm_class_card
+        <set>
+            teacher_id= #{teacherId}
+        </set>
+        where class_id in
+        <foreach item="rowData" collection="rowData" open="(" separator="," close=")">
+            #{rowData}
+        </foreach>
+
+    </update>
+    <select id="findDmClassCardIdByTeacherId" parameterType="DmClassCard" resultType="DmClassCard">
+        SELECT
+            c.grade_id,
+            t.class_id
+        FROM
+            dm_class_card t
+            LEFT JOIN jw_classes c ON t.class_id = c.id
+            WHERE
+            t.school_id = #{schoolId}
+            AND find_in_set( #{teacherId}, t.teacher_id )
+    </select>
+    <!-- 批量清除该教师拥有的班牌权限 -->
+    <update id="cleraDmClassManage" parameterType="DmClassCard">
+        update dm_class_card
+        <set>
+            teacher_id= null
+        </set>
+        where
+            school_id =#{schoolId}
+            and find_in_set(#{teacherId},teacher_id)
+    </update>
+    <select id="selectUserNameListBySchoolId" resultType="com.yice.edu.cn.common.pojo.dm.classCard.DmClassCard">
+        select user_name from dm_class_card where school_id=#{schoolId}
+    </select>
+    <select id="findDmClassCardByStudentId" parameterType="string" resultType="DmClassCard">
+        SELECT
+            T.*
+        FROM
+            dm_class_card T
+            LEFT JOIN jw_student F ON T.class_id = F.classes_id
+        WHERE
+            F.id = #{studentId}
+        GROUP BY
+            T.class_id
+    </select>
+    <select id="findUserNamesBySchoolId" parameterType="String" resultType="java.lang.String">
+        select user_name from dm_class_card where school_id = #{schoolId}
+    </select>
+     <!--根据学校id解除该学校所有的班牌和班级的绑定关系-->
+    <update id="clearDmAndClazzRelateBySchoolId" parameterType="DmClassCard">
+        update dm_class_card set class_id=null where school_id = #{schoolId}
+    </update>
+     <!--根据班牌id修改所绑定的班级id-->
+    <update id="updateDmClazzRelateByDmId" parameterType="DmClassCard">
+        update dm_class_card set class_id=#{classId} where id = #{id}
+    </update>
+</mapper>

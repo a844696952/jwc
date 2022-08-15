@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.equipmentType.EquipmentRecordDao">
+    <!--########################################################################################################################-->
+    <select id="findEquipmentRecordListByCondition" parameterType="EquipmentRecord" resultType="EquipmentRecord">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('vendorName')">
+                             T.vendor_name,
+                         </if>
+                         <if test="!pager.excludes.contains('deviceName')">
+                             T.device_name,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentNumber')">
+                             T.equipment_number,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('provinceId')">
+                             T.province_id,
+                         </if>
+                         <if test="!pager.excludes.contains('provinceName')">
+                             T.province_name,
+                         </if>
+                         <if test="!pager.excludes.contains('cityId')">
+                             T.city_id,
+                         </if>
+                         <if test="!pager.excludes.contains('cityName')">
+                             T.city_name,
+                         </if>
+                         <if test="!pager.excludes.contains('districtId')">
+                             T.district_id,
+                         </if>
+                         <if test="!pager.excludes.contains('districtName')">
+                             T.district_name,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolName')">
+                             T.school_name,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_record T
+        <where>
+              <if test="countyName!=null">
+                 T.device_name  like "%"#{countyName}"%" or T.vendor_name like "%"#{countyName}"%"
+              </if>
+              <if test="startTime!=null">
+                and T.create_time &gt;= #{startTime}
+              </if>
+              <if test="endTime!=null">
+                and T.create_time &lt;= #{endTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="vendorName!=null">
+                and T.vendor_name=#{vendorName}
+              </if>
+              <if test="deviceName!=null">
+                and T.device_name=#{deviceName}
+              </if>
+              <if test="equipmentNumber!=null">
+                and T.equipment_number=#{equipmentNumber}
+              </if>
+              <if test="remarks!=null">
+                and T.remarks=#{remarks}
+              </if>
+              <if test="type!=null">
+                and T.type=#{type}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="provinceId!=null">
+                and T.province_id=#{provinceId}
+              </if>
+              <if test="provinceName!=null">
+                and T.province_name=#{provinceName}
+              </if>
+              <if test="cityId!=null">
+                and T.city_id=#{cityId}
+              </if>
+              <if test="cityName!=null">
+                and T.city_name=#{cityName}
+              </if>
+              <if test="districtId!=null">
+                and T.district_id=#{districtId}
+              </if>
+              <if test="districtName!=null">
+                and T.district_name=#{districtName}
+              </if>
+              <if test="schoolName!=null">
+                and T.school_name=#{schoolName}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findEquipmentRecordCountByCondition" parameterType="EquipmentRecord" resultType="long">
+        select count(*) from equipment_record
+        <where>
+              <if test="countyName!=null">
+                  device_name  like "%"#{countyName}"%" or vendor_name like "%"#{countyName}"%"
+              </if>
+              <if test="startTime!=null">
+                and create_time &gt;= #{startTime}
+              </if>
+              <if test="endTime!=null">
+                and create_time &lt;= #{endTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="vendorName!=null">
+                and vendor_name=#{vendorName}
+              </if>
+              <if test="deviceName!=null">
+                and device_name=#{deviceName}
+              </if>
+              <if test="equipmentNumber!=null">
+                and equipment_number=#{equipmentNumber}
+              </if>
+              <if test="remarks!=null">
+                and remarks=#{remarks}
+              </if>
+              <if test="type!=null">
+                and type=#{type}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="provinceId!=null">
+                and province_id=#{provinceId}
+              </if>
+              <if test="provinceName!=null">
+                and province_name=#{provinceName}
+              </if>
+              <if test="cityId!=null">
+                and city_id=#{cityId}
+              </if>
+              <if test="cityName!=null">
+                and city_name=#{cityName}
+              </if>
+              <if test="districtId!=null">
+                and district_id=#{districtId}
+              </if>
+              <if test="districtName!=null">
+                and district_name=#{districtName}
+              </if>
+              <if test="schoolName!=null">
+                and school_name=#{schoolName}
+              </if>
+        </where>
+    </select>
+    <select id="findEquipmentRecordById" resultType="EquipmentRecord">
+        select * from equipment_record where id=#{id}
+    </select>
+    <select id="findOneEquipmentRecordByCondition" parameterType="EquipmentRecord" resultType="EquipmentRecord">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('vendorName')">
+                             T.vendor_name,
+                         </if>
+                         <if test="!pager.excludes.contains('deviceName')">
+                             T.device_name,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentNumber')">
+                             T.equipment_number,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('provinceId')">
+                             T.province_id,
+                         </if>
+                         <if test="!pager.excludes.contains('provinceName')">
+                             T.province_name,
+                         </if>
+                         <if test="!pager.excludes.contains('cityId')">
+                             T.city_id,
+                         </if>
+                         <if test="!pager.excludes.contains('cityName')">
+                             T.city_name,
+                         </if>
+                         <if test="!pager.excludes.contains('districtId')">
+                             T.district_id,
+                         </if>
+                         <if test="!pager.excludes.contains('districtName')">
+                             T.district_name,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolName')">
+                             T.school_name,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_record T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="vendorName!=null">
+                and T.vendor_name=#{vendorName}
+              </if>
+              <if test="deviceName!=null">
+                and T.device_name=#{deviceName}
+              </if>
+              <if test="equipmentNumber!=null">
+                and T.equipment_number=#{equipmentNumber}
+              </if>
+              <if test="remarks!=null">
+                and T.remarks=#{remarks}
+              </if>
+              <if test="type!=null">
+                and T.type=#{type}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="provinceId!=null">
+                and T.province_id=#{provinceId}
+              </if>
+              <if test="provinceName!=null">
+                and T.province_name=#{provinceName}
+              </if>
+              <if test="cityId!=null">
+                and T.city_id=#{cityId}
+              </if>
+              <if test="cityName!=null">
+                and T.city_name=#{cityName}
+              </if>
+              <if test="districtId!=null">
+                and T.district_id=#{districtId}
+              </if>
+              <if test="districtName!=null">
+                and T.district_name=#{districtName}
+              </if>
+              <if test="schoolName!=null">
+                and T.school_name=#{schoolName}
+              </if>
+        </where>
+    </select>
+    <insert id="saveEquipmentRecord" parameterType="EquipmentRecord">
+        insert into equipment_record
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            vendor_name,
+            device_name,
+            equipment_number,
+            remarks,
+            type,
+            school_id,
+            province_id,
+            province_name,
+            city_id,
+            city_name,
+            district_id,
+            district_name,
+            school_name
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{vendorName}
+                ,
+                #{deviceName}
+                ,
+                #{equipmentNumber}
+                ,
+                #{remarks}
+                ,
+                #{type}
+                ,
+                #{schoolId}
+                ,
+                #{provinceId}
+                ,
+                #{provinceName}
+                ,
+                #{cityId}
+                ,
+                #{cityName}
+                ,
+                #{districtId}
+                ,
+                #{districtName}
+                ,
+                #{schoolName}
+                
+         )
+    </insert>
+    <update id="updateEquipmentRecord" parameterType="EquipmentRecord">
+        update equipment_record
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="vendorName!=null ">
+                        vendor_name=#{vendorName},
+                    </if>
+                    <if test="deviceName!=null ">
+                        device_name=#{deviceName},
+                    </if>
+                    <if test="equipmentNumber!=null ">
+                        equipment_number=#{equipmentNumber},
+                    </if>
+                    <if test="remarks!=null ">
+                        remarks=#{remarks},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="provinceId!=null ">
+                        province_id=#{provinceId},
+                    </if>
+                    <if test="provinceName!=null ">
+                        province_name=#{provinceName},
+                    </if>
+                    <if test="cityId!=null ">
+                        city_id=#{cityId},
+                    </if>
+                    <if test="cityName!=null ">
+                        city_name=#{cityName},
+                    </if>
+                    <if test="districtId!=null ">
+                        district_id=#{districtId},
+                    </if>
+                    <if test="districtName!=null ">
+                        district_name=#{districtName},
+                    </if>
+                    <if test="schoolName!=null ">
+                        school_name=#{schoolName}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteEquipmentRecord" >
+        delete from equipment_record where id=#{id}
+    </delete>
+    <delete id="deleteEquipmentRecordByCondition" >
+        delete from equipment_record
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="vendorName!=null">
+                and vendor_name=#{vendorName}
+              </if>
+              <if test="deviceName!=null">
+                and device_name=#{deviceName}
+              </if>
+              <if test="equipmentNumber!=null">
+                and equipment_number=#{equipmentNumber}
+              </if>
+              <if test="remarks!=null">
+                and remarks=#{remarks}
+              </if>
+              <if test="type!=null">
+                and type=#{type}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="provinceId!=null">
+                and province_id=#{provinceId}
+              </if>
+              <if test="provinceName!=null">
+                and province_name=#{provinceName}
+              </if>
+              <if test="cityId!=null">
+                and city_id=#{cityId}
+              </if>
+              <if test="cityName!=null">
+                and city_name=#{cityName}
+              </if>
+              <if test="districtId!=null">
+                and district_id=#{districtId}
+              </if>
+              <if test="districtName!=null">
+                and district_name=#{districtName}
+              </if>
+              <if test="schoolName!=null">
+                and school_name=#{schoolName}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveEquipmentRecord" parameterType="EquipmentRecord">
+        INSERT INTO equipment_record (  id,  create_time,  update_time,  del,  vendor_name,  device_name,  equipment_number,  remarks,  type,  school_id,  province_id,  province_name,  city_id,  city_name,  district_id,  district_name,  school_name )
+        VALUES
+        <foreach collection="list" item="equipmentRecord" separator=",">
+            (  #{equipmentRecord.id},  #{equipmentRecord.createTime},  #{equipmentRecord.updateTime},  #{equipmentRecord.del},  #{equipmentRecord.vendorName},  #{equipmentRecord.deviceName},  #{equipmentRecord.equipmentNumber},  #{equipmentRecord.remarks},  #{equipmentRecord.type},  #{equipmentRecord.schoolId},  #{equipmentRecord.provinceId},  #{equipmentRecord.provinceName},  #{equipmentRecord.cityId},  #{equipmentRecord.cityName},  #{equipmentRecord.districtId},  #{equipmentRecord.districtName},  #{equipmentRecord.schoolName}  )
+        </foreach>
+    </insert>
+    <!-- 查询原型-->
+   <!-- <select id="findEquipmentRecordListByCondition" parameterType="EquipmentRecord" resultType="EquipmentRecord">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('vendorName')">
+                        T.vendor_name,
+                    </if>
+                    <if test="!pager.excludes.contains('deviceName')">
+                        T.device_name,
+                    </if>
+                    <if test="!pager.excludes.contains('equipmentNumber')">
+                        T.equipment_number,
+                    </if>
+                    <if test="!pager.excludes.contains('remarks')">
+                        T.remarks,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('provinceId')">
+                        T.province_id,
+                    </if>
+                    <if test="!pager.excludes.contains('provinceName')">
+                        T.province_name,
+                    </if>
+                    <if test="!pager.excludes.contains('cityId')">
+                        T.city_id,
+                    </if>
+                    <if test="!pager.excludes.contains('cityName')">
+                        T.city_name,
+                    </if>
+                    <if test="!pager.excludes.contains('districtId')">
+                        T.district_id,
+                    </if>
+                    <if test="!pager.excludes.contains('districtName')">
+                        T.district_name,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolName')">
+                        T.school_name,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from equipment_record T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="vendorName!=null">
+                and T.vendor_name=#{vendorName}
+            </if>
+            <if test="deviceName!=null">
+                and T.device_name=#{deviceName}
+            </if>
+            <if test="equipmentNumber!=null">
+                and T.equipment_number=#{equipmentNumber}
+            </if>
+            <if test="remarks!=null">
+                and T.remarks=#{remarks}
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="provinceId!=null">
+                and T.province_id=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and T.province_name=#{provinceName}
+            </if>
+            <if test="cityId!=null">
+                and T.city_id=#{cityId}
+            </if>
+            <if test="cityName!=null">
+                and T.city_name=#{cityName}
+            </if>
+            <if test="districtId!=null">
+                and T.district_id=#{districtId}
+            </if>
+            <if test="districtName!=null">
+                and T.district_name=#{districtName}
+            </if>
+            <if test="schoolName!=null">
+                and T.school_name=#{schoolName}
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select> -->
+    <!--########################################################################################################################-->
+</mapper>

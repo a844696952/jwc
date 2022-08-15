@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.school.IDmSchoolBigNewsDao">
+    <!--########################################################################################################################-->
+    <select id="findDmSchoolBigNewsListByCondition" parameterType="DmSchoolBigNews" resultType="DmSchoolBigNews">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schooId')">
+                             T.schoo_id,
+                         </if>
+                         <if test="!pager.excludes.contains('activeName')">
+                             T.active_name,
+                         </if>
+                         <if test="!pager.excludes.contains('imgUrl')">
+                             T.img_url,
+                         </if>
+                         <if test="!pager.excludes.contains('description')">
+                             T.description,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                         <if test="!pager.excludes.contains('newsStatus')">
+                             T.news_status,
+                         </if>
+                         <if test="!pager.excludes.contains('haveTime')">
+                             T.have_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from dm_school_big_news T
+        <where>
+              <if test="schooId!=null">
+                 T.schoo_id=#{schooId}
+              </if>
+              <if test="activeName!=null">
+                and T.active_name=#{activeName}
+              </if>
+              <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+              </if>
+              <if test="description!=null">
+                and T.description=#{description}
+              </if>
+              <if test="sort!=null">
+                and T.sort=#{sort}
+              </if>
+              <if test="newsStatus!=null">
+                and T.news_status=#{newsStatus}
+              </if>
+              <if test="haveTime!=null">
+                and T.have_time=#{haveTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findDmSchoolBigNewsCountByCondition" parameterType="DmSchoolBigNews" resultType="long">
+        select count(*) from dm_school_big_news
+        <where>
+              <if test="schooId!=null">
+                 schoo_id=#{schooId}
+              </if>
+              <if test="activeName!=null">
+                and active_name=#{activeName}
+              </if>
+              <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+              </if>
+              <if test="description!=null">
+                and description=#{description}
+              </if>
+              <if test="sort!=null">
+                and sort=#{sort}
+              </if>
+              <if test="newsStatus!=null">
+                and news_status=#{newsStatus}
+              </if>
+              <if test="haveTime!=null">
+                and have_time=#{haveTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+        </where>
+    </select>
+    <select id="findDmSchoolBigNewsById" resultType="DmSchoolBigNews">
+        select * from dm_school_big_news where id=#{id}
+    </select>
+    <select id="findOneDmSchoolBigNewsByCondition" parameterType="DmSchoolBigNews" resultType="DmSchoolBigNews">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schooId')">
+                             T.schoo_id,
+                         </if>
+                         <if test="!pager.excludes.contains('activeName')">
+                             T.active_name,
+                         </if>
+                         <if test="!pager.excludes.contains('imgUrl')">
+                             T.img_url,
+                         </if>
+                         <if test="!pager.excludes.contains('description')">
+                             T.description,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                         <if test="!pager.excludes.contains('newsStatus')">
+                             T.news_status,
+                         </if>
+                         <if test="!pager.excludes.contains('haveTime')">
+                             T.have_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from dm_school_big_news T
+        <where>
+              <if test="schooId!=null">
+                 T.schoo_id=#{schooId}
+              </if>
+              <if test="activeName!=null">
+                and T.active_name=#{activeName}
+              </if>
+              <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+              </if>
+              <if test="description!=null">
+                and T.description=#{description}
+              </if>
+              <if test="sort!=null">
+                and T.sort=#{sort}
+              </if>
+              <if test="newsStatus!=null">
+                and T.news_status=#{newsStatus}
+              </if>
+              <if test="haveTime!=null">
+                and T.have_time=#{haveTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveDmSchoolBigNews" parameterType="DmSchoolBigNews" useGeneratedKeys="true" keyProperty="id">
+        insert into dm_school_big_news
+         (
+            id,
+            schoo_id,
+            active_name,
+            img_url,
+            description,
+            sort,
+            news_status,
+            have_time,
+            update_time,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schooId}
+                ,
+                #{activeName}
+                ,
+                #{imgUrl}
+                ,
+                #{description}
+                ,
+                #{sort}
+                ,
+                #{newsStatus}
+                ,
+                #{haveTime}
+                ,
+                #{updateTime}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateDmSchoolBigNews" parameterType="DmSchoolBigNews">
+        update dm_school_big_news
+        <set>
+                    <if test="schooId!=null ">
+                        schoo_id=#{schooId},
+                    </if>
+                    <if test="activeName!=null ">
+                        active_name=#{activeName},
+                    </if>
+                    <if test="imgUrl!=null ">
+                        img_url=#{imgUrl},
+                    </if>
+                    <if test="description!=null ">
+                        description=#{description},
+                    </if>
+                    <if test="sort!=null ">
+                        sort=#{sort},
+                    </if>
+                    <if test="newsStatus!=null ">
+                        news_status=#{newsStatus},
+                    </if>
+                    <if test="haveTime!=null ">
+                        have_time=#{haveTime},
+                    </if>
+                    update_time=now(),
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmSchoolBigNews" >
+        delete from dm_school_big_news where id=#{id}
+    </delete>
+    <delete id="deleteDmSchoolBigNewsByCondition" >
+        delete from dm_school_big_news
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="schooId!=null">
+                and schoo_id=#{schooId}
+              </if>
+              <if test="activeName!=null">
+                and active_name=#{activeName}
+              </if>
+              <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+              </if>
+              <if test="description!=null">
+                and description=#{description}
+              </if>
+              <if test="sort!=null">
+                and sort=#{sort}
+              </if>
+              <if test="newsStatus!=null">
+                and news_status=#{newsStatus}
+              </if>
+              <if test="haveTime!=null">
+                and have_time=#{haveTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveDmSchoolBigNews" parameterType="DmSchoolBigNews" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO dm_school_big_news (  id,  schoo_id,  active_name,  img_url,  description,  sort,  news_status,  have_time,  update_time,  create_time )
+        VALUES
+        <foreach collection="list" item="dmSchoolBigNews" separator=",">
+            (  #{dmSchoolBigNews.id},  #{dmSchoolBigNews.schooId},  #{dmSchoolBigNews.activeName},  #{dmSchoolBigNews.imgUrl},  #{dmSchoolBigNews.description},  #{dmSchoolBigNews.sort},  #{dmSchoolBigNews.newsStatus},  #{dmSchoolBigNews.haveTime},  #{dmSchoolBigNews.updateTime},  #{dmSchoolBigNews.createTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findDmSchoolBigNewsListByactiveNameLike" parameterType="DmSchoolBigNews" resultType="DmSchoolBigNews">
+        select * from dm_school_big_news where schoo_id = #{schooId} and
+        active_name like concat('%','${activeName}','%') order by have_time desc
+    </select>
+    <select id="findDmSchoolBigNewsListByactiveNameLikeCount" parameterType="DmSchoolBigNews" resultType="long">
+        select count(*) from dm_school_big_news where schoo_id = #{schooId} and
+        active_name like concat('%','${activeName}','%') order by have_time desc
+    </select>
+</mapper>

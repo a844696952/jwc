@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.prepLessonResource.ILessonResFileMeterialItemDao">
+    <!--########################################################################################################################-->
+    <select id="findLessonResFileMeterialItemListByCondition" parameterType="LessonResFileMeterialItem" resultType="LessonResFileMeterialItem">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('resourceFileId')">
+                             T.resource_file_id,
+                         </if>
+                         <if test="!pager.excludes.contains('subjectMaterialId')">
+                             T.subject_material_id,
+                         </if>
+                         <if test="!pager.excludes.contains('path')">
+                             T.path,
+                         </if>
+                         <if test="!pager.excludes.contains('annualPeriodName')">
+                             T.annual_period_name,
+                         </if>
+                         <if test="!pager.excludes.contains('annualPeriodId')">
+                             T.annual_period_id,
+                         </if>
+                         <if test="!pager.excludes.contains('courseName')">
+                             T.course_name,
+                         </if>
+                         <if test="!pager.excludes.contains('courseId')">
+                             T.course_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeName')">
+                             T.grade_name,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('meterialId')">
+                             T.meterial_id,
+                         </if>
+                         <if test="!pager.excludes.contains('meterialItemId')">
+                             T.meterial_item_id,
+                         </if>
+                         <if test="!pager.excludes.contains('role')">
+                             T.role,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_lesson_res_file_jy_meterial_item T
+        <where>
+              <if test="resourceFileId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='resourceFileId'">
+                             T.resource_file_id like concat('%',#{resourceFileId},'%')
+                         </when>
+                         <otherwise>
+                             T.resource_file_id=#{resourceFileId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="subjectMaterialId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='subjectMaterialId'">
+                            and T.subject_material_id like concat('%',#{subjectMaterialId},'%')
+                         </when>
+                         <otherwise>
+                            and T.subject_material_id=#{subjectMaterialId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="path!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='path'">
+                            and T.path like concat('%',#{path},'%')
+                         </when>
+                         <otherwise>
+                            and T.path=#{path}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="annualPeriodName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='annualPeriodName'">
+                            and T.annual_period_name like concat('%',#{annualPeriodName},'%')
+                         </when>
+                         <otherwise>
+                            and T.annual_period_name=#{annualPeriodName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="annualPeriodId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='annualPeriodId'">
+                            and T.annual_period_id like concat('%',#{annualPeriodId},'%')
+                         </when>
+                         <otherwise>
+                            and T.annual_period_id=#{annualPeriodId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="courseName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseName'">
+                            and T.course_name like concat('%',#{courseName},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_name=#{courseName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="courseId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseId'">
+                            and T.course_id like concat('%',#{courseId},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_id=#{courseId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="gradeName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeName'">
+                            and T.grade_name like concat('%',#{gradeName},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_name=#{gradeName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="gradeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeId'">
+                            and T.grade_id like concat('%',#{gradeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_id=#{gradeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="meterialId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='meterialId'">
+                            and T.meterial_id like concat('%',#{meterialId},'%')
+                         </when>
+                         <otherwise>
+                            and T.meterial_id=#{meterialId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="meterialItemId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='meterialItemId'">
+                            and T.meterial_item_id like concat('%',#{meterialItemId},'%')
+                         </when>
+                         <otherwise>
+                            and T.meterial_item_id=#{meterialItemId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="role!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='role'">
+                            and T.role like concat('%',#{role},'%')
+                         </when>
+                         <otherwise>
+                            and T.role=#{role}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findLessonResFileMeterialItemCountByCondition" parameterType="LessonResFileMeterialItem" resultType="long">
+        select count(*) from jy_lesson_res_file_jy_meterial_item T
+        <where>
+              <if test="resourceFileId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='resourceFileId'">
+                             T.resource_file_id like concat('%',#{resourceFileId},'%')
+                         </when>
+                         <otherwise>
+                             T.resource_file_id=#{resourceFileId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="subjectMaterialId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='subjectMaterialId'">
+                            and T.subject_material_id like concat('%',#{subjectMaterialId},'%')
+                         </when>
+                         <otherwise>
+                            and T.subject_material_id=#{subjectMaterialId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="path!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='path'">
+                            and T.path like concat('%',#{path},'%')
+                         </when>
+                         <otherwise>
+                            and T.path=#{path}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="annualPeriodName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='annualPeriodName'">
+                            and T.annual_period_name like concat('%',#{annualPeriodName},'%')
+                         </when>
+                         <otherwise>
+                            and T.annual_period_name=#{annualPeriodName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="annualPeriodId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='annualPeriodId'">
+                            and T.annual_period_id like concat('%',#{annualPeriodId},'%')
+                         </when>
+                         <otherwise>
+                            and T.annual_period_id=#{annualPeriodId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="courseName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseName'">
+                            and T.course_name like concat('%',#{courseName},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_name=#{courseName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="courseId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseId'">
+                            and T.course_id like concat('%',#{courseId},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_id=#{courseId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="gradeName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeName'">
+                            and T.grade_name like concat('%',#{gradeName},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_name=#{gradeName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="gradeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeId'">
+                            and T.grade_id like concat('%',#{gradeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_id=#{gradeId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="meterialId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='meterialId'">
+                            and T.meterial_id like concat('%',#{meterialId},'%')
+                         </when>
+                         <otherwise>
+                            and T.meterial_id=#{meterialId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="meterialItemId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='meterialItemId'">
+                            and T.meterial_item_id like concat('%',#{meterialItemId},'%')
+                         </when>
+                         <otherwise>
+                            and T.meterial_item_id=#{meterialItemId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="role!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='role'">
+                            and T.role like concat('%',#{role},'%')
+                         </when>
+                         <otherwise>
+                            and T.role=#{role}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findLessonResFileMeterialItemById" resultType="LessonResFileMeterialItem">
+        select * from jy_lesson_res_file_jy_meterial_item where id=#{id}
+    </select>
+    <select id="findOneLessonResFileMeterialItemByCondition" parameterType="LessonResFileMeterialItem" resultType="LessonResFileMeterialItem">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('resourceFileId')">
+                             T.resource_file_id,
+                         </if>
+                         <if test="!pager.excludes.contains('subjectMaterialId')">
+                             T.subject_material_id,
+                         </if>
+                         <if test="!pager.excludes.contains('path')">
+                             T.path,
+                         </if>
+                         <if test="!pager.excludes.contains('annualPeriodName')">
+                             T.annual_period_name,
+                         </if>
+                         <if test="!pager.excludes.contains('annualPeriodId')">
+                             T.annual_period_id,
+                         </if>
+                         <if test="!pager.excludes.contains('courseName')">
+                             T.course_name,
+                         </if>
+                         <if test="!pager.excludes.contains('courseId')">
+                             T.course_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeName')">
+                             T.grade_name,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('meterialId')">
+                             T.meterial_id,
+                         </if>
+                         <if test="!pager.excludes.contains('meterialItemId')">
+                             T.meterial_item_id,
+                         </if>
+                         <if test="!pager.excludes.contains('role')">
+                             T.role,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_lesson_res_file_jy_meterial_item T
+        <where>
+              <if test="resourceFileId!=null">
+                 T.resource_file_id=#{resourceFileId}
+              </if>
+              <if test="subjectMaterialId!=null">
+                and T.subject_material_id=#{subjectMaterialId}
+              </if>
+              <if test="path!=null">
+                and T.path=#{path}
+              </if>
+              <if test="annualPeriodName!=null">
+                and T.annual_period_name=#{annualPeriodName}
+              </if>
+              <if test="annualPeriodId!=null">
+                and T.annual_period_id=#{annualPeriodId}
+              </if>
+              <if test="courseName!=null">
+                and T.course_name=#{courseName}
+              </if>
+              <if test="courseId!=null">
+                and T.course_id=#{courseId}
+              </if>
+              <if test="gradeName!=null">
+                and T.grade_name=#{gradeName}
+              </if>
+              <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+              </if>
+              <if test="meterialId!=null">
+                and T.meterial_id=#{meterialId}
+              </if>
+              <if test="meterialItemId!=null">
+                and T.meterial_item_id=#{meterialItemId}
+              </if>
+              <if test="role!=null">
+                and T.role=#{role}
+              </if>
+        </where>
+    </select>
+    <insert id="saveLessonResFileMeterialItem" parameterType="LessonResFileMeterialItem">
+        insert into jy_lesson_res_file_jy_meterial_item
+         (
+            id,
+            resource_file_id,
+            subject_material_id,
+            path,
+            annual_period_name,
+            annual_period_id,
+            course_name,
+            course_id,
+            grade_name,
+            grade_id,
+            meterial_id,
+            meterial_item_id,
+            role
+        ) values
+         (
+                #{id}
+                ,
+                #{resourceFileId}
+                ,
+                #{subjectMaterialId}
+                ,
+                #{path}
+                ,
+                #{annualPeriodName}
+                ,
+                #{annualPeriodId}
+                ,
+                #{courseName}
+                ,
+                #{courseId}
+                ,
+                #{gradeName}
+                ,
+                #{gradeId}
+                ,
+                #{meterialId}
+                ,
+                #{meterialItemId}
+                ,
+                #{role}
+                
+         )
+    </insert>
+    <update id="updateLessonResFileMeterialItem" parameterType="LessonResFileMeterialItem">
+        update jy_lesson_res_file_jy_meterial_item
+        <set>
+                    <if test="resourceFileId!=null ">
+                        resource_file_id=#{resourceFileId},
+                    </if>
+                    <if test="subjectMaterialId!=null ">
+                        subject_material_id=#{subjectMaterialId},
+                    </if>
+                    <if test="path!=null ">
+                        path=#{path},
+                    </if>
+                    <if test="annualPeriodName!=null ">
+                        annual_period_name=#{annualPeriodName},
+                    </if>
+                    <if test="annualPeriodId!=null ">
+                        annual_period_id=#{annualPeriodId},
+                    </if>
+                    <if test="courseName!=null ">
+                        course_name=#{courseName},
+                    </if>
+                    <if test="courseId!=null ">
+                        course_id=#{courseId},
+                    </if>
+                    <if test="gradeName!=null ">
+                        grade_name=#{gradeName},
+                    </if>
+                    <if test="gradeId!=null ">
+                        grade_id=#{gradeId},
+                    </if>
+                    <if test="meterialId!=null ">
+                        meterial_id=#{meterialId},
+                    </if>
+                    <if test="meterialItemId!=null ">
+                        meterial_item_id=#{meterialItemId},
+                    </if>
+                    <if test="role!=null ">
+                        role=#{role}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteLessonResFileMeterialItem" >
+        delete from jy_lesson_res_file_jy_meterial_item where id=#{id}
+    </delete>
+    <delete id="deleteLessonResFileMeterialItemByCondition" >
+        delete from jy_lesson_res_file_jy_meterial_item
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="resourceFileId!=null">
+                and resource_file_id=#{resourceFileId}
+              </if>
+              <if test="subjectMaterialId!=null">
+                and subject_material_id=#{subjectMaterialId}
+              </if>
+              <if test="path!=null">
+                and path=#{path}
+              </if>
+              <if test="annualPeriodName!=null">
+                and annual_period_name=#{annualPeriodName}
+              </if>
+              <if test="annualPeriodId!=null">
+                and annual_period_id=#{annualPeriodId}
+              </if>
+              <if test="courseName!=null">
+                and course_name=#{courseName}
+              </if>
+              <if test="courseId!=null">
+                and course_id=#{courseId}
+              </if>
+              <if test="gradeName!=null">
+                and grade_name=#{gradeName}
+              </if>
+              <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+              </if>
+              <if test="meterialId!=null">
+                and meterial_id=#{meterialId}
+              </if>
+              <if test="meterialItemId!=null">
+                and meterial_item_id=#{meterialItemId}
+              </if>
+              <if test="role!=null">
+                and role=#{role}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveLessonResFileMeterialItem" parameterType="LessonResFileMeterialItem">
+        INSERT INTO jy_lesson_res_file_jy_meterial_item (  id,  resource_file_id,  subject_material_id,  path,  annual_period_name,  annual_period_id,  course_name,  course_id,  grade_name,  grade_id,  meterial_id,  meterial_item_id,  role )
+        VALUES
+        <foreach collection="list" item="lessonResFileMeterialItem" separator=",">
+            (  #{lessonResFileMeterialItem.id},  #{lessonResFileMeterialItem.resourceFileId},  #{lessonResFileMeterialItem.subjectMaterialId},  #{lessonResFileMeterialItem.path},  #{lessonResFileMeterialItem.annualPeriodName},  #{lessonResFileMeterialItem.annualPeriodId},  #{lessonResFileMeterialItem.courseName},  #{lessonResFileMeterialItem.courseId},  #{lessonResFileMeterialItem.gradeName},  #{lessonResFileMeterialItem.gradeId},  #{lessonResFileMeterialItem.meterialId},  #{lessonResFileMeterialItem.meterialItemId},  #{lessonResFileMeterialItem.role}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

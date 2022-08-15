@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.standard.StandardDao">
+    <insert id="saveStandard"  >
+        insert into standard (id, name, age, area, descr,top, create_time ) values (#{id},#{name},#{age},#{area},#{descr},#{top},now())
+    </insert>
+    <delete id="deleteStandard">
+        delete from standard where id=#{id}
+    </delete>
+
+    <select id="findStandardById" resultType="com.yice.edu.cn.common.pojo.general.standard.Standard">
+        select * from standard where id=#{arg0}
+    </select>
+    <select id="findStandardListByCondition" parameterType="com.yice.edu.cn.common.pojo.general.standard.Standard" resultType="com.yice.edu.cn.common.pojo.general.standard.Standard">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${field}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.cogetVaptchantains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('age')">
+                        T.age,
+                    </if>
+                    <if test="!pager.excludes.contains('area')">
+                        T.area,
+                    </if>
+                    <if test="!pager.excludes.contains('descr')">
+                        T.descr,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('top')">
+                        T.top,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from standard T
+        <where>
+            <if test="name!=null and name!=''">
+                T.name=#{name}
+            </if>
+            <if test="age!=null ">
+                and T.age=#{age}
+            </if>
+            <if test="area!=null ">
+                and T.area=#{area}
+            </if>
+            <if test="descr!=null and descr!=''">
+                and T.descr=#{descr}
+            </if>
+            <if test="createTime!=null and createTime!=''">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="top!=null">
+                and T.top=#{top}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortField!='' and pager.sortOrder!=null and pager.sortOrder!=''">
+            order by T.${pager.sortField} ${pager.sortOrder}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            <choose>
+                <when test="pager.beginRow!=null">
+                    limit #{pager.beginRow},#{pager.pageSize}
+                </when>
+                <otherwise>
+                    limit 0,10
+                </otherwise>
+            </choose>
+        </if>
+
+    </select>
+    <select id="findStandardCountByCondition" resultType="java.lang.Long">
+        select count(*) from standard
+        <where>
+            <if test="name!=null and name!=''">
+                name=#{name}
+            </if>
+            <if test="age!=null">
+                and age=#{age}
+            </if>
+            <if test="area!=null">
+                and area=#{area}
+            </if>
+            <if test="descr!=null and descr!=''">
+                and descr=#{descr}
+            </if>
+            <if test="createTime!=null and createTime!=''">
+                and create_time=#{createTime}
+            </if>
+            <if test="top!=null">
+                and top=#{top}
+            </if>
+        </where>
+    </select>
+    <update id="updateStandard" parameterType="com.yice.edu.cn.common.pojo.general.standard.Standard">
+        update standard
+        <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="age!=null ">
+                age=#{age},
+            </if>
+            <if test="area!=null ">
+                area=#{area},
+            </if>
+            <if test="descr!=null and descr!=''">
+                descr=#{descr},
+            </if>
+            <if test="createTime!=null and createTime!=''">
+                create_time=#{createTime},
+            </if>
+            <if test="top!=null">
+                top=#{top}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

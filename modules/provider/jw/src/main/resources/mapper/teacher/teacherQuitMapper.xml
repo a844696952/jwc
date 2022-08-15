@@ -1,0 +1,1094 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.teacher.ITeacherQuitDao">
+    <!--########################################################################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('imgUrl')">
+                        T.img_url,
+                    </if>
+                    <if test="!pager.excludes.contains('workNumber')">
+                        T.work_number,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('pinyin')">
+                        T.pinyin,
+                    </if>
+                    <if test="!pager.excludes.contains('initials')">
+                        T.initials,
+                    </if>
+                    <if test="!pager.excludes.contains('englishName')">
+                        T.english_name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('tel')">
+                        T.tel,
+                    </if>
+                    <if test="!pager.excludes.contains('qq')">
+                        T.qq,
+                    </if>
+                    <if test="!pager.excludes.contains('weixin')">
+                        T.weixin,
+                    </if>
+                    <if test="!pager.excludes.contains('email')">
+                        T.email,
+                    </if>
+                    <if test="!pager.excludes.contains('nationality')">
+                        T.nationality,
+                    </if>
+                    <if test="!pager.excludes.contains('nation')">
+                        T.nation,
+                    </if>
+                    <if test="!pager.excludes.contains('nationName')">
+                        T.nation_name,
+                    </if>
+                    <if test="!pager.excludes.contains('nativePlace')">
+                        T.native_place,
+                    </if>
+                    <if test="!pager.excludes.contains('documentType')">
+                        T.document_type,
+                    </if>
+                    <if test="!pager.excludes.contains('documentNum')">
+                        T.document_num,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherNum')">
+                        T.teacher_num,
+                    </if>
+                    <if test="!pager.excludes.contains('provinceId')">
+                        T.province_id,
+                    </if>
+                    <if test="!pager.excludes.contains('provinceName')">
+                        T.province_name,
+                    </if>
+                    <if test="!pager.excludes.contains('cityId')">
+                        T.city_id,
+                    </if>
+                    <if test="!pager.excludes.contains('cityName')">
+                        T.city_name,
+                    </if>
+                    <if test="!pager.excludes.contains('countyId')">
+                        T.county_id,
+                    </if>
+                    <if test="!pager.excludes.contains('countyName')">
+                        T.county_name,
+                    </if>
+                    <if test="!pager.excludes.contains('address')">
+                        T.address,
+                    </if>
+                    <if test="!pager.excludes.contains('politicalFace')">
+                        T.political_face,
+                    </if>
+                    <if test="!pager.excludes.contains('birthDate')">
+                        T.birth_date,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherAge')">
+                        T.teacher_age,
+                    </if>
+                    <if test="!pager.excludes.contains('topEdu')">
+                        T.top_edu,
+                    </if>
+                    <if test="!pager.excludes.contains('graduate')">
+                        T.graduate,
+                    </if>
+                    <if test="!pager.excludes.contains('major')">
+                        T.major,
+                    </if>
+                    <if test="!pager.excludes.contains('beginTime')">
+                        T.begin_time,
+                    </if>
+                    <if test="!pager.excludes.contains('works')">
+                        T.works,
+                    </if>
+                    <if test="!pager.excludes.contains('status')">
+                        T.status,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolName')">
+                        T.school_name,
+                    </if>
+                    <if test="!pager.excludes.contains('maritalStatus')">
+                        T.marital_status,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="imgUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='imgUrl'">
+                        and T.img_url like concat('%',#{imgUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.img_url=#{imgUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="workNumber!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='workNumber'">
+                        and T.work_number like concat('%',#{workNumber},'%')
+                    </when>
+                    <otherwise>
+                        and T.work_number=#{workNumber}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pinyin!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='pinyin'">
+                        and T.pinyin like concat('%',#{pinyin},'%')
+                    </when>
+                    <otherwise>
+                        and T.pinyin=#{pinyin}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="initials!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='initials'">
+                        and T.initials like concat('%',#{initials},'%')
+                    </when>
+                    <otherwise>
+                        and T.initials=#{initials}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="englishName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='englishName'">
+                        and T.english_name like concat('%',#{englishName},'%')
+                    </when>
+                    <otherwise>
+                        and T.english_name=#{englishName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='sex'">
+                        and T.sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and T.sex=#{sex}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and T.tel=#{tel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="qq!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='qq'">
+                        and T.qq like concat('%',#{qq},'%')
+                    </when>
+                    <otherwise>
+                        and T.qq=#{qq}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="weixin!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='weixin'">
+                        and T.weixin like concat('%',#{weixin},'%')
+                    </when>
+                    <otherwise>
+                        and T.weixin=#{weixin}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="email!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='email'">
+                        and T.email like concat('%',#{email},'%')
+                    </when>
+                    <otherwise>
+                        and T.email=#{email}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="nationality!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='nationality'">
+                        and T.nationality like concat('%',#{nationality},'%')
+                    </when>
+                    <otherwise>
+                        and T.nationality=#{nationality}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="nation!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='nation'">
+                        and T.nation like concat('%',#{nation},'%')
+                    </when>
+                    <otherwise>
+                        and T.nation=#{nation}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="nationName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='nationName'">
+                        and T.nation_name like concat('%',#{nationName},'%')
+                    </when>
+                    <otherwise>
+                        and T.nation_name=#{nationName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="nativePlace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='nativePlace'">
+                        and T.native_place like concat('%',#{nativePlace},'%')
+                    </when>
+                    <otherwise>
+                        and T.native_place=#{nativePlace}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="documentType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='documentType'">
+                        and T.document_type like concat('%',#{documentType},'%')
+                    </when>
+                    <otherwise>
+                        and T.document_type=#{documentType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="documentNum!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='documentNum'">
+                        and T.document_num like concat('%',#{documentNum},'%')
+                    </when>
+                    <otherwise>
+                        and T.document_num=#{documentNum}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherNum!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherNum'">
+                        and T.teacher_num like concat('%',#{teacherNum},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_num=#{teacherNum}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="provinceId!=null">
+                and T.province_id=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='provinceName'">
+                        and T.province_name like concat('%',#{provinceName},'%')
+                    </when>
+                    <otherwise>
+                        and T.province_name=#{provinceName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="cityId!=null">
+                and T.city_id=#{cityId}
+            </if>
+            <if test="cityName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='cityName'">
+                        and T.city_name like concat('%',#{cityName},'%')
+                    </when>
+                    <otherwise>
+                        and T.city_name=#{cityName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="countyId!=null">
+                and T.county_id=#{countyId}
+            </if>
+            <if test="countyName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='countyName'">
+                        and T.county_name like concat('%',#{countyName},'%')
+                    </when>
+                    <otherwise>
+                        and T.county_name=#{countyName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="address!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='address'">
+                        and T.address like concat('%',#{address},'%')
+                    </when>
+                    <otherwise>
+                        and T.address=#{address}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="politicalFace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='politicalFace'">
+                        and T.political_face like concat('%',#{politicalFace},'%')
+                    </when>
+                    <otherwise>
+                        and T.political_face=#{politicalFace}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="birthDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='birthDate'">
+                        and T.birth_date like concat('%',#{birthDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.birth_date=#{birthDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherAge!=null">
+                and T.teacher_age=#{teacherAge}
+            </if>
+            <if test="topEdu!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='topEdu'">
+                        and T.top_edu like concat('%',#{topEdu},'%')
+                    </when>
+                    <otherwise>
+                        and T.top_edu=#{topEdu}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="graduate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='graduate'">
+                        and T.graduate like concat('%',#{graduate},'%')
+                    </when>
+                    <otherwise>
+                        and T.graduate=#{graduate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="major!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='major'">
+                        and T.major like concat('%',#{major},'%')
+                    </when>
+                    <otherwise>
+                        and T.major=#{major}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="beginTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='beginTime'">
+                        and T.begin_time like concat('%',#{beginTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.begin_time=#{beginTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="works!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='works'">
+                        and T.works like concat('%',#{works},'%')
+                    </when>
+                    <otherwise>
+                        and T.works=#{works}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='status'">
+                        and T.status like concat('%',#{status},'%')
+                    </when>
+                    <otherwise>
+                        and T.status=#{status}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolName'">
+                        and T.school_name like concat('%',#{schoolName},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_name=#{schoolName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="maritalStatus!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='maritalStatus'">
+                        and T.marital_status like concat('%',#{maritalStatus},'%')
+                    </when>
+                    <otherwise>
+                        and T.marital_status=#{maritalStatus}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findTeacherQuitListByCondition" parameterType="TeacherQuit" resultType="TeacherQuit">
+        select
+        <include refid="projection"/>
+        from jw_teacher_quit T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findTeacherQuitCountByCondition" parameterType="TeacherQuit" resultType="long">
+        select count(*) from jw_teacher_quit T
+        <include refid="match"/>
+    </select>
+    <select id="findTeacherQuitById" resultType="TeacherQuit">
+        select * from jw_teacher_quit where id=#{id}
+    </select>
+    <select id="findOneTeacherQuitByCondition" parameterType="TeacherQuit" resultType="TeacherQuit">
+        select
+        <include refid="projection"/>
+        from jw_teacher_quit T
+        <include refid="match"/>
+    </select>
+    <insert id="saveTeacherQuit" parameterType="TeacherQuit">
+        insert into jw_teacher_quit
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            img_url,
+            work_number,
+            name,
+            pinyin,
+            initials,
+            english_name,
+            sex,
+            tel,
+            qq,
+            weixin,
+            email,
+            nationality,
+            nation,
+            nation_name,
+            native_place,
+            document_type,
+            document_num,
+            teacher_num,
+            province_id,
+            province_name,
+            city_id,
+            city_name,
+            county_id,
+            county_name,
+            address,
+            political_face,
+            birth_date,
+            teacher_age,
+            top_edu,
+            graduate,
+            major,
+            begin_time,
+            works,
+            status,
+            school_id,
+            school_name,
+            marital_status
+        ) values
+         (
+                #{id}
+                ,
+                #{createTime}
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{imgUrl}
+                ,
+                #{workNumber}
+                ,
+                #{name}
+                ,
+                #{pinyin}
+                ,
+                #{initials}
+                ,
+                #{englishName}
+                ,
+                #{sex}
+                ,
+                #{tel}
+                ,
+                #{qq}
+                ,
+                #{weixin}
+                ,
+                #{email}
+                ,
+                #{nationality}
+                ,
+                #{nation}
+                ,
+                #{nationName}
+                ,
+                #{nativePlace}
+                ,
+                #{documentType}
+                ,
+                #{documentNum}
+                ,
+                #{teacherNum}
+                ,
+                #{provinceId}
+                ,
+                #{provinceName}
+                ,
+                #{cityId}
+                ,
+                #{cityName}
+                ,
+                #{countyId}
+                ,
+                #{countyName}
+                ,
+                #{address}
+                ,
+                #{politicalFace}
+                ,
+                #{birthDate}
+                ,
+                #{teacherAge}
+                ,
+                #{topEdu}
+                ,
+                #{graduate}
+                ,
+                #{major}
+                ,
+                #{beginTime}
+                ,
+                #{works}
+                ,
+                #{status}
+                ,
+                #{schoolId}
+                ,
+                #{schoolName}
+                ,
+                #{maritalStatus}
+
+         )
+    </insert>
+    <update id="updateTeacherQuit" parameterType="TeacherQuit">
+        update jw_teacher_quit
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="imgUrl!=null ">
+                img_url=#{imgUrl},
+            </if>
+            <if test="workNumber!=null ">
+                work_number=#{workNumber},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="pinyin!=null ">
+                pinyin=#{pinyin},
+            </if>
+            <if test="initials!=null ">
+                initials=#{initials},
+            </if>
+            <if test="englishName!=null ">
+                english_name=#{englishName},
+            </if>
+            <if test="sex!=null ">
+                sex=#{sex},
+            </if>
+            <if test="tel!=null ">
+                tel=#{tel},
+            </if>
+            <if test="qq!=null ">
+                qq=#{qq},
+            </if>
+            <if test="weixin!=null ">
+                weixin=#{weixin},
+            </if>
+            <if test="email!=null ">
+                email=#{email},
+            </if>
+            <if test="nationality!=null ">
+                nationality=#{nationality},
+            </if>
+            <if test="nation!=null ">
+                nation=#{nation},
+            </if>
+            <if test="nationName!=null ">
+                nation_name=#{nationName},
+            </if>
+            <if test="nativePlace!=null ">
+                native_place=#{nativePlace},
+            </if>
+            <if test="documentType!=null ">
+                document_type=#{documentType},
+            </if>
+            <if test="documentNum!=null ">
+                document_num=#{documentNum},
+            </if>
+            <if test="teacherNum!=null ">
+                teacher_num=#{teacherNum},
+            </if>
+            <if test="provinceId!=null ">
+                province_id=#{provinceId},
+            </if>
+            <if test="provinceName!=null ">
+                province_name=#{provinceName},
+            </if>
+            <if test="cityId!=null ">
+                city_id=#{cityId},
+            </if>
+            <if test="cityName!=null ">
+                city_name=#{cityName},
+            </if>
+            <if test="countyId!=null ">
+                county_id=#{countyId},
+            </if>
+            <if test="countyName!=null ">
+                county_name=#{countyName},
+            </if>
+            <if test="address!=null ">
+                address=#{address},
+            </if>
+            <if test="politicalFace!=null ">
+                political_face=#{politicalFace},
+            </if>
+            <if test="birthDate!=null ">
+                birth_date=#{birthDate},
+            </if>
+            <if test="teacherAge!=null ">
+                teacher_age=#{teacherAge},
+            </if>
+            <if test="topEdu!=null ">
+                top_edu=#{topEdu},
+            </if>
+            <if test="graduate!=null ">
+                graduate=#{graduate},
+            </if>
+            <if test="major!=null ">
+                major=#{major},
+            </if>
+            <if test="beginTime!=null ">
+                begin_time=#{beginTime},
+            </if>
+            <if test="works!=null ">
+                works=#{works},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="schoolName!=null ">
+                school_name=#{schoolName},
+            </if>
+            <if test="maritalStatus!=null ">
+                marital_status=#{maritalStatus}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteTeacherQuit" >
+        delete from jw_teacher_quit where id=#{id}
+    </delete>
+    <delete id="deleteTeacherQuitByCondition" >
+        delete T from jw_teacher_quit T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveTeacherQuit" parameterType="TeacherQuit">
+        INSERT INTO jw_teacher_quit (  id,  create_time,  update_time,  del,  img_url,  work_number,  name,  pinyin,  initials,  english_name,  sex,  tel,  qq,  weixin,  email,  nationality,  nation,  nation_name,  native_place,  document_type,  document_num,  teacher_num,  province_id,  province_name,  city_id,  city_name,  county_id,  county_name,  address,  political_face,  birth_date,  teacher_age,  top_edu,  graduate,  major,  begin_time,  works,  status,  school_id,  school_name,  marital_status )
+        VALUES
+        <foreach collection="list" item="teacherQuit" separator=",">
+            (  #{teacherQuit.id},  #{teacherQuit.createTime},  #{teacherQuit.updateTime},  #{teacherQuit.del},  #{teacherQuit.imgUrl},  #{teacherQuit.workNumber},  #{teacherQuit.name},  #{teacherQuit.pinyin},  #{teacherQuit.initials},  #{teacherQuit.englishName},  #{teacherQuit.sex},  #{teacherQuit.tel},  #{teacherQuit.qq},  #{teacherQuit.weixin},  #{teacherQuit.email},  #{teacherQuit.nationality},  #{teacherQuit.nation},  #{teacherQuit.nationName},  #{teacherQuit.nativePlace},  #{teacherQuit.documentType},  #{teacherQuit.documentNum},  #{teacherQuit.teacherNum},  #{teacherQuit.provinceId},  #{teacherQuit.provinceName},  #{teacherQuit.cityId},  #{teacherQuit.cityName},  #{teacherQuit.countyId},  #{teacherQuit.countyName},  #{teacherQuit.address},  #{teacherQuit.politicalFace},  #{teacherQuit.birthDate},  #{teacherQuit.teacherAge},  #{teacherQuit.topEdu},  #{teacherQuit.graduate},  #{teacherQuit.major},  #{teacherQuit.beginTime},  #{teacherQuit.works},  #{teacherQuit.status},  #{teacherQuit.schoolId},  #{teacherQuit.schoolName},  #{teacherQuit.maritalStatus}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findQuitTeachers4Yed" parameterType="TeacherQuit" resultType="TeacherQuit">
+        select
+        <include refid="projection"></include>
+        from jw_teacher_quit T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+            </if>
+            <if test="workNumber!=null">
+                and T.work_number=#{workNumber}
+            </if>
+            <if test="name!=null">
+                and (LOCATE(#{name},T.name) or LOCATE(#{name},T.school_name))
+            </if>
+            <if test="pinyin!=null">
+                and T.pinyin=#{pinyin}
+            </if>
+            <if test="initials!=null">
+                and T.initials=#{initials}
+            </if>
+            <if test="englishName!=null">
+                and T.english_name=#{englishName}
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="tel!=null">
+                and T.tel=#{tel}
+            </if>
+            <if test="qq!=null">
+                and T.qq=#{qq}
+            </if>
+            <if test="weixin!=null">
+                and T.weixin=#{weixin}
+            </if>
+            <if test="email!=null">
+                and T.email=#{email}
+            </if>
+            <if test="nationality!=null">
+                and T.nationality=#{nationality}
+            </if>
+            <if test="nation!=null">
+                and T.nation=#{nation}
+            </if>
+            <if test="nationName!=null">
+                and T.nation_name=#{nationName}
+            </if>
+            <if test="nativePlace!=null">
+                and T.native_place=#{nativePlace}
+            </if>
+            <if test="documentType!=null">
+                and T.document_type=#{documentType}
+            </if>
+            <if test="documentNum!=null">
+                and T.document_num=#{documentNum}
+            </if>
+            <if test="teacherNum!=null">
+                and T.teacher_num=#{teacherNum}
+            </if>
+            <if test="provinceId!=null">
+                and T.province_id=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and T.province_name=#{provinceName}
+            </if>
+            <if test="cityId!=null">
+                and T.city_id=#{cityId}
+            </if>
+            <if test="cityName!=null">
+                and T.city_name=#{cityName}
+            </if>
+            <if test="countyId!=null">
+                and T.county_id=#{countyId}
+            </if>
+            <if test="countyName!=null">
+                and T.county_name=#{countyName}
+            </if>
+            <if test="address!=null">
+                and T.address=#{address}
+            </if>
+            <if test="politicalFace!=null">
+                and T.political_face=#{politicalFace}
+            </if>
+            <if test="birthDate!=null">
+                and T.birth_date=#{birthDate}
+            </if>
+            <if test="teacherAge!=null">
+                and T.teacher_age=#{teacherAge}
+            </if>
+            <if test="topEdu!=null">
+                and T.top_edu=#{topEdu}
+            </if>
+            <if test="graduate!=null">
+                and T.graduate=#{graduate}
+            </if>
+            <if test="major!=null">
+                and T.major=#{major}
+            </if>
+            <if test="beginTime!=null">
+                and T.begin_time=#{beginTime}
+            </if>
+            <if test="works!=null">
+                and T.works=#{works}
+            </if>
+            <if test="status!=null">
+                and T.status=#{status}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="maritalStatus!=null">
+                and T.marital_status=#{maritalStatus}
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findQuitTeachersCount4Yed" parameterType="TeacherQuit" resultType="long">
+        select count(*) from jw_teacher_quit
+        <where>
+            <if test="createTime!=null">
+                create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and del=#{del}
+            </if>
+            <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+            </if>
+            <if test="workNumber!=null">
+                and work_number=#{workNumber}
+            </if>
+            <if test="name!=null">
+                and (LOCATE(#{name},name) or LOCATE(#{name},school_name))
+            </if>
+            <if test="pinyin!=null">
+                and pinyin=#{pinyin}
+            </if>
+            <if test="initials!=null">
+                and initials=#{initials}
+            </if>
+            <if test="englishName!=null">
+                and english_name=#{englishName}
+            </if>
+            <if test="sex!=null">
+                and sex=#{sex}
+            </if>
+            <if test="tel!=null">
+                and tel=#{tel}
+            </if>
+            <if test="qq!=null">
+                and qq=#{qq}
+            </if>
+            <if test="weixin!=null">
+                and weixin=#{weixin}
+            </if>
+            <if test="email!=null">
+                and email=#{email}
+            </if>
+            <if test="nationality!=null">
+                and nationality=#{nationality}
+            </if>
+            <if test="nation!=null">
+                and nation=#{nation}
+            </if>
+            <if test="nationName!=null">
+                and nation_name=#{nationName}
+            </if>
+            <if test="nativePlace!=null">
+                and native_place=#{nativePlace}
+            </if>
+            <if test="documentType!=null">
+                and document_type=#{documentType}
+            </if>
+            <if test="documentNum!=null">
+                and document_num=#{documentNum}
+            </if>
+            <if test="teacherNum!=null">
+                and teacher_num=#{teacherNum}
+            </if>
+            <if test="provinceId!=null">
+                and province_id=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and province_name=#{provinceName}
+            </if>
+            <if test="cityId!=null">
+                and city_id=#{cityId}
+            </if>
+            <if test="cityName!=null">
+                and city_name=#{cityName}
+            </if>
+            <if test="countyId!=null">
+                and county_id=#{countyId}
+            </if>
+            <if test="countyName!=null">
+                and county_name=#{countyName}
+            </if>
+            <if test="address!=null">
+                and address=#{address}
+            </if>
+            <if test="politicalFace!=null">
+                and political_face=#{politicalFace}
+            </if>
+            <if test="birthDate!=null">
+                and birth_date=#{birthDate}
+            </if>
+            <if test="teacherAge!=null">
+                and teacher_age=#{teacherAge}
+            </if>
+            <if test="topEdu!=null">
+                and top_edu=#{topEdu}
+            </if>
+            <if test="graduate!=null">
+                and graduate=#{graduate}
+            </if>
+            <if test="major!=null">
+                and major=#{major}
+            </if>
+            <if test="beginTime!=null">
+                and begin_time=#{beginTime}
+            </if>
+            <if test="works!=null">
+                and works=#{works}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="maritalStatus!=null">
+                and marital_status=#{maritalStatus}
+            </if>
+        </where>
+    </select>
+</mapper>

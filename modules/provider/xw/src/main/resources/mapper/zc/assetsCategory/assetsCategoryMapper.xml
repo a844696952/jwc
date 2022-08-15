@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.assetsCategory.IAssetsCategoryDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsCategoryName')">
+                             T.assets_category_name,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsProperty')">
+                             T.assets_property,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('ancestorIds')">
+                             T.ancestor_ids,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createUser')">
+                             T.create_user,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createUsername')">
+                             T.create_username,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsCategoryName!=null">
+                         and T.assets_category_name=#{assetsCategoryName}
+              </if>
+              <if test="assetsProperty!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='assetsProperty'">
+                            and T.assets_property like concat('%',#{assetsProperty},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_property=#{assetsProperty}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="parentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='parentId'">
+                            and T.parent_id like concat('%',#{parentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.parent_id=#{parentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="ancestorIds!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='ancestorIds'">
+                            and T.ancestor_ids like concat('%',#{ancestorIds},'%')
+                         </when>
+                         <otherwise>
+                            and T.ancestor_ids=#{ancestorIds}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="del!=null">
+                    and T.del=#{del}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createUser!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createUser'">
+                            and T.create_user like concat('%',#{createUser},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_user=#{createUser}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createUsername!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createUsername'">
+                            and T.create_username like concat('%',#{createUsername},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_username=#{createUsername}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findAssetsCategoryListByCondition" parameterType="AssetsCategory" resultType="AssetsCategory">
+        select
+         <include refid="projection"/>
+         from xw_assets_category T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findAssetsCategoryCountByCondition" parameterType="AssetsCategory" resultType="long">
+        select count(*) from xw_assets_category T
+        <include refid="match"/>
+    </select>
+    <select id="findAssetsCategoryById" resultType="AssetsCategory">
+        select * from xw_assets_category where id=#{id}
+    </select>
+    <select id="findOneAssetsCategoryByCondition" parameterType="AssetsCategory" resultType="AssetsCategory">
+        select
+         <include refid="projection"/>
+         from xw_assets_category T
+        <include refid="match"/>
+    </select>
+    <insert id="saveAssetsCategory" parameterType="AssetsCategory">
+        insert into xw_assets_category
+         (
+            id,
+            assets_category_name,
+            assets_property,
+            parent_id,
+            ancestor_ids,
+            del,
+            create_time,
+            update_time,
+            create_user,
+            school_id,
+            create_username
+        ) values
+         (
+                #{id}
+                ,
+                #{assetsCategoryName}
+                ,
+                #{assetsProperty}
+                ,
+                #{parentId}
+                ,
+                #{ancestorIds}
+                ,
+                #{del}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{createUser}
+                ,
+                #{schoolId}
+                ,
+                #{createUsername}
+                
+         )
+    </insert>
+    <update id="updateAssetsCategory" parameterType="AssetsCategory">
+        update xw_assets_category
+        <set>
+                    <if test="assetsCategoryName!=null ">
+                        assets_category_name=#{assetsCategoryName},
+                    </if>
+                    <if test="assetsProperty!=null ">
+                        assets_property=#{assetsProperty},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_id=#{parentId},
+                    </if>
+                    <if test="ancestorIds!=null ">
+                        ancestor_ids=#{ancestorIds},
+                    </if>
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="createUser!=null ">
+                        create_user=#{createUser},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createUsername!=null ">
+                        create_username=#{createUsername}
+                    </if>
+          </set>
+         where id=#{id} and school_id=#{schoolId}
+    </update>
+    <delete id="deleteAssetsCategory" >
+        delete from xw_assets_category where id=#{id}
+    </delete>
+    <delete id="deleteAssetsCategoryByCondition" >
+        delete T from xw_assets_category T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveAssetsCategory" parameterType="AssetsCategory">
+        INSERT INTO xw_assets_category (  id,  assets_category_name,  assets_property,  parent_id,  ancestor_ids,  del,  create_time,  update_time,  create_user,  school_id,  create_username )
+        VALUES
+        <foreach collection="list" item="assetsCategory" separator=",">
+            (  #{assetsCategory.id},  #{assetsCategory.assetsCategoryName},  #{assetsCategory.assetsProperty},  #{assetsCategory.parentId},  #{assetsCategory.ancestorIds},  #{assetsCategory.del},  #{assetsCategory.createTime},  #{assetsCategory.updateTime},  #{assetsCategory.createUser},  #{assetsCategory.schoolId},  #{assetsCategory.createUsername}  )
+        </foreach>
+    </insert>
+
+    <select id="findAllAssetsCategory" parameterType="AssetsCategory" resultType="AssetsCategory">
+        select
+          <include refid="projection"/>
+        FROM xw_assets_category T
+    </select>
+
+    <select id="findAllCategeoryMenu" parameterType="AssetsCategory" resultType="AssetsCategory">
+        select T1.id, T1.name as assets_category_name,'-1' parent_id from xw_assets_basic_category T1
+        union all
+        select T2.id,T2.assets_category_name,T2.parent_id from xw_assets_category T2
+		where T2.school_id = #{schoolId}
+    </select>
+
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

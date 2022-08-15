@@ -1,0 +1,1342 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.electiveCourse.IElectiveStudentDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('studentId')">
+                        T.student_id,
+                    </if>
+                    <if test="!pager.excludes.contains('studentName')">
+                        T.student_name,
+                    </if>
+                    <if test="!pager.excludes.contains('electiveId')">
+                        T.elective_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('joinTime')">
+                        T.join_time,
+                    </if>
+                    <if test="!pager.excludes.contains('result')">
+                        T.result,
+                    </if>
+                    <if test="!pager.excludes.contains('isScore')">
+                        T.score,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeName')">
+                        T.grade_name,
+                    </if>
+                    <if test="!pager.excludes.contains('classesId')">
+                        T.classes_id,
+                    </if>
+                    <if test="!pager.excludes.contains('classesName')">
+                        T.classes_name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolYearId')">
+                        T.school_year_id,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('studentNo')">
+                        T.student_no,
+                    </if>
+                    <if test="!pager.excludes.contains('fromTo')">
+                        T.from_to,
+                    </if>
+                    <if test="!pager.excludes.contains('term')">
+                        T.term,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studentId'">
+                        and T.student_id like concat('%',#{studentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_id=#{studentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('studentName')">
+                        and T.student_name like concat('%',#{studentName},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_name=#{studentName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="electiveId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='electiveId'">
+                        and T.elective_id like concat('%',#{electiveId},'%')
+                    </when>
+                    <otherwise>
+                        and T.elective_id=#{electiveId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="joinTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='joinTime'">
+                        and T.join_time like concat('%',#{joinTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.join_time=#{joinTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="result!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='result'">
+                        and T.result like concat('%',#{result},'%')
+                    </when>
+                    <otherwise>
+                        and T.result=#{result}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="isScore!=null">
+                and T.is_score=#{isScore}
+            </if>
+            <if test="gradeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='gradeId'">
+                        and T.grade_id like concat('%',#{gradeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.grade_id=#{gradeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="gradeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='gradeName'">
+                        and T.grade_name like concat('%',#{gradeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.grade_name=#{gradeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classesId'">
+                        and T.classes_id like concat('%',#{classesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.classes_id=#{classesId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classesName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classesName'">
+                        and T.classes_name like concat('%',#{classesName},'%')
+                    </when>
+                    <otherwise>
+                        and T.classes_name=#{classesName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='sex'">
+                        and T.sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and T.sex=#{sex}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolYearId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolYearId'">
+                        and T.school_year_id like concat('%',#{schoolYearId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_year_id =#{schoolYearId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentNo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studentNo'">
+                        and T.student_no like concat('%',#{studentNo},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_no=#{studentNo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fromTo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fromTo'">
+                        and T.from_to like concat('%',#{fromTo},'%')
+                    </when>
+                    <otherwise>
+                        and T.from_to=#{fromTo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="term!=null">
+                and T.term=#{term}
+            </if>
+
+            <if test="score!=null">
+                and a.score =#{score}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+
+
+    <sql id="myElectiveMatch">
+        <where>
+            and c.school_id=#{schoolId}
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('studentId')">
+                        and T.student_id like concat('%',#{studentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_id=#{studentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('studentName')">
+                        and T.student_name like concat('%',#{studentName},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_name=#{studentName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="electiveId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('electiveId')">
+                        and T.elective_id like concat('%',#{electiveId},'%')
+                    </when>
+                    <otherwise>
+                        and T.elective_id=#{electiveId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="joinTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('joinTime')">
+                        and T.join_time like concat('%',#{joinTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.join_time=#{joinTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="result!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('result')">
+                        and T.result like concat('%',#{result},'%')
+                    </when>
+                    <otherwise>
+                        and T.result=#{result}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="isScore!=null">
+                and T.is_score=#{isScore}
+            </if>
+            <if test="gradeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('gradeId')">
+                        and T.grade_id like concat('%',#{gradeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.grade_id=#{gradeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="gradeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('gradeName')">
+                        and T.grade_name like concat('%',#{gradeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.grade_name=#{gradeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('classesId')">
+                        and T.classes_id like concat('%',#{classesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.classes_id=#{classesId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classesName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('classesName')">
+                        and T.classes_name like concat('%',#{classesName},'%')
+                    </when>
+                    <otherwise>
+                        and T.classes_name=#{classesName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('sex')">
+                        and T.sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and T.sex=#{sex}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolYearId!=null">
+                        and T.school_year_id =#{schoolYearId}
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentNo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('studentNo')">
+                        and T.student_no like concat('%',#{studentNo},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_no=#{studentNo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fromTo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('fromTo')">
+                        and T.from_to like concat('%',#{fromTo},'%')
+                    </when>
+                    <otherwise>
+                        and T.from_to=#{fromTo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="term!=null">
+                and T.term=#{term}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+
+    <sql id="schoolMatch">
+        <where>
+
+            <if test="alreadyName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('alreadyName')">
+                        and a.already_name like concat('%',#{alreadyName},'%')
+                    </when>
+                    <otherwise>
+                        and T.already_name=#{alreadyName}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="studentName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('studentName')">
+                        and T.name like concat('%',#{studentName},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{studentName}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+
+
+            <if test="gradeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='gradeId'">
+                        and e.grade_id like concat('%',#{gradeId},'%')
+                    </when>
+                    <otherwise>
+                        and e.grade_id=#{gradeId}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="classesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classesId'">
+                        and T.classes_id like concat('%',#{classesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.classes_id=#{classesId}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='sex'">
+                        and T.sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and T.sex=#{sex}
+                    </otherwise>
+                </choose>
+            </if>
+
+
+            <if test="studentNo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('studentNo')">
+                        and T.student_no like concat('%',#{studentNo},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_no=#{studentNo}
+                    </otherwise>
+                </choose>
+            </if>
+
+            and T.del=1
+        </where>
+    </sql>
+
+    <sql id="yearScoreMatch">
+    <where>
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like.contains('schoolId')">
+                    and T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                    and T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="studentName!=null">
+            <choose>
+                <when test="pager!=null and pager.like.contains('studentName')">
+                    and T.name like  concat('%',#{studentName},'%')
+                </when>
+                <otherwise>
+                    and T.name =#{studentName}
+                </otherwise>
+            </choose>
+
+        </if>
+        <if test="classesId!=null">
+            <choose>
+                <when test="pager!=null and pager.like.contains('classesId')">
+                    and T.classes_id like  concat('%',#{classesId},'%')
+                </when>
+                <otherwise>
+                    and T.classes_id =#{classesId}
+                </otherwise>
+            </choose>
+
+        </if>
+
+        <if test="gradeId!=null">
+            <choose>
+                <when test="pager!=null and pager.like.contains('gradeId')">
+                    and e.grade_id like  concat('%',#{gradeId},'%')
+                </when>
+                <otherwise>
+                    and e.grade_id =#{gradeId}
+                </otherwise>
+            </choose>
+        </if>
+
+        <if test="electiveName!=null">
+            <choose>
+                <when test="pager!=null and pager.like.contains('electiveName')">
+                    and p.elective_name like  concat('%',#{electiveName},'%')
+                </when>
+                <otherwise>
+                    and p.elective_name =#{electiveName}
+                </otherwise>
+            </choose>
+        </if>
+
+        <if test="studentNo!=null">
+            <choose>
+                <when test="pager!=null and pager.like.contains('studentNo')">
+                    and T.student_no like  concat('%',#{studentNo},'%')
+                </when>
+                <otherwise>
+                    and T.student_no =#{studentNo}
+                </otherwise>
+            </choose>
+        </if>
+
+        <if test="isScore!=null">
+            <choose>
+                <when test="pager!=null and pager.like.contains('isScore')">
+                    and p.is_score like  concat('%',#{isScore},'%')
+                </when>
+                <otherwise>
+                    and p.is_score =#{isScore}
+                </otherwise>
+            </choose>
+        </if>
+
+        <if test="fromTo!=null">
+            <choose>
+                <when test="pager!=null and pager.like.contains('fromTo')">
+                    and p.from_to like concat('%',#{fromTo},'%')
+                </when>
+                <otherwise>
+                    and p.from_to=#{fromTo}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="term!=null">
+            and p.term=#{term}
+        </if>
+        and T.del=1
+    </where>
+    </sql>
+
+
+    <sql id="scoreMatch">
+        <where>
+            <if test="schoolYearId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('schoolYearId')">
+                        and T.school_year_id like concat('%',#{schoolYearId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_year_id=#{schoolYearId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('studentName')">
+                        and T.student_name like  concat('%',#{studentName},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_name =#{studentName}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="classesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('classesId')">
+                        and T.classes_id like  concat('%',#{classesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.classes_id =#{classesId}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="classesName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('classesName')">
+                        and T.classes_name like  concat('%',#{classesName},'%')
+                    </when>
+                    <otherwise>
+                        and T.classes_name =#{classesName}
+                    </otherwise>
+                </choose>
+
+            </if>
+
+            <if test="gradeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('gradeId')">
+                        and T.grade_id like  concat('%',#{gradeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.grade_id =#{gradeId}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="electiveName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('electiveName')">
+                        and a.name like  concat('%',#{electiveName},'%')
+                    </when>
+                    <otherwise>
+                        and a.name =#{electiveName}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="studentNo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('studentNo')">
+                        and T.student_no like  concat('%',#{studentNo},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_no =#{studentNo}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="isScore!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('isScore')">
+                        and p.is_score like  concat('%',#{isScore},'%')
+                    </when>
+                    <otherwise>
+                        and p.is_score =#{isScore}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="fromTo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('fromTo')">
+                        and p.from_to like concat('%',#{fromTo},'%')
+                    </when>
+                    <otherwise>
+                        and p.from_to=#{fromTo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="term!=null">
+                and p.term=#{term}
+            </if>
+
+        </where>
+
+
+
+
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findElectiveStudentScoreListByCondition" parameterType="ElectiveStudent" resultType="ElectiveStudent">
+
+
+        SELECT
+
+        T.*,
+        a.`name` elective_name ,
+        a.score
+        FROM
+        jw_elective_student T
+        INNER JOIN jw_elective_course a ON T.elective_id = a.id
+
+        <include refid="scoreMatch"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+    </select>
+    <select id="findElectiveStudentScoreCountByCondition" parameterType="ElectiveStudent" resultType="long">
+        SELECT
+
+       count(*)
+        FROM
+        jw_elective_student T
+        INNER JOIN jw_elective_course a ON T.elective_id = a.id
+        <include refid="scoreMatch"/>
+
+    </select>
+    <select id="findElectiveStudentById" resultType="ElectiveStudent">
+        select * from jw_elective_student where id=#{id}
+    </select>
+    <select id="findOneElectiveStudentByCondition" parameterType="ElectiveStudent" resultType="ElectiveStudent">
+        select
+         <include refid="projection"/>
+         from jw_elective_student T
+        <include refid="match"/>
+    </select>
+    <insert id="saveElectiveStudent" parameterType="ElectiveStudent">
+        insert into jw_elective_student
+         (
+            id,
+            student_id,
+            student_name,
+            elective_id,
+            create_time,
+            school_id,
+            join_time,
+            result,
+            is_score,
+            grade_id,
+            grade_name,
+            classes_id,
+            classes_name,
+            sex,
+            school_year_id,
+            update_time,
+            student_no,
+            from_to,
+            term
+        ) values
+         (
+                #{id}
+                ,
+                #{studentId}
+                ,
+                #{studentName}
+                ,
+                #{electiveId}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                now()
+                ,
+                #{result}
+                ,
+                #{isScore}
+                ,
+                #{gradeId}
+                ,
+                #{gradeName}
+                ,
+                #{classesId}
+                ,
+                #{classesName}
+                ,
+                #{sex}
+                ,
+                #{schoolYearId}
+                ,
+                #{updateTime}
+                ,
+                #{studentNo}
+                ,
+                #{fromTo}
+                ,
+                #{term}
+                
+         )
+    </insert>
+    <update id="updateElectiveStudent" parameterType="ElectiveStudent">
+        update jw_elective_student
+        <set>
+            update_time=now(),
+            <if test="studentId!=null ">
+                student_id=#{studentId},
+            </if>
+            <if test="studentName!=null ">
+                student_name=#{studentName},
+            </if>
+            <if test="electiveId!=null ">
+                elective_id=#{electiveId},
+            </if>
+            <if test="result!=null ">
+                result=#{result},
+            </if>
+            <if test="isScore!=null ">
+                is_score=#{isScore},
+            </if>
+            <if test="gradeId!=null ">
+                grade_id=#{gradeId},
+            </if>
+            <if test="gradeName!=null ">
+                grade_name=#{gradeName},
+            </if>
+            <if test="classesId!=null ">
+                classes_id=#{classesId},
+            </if>
+            <if test="classesName!=null ">
+                classes_name=#{classesName},
+            </if>
+            <if test="sex!=null ">
+            sex=#{sex},
+        </if>
+            <if test="studentNo!=null ">
+                student_no=#{studentNo},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteElectiveStudent" >
+        delete from jw_elective_student where id=#{id}
+    </delete>
+    <delete id="deleteElectiveStudentByCondition" >
+        delete T from jw_elective_student T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveElectiveStudent" parameterType="ElectiveStudent">
+        INSERT INTO jw_elective_student (  id,  student_id,  elective_id,  create_time,  school_id,  join_time,  result,  is_score,  grade_id,  grade_name,  classes_id,  classes_name,  sex,  school_year_id,student_name,student_no,from_to,term )
+        VALUES
+        <foreach collection="list" item="electiveStudent" separator=",">
+            (  #{electiveStudent.id},  #{electiveStudent.studentId},  #{electiveStudent.electiveId},  now(),  #{electiveStudent.schoolId},  now(),  #{electiveStudent.result},  #{electiveStudent.isScore},  #{electiveStudent.gradeId},  #{electiveStudent.gradeName},  #{electiveStudent.classesId},  #{electiveStudent.classesName},  #{electiveStudent.sex},  #{electiveStudent.schoolYearId},#{electiveStudent.studentName},#{electiveStudent.studentNo},#{electiveStudent.fromTo},  #{electiveStudent.term}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+
+
+    <select id="findElectiveStudentListByCondition" parameterType="ElectiveStudent" resultType="ElectiveStudent">
+        select
+        a.score,
+        <include refid="projection"/>
+        from jw_elective_student T
+        left join jw_elective_course a
+        on T.elective_id=a.id
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findElectiveStudentCountByCondition" parameterType="ElectiveStudent" resultType="long">
+        select count(*) from jw_elective_student T
+        left join jw_elective_course a
+        on T.elective_id=a.id
+        <include refid="match"/>
+    </select>
+
+    <select id="findMyElectiveStudentListByCondition" parameterType="ElectiveStudent" resultType="ElectiveStudent">
+
+        select * from (
+            SELECT
+            T.*,
+            group_concat( b.name SEPARATOR '、') already_name,
+            count( * ) already_select_num,
+            c.max_num,c.min_num
+
+            FROM
+            jw_elective_student T
+            inner join jw_elective_course b
+            on T.elective_id=b.id
+            inner join jw_elective_set c
+            on T.grade_id=c.grade_id
+
+            <include refid="myElectiveMatch"/>
+            <include refid="sort"/>
+
+            GROUP BY
+            student_id) n
+
+        <where>
+            <if test="alreadyName!=null ">
+
+              and  n.already_name like concat('%',#{alreadyName},'%')
+            </if>
+            <if test="alreadySelectStatus!=null and alreadySelectStatus==0">
+
+               and n.already_select_num  <![CDATA[< ]]> n.min_num
+            </if>
+            <if test="alreadySelectStatus!=null and alreadySelectStatus==1">
+
+              and  n.already_select_num  <![CDATA[>= ]]> n.min_num
+            </if>
+        </where>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findMyElectiveStudentCountByCondition" parameterType="ElectiveStudent" resultType="long">
+        select count(*) from (
+        SELECT
+        T.*,
+        group_concat( b.name SEPARATOR '、') already_name,
+        count( * ) already_select_num,
+        c.max_num,
+        c.min_num
+
+        FROM
+        jw_elective_student T
+        inner join jw_elective_course b
+        on T.elective_id=b.id
+        inner join jw_elective_set c
+        on T.grade_id=c.grade_id
+
+        <include refid="myElectiveMatch"/>
+
+        GROUP BY
+        student_id) n
+        <where>
+            <if test="alreadyName!=null ">
+
+                and  n.already_name like concat('%',#{alreadyName},'%')
+            </if>
+            <if test="alreadySelectStatus!=null and alreadySelectStatus==0">
+
+                and n.already_select_num  <![CDATA[< ]]> n.min_num
+            </if>
+            <if test="alreadySelectStatus!=null and alreadySelectStatus==1">
+
+                and  n.already_select_num  <![CDATA[>= ]]> n.min_num
+            </if>
+        </where>
+
+    </select>
+
+
+    <select id="findSchoolYearElectiveStudentsByCondition" parameterType="ElectiveStudent" resultType="ElectiveStudent">
+
+        select * from ( SELECT
+        T.id student_id,
+        T.student_no,
+        T.sex,
+        T.name student_name,
+        T.classes_id,
+        e.grade_id,
+        e.grade_name,
+        e.number classes_name,
+        a.already_name,
+        ifnull(a.already_select_num,0) already_select_num,
+        a.max_num,
+        a.min_num
+        FROM
+        jw_student T
+        LEFT JOIN jw_classes e ON T.classes_id = e.id
+        LEFT JOIN (
+            SELECT
+            p.*,
+            count( ec.id ) already_select_num,
+            es.max_num,
+            es.min_num,
+            group_concat( ec.NAME SEPARATOR '、' ) already_name
+            FROM
+            jw_elective_student p
+            LEFT JOIN jw_elective_course ec ON p.elective_id = ec.id
+            LEFT JOIN jw_elective_set es ON p.grade_id = es.grade_id
+            <where>
+                p.school_year_id =#{schoolYearId}
+                AND p.school_id = #{schoolId}
+                AND  es.school_id=#{schoolId}
+                <if test="term!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like.contains('term')">
+                            and p.term like concat('%',#{term},'%')
+                        </when>
+                        <otherwise>
+                            and p.term=#{term}
+                        </otherwise>
+                    </choose>
+                </if>
+
+            </where>
+
+            GROUP BY
+            p.student_id
+        ) a ON T.id = a.student_id
+        <include refid="schoolMatch"/>
+        ) n
+        <where>
+            <if test="alreadySelectStatus!=null and alreadySelectStatus==0">
+
+                 n.already_select_num  <![CDATA[< ]]> n.min_num
+                or n.already_select_num =0
+            </if>
+            <if test="alreadySelectStatus!=null and alreadySelectStatus==1">
+
+                and   n.already_select_num  <![CDATA[>= ]]> n.min_num
+            </if>
+
+        </where>
+        <include refid="page"/>
+
+
+
+
+    </select>
+    <select id="findSchoolYearElectiveStudentsCountByCondition" parameterType="ElectiveStudent" resultType="long">
+        select count(*) from ( SELECT
+        T.id student_id,
+        T.student_no,
+        T.name student_name,
+        T.classes_id,
+        e.grade_id,
+        e.grade_name,
+        e.number classes_name,
+        a.already_name,
+        ifnull(a.already_select_num,0) already_select_num,
+        a.max_num,
+        a.min_num
+        FROM
+        jw_student T
+        LEFT JOIN jw_classes e ON T.classes_id = e.id
+        LEFT JOIN (
+        SELECT
+        p.*,
+        count( ec.id ) already_select_num,
+        es.max_num,
+        es.min_num,
+        group_concat( ec.NAME SEPARATOR '、' ) already_name
+        FROM
+        jw_elective_student p
+        LEFT JOIN jw_elective_course ec ON p.elective_id = ec.id
+        LEFT JOIN jw_elective_set es ON p.grade_id = es.grade_id
+        <where>
+            p.school_year_id =#{schoolYearId}
+            AND p.school_id = #{schoolId}
+            AND  es.school_id=#{schoolId}
+            <if test="term!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('term')">
+                        and p.term like concat('%',#{term},'%')
+                    </when>
+                    <otherwise>
+                        and p.term=#{term}
+                    </otherwise>
+                </choose>
+            </if>
+
+        </where>
+        GROUP BY
+        p.student_id
+        ) a ON T.id = a.student_id
+        <include refid="schoolMatch"/>
+        ) n
+        <where>
+            <if test="alreadySelectStatus!=null and alreadySelectStatus==0">
+
+                n.already_select_num  <![CDATA[<]]> n.min_num
+                or n.already_select_num =0
+            </if>
+            <if test="alreadySelectStatus!=null and alreadySelectStatus==1">
+
+                and   n.already_select_num  <![CDATA[>= ]]> n.min_num
+            </if>
+
+        </where>
+
+
+    </select>
+
+
+    <select id="getCanSelectCourseList" parameterType="ElectiveStudent" resultType="ElectiveCourse">
+        select * from (SELECT
+        b.id elective_id ,b.name,b.teacher_name,b.max_num,count(c.id) classes_people_num,c.student_id
+        FROM
+        jw_elective_classes  a
+        left join jw_elective_course b
+        on a.elective_id=b.id
+        left join jw_elective_student c
+        on b.id=c.elective_id
+        WHERE
+        a.classes_id=#{classesId}
+        and b.school_year_id=#{schoolYearId}
+        and b.sign_up_start_time  <![CDATA[< ]]> now()
+        and b.sign_up_end_time  <![CDATA[>]]> now()
+        and b.close_status=0
+        group by b.id) n
+
+        where
+        classes_people_num <![CDATA[< ]]> max_num
+
+    </select>
+
+
+
+    <select id="getAlreadySelectCourseList" parameterType="ElectiveStudent" resultType="ElectiveCourse">
+        SELECT
+            p.*,
+            count( q.id ) classes_people_num
+        FROM
+            (
+        SELECT
+            b.id elective_id,
+            b.*
+        FROM
+            jw_elective_classes a
+            LEFT JOIN jw_elective_course b ON a.elective_id = b.id
+            LEFT JOIN jw_elective_student c ON b.id = c.elective_id
+        <where>
+            a.classes_id=#{classesId}
+            and  c.student_id=#{studentId}
+            and c.school_year_id=#{schoolYearId}
+        <if test="name!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                   and b.name like concat('%',#{name},'%')
+                </when>
+                <otherwise>
+                   and  b.name=#{name}
+                </otherwise>
+            </choose>
+        </if>
+
+        </where>
+
+
+            ) p
+            LEFT JOIN jw_elective_student q ON p.elective_id = q.elective_id
+        GROUP BY
+            p.elective_id
+
+    </select>
+
+
+    <select id="getAlreadySelectCourseCount" parameterType="ElectiveStudent" resultType="long">
+         select count(*) from (SELECT b.id  elective_id,b.*,count(c.id) classes_people_num
+         FROM jw_elective_classes a
+         LEFT JOIN jw_elective_course b
+         ON a.elective_id=b.id
+         LEFT JOIN jw_elective_student c
+         ON b.id=c.elective_id
+        <where>
+            a.classes_id=#{classesId}
+            and  c.student_id=#{studentId}
+            and c.school_year_id=#{schoolYearId}
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                      and  b.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                       and b.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+
+        </where>
+         group by b.id) n
+
+    </select>
+
+
+
+    <select id="findSchoolYearStudentScoreListByCondition" parameterType="ElectiveStudent" resultType="ElectiveStudent">
+
+        SELECT
+        T.id student_id,
+        T.student_no,
+        T.NAME student_name,
+        T.classes_id,
+        e.grade_id,
+        e.grade_name,
+        e.number classes_name,
+        p.*
+        FROM
+        jw_student T
+        LEFT JOIN jw_classes e ON T.classes_id = e.id
+        LEFT JOIN (
+        SELECT
+
+        T.student_id,
+        T.is_score,
+        T.term,
+        T.result,
+        a.`name` elective_name ,
+        a.score
+        FROM
+        jw_elective_student T
+        INNER JOIN jw_elective_course a ON T.elective_id = a.id
+        where T.school_id = #{schoolId}
+            and T.school_year_id=#{schoolYearId}
+
+        ) p
+
+        on p.student_id=T.id
+
+
+        <include refid="yearScoreMatch"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findSchoolYearStudentScoreCountByCondition" parameterType="ElectiveStudent" resultType="long">
+        SELECT
+        count(*)
+        FROM
+        jw_student T
+        LEFT JOIN jw_classes e ON T.classes_id = e.id
+        LEFT JOIN (
+        SELECT
+
+        T.student_id,
+        T.is_score,
+        T.term,
+        a.`name` elective_name ,
+        a.score
+        FROM
+        jw_elective_student T
+        INNER JOIN jw_elective_course a ON T.elective_id = a.id
+        where T.school_id = #{schoolId}
+        and T.school_year_id=#{schoolYearId}
+
+        ) p
+
+        on p.student_id=T.id
+        <include refid="yearScoreMatch"/>
+    </select>
+
+
+
+    <select id="checkTimeRepeatCount" parameterType="ElectiveStudent" resultType="long">
+        select count(*) from jw_elective_student T
+        left  join jw_elective_course b on T.elective_id=b.id
+        where
+        T.school_id=#{schoolId}
+        and T.student_id=#{studentId}
+        and b.class_time_week =#{classTimeWeek}
+        and b.class_time_section  =#{classTimeSection}
+        and ((b.course_start_time <![CDATA[>= ]]> #{courseStartTime}
+        and b.course_start_time <![CDATA[<= ]]> #{courseEndTime})
+        or  (b.course_end_time <![CDATA[>= ]]> #{courseStartTime}
+        and b.course_end_time <![CDATA[<= ]]> #{courseEndTime}))
+    </select>
+</mapper>

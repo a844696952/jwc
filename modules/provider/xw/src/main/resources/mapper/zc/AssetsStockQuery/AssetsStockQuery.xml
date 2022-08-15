@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.assetsStockQuery.IAssetsStockQueryDao">
+    <!--资产库存查询学校资产汇总数据-->
+    <select id="findAssetsStockGather" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsStockQuery.AssetsStockGatherDto">
+        SELECT
+        count( CASE WHEN `status` &lt;&gt; '5' THEN 1 ELSE NULL END ) AS stockDetailTotal,
+        count( CASE WHEN assets_property = '1' AND `status` &lt;&gt; '5' THEN 1 ELSE NULL END ) AS fixedAssetsTotal,
+        count( CASE WHEN assets_property = '2' AND `status` &lt;&gt; '5' THEN 1 ELSE NULL END ) AS consumablesAssetsTotal,
+        count( CASE WHEN `status` = '5' THEN 1 ELSE NULL END ) AS scrapTotal
+        FROM
+        xw_assets_stock_detail
+        WHERE
+        school_id = #{schoolId}
+        and del = '1'
+    </select>
+    <!--资产库存首页查询-->
+    <select id="findAssetsStockListByCondition" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile">
+        SELECT * FROM
+        (SELECT
+        O.*,
+        CASE WHEN O.assets_threshold_value &lt;&gt; 0 AND O.assets_threshold_value >= O.freeAssetsCount THEN 1 ELSE 2 END AS isWarning
+        FROM
+        (SELECT
+        count( CASE WHEN T.`status` &lt;&gt; '5' THEN 1 ELSE NULL END ) AS stockCount,
+        count( CASE WHEN T.`status` = '1' THEN 1 ELSE NULL END ) AS freeAssetsCount,
+        count( CASE WHEN T.`status` = '2' THEN 1 ELSE NULL END ) AS occupyAssetsCount,
+        count( CASE WHEN T.`status` = '3' THEN 1 ELSE NULL END ) AS repairIngCount,
+        count( CASE WHEN T.`status` = '4' THEN 1 ELSE NULL END ) AS faultAssetsCount,
+        count( CASE WHEN T.`status` = '5' THEN 1 ELSE NULL END ) AS scrapAssetsCount,
+        F.*
+        FROM
+        xw_assets_stock_detail T
+        INNER JOIN xw_assets_file F ON T.assets_file_id = F.id
+            and T.del = '1'
+        <if test="schoolId!=null">
+            and F.school_id=#{schoolId}
+        </if>
+        <if test="assetsCategoryId!=null">
+            and find_in_set(#{assetsCategoryId},F.assets_category_ancestor_id)
+        </if>
+        <if test="assetsName!=null">
+            and F.assets_name like concat('%',#{assetsName},'%')
+        </if>
+        <if test="assetsProperty!=null">
+            and F.assets_property=#{assetsProperty}
+        </if>
+        <if test="inventoryCode!=null and inventoryCode!= '' "  >
+            and F.inventory_code like concat('%',#{inventoryCode},'%')
+        </if>
+        GROUP BY F.id) O
+        ORDER BY
+        isWarning ASC,
+        O.create_time DESC) G
+        <if test="isWarning!=null">
+            WHERE G.isWarning=#{isWarning}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findAssetsStockListCountByCondition" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile" resultType="long">
+        SELECT count(1) FROM
+        (SELECT
+        CASE WHEN O.assets_threshold_value &lt;&gt; 0 AND O.assets_threshold_value >= O.freeAssetsCount THEN 1 ELSE 2 END AS isWarning
+        FROM
+        (
+        SELECT
+        F.assets_threshold_value,
+        count( CASE WHEN T.`status` = '1' THEN 1 ELSE NULL END ) AS freeAssetsCount
+        FROM
+        xw_assets_stock_detail T
+        INNER JOIN xw_assets_file F ON T.assets_file_id = F.id
+            and T.del = '1'
+        <if test="schoolId!=null">
+            and F.school_id=#{schoolId}
+        </if>
+        <if test="assetsCategoryId!=null">
+            and find_in_set(#{assetsCategoryId},F.assets_category_ancestor_id)
+        </if>
+        <if test="assetsName!=null">
+            and F.assets_name like concat('%',#{assetsName},'%')
+        </if>
+        <if test="assetsProperty!=null">
+            and F.assets_property=#{assetsProperty}
+        </if>
+        <if test="inventoryCode!=null and inventoryCode!= '' "  >
+            and F.inventory_code like concat('%',#{inventoryCode},'%')
+        </if>
+        GROUP BY
+        F.id
+        ) O) G
+        <if test="isWarning!=null">
+            WHERE isWarning=#{isWarning}
+        </if>
+    </select>
+</mapper>

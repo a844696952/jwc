@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.region.IRegionDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('shortName')">
+                             T.short_name,
+                         </if>
+                         <if test="!pager.excludes.contains('levelType')">
+                             T.level_type,
+                         </if>
+                         <if test="!pager.excludes.contains('cityCode')">
+                             T.city_code,
+                         </if>
+                         <if test="!pager.excludes.contains('zipCode')">
+                             T.zip_code,
+                         </if>
+                         <if test="!pager.excludes.contains('mergerName')">
+                             T.merger_name,
+                         </if>
+                         <if test="!pager.excludes.contains('lng')">
+                             T.lng,
+                         </if>
+                         <if test="!pager.excludes.contains('lat')">
+                             T.lat,
+                         </if>
+                         <if test="!pager.excludes.contains('pinyin')">
+                             T.pinyin,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                     T.id=#{id}
+              </if>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                            and T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                            and T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="parentId!=null">
+                    and T.parent_id=#{parentId}
+              </if>
+              <if test="shortName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='shortName'">
+                            and T.short_name like concat('%',#{shortName},'%')
+                         </when>
+                         <otherwise>
+                            and T.short_name=#{shortName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="levelType!=null">
+                    and T.level_type=#{levelType}
+              </if>
+              <if test="cityCode!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='cityCode'">
+                            and T.city_code like concat('%',#{cityCode},'%')
+                         </when>
+                         <otherwise>
+                            and T.city_code=#{cityCode}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="zipCode!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='zipCode'">
+                            and T.zip_code like concat('%',#{zipCode},'%')
+                         </when>
+                         <otherwise>
+                            and T.zip_code=#{zipCode}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="mergerName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='mergerName'">
+                            and T.merger_name like concat('%',#{mergerName},'%')
+                         </when>
+                         <otherwise>
+                            and T.merger_name=#{mergerName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="lng!=null">
+                    and T.lng=#{lng}
+              </if>
+              <if test="lat!=null">
+                    and T.lat=#{lat}
+              </if>
+              <if test="pinyin!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='pinyin'">
+                            and T.pinyin like concat('%',#{pinyin},'%')
+                         </when>
+                         <otherwise>
+                            and T.pinyin=#{pinyin}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findRegionListByCondition" parameterType="Region" resultType="Region">
+        select
+         <include refid="projection"/>
+         from ad_region T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findRegionCountByCondition" parameterType="Region" resultType="long">
+        select count(*) from ad_region T
+        <include refid="match"/>
+    </select>
+    <select id="findRegionById" resultType="Region">
+        select * from ad_region where id=#{id}
+    </select>
+    <select id="findOneRegionByCondition" parameterType="Region" resultType="Region">
+        select
+         <include refid="projection"/>
+         from ad_region T
+        <include refid="match"/>
+    </select>
+    <insert id="saveRegion" parameterType="Region">
+        insert into ad_region
+         (
+            id,
+            name,
+            parent_id,
+            short_name,
+            level_type,
+            city_code,
+            zip_code,
+            merger_name,
+            lng,
+            lat,
+            pinyin
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{parentId}
+                ,
+                #{shortName}
+                ,
+                #{levelType}
+                ,
+                #{cityCode}
+                ,
+                #{zipCode}
+                ,
+                #{mergerName}
+                ,
+                #{lng}
+                ,
+                #{lat}
+                ,
+                #{pinyin}
+                
+         )
+    </insert>
+    <update id="updateRegion" parameterType="Region">
+        update ad_region
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_id=#{parentId},
+                    </if>
+                    <if test="shortName!=null ">
+                        short_name=#{shortName},
+                    </if>
+                    <if test="levelType!=null ">
+                        level_type=#{levelType},
+                    </if>
+                    <if test="cityCode!=null ">
+                        city_code=#{cityCode},
+                    </if>
+                    <if test="zipCode!=null ">
+                        zip_code=#{zipCode},
+                    </if>
+                    <if test="mergerName!=null ">
+                        merger_name=#{mergerName},
+                    </if>
+                    <if test="lng!=null ">
+                        lng=#{lng},
+                    </if>
+                    <if test="lat!=null ">
+                        lat=#{lat},
+                    </if>
+                    <if test="pinyin!=null ">
+                        pinyin=#{pinyin}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteRegion" >
+        delete from ad_region where id=#{id}
+    </delete>
+    <delete id="deleteRegionByCondition" >
+        delete T from ad_region T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveRegion" parameterType="Region">
+        INSERT INTO ad_region (  id,  name,  parent_id,  short_name,  level_type,  city_code,  zip_code,  merger_name,  lng,  lat,  pinyin )
+        VALUES
+        <foreach collection="list" item="region" separator=",">
+            (  #{region.id},  #{region.name},  #{region.parentId},  #{region.shortName},  #{region.levelType},  #{region.cityCode},  #{region.zipCode},  #{region.mergerName},  #{region.lng},  #{region.lat},  #{region.pinyin}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

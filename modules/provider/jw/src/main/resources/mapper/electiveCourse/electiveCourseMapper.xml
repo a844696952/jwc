@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.electiveCourse.IElectiveCourseDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolYearId')">
+                             T.school_year_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classTimeWeek')">
+                             T.class_time_week,
+                         </if>
+                         <if test="!pager.excludes.contains('classTimeSection')">
+                             T.class_time_section,
+                         </if>
+                         <if test="!pager.excludes.contains('courseStartTime')">
+                             T.course_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('courseEndTime')">
+                             T.course_end_time,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('maxNum')">
+                             T.max_num,
+                         </if>
+                         <if test="!pager.excludes.contains('minNum')">
+                             T.min_num,
+                         </if>
+                         <if test="!pager.excludes.contains('signUpStartTime')">
+                             T.sign_up_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('signUpEndTime')">
+                             T.sign_up_end_time,
+                         </if>
+                         <if test="!pager.excludes.contains('score')">
+                             T.score,
+                         </if>
+                         <if test="!pager.excludes.contains('classPlace')">
+                             T.class_place,
+                         </if>
+                         <if test="!pager.excludes.contains('introduce')">
+                             T.introduce,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classEndStatus')">
+                             T.class_end_status,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherName')">
+                             T.teacher_name,
+                         </if>
+                         <if test="!pager.excludes.contains('closeStatus')">
+                             T.close_status,
+                         </if>
+
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null  and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                            and T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                            and T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolYearId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolYearId'">
+                            and T.school_year_id like concat('%',#{schoolYearId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_year_id=#{schoolYearId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classTimeWeek!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classTimeWeek'">
+                            and T.class_time_week like concat('%',#{classTimeWeek},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_time_week=#{classTimeWeek}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classTimeSection!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classTimeSection'">
+                            and T.class_time_section like concat('%',#{classTimeSection},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_time_section=#{classTimeSection}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="courseStartTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseStartTime'">
+                            and T.course_start_time like concat('%',#{courseStartTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_start_time=#{courseStartTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="courseEndTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseEndTime'">
+                            and T.course_end_time like concat('%',#{courseEndTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_end_time=#{courseEndTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like.contains('teacherName') ">
+                        and T.teacher_name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+              <if test="maxNum!=null">
+                    and T.max_num=#{maxNum}
+              </if>
+              <if test="minNum!=null">
+                    and T.min_num=#{minNum}
+              </if>
+              <if test="signUpStartTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='signUpStartTime'">
+                            and T.sign_up_start_time like concat('%',#{signUpStartTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.sign_up_start_time=#{signUpStartTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="signUpEndTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='signUpEndTime'">
+                            and T.sign_up_end_time like concat('%',#{signUpEndTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.sign_up_end_time=#{signUpEndTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="score!=null">
+                    and T.score=#{score}
+              </if>
+              <if test="classPlace!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classPlace'">
+                            and T.class_place like concat('%',#{classPlace},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_place=#{classPlace}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="introduce!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='introduce'">
+                            and T.introduce like concat('%',#{introduce},'%')
+                         </when>
+                         <otherwise>
+                            and T.introduce=#{introduce}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="remarks!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='remarks'">
+                            and T.remarks like concat('%',#{remarks},'%')
+                         </when>
+                         <otherwise>
+                            and T.remarks=#{remarks}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classEndStatus!=null">
+                    and T.class_end_status=#{classEndStatus}
+              </if>
+            <if test="closeStatus!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='closeStatus'">
+                        and T.close_status like concat('%',#{closeStatus},'%')
+                    </when>
+                    <otherwise>
+                        and T.close_status=#{closeStatus}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="term!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='term'">
+                        and T.term like concat('%',#{term},'%')
+                    </when>
+                    <otherwise>
+                        and T.term=#{term}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="fromTo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fromTo'">
+                        and T.from_to like concat('%',#{fromTo},'%')
+                    </when>
+                    <otherwise>
+                        and T.from_to=#{fromTo}
+                    </otherwise>
+                </choose>
+            </if>
+
+
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+    <sql id="signUpStatusMatch">
+        <where>
+            <if test="signUpStatus!=null">
+                <choose>
+                    <when test="signUpStatus==1">
+                        and sign_up_start_time <![CDATA[> ]]> now()
+                    </when>
+                    <when test="signUpStatus==2">
+                        and sign_up_start_time <![CDATA[< ]]> now()
+                        and class_end_status=0
+                        and close_status=0
+                        and classes_people_num <![CDATA[< ]]> min_num
+                        and course_end_time <![CDATA[>]]> now()
+                    </when>
+                    <when test="signUpStatus==3">
+                        and sign_up_start_time <![CDATA[< ]]> now()
+                        and sign_up_end_time <![CDATA[> ]]> now()
+                        and class_end_status=0
+                        and close_status=0
+                        and classes_people_num <![CDATA[>= ]]> min_num
+                        and classes_people_num <![CDATA[< ]]> max_num
+                    </when>
+                    <when test="signUpStatus==4">
+                        and sign_up_start_time <![CDATA[< ]]> now()
+                        and sign_up_end_time <![CDATA[> ]]> now()
+                        and class_end_status=0
+                        and close_status=0
+                        and classes_people_num <![CDATA[>= ]]> min_num
+                        and classes_people_num <![CDATA[= ]]> max_num
+                    </when>
+                    <when test="signUpStatus==5">
+                        and sign_up_end_time <![CDATA[< ]]> now()
+                        and class_end_status=0
+                        and close_status=0
+                        and classes_people_num <![CDATA[>= ]]> min_num
+                        and course_start_time <![CDATA[< ]]> now()
+                        and course_end_time <![CDATA[> ]]> now()
+                    </when>
+                    <when test="signUpStatus==6">
+                        and (class_end_status=1  and close_status=0)
+                        or (course_end_time <![CDATA[<]]> now() and close_status=0)
+                    </when>
+
+                    <when test="signUpStatus==7">
+                        and close_status=1
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <select id="findElectiveCourseListByCondition" parameterType="ElectiveCourse" resultType="ElectiveCourse">
+        select * from (select
+         <include refid="projection"/>
+          ,count(a.id) classes_people_num
+         from jw_elective_course T
+        left join
+        jw_elective_student a
+        on a.elective_id=T.id
+         <include refid="match"/>
+
+        GROUP BY T.id) n
+        <include refid="signUpStatusMatch"/>
+        order by n.create_time desc
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findElectiveCourseCountByCondition" parameterType="ElectiveCourse" resultType="long">
+        select count(*) from (select
+        <include refid="projection"/>
+        ,count(a.id) classes_people_num
+        from jw_elective_course T
+        left join
+        jw_elective_student a
+        on a.elective_id=T.id
+        <include refid="match"/>
+        GROUP BY T.id) n
+        <include refid="signUpStatusMatch"/>
+    </select>
+    <select id="findElectiveCourseById" resultType="ElectiveCourse">
+        select * from jw_elective_course where id=#{id}
+    </select>
+
+    <select id="findElectiveCourseAndStuCountById" resultType="ElectiveCourse">
+        SELECT
+	  a.* ,count(b.id) classes_people_num
+    FROM
+        jw_elective_course a
+        left join jw_elective_student b
+        on a.id=b.elective_id
+    WHERE
+	  a.id = #{id}
+	group by a.id
+    </select>
+
+    <select id="findOneElectiveCourseByCondition" parameterType="ElectiveCourse" resultType="ElectiveCourse">
+        select
+         <include refid="projection"/>
+         from jw_elective_course T
+        <include refid="match"/>
+    </select>
+    <insert id="saveElectiveCourse" parameterType="ElectiveCourse">
+        insert into jw_elective_course
+         (
+            id,
+            name,
+            create_time,
+            update_time,
+            school_year_id,
+            class_time_week,
+            class_time_section,
+            course_start_time,
+            course_end_time,
+            teacher_id,
+            max_num,
+            min_num,
+            sign_up_start_time,
+            sign_up_end_time,
+            score,
+            class_place,
+            introduce,
+            remarks,
+            school_id,
+            class_end_status,
+            teacher_name,
+            from_to,
+            term,
+            close_status,
+            close_reason,
+            version
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{schoolYearId}
+                ,
+                #{classTimeWeek}
+                ,
+                #{classTimeSection}
+                ,
+                #{courseStartTime}
+                ,
+                #{courseEndTime}
+                ,
+                #{teacherId}
+                ,
+                #{maxNum}
+                ,
+                #{minNum}
+                ,
+                #{signUpStartTime}
+                ,
+                #{signUpEndTime}
+                ,
+                #{score}
+                ,
+                #{classPlace}
+                ,
+                #{introduce}
+                ,
+                #{remarks}
+                ,
+                #{schoolId}
+                ,
+                #{classEndStatus},
+                #{teacherName},
+                #{fromTo},
+                #{term},
+                #{closeStatus},
+                  #{closeReason},
+                  0
+                
+         )
+    </insert>
+    <update id="updateElectiveCourse" parameterType="ElectiveCourse">
+        update jw_elective_course
+          <set>
+              update_time=now(),
+              <if test="name!=null ">
+                  name=#{name},
+              </if>
+              <if test="classTimeWeek!=null ">
+                  class_time_week=#{classTimeWeek},
+              </if>
+              <if test="classTimeSection!=null ">
+                  class_time_section=#{classTimeSection},
+              </if>
+              <if test="courseStartTime!=null ">
+                  course_start_time=#{courseStartTime},
+              </if>
+              <if test="courseEndTime!=null ">
+                  course_end_time=#{courseEndTime},
+              </if>
+              <if test="teacherId!=null ">
+                  teacher_id=#{teacherId},
+              </if>
+              <if test="teacherName!=null ">
+                  teacher_name=#{teacherName},
+              </if>
+              <if test="maxNum!=null ">
+                  max_num=#{maxNum},
+              </if>
+              <if test="minNum!=null ">
+                  min_num=#{minNum},
+              </if>
+              <if test="signUpStartTime!=null ">
+                  sign_up_start_time=#{signUpStartTime},
+              </if>
+              <if test="signUpEndTime!=null ">
+                  sign_up_end_time=#{signUpEndTime},
+              </if>
+              <if test="score!=null ">
+                  score=#{score},
+              </if>
+              <if test="classPlace!=null ">
+                  class_place=#{classPlace},
+              </if>
+              <if test="introduce!=null ">
+                  introduce=#{introduce},
+              </if>
+              <if test="remarks!=null ">
+                  remarks=#{remarks},
+              </if>
+              <if test="classEndStatus!=null ">
+                  class_end_status=#{classEndStatus},
+              </if>
+              <if test="closeStatus!=null ">
+                  close_status=#{closeStatus},
+              </if>
+              <if test="closeReason!=null ">
+                  close_reason=#{closeReason},
+              </if>
+
+          </set>
+         where id=#{id}
+    </update>
+
+
+
+    <update id="updateElectiveCourseVersion" parameterType="ElectiveCourse">
+        update jw_elective_course
+          set
+            update_time=now(),
+            version=version+1
+        where id=#{id} and version=#{version}
+    </update>
+    <delete id="deleteElectiveCourse" >
+        delete from jw_elective_course where id=#{id}
+    </delete>
+    <delete id="deleteElectiveCourseByCondition" >
+        delete T from jw_elective_course T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveElectiveCourse" parameterType="ElectiveCourse">
+        INSERT INTO jw_elective_course (  id,  name,  create_time,  update_time,  school_year_id,  class_time_week,  class_time_section,  course_start_time,  course_end_time,  teacher_id,  max_num,  min_num,  sign_up_start_time,  sign_up_end_time,  score,  class_place,  introduce,  remarks,  school_id,  class_end_status,close_status )
+        VALUES
+        <foreach collection="list" item="electiveCourse" separator=",">
+            (  #{electiveCourse.id},  #{electiveCourse.name},  #{electiveCourse.createTime},  #{electiveCourse.updateTime},  #{electiveCourse.schoolYearId},  #{electiveCourse.classTimeWeek},  #{electiveCourse.classTimeSection},  #{electiveCourse.courseStartTime},  #{electiveCourse.courseEndTime},  #{electiveCourse.teacherId},  #{electiveCourse.maxNum},  #{electiveCourse.minNum},  #{electiveCourse.signUpStartTime},  #{electiveCourse.signUpEndTime},  #{electiveCourse.score},  #{electiveCourse.classPlace},  #{electiveCourse.introduce},  #{electiveCourse.remarks},  #{electiveCourse.schoolId},  #{electiveCourse.classEndStatus},#{electiveCourse.closeStatus}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+
+    <select id="findElectiveCourseWithClassInfoById" resultType="ElectiveCourse">
+           SELECT
+            a.*,
+            b.classes_id,
+            c.number classes_number,
+            c.grade_id,
+            c.grade_name
+
+        FROM
+            jw_elective_course a
+            INNER JOIN jw_elective_classes b ON a.id = b.elective_id
+            inner JOIN jw_classes c ON b.classes_id = c.id
+
+        WHERE
+            a.id = #{id}
+
+    </select>
+
+
+
+    <select id="findElectiveCoursesByConditionForStu" parameterType="ElectiveCourse" resultType="ElectiveCourse">
+        select * from (select
+        <include refid="projection"/>
+        ,count(a.id) classes_people_num
+        from jw_elective_course T
+        left join jw_elective_student a on a.elective_id=T.id
+        LEFT JOIN jw_elective_classes q ON T.id = q.elective_id
+        <include refid="match"/>
+        and q.classes_id=#{classesId}
+        and concat(T.sign_up_end_time,' 23:59:59')>now()
+        <include refid="sort"/>
+        GROUP BY T.id) n
+        <include refid="signUpStatusMatch"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findElectiveCourseCountByConditionForStu" parameterType="ElectiveCourse" resultType="long">
+        select count(*) from (select
+        <include refid="projection"/>
+        ,count(a.id) classes_people_num
+        from jw_elective_course T
+        left join
+        jw_elective_student a on a.elective_id=T.id
+        left join jw_elective_classes q on T.id=q.elective_id
+        <include refid="match"/>
+        and q.classes_id=#{classesId}
+        and concat(T.sign_up_end_time,' 23:59:59')>now()
+        GROUP BY T.id) n
+        <include refid="signUpStatusMatch"/>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.practice.IPracticeFileDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('practiceId')">
+                             T.practice_id,
+                         </if>
+                         <if test="!pager.excludes.contains('fileUrl')">
+                             T.file_url,
+                         </if>
+                         <if test="!pager.excludes.contains('fileName')">
+                             T.file_name,
+                         </if>
+                         <if test="!pager.excludes.contains('fileSize')">
+                             T.file_size,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="practiceId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='practiceId'">
+                            and T.practice_id like concat('%',#{practiceId},'%')
+                         </when>
+                         <otherwise>
+                            and T.practice_id=#{practiceId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fileUrl!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fileUrl'">
+                            and T.file_url like concat('%',#{fileUrl},'%')
+                         </when>
+                         <otherwise>
+                            and T.file_url=#{fileUrl}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fileName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fileName'">
+                            and T.file_name like concat('%',#{fileName},'%')
+                         </when>
+                         <otherwise>
+                            and T.file_name=#{fileName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fileSize!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fileSize'">
+                            and T.file_size like concat('%',#{fileSize},'%')
+                         </when>
+                         <otherwise>
+                            and T.file_size=#{fileSize}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findPracticeFileListByCondition" parameterType="PracticeFile" resultType="PracticeFile">
+        select
+         <include refid="projection"/>
+         from jw_practice_file T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findPracticeFileCountByCondition" parameterType="PracticeFile" resultType="long">
+        select count(*) from jw_practice_file T
+        <include refid="match"/>
+    </select>
+    <select id="findPracticeFileById" resultType="PracticeFile">
+        select * from jw_practice_file where id=#{id}
+    </select>
+    <select id="findOnePracticeFileByCondition" parameterType="PracticeFile" resultType="PracticeFile">
+        select
+         <include refid="projection"/>
+         from jw_practice_file T
+        <include refid="match"/>
+    </select>
+    <insert id="savePracticeFile" parameterType="PracticeFile">
+        insert into jw_practice_file
+         (
+            id,
+            practice_id,
+            file_url,
+            file_name,
+            file_size,
+            create_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{practiceId}
+                ,
+                #{fileUrl}
+                ,
+                #{fileName}
+                ,
+                #{fileSize}
+                ,
+                now()
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updatePracticeFile" parameterType="PracticeFile">
+        update jw_practice_file
+        <set>
+                    <if test="practiceId!=null ">
+                        practice_id=#{practiceId},
+                    </if>
+                    <if test="fileUrl!=null ">
+                        file_url=#{fileUrl},
+                    </if>
+                    <if test="fileName!=null ">
+                        file_name=#{fileName},
+                    </if>
+                    <if test="fileSize!=null ">
+                        file_size=#{fileSize},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deletePracticeFile" >
+        delete from jw_practice_file where id=#{id}
+    </delete>
+    <delete id="deletePracticeFileByCondition" >
+        delete T from jw_practice_file T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSavePracticeFile" parameterType="PracticeFile">
+        INSERT INTO jw_practice_file (  id,  practice_id,  file_url,  file_name,  file_size,  create_time,  school_id )
+        VALUES
+        <foreach collection="list" item="practiceFile" separator=",">
+            (  #{practiceFile.id},  #{practiceFile.practiceId},  #{practiceFile.fileUrl},  #{practiceFile.fileName},  #{practiceFile.fileSize},  #{practiceFile.createTime},  #{practiceFile.schoolId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findPracticeFileListById" resultType="PracticeFile">
+        select * from jw_practice_file where practice_id=#{id}
+    </select>
+</mapper>

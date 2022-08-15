@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.appVersionControl.AppVersionControlDao">
+    <!--########################################################################################################################-->
+    <select id="findAppVersionControlListByCondition" parameterType="AppVersionControl" resultType="AppVersionControl">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('versionNumber')">
+                        T.version_number,
+                    </if>
+                    <if test="!pager.excludes.contains('item')">
+                        T.item,
+                    </if>
+                    <if test="!pager.excludes.contains('url')">
+                        T.url,
+                    </if>
+                    <if test="!pager.excludes.contains('flag')">
+                        T.flag,
+                    </if>
+                    <if test="!pager.excludes.contains('updateHints')">
+                        T.update_hints,
+                    </if>
+                    <if test="!pager.excludes.contains('versionName')">
+                        T.version_name,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from app_version_control T
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='del'">
+                        and T.del like concat('%',#{del},'%')
+                    </when>
+                    <otherwise>
+                        and T.del=#{del}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="versionNumber!=null">
+                and T.version_number=#{versionNumber}
+            </if>
+            <if test="item!=null">
+                and T.item=#{item}
+            </if>
+            <if test="url!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='url'">
+                        and T.url like concat('%',#{url},'%')
+                    </when>
+                    <otherwise>
+                        and T.url=#{url}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="flag!=null">
+                and T.flag=#{flag}
+            </if>
+            <if test="updateHints!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateHints'">
+                        and T.update_hints like concat('%',#{updateHints},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_hints=#{updateHints}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="versionName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='versionName'">
+                        and T.version_name like concat('%',#{versionName},'%')
+                    </when>
+                    <otherwise>
+                        and T.version_name=#{versionName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="startTime!=null">
+                and T.create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.create_time &lt;= #{endTime}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findAppVersionControlCountByCondition" parameterType="AppVersionControl" resultType="long">
+        select count(*) from app_version_control T
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='del'">
+                        and T.del like concat('%',#{del},'%')
+                    </when>
+                    <otherwise>
+                        and T.del=#{del}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="versionNumber!=null">
+                and T.version_number=#{versionNumber}
+            </if>
+            <if test="item!=null">
+                and T.item=#{item}
+            </if>
+            <if test="url!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='url'">
+                        and T.url like concat('%',#{url},'%')
+                    </when>
+                    <otherwise>
+                        and T.url=#{url}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="flag!=null">
+                and T.flag=#{flag}
+            </if>
+            <if test="updateHints!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateHints'">
+                        and T.update_hints like concat('%',#{updateHints},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_hints=#{updateHints}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="versionName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='versionName'">
+                        and T.version_name like concat('%',#{versionName},'%')
+                    </when>
+                    <otherwise>
+                        and T.version_name=#{versionName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="startTime!=null">
+                and T.create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.create_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+    <select id="findAppVersionControlById" resultType="AppVersionControl">
+        select * from app_version_control where id=#{id}
+    </select>
+    <select id="findOneAppVersionControlByCondition" parameterType="AppVersionControl" resultType="AppVersionControl">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('versionNumber')">
+                        T.version_number,
+                    </if>
+                    <if test="!pager.excludes.contains('item')">
+                        T.item,
+                    </if>
+                    <if test="!pager.excludes.contains('url')">
+                        T.url,
+                    </if>
+                    <if test="!pager.excludes.contains('flag')">
+                        T.flag,
+                    </if>
+                    <if test="!pager.excludes.contains('updateHints')">
+                        T.update_hints,
+                    </if>
+                    <if test="!pager.excludes.contains('versionName')">
+                        T.version_name,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from app_version_control T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="versionNumber!=null">
+                and T.version_number=#{versionNumber}
+            </if>
+            <if test="item!=null">
+                and T.item=#{item}
+            </if>
+            <if test="url!=null">
+                and T.url=#{url}
+            </if>
+            <if test="flag!=null">
+                and T.flag=#{flag}
+            </if>
+            <if test="updateHints!=null">
+                and T.update_hints=#{updateHints}
+            </if>
+            <if test="versionName!=null">
+                and T.version_name=#{versionName}
+            </if>
+        </where>
+    </select>
+    <insert id="saveAppVersionControl" parameterType="AppVersionControl">
+        insert into app_version_control
+         (
+            id,
+            create_time,
+            del,
+            type,
+            version_number,
+            item,
+            url,
+            flag,
+            update_hints,
+            version_name
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{del}
+                ,
+                #{type}
+                ,
+                #{versionNumber}
+                ,
+                #{item}
+                ,
+                #{url}
+                ,
+                #{flag}
+                ,
+                #{updateHints}
+                ,
+                #{versionName}
+
+         )
+    </insert>
+    <update id="updateAppVersionControl" parameterType="AppVersionControl">
+        update app_version_control
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="versionNumber!=null ">
+                version_number=#{versionNumber},
+            </if>
+            <if test="item!=null ">
+                item=#{item},
+            </if>
+            <if test="url!=null ">
+                url=#{url},
+            </if>
+            <if test="flag!=null ">
+                flag=#{flag},
+            </if>
+            <if test="updateHints!=null ">
+                update_hints=#{updateHints},
+            </if>
+            <if test="versionName!=null ">
+                version_name=#{versionName}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteAppVersionControl" >
+        delete from app_version_control where id=#{id}
+    </delete>
+    <delete id="deleteAppVersionControlByCondition" >
+        delete from app_version_control
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="del!=null">
+                and del=#{del}
+            </if>
+            <if test="type!=null">
+                and type=#{type}
+            </if>
+            <if test="versionNumber!=null">
+                and version_number=#{versionNumber}
+            </if>
+            <if test="item!=null">
+                and item=#{item}
+            </if>
+            <if test="url!=null">
+                and url=#{url}
+            </if>
+            <if test="flag!=null">
+                and flag=#{flag}
+            </if>
+            <if test="updateHints!=null">
+                and update_hints=#{updateHints}
+            </if>
+            <if test="versionName!=null">
+                and version_name=#{versionName}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveAppVersionControl" parameterType="AppVersionControl">
+        INSERT INTO app_version_control (  id,  create_time,  del,  type,  version_number,  item,  url,  flag,  update_hints,  version_name )
+        VALUES
+        <foreach collection="list" item="appVersionControl" separator=",">
+            (  #{appVersionControl.id},  #{appVersionControl.createTime},  #{appVersionControl.del},  #{appVersionControl.type},  #{appVersionControl.versionNumber},  #{appVersionControl.item},  #{appVersionControl.url},  #{appVersionControl.flag},  #{appVersionControl.updateHints},  #{appVersionControl.versionName}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findVersionControlUptodate" parameterType="AppVersionControl" resultType="AppVersionControl">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('versionNumber')">
+                        T.version_number,
+                    </if>
+                    <if test="!pager.excludes.contains('item')">
+                        T.item,
+                    </if>
+                    <if test="!pager.excludes.contains('url')">
+                        T.url,
+                    </if>
+                    <if test="!pager.excludes.contains('flag')">
+                        T.flag,
+                    </if>
+                    <if test="!pager.excludes.contains('updateHints')">
+                        T.update_hints,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from app_version_control T
+        <where>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="versionNumber!=null">
+                and T.version_number > #{versionNumber}
+            </if>
+            <if test="item!=null">
+                and T.item=#{item}
+            </if>
+            <if test="startTime!=null">
+                and T.create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.create_time &lt;= #{endTime}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findSaveVersionControlNumber" parameterType="AppVersionControl" resultType="AppVersionControl">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('versionNumber')">
+                        T.version_number,
+                    </if>
+                    <if test="!pager.excludes.contains('item')">
+                        T.item,
+                    </if>
+                    <if test="!pager.excludes.contains('url')">
+                        T.url,
+                    </if>
+                    <if test="!pager.excludes.contains('flag')">
+                        T.flag,
+                    </if>
+                    <if test="!pager.excludes.contains('updateHints')">
+                        T.update_hints,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from app_version_control T
+        <where>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="versionNumber!=null">
+                and T.version_number >= #{versionNumber}
+            </if>
+            <if test="item!=null">
+                and T.item=#{item}
+            </if>
+            <if test="startTime!=null">
+                and T.create_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and T.create_time &lt;= #{endTime}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+</mapper>

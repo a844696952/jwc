@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.prepLessonResource.ILessonResMediaFileDao">
+    <!--########################################################################################################################-->
+    <select id="findLessonResMediaFileListByCondition" parameterType="LessonResMediaFile" resultType="LessonResMediaFile">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('filename')">
+                             T.filename,
+                         </if>
+                         <if test="!pager.excludes.contains('fileUrl')">
+                             T.file_url,
+                         </if>
+                         <if test="!pager.excludes.contains('fileType')">
+                             T.file_type,
+                         </if>
+                         <if test="!pager.excludes.contains('downloadCount')">
+                             T.download_count,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('adminId')">
+                             T.admin_id,
+                         </if>
+                         <if test="!pager.excludes.contains('adminName')">
+                             T.admin_name,
+                         </if>
+                         <if test="!pager.excludes.contains('size')">
+                             T.size,
+                         </if>
+                         <if test="!pager.excludes.contains('cover')">
+                             T.cover,
+                         </if>
+                         <if test="!pager.excludes.contains('speaker')">
+                             T.speaker,
+                         </if>
+                         <if test="!pager.excludes.contains('platform')">
+                             T.platform,
+                         </if>
+                         <if test="!pager.excludes.contains('duration')">
+                             T.duration,
+                         </if>
+                         <if test="!pager.excludes.contains('numLook')">
+                             T.num_look,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_lesson_res_media_file T
+        <where>
+              <if test="filename!=null">
+                 T.filename=#{filename}
+              </if>
+              <if test="fileUrl!=null">
+                and T.file_url=#{fileUrl}
+              </if>
+              <if test="fileType!=null">
+                and T.file_type=#{fileType}
+              </if>
+              <if test="downloadCount!=null">
+                and T.download_count=#{downloadCount}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="adminId!=null">
+                and T.admin_id=#{adminId}
+              </if>
+              <if test="adminName!=null">
+                and T.admin_name=#{adminName}
+              </if>
+              <if test="size!=null">
+                and T.size=#{size}
+              </if>
+              <if test="cover!=null">
+                and T.cover=#{cover}
+              </if>
+              <if test="speaker!=null">
+                and T.speaker=#{speaker}
+              </if>
+              <if test="platform!=null">
+                and T.platform=#{platform}
+              </if>
+              <if test="duration!=null">
+                and T.duration=#{duration}
+              </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findLessonResMediaFileCountByCondition" parameterType="LessonResMediaFile" resultType="long">
+        select count(*) from jy_lesson_res_media_file
+        <where>
+              <if test="filename!=null">
+                 filename=#{filename}
+              </if>
+              <if test="fileUrl!=null">
+                and file_url=#{fileUrl}
+              </if>
+              <if test="fileType!=null">
+                and file_type=#{fileType}
+              </if>
+              <if test="downloadCount!=null">
+                and download_count=#{downloadCount}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="adminId!=null">
+                and admin_id=#{adminId}
+              </if>
+              <if test="adminName!=null">
+                and admin_name=#{adminName}
+              </if>
+              <if test="size!=null">
+                and size=#{size}
+              </if>
+              <if test="cover!=null">
+                and cover=#{cover}
+              </if>
+              <if test="speaker!=null">
+                and speaker=#{speaker}
+              </if>
+              <if test="platform!=null">
+                and platform=#{platform}
+              </if>
+              <if test="duration!=null">
+                and duration=#{duration}
+              </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+    </select>
+    <select id="findLessonResMediaFileById" resultType="LessonResMediaFile">
+        select * from jy_lesson_res_media_file where id=#{id}
+    </select>
+    <select id="findOneLessonResMediaFileByCondition" parameterType="LessonResMediaFile" resultType="LessonResMediaFile">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('filename')">
+                             T.filename,
+                         </if>
+                         <if test="!pager.excludes.contains('fileUrl')">
+                             T.file_url,
+                         </if>
+                         <if test="!pager.excludes.contains('fileType')">
+                             T.file_type,
+                         </if>
+                         <if test="!pager.excludes.contains('downloadCount')">
+                             T.download_count,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('adminId')">
+                             T.admin_id,
+                         </if>
+                         <if test="!pager.excludes.contains('adminName')">
+                             T.admin_name,
+                         </if>
+                         <if test="!pager.excludes.contains('size')">
+                             T.size,
+                         </if>
+                         <if test="!pager.excludes.contains('cover')">
+                             T.cover,
+                         </if>
+                         <if test="!pager.excludes.contains('speaker')">
+                             T.speaker,
+                         </if>
+                         <if test="!pager.excludes.contains('platform')">
+                             T.platform,
+                         </if>
+                         <if test="!pager.excludes.contains('duration')">
+                             T.duration,
+                         </if>
+                     <if test="!pager.excludes.contains('numLook')">
+                         T.num_look,
+                     </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_lesson_res_media_file T
+        <where>
+              <if test="filename!=null">
+                 T.filename=#{filename}
+              </if>
+              <if test="fileUrl!=null">
+                and T.file_url=#{fileUrl}
+              </if>
+              <if test="fileType!=null">
+                and T.file_type=#{fileType}
+              </if>
+              <if test="downloadCount!=null">
+                and T.download_count=#{downloadCount}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="adminId!=null">
+                and T.admin_id=#{adminId}
+              </if>
+              <if test="adminName!=null">
+                and T.admin_name=#{adminName}
+              </if>
+              <if test="size!=null">
+                and T.size=#{size}
+              </if>
+              <if test="cover!=null">
+                and T.cover=#{cover}
+              </if>
+              <if test="speaker!=null">
+                and T.speaker=#{speaker}
+              </if>
+              <if test="platform!=null">
+                and T.platform=#{platform}
+              </if>
+              <if test="duration!=null">
+                and T.duration=#{duration}
+              </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+    </select>
+    <insert id="saveLessonResMediaFile" parameterType="LessonResMediaFile">
+        insert into jy_lesson_res_media_file
+         (
+            id,
+            filename,
+            file_url,
+            file_type,
+            download_count,
+            update_time,
+            create_time,
+            admin_id,
+            admin_name,
+            size,
+            cover,
+            speaker,
+            platform,
+            duration,
+            num_look
+        ) values
+         (
+                #{id}
+                ,
+                #{filename}
+                ,
+                #{fileUrl}
+                ,
+                #{fileType}
+                ,
+                #{downloadCount}
+                ,
+                now()
+                ,
+                now()
+                ,
+                #{adminId}
+                ,
+                #{adminName}
+                ,
+                #{size}
+                ,
+                #{cover}
+                ,
+                #{speaker}
+                ,
+                #{platform}
+                ,
+                #{duration}
+                ,
+                #{num_look}
+         )
+    </insert>
+    <update id="updateLessonResMediaFile" parameterType="LessonResMediaFile">
+        update jy_lesson_res_media_file
+        <set>
+                    <if test="filename!=null ">
+                        filename=#{filename},
+                    </if>
+                    <if test="fileUrl!=null ">
+                        file_url=#{fileUrl},
+                    </if>
+                    <if test="fileType!=null ">
+                        file_type=#{fileType},
+                    </if>
+                    <if test="downloadCount!=null ">
+                        download_count=#{downloadCount},
+                    </if>
+                    update_time=now(),
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="adminId!=null ">
+                        admin_id=#{adminId},
+                    </if>
+                    <if test="adminName!=null ">
+                        admin_name=#{adminName},
+                    </if>
+                    <if test="size!=null ">
+                        size=#{size},
+                    </if>
+                    <if test="cover!=null ">
+                        cover=#{cover},
+                    </if>
+                    <if test="speaker!=null ">
+                        speaker=#{speaker},
+                    </if>
+                    <if test="platform!=null ">
+                        platform=#{platform},
+                    </if>
+                    <if test="duration!=null ">
+                        duration=#{duration}
+                    </if>
+            <if test="numLook!=null ">
+                num_look=#{numLook}
+            </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteLessonResMediaFile" >
+        delete from jy_lesson_res_media_file where id=#{id}
+    </delete>
+    <delete id="deleteLessonResMediaFileByCondition" >
+        delete from jy_lesson_res_media_file
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="filename!=null">
+                and filename=#{filename}
+              </if>
+              <if test="fileUrl!=null">
+                and file_url=#{fileUrl}
+              </if>
+              <if test="fileType!=null">
+                and file_type=#{fileType}
+              </if>
+              <if test="downloadCount!=null">
+                and download_count=#{downloadCount}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="adminId!=null">
+                and admin_id=#{adminId}
+              </if>
+              <if test="adminName!=null">
+                and admin_name=#{adminName}
+              </if>
+              <if test="size!=null">
+                and size=#{size}
+              </if>
+              <if test="cover!=null">
+                and cover=#{cover}
+              </if>
+              <if test="speaker!=null">
+                and speaker=#{speaker}
+              </if>
+              <if test="platform!=null">
+                and platform=#{platform}
+              </if>
+              <if test="duration!=null">
+                and duration=#{duration}
+              </if>
+            <if test="numLook!=null">
+                and num_look=#{numLook}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveLessonResMediaFile" parameterType="LessonResMediaFile">
+        INSERT INTO jy_lesson_res_media_file (  id,  filename,  file_url,  file_type,  download_count,  update_time,  create_time,  admin_id,  admin_name,  size,  cover,  speaker,  platform,  duration ,  num_look)
+        VALUES
+        <foreach collection="list" item="lessonResMediaFile" separator=",">
+            (  #{lessonResMediaFile.id},  #{lessonResMediaFile.filename},  #{lessonResMediaFile.fileUrl},  #{lessonResMediaFile.fileType},  0,  now(),  now(),  #{lessonResMediaFile.adminId},  #{lessonResMediaFile.adminName},  #{lessonResMediaFile.size},  #{lessonResMediaFile.cover},  #{lessonResMediaFile.speaker},  #{lessonResMediaFile.platform},  #{lessonResMediaFile.duration} , 0 )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <update id="downloadCountChange" parameterType="LessonResMediaFile">
+        update  jy_lesson_res_media_file
+        set
+                download_count=download_count+1
+        where id=#{id}
+    </update>
+    <update id="numLookChange" parameterType="LessonResMediaFile">
+        update  jy_lesson_res_media_file
+        set
+                num_look=num_look+1
+        where id=#{id}
+    </update>
+    <select id="findLessonResMediaFileListByCondition2" parameterType="LessonResMediaFile" resultType="LessonResMediaFile">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('filename')">
+                        T.filename,
+                    </if>
+                    <if test="!pager.excludes.contains('fileUrl')">
+                        T.file_url,
+                    </if>
+                    <if test="!pager.excludes.contains('fileType')">
+                        T.file_type,
+                    </if>
+                    <if test="!pager.excludes.contains('downloadCount')">
+                        T.download_count,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('adminId')">
+                        T.admin_id,
+                    </if>
+                    <if test="!pager.excludes.contains('adminName')">
+                        T.admin_name,
+                    </if>
+                    <if test="!pager.excludes.contains('size')">
+                        T.size,
+                    </if>
+                    <if test="!pager.excludes.contains('cover')">
+                        T.cover,
+                    </if>
+                    <if test="!pager.excludes.contains('speaker')">
+                        T.speaker,
+                    </if>
+                    <if test="!pager.excludes.contains('platform')">
+                        T.platform,
+                    </if>
+                    <if test="!pager.excludes.contains('duration')">
+                        T.duration,
+                    </if>
+                    <if test="!pager.excludes.contains('numLook')">
+                        T.num_look,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_lesson_res_media_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="filename!=null">
+                T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+            <if test="courseId!=null">
+                and P.course_id=#{courseId}
+            </if>
+            <if test="gradeId!=null">
+                and P.grade_id=#{gradeId}
+            </if>
+            <if test="meterialId!=null">
+                and P.meterial_id like CONCAT(CONCAT('%',#{meterialId},'%'))
+            </if>
+            <if test="annualPeriodId!=null">
+                and P.annual_period_id=#{annualPeriodId}
+            </if>
+            <if test="role!=null">
+                and P.role=#{role}
+            </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and pager.sortField==null and pager.sortOrder==null">
+            order by  T.update_time desc
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findLessonResMediaFileCountByCondition2" parameterType="LessonResMediaFile" resultType="long">
+        select count(*) from jy_lesson_res_media_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="filename!=null">
+                T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+            <if test="courseId!=null">
+                and P.course_id=#{courseId}
+            </if>
+            <if test="gradeId!=null">
+                and P.grade_id=#{gradeId}
+            </if>
+            <if test="meterialId!=null">
+                and P.meterial_id like CONCAT(CONCAT('%',#{meterialId},'%'))
+            </if>
+            <if test="annualPeriodId!=null">
+                and P.annual_period_id=#{annualPeriodId}
+            </if>
+            <if test="role!=null">
+                and P.role=#{role}
+            </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+    </select>
+</mapper>

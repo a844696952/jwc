@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.equipmentType.EquipmentDeviceNameDao">
+    <!--########################################################################################################################-->
+    <select id="findEquipmentDeviceNameListByCondition" parameterType="EquipmentDeviceName" resultType="EquipmentDeviceName">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentId')">
+                             T.equipment_id,
+                         </if>
+                         <if test="!pager.excludes.contains('deviceNumber')">
+                             T.device_number,
+                         </if>
+                         <if test="!pager.excludes.contains('deviceName')">
+                             T.device_name,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_device_name T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="equipmentId!=null">
+                and T.equipment_id=#{equipmentId}
+              </if>
+              <if test="deviceNumber!=null">
+                and T.device_number=#{deviceNumber}
+              </if>
+              <if test="deviceName!=null">
+                and T.device_name=#{deviceName}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findEquipmentDeviceNameCountByCondition" parameterType="EquipmentDeviceName" resultType="long">
+        select count(*) from equipment_device_name
+        <where>
+              <if test="createTime!=null">
+                 create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="equipmentId!=null">
+                and equipment_id=#{equipmentId}
+              </if>
+              <if test="deviceNumber!=null">
+                and device_number=#{deviceNumber}
+              </if>
+              <if test="deviceName!=null">
+                and device_name=#{deviceName}
+              </if>
+        </where>
+    </select>
+    <select id="findEquipmentDeviceNameById" resultType="EquipmentDeviceName">
+        select * from equipment_device_name where id=#{id}
+    </select>
+    <select id="findOneEquipmentDeviceNameByCondition" parameterType="EquipmentDeviceName" resultType="EquipmentDeviceName">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentId')">
+                             T.equipment_id,
+                         </if>
+                         <if test="!pager.excludes.contains('deviceNumber')">
+                             T.device_number,
+                         </if>
+                         <if test="!pager.excludes.contains('deviceName')">
+                             T.device_name,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_device_name T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="equipmentId!=null">
+                and T.equipment_id=#{equipmentId}
+              </if>
+              <if test="deviceNumber!=null">
+                and T.device_number=#{deviceNumber}
+              </if>
+              <if test="deviceName!=null">
+                and T.device_name=#{deviceName}
+              </if>
+        </where>
+    </select>
+    <insert id="saveEquipmentDeviceName" parameterType="EquipmentDeviceName">
+        insert into equipment_device_name
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            equipment_id,
+            device_number,
+            device_name
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{equipmentId}
+                ,
+                #{deviceNumber}
+                ,
+                #{deviceName}
+                
+         )
+    </insert>
+    <update id="updateEquipmentDeviceName" parameterType="EquipmentDeviceName">
+        update equipment_device_name
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="equipmentId!=null ">
+                        equipment_id=#{equipmentId},
+                    </if>
+                    <if test="deviceNumber!=null ">
+                        device_number=#{deviceNumber},
+                    </if>
+                    <if test="deviceName!=null ">
+                        device_name=#{deviceName}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteEquipmentDeviceName" >
+        delete from equipment_device_name where id=#{id}
+    </delete>
+    <delete id="deleteEquipmentDeviceNameByCondition" >
+        delete from equipment_device_name
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="equipmentId!=null">
+                and equipment_id=#{equipmentId}
+              </if>
+              <if test="deviceNumber!=null">
+                and device_number=#{deviceNumber}
+              </if>
+              <if test="deviceName!=null">
+                and device_name=#{deviceName}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveEquipmentDeviceName" parameterType="EquipmentDeviceName">
+        INSERT INTO equipment_device_name (  id,  create_time,  update_time,  del,  equipment_id,  device_number,  device_name )
+        VALUES
+        <foreach collection="list" item="equipmentDeviceName" separator=",">
+            (  #{equipmentDeviceName.id},  #{equipmentDeviceName.createTime},  #{equipmentDeviceName.updateTime},  #{equipmentDeviceName.del},  #{equipmentDeviceName.equipmentId},  #{equipmentDeviceName.deviceNumber},  #{equipmentDeviceName.deviceName}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

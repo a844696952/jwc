@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.titleQuota.ITeacherAccessConfigurationDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('dailyVisits')">
+                             T.daily_visits,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="dailyVisits!=null">
+                    and T.daily_visits=#{dailyVisits}
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('teacherId')">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findTeacherAccessConfigurationListByCondition" parameterType="TeacherAccessConfiguration" resultType="TeacherAccessConfiguration">
+        select
+         <include refid="projection"/>
+         from jy_teacher_access_configuration T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findTeacherAccessConfigurationCountByCondition" parameterType="TeacherAccessConfiguration" resultType="long">
+        select count(*) from jy_teacher_access_configuration T
+        <include refid="match"/>
+    </select>
+    <select id="findTeacherAccessConfigurationById" resultType="TeacherAccessConfiguration">
+        select * from jy_teacher_access_configuration where id=#{id}
+    </select>
+    <select id="findOneTeacherAccessConfigurationByCondition" parameterType="TeacherAccessConfiguration" resultType="TeacherAccessConfiguration">
+        select
+         <include refid="projection"/>
+         from jy_teacher_access_configuration T
+        <include refid="match"/>
+    </select>
+    <insert id="saveTeacherAccessConfiguration" parameterType="TeacherAccessConfiguration">
+        INSERT INTO jy_teacher_access_configuration (  id,  daily_visits,  school_id,  teacher_id,  create_time,  update_time )
+         values
+         (   #{id}  ,   #{dailyVisits}  ,   #{schoolId}  ,   #{teacherId}  ,   now()  ,   #{updateTime}    )
+    </insert>
+    <update id="updateTeacherAccessConfiguration" parameterType="TeacherAccessConfiguration">
+        update jy_teacher_access_configuration
+        <set>
+                    <if test="dailyVisits!=null ">
+                        daily_visits=#{dailyVisits},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateTeacherAccessConfigurationForAll" parameterType="TeacherAccessConfiguration">
+        update jy_teacher_access_configuration
+        <set>
+                    daily_visits=#{dailyVisits},
+                    school_id=#{schoolId},
+                    teacher_id=#{teacherId},
+                    create_time=#{createTime},
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteTeacherAccessConfiguration" >
+        delete from jy_teacher_access_configuration where id=#{id}
+    </delete>
+    <delete id="deleteTeacherAccessConfigurationByCondition" >
+        delete T from jy_teacher_access_configuration T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveTeacherAccessConfiguration" parameterType="TeacherAccessConfiguration">
+        INSERT INTO jy_teacher_access_configuration (  id,  daily_visits,  school_id,  teacher_id,  create_time,  update_time )
+        VALUES
+        <foreach collection="list" item="teacherAccessConfiguration" separator=",">
+            (   #{teacherAccessConfiguration.id}  ,   #{teacherAccessConfiguration.dailyVisits}  ,   #{teacherAccessConfiguration.schoolId}  ,   #{teacherAccessConfiguration.teacherId}  ,   now()  ,   #{teacherAccessConfiguration.updateTime}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <!--查询每个学校教师分配次数，只查询一个-->
+    <select id="findTeacherAccessConfigurationsByConditioOne" parameterType="TeacherAccessConfiguration" resultType="TeacherAccessConfiguration">
+        SELECT
+        t.`id` teacherId,
+        t.`name` teacherName,
+        t.tel,
+        GROUP_CONCAT( tc.`alias` ) teacherSubject,
+        tac.daily_visits dailyVisits
+        FROM
+        jw_teacher t
+        LEFT JOIN (
+        SELECT DISTINCT tc.`teacher_id`,c.`alias` FROM jw_teacher_classes tc
+        LEFT JOIN jw_course c ON c.`id` = tc.`course_id` AND tc.`school_id`=c.`school_id`
+        ) tc ON tc.`teacher_id` = t.`id`
+        LEFT JOIN jy_teacher_access_configuration tac ON tac.teacher_id = t.`id`
+        WHERE
+        t.school_id = #{schoolId}
+        <if test="teacherName!=null">
+            and t.name like concat('%',#{teacherName},'%')
+        </if>
+        <if test="teacherId!=null">
+            and t.id=#{teacherId}
+        </if>
+        <if test="tel!=null">
+            and  t.tel like concat('%',#{tel},'%')
+        </if>
+        and t.person_type=1 and t.status!=99
+        GROUP BY
+        t.`id`
+        ORDER BY
+        t.update_time
+    </select>
+    <!--查询每个学校教师分配额度次数-->
+    <select id="findTeacherAccessConfigurationListByCondition4Like" parameterType="TeacherAccessConfiguration" resultType="TeacherAccessConfiguration">
+        SELECT
+        t.`id` teacherId,
+        t.`name` teacherName,
+        t.tel,
+        GROUP_CONCAT( tc.`alias` ) teacherSubject,
+        tac.daily_visits dailyVisits
+        FROM
+        jw_teacher t
+        LEFT JOIN (
+        SELECT DISTINCT tc.`teacher_id`,c.`alias` FROM jw_teacher_classes tc
+        LEFT JOIN jw_course c ON c.`id` = tc.`course_id` AND tc.`school_id`=c.`school_id`
+        ) tc ON tc.`teacher_id` = t.`id`
+        LEFT JOIN jy_teacher_access_configuration tac ON tac.teacher_id = t.`id`
+        WHERE
+        t.school_id = #{schoolId}
+        <if test="teacherName!=null">
+            and t.name like concat('%',#{teacherName},'%')
+        </if>
+        <if test="teacherId!=null">
+            and t.id=#{teacherId}
+        </if>
+        <if test="tel!=null">
+            and  t.tel like concat('%',#{tel},'%')
+        </if>
+        and t.person_type=1 and t.status!=99
+        GROUP BY
+        t.`id`
+        ORDER BY
+        t.update_time
+        <include refid="page"/>
+    </select>
+    <update id="updateTeacherAccessConfigurationForAll4Like" parameterType="TeacherAccessConfiguration">
+        update jy_teacher_access_configuration
+        <set>
+            daily_visits=#{dailyVisits},
+            school_id=#{schoolId},
+            teacher_id=#{teacherId},
+            create_time=#{createTime},
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+    <!--查询分配数量-->
+    <select id="findTeacherAccessConfigurationListByCondition4LikeCount" parameterType="TeacherAccessConfiguration" resultType="long">
+      select count(1) from
+          (SELECT
+	        t.`id` teacherId,
+            t.`name` teacherName,
+            t.tel,
+            GROUP_CONCAT( tc.`alias` ) teacherSubject,
+            tac.daily_visits dailyVisits
+            FROM
+	        jw_teacher t
+	        LEFT JOIN ( SELECT DISTINCT tc.`teacher_id`, c.`alias` FROM jw_teacher_classes tc LEFT JOIN jw_course c ON c.`id` = tc.`course_id` and c.`school_id` = tc.`school_id` ) tc ON   tc.`teacher_id` = t.`id`
+	        LEFT JOIN jy_teacher_access_configuration tac ON tac.teacher_id = t.`id`
+            WHERE
+        t.school_id = #{schoolId}
+        <if test="teacherName!=null">
+            and t.name like concat('%',#{teacherName},'%')
+        </if>
+        <if test="teacherId!=null">
+            and t.id=#{teacherId}
+        </if>
+        <if test="tel!=null">
+            and  t.tel like concat('%',#{tel},'%')
+        </if>
+        and t.person_type=1 and t.status!=99
+        GROUP BY
+        t.`id`
+	      ) e
+    </select>
+
+</mapper>

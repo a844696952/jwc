@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.prepLessonResource.IPrepLessonResourceFileDao">
+    <!--########################################################################################################################-->
+    <select id="findPrepLessonResourceFileListByCondition" parameterType="PrepLessonResourceFile" resultType="PrepLessonResourceFile">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('filename')">
+                             T.filename,
+                         </if>
+                         <if test="!pager.excludes.contains('fileUrl')">
+                             T.file_url,
+                         </if>
+                         <if test="!pager.excludes.contains('fileType')">
+                             T.file_type,
+                         </if>
+                         <if test="!pager.excludes.contains('downloadCount')">
+                             T.download_count,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('adminId')">
+                             T.admin_id,
+                         </if>
+                         <if test="!pager.excludes.contains('adminName')">
+                             T.admin_name,
+                         </if>
+                         <if test="!pager.excludes.contains('size')">
+                             T.size,
+                         </if>
+                         <if test="!pager.excludes.contains('cover')">
+                             T.cover,
+                         </if>
+                     <if test="!pager.excludes.contains('numLook')">
+                         T.num_look,
+                     </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_prep_lesson_resource_file T
+        <where>
+              <if test="filename!=null">
+                 T.filename=#{filename}
+              </if>
+              <if test="fileUrl!=null">
+                and T.file_url=#{fileUrl}
+              </if>
+              <if test="fileType!=null">
+                and T.file_type=#{fileType}
+              </if>
+              <if test="downloadCount!=null">
+                and T.download_count=#{downloadCount}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="adminId!=null">
+                and T.admin_id=#{adminId}
+              </if>
+              <if test="adminName!=null">
+                and T.admin_name=#{adminName}
+              </if>
+              <if test="size!=null">
+                and T.size=#{size}
+              </if>
+              <if test="cover!=null">
+                and T.cover=#{cover}
+              </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findPrepLessonResourceFileCountByCondition" parameterType="PrepLessonResourceFile" resultType="long">
+        select count(*) from jy_prep_lesson_resource_file
+        <where>
+              <if test="filename!=null">
+                 filename=#{filename}
+              </if>
+              <if test="fileUrl!=null">
+                and file_url=#{fileUrl}
+              </if>
+              <if test="fileType!=null">
+                and file_type=#{fileType}
+              </if>
+              <if test="downloadCount!=null">
+                and download_count=#{downloadCount}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="adminId!=null">
+                and admin_id=#{adminId}
+              </if>
+              <if test="adminName!=null">
+                and admin_name=#{adminName}
+              </if>
+              <if test="size!=null">
+                and size=#{size}
+              </if>
+              <if test="cover!=null">
+                and cover=#{cover}
+              </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+    </select>
+    <select id="findPrepLessonResourceFileById" resultType="PrepLessonResourceFile">
+        select * from jy_prep_lesson_resource_file where id=#{id}
+    </select>
+    <select id="findOnePrepLessonResourceFileByCondition" parameterType="PrepLessonResourceFile" resultType="PrepLessonResourceFile">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('filename')">
+                             T.filename,
+                         </if>
+                         <if test="!pager.excludes.contains('fileUrl')">
+                             T.file_url,
+                         </if>
+                         <if test="!pager.excludes.contains('fileType')">
+                             T.file_type,
+                         </if>
+                         <if test="!pager.excludes.contains('downloadCount')">
+                             T.download_count,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('adminId')">
+                             T.admin_id,
+                         </if>
+                         <if test="!pager.excludes.contains('adminName')">
+                             T.admin_name,
+                         </if>
+                         <if test="!pager.excludes.contains('size')">
+                             T.size,
+                         </if>
+                         <if test="!pager.excludes.contains('cover')">
+                             T.cover,
+                         </if>
+                     <if test="!pager.excludes.contains('numLook')">
+                         T.num_look,
+                     </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_prep_lesson_resource_file T
+        <where>
+              <if test="filename!=null">
+                 T.filename=#{filename}
+              </if>
+              <if test="fileUrl!=null">
+                and T.file_url=#{fileUrl}
+              </if>
+              <if test="fileType!=null">
+                and T.file_type=#{fileType}
+              </if>
+              <if test="downloadCount!=null">
+                and T.download_count=#{downloadCount}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="adminId!=null">
+                and T.admin_id=#{adminId}
+              </if>
+              <if test="adminName!=null">
+                and T.admin_name=#{adminName}
+              </if>
+              <if test="size!=null">
+                and T.size=#{size}
+              </if>
+              <if test="cover!=null">
+                and T.cover=#{cover}
+              </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+    </select>
+    <insert id="savePrepLessonResourceFile" parameterType="PrepLessonResourceFile">
+        insert into jy_prep_lesson_resource_file
+         (
+            id,
+            filename,
+            file_url,
+            file_type,
+            download_count,
+            update_time,
+            create_time,
+            admin_id,
+            admin_name,
+            size,
+            cover,
+            num_look
+        ) values
+         (
+                #{id}
+                ,
+                #{filename}
+                ,
+                #{fileUrl}
+                ,
+                #{fileType}
+                ,
+                #{downloadCount}
+                ,
+                now()
+                ,
+                now()
+                ,
+                #{adminId}
+                ,
+                #{adminName}
+                ,
+                #{size}
+                ,
+                #{cover}
+                 ,
+                #{num_look}
+         )
+    </insert>
+    <update id="updatePrepLessonResourceFile" parameterType="PrepLessonResourceFile">
+        update jy_prep_lesson_resource_file
+        <set>
+                    <if test="filename!=null ">
+                        filename=#{filename},
+                    </if>
+                    <if test="fileUrl!=null ">
+                        file_url=#{fileUrl},
+                    </if>
+                    <if test="fileType!=null ">
+                        file_type=#{fileType},
+                    </if>
+                    <if test="downloadCount!=null ">
+                        download_count=#{downloadCount},
+                    </if>
+                    update_time=now(),
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="adminId!=null ">
+                        admin_id=#{adminId},
+                    </if>
+                    <if test="adminName!=null ">
+                        admin_name=#{adminName},
+                    </if>
+                    <if test="size!=null ">
+                        size=#{size},
+                    </if>
+                    <if test="cover!=null ">
+                        cover=#{cover}
+                    </if>
+            <if test="numLook!=null ">
+                num_look=#{numLook}
+            </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deletePrepLessonResourceFile" >
+        delete from jy_prep_lesson_resource_file where id=#{id}
+    </delete>
+    <delete id="deletePrepLessonResourceFileByCondition" >
+        delete from jy_prep_lesson_resource_file
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="filename!=null">
+                and filename=#{filename}
+              </if>
+              <if test="fileUrl!=null">
+                and file_url=#{fileUrl}
+              </if>
+              <if test="fileType!=null">
+                and file_type=#{fileType}
+              </if>
+              <if test="downloadCount!=null">
+                and download_count=#{downloadCount}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="adminId!=null">
+                and admin_id=#{adminId}
+              </if>
+              <if test="adminName!=null">
+                and admin_name=#{adminName}
+              </if>
+              <if test="size!=null">
+                and size=#{size}
+              </if>
+              <if test="cover!=null">
+                and cover=#{cover}
+              </if>
+            <if test="numLook!=null">
+                and num_look=#{numLook}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSavePrepLessonResourceFile" parameterType="PrepLessonResourceFile">
+        INSERT INTO jy_prep_lesson_resource_file (  id,  filename,  file_url,  file_type,  download_count,  update_time,  create_time,  admin_id,  admin_name,  size,  cover  ,  num_look)
+        VALUES
+        <foreach collection="list" item="prepLessonResourceFile" separator=",">
+            (#{prepLessonResourceFile.id},  #{prepLessonResourceFile.filename},  #{prepLessonResourceFile.fileUrl},  #{prepLessonResourceFile.fileType},  0,  now(),  now(),  #{prepLessonResourceFile.adminId},  #{prepLessonResourceFile.adminName},  #{prepLessonResourceFile.size},  #{prepLessonResourceFile.cover},  0  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <!--downloadCountChange-->
+    <update id="downloadCountChange" parameterType="PrepLessonResourceFile">
+        update jy_prep_lesson_resource_file
+        set
+                download_count=download_count+1
+        where id=#{id}
+    </update>
+    <update id="numLookChange" parameterType="PrepLessonResourceFile">
+        update jy_prep_lesson_resource_file
+        set
+                 num_look=num_look+1
+        where id=#{id}
+    </update>
+<!--连表查-->
+    <select id="findPrepLessonResourceFileListByCondition2" parameterType="PrepLessonResourceFile" resultType="PrepLessonResourceFile">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('filename')">
+                        T.filename,
+                    </if>
+                    <if test="!pager.excludes.contains('fileUrl')">
+                        T.file_url,
+                    </if>
+                    <if test="!pager.excludes.contains('fileType')">
+                        T.file_type,
+                    </if>
+                    <if test="!pager.excludes.contains('downloadCount')">
+                        T.download_count,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('adminId')">
+                        T.admin_id,
+                    </if>
+                    <if test="!pager.excludes.contains('adminName')">
+                        T.admin_name,
+                    </if>
+                    <if test="!pager.excludes.contains('size')">
+                        T.size,
+                    </if>
+                    <if test="!pager.excludes.contains('cover')">
+                        T.cover,
+                    </if>
+                    <if test="!pager.excludes.contains('numLook')">
+                        T.num_look,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_prep_lesson_resource_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+
+        <where>
+            <if test="filename!=null">
+                T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+            <if test="courseId!=null">
+                and P.course_id=#{courseId}
+            </if>
+            <if test="gradeId!=null">
+                and P.grade_id=#{gradeId}
+            </if>
+            <if test="meterialId!=null">
+                and P.meterial_id like CONCAT(CONCAT('%',#{meterialId},'%'))
+            </if>
+            <if test="annualPeriodId!=null">
+                and P.annual_period_id =#{annualPeriodId}
+            </if>
+            <if test="meterialItemId!=null">
+                and P.meterial_item_id =#{meterialItemId}
+            </if>
+            <if test="role!=null">
+                and P.role=#{role}
+            </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and pager.sortField==null and pager.sortOrder==null">
+            order by  T.update_time desc
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findPrepLessonResourceFileCountByCondition2" parameterType="PrepLessonResourceFile" resultType="long">
+        select count(*) from jy_prep_lesson_resource_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="filename!=null">
+                T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+            <if test="courseId!=null">
+                and P.course_id=#{courseId}
+            </if>
+            <if test="gradeId!=null">
+                and P.grade_id=#{gradeId}
+            </if>
+            <if test="meterialId!=null">
+                and P.meterial_id like CONCAT(CONCAT('%',#{meterialId},'%'))
+            </if>
+            <if test="annualPeriodId!=null">
+                and P.annual_period_id =#{annualPeriodId}
+            </if>
+            <if test="meterialItemId!=null">
+                and P.meterial_item_id =#{meterialItemId}
+            </if>
+            <if test="role!=null">
+                and P.role=#{role}
+            </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+    <!---->
+    <select id="findMatFileListByMatItemid"  parameterType="PrepLessonResourceFile"  resultType="PrepLessonResourceFile">
+  select * from ( select
+
+        T.id id,
+        P.id bound_id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.speaker speaker,
+        T.cover cover,
+        T.num_look num_look,
+        P.id Lesson_res_file_meterial_item_id,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+
+        from jy_prep_lesson_resource_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+
+        <where>
+            <if test="meterialItemId!=null">
+                    P.meterial_item_id like CONCAT(CONCAT('%',#{meterialItemId},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+            <if test="filename!=null">
+                and  T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="annualPeriodId!=null">
+                and P.annual_period_id =#{annualPeriodId}
+            </if>
+            <if test="courseId!=null">
+                and P.course_id=#{courseId}
+            </if>
+            <if test="gradeId!=null">
+                and P.grade_id=#{gradeId}
+            </if>
+            <if test="role!=null">
+                and P.role=#{role}
+            </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+        Union
+
+        select
+
+        T.id id,
+        P.id bound_id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.speaker speaker,
+        T.cover cover,
+        T.num_look num_look,
+        P.id Lesson_res_file_meterial_item_id,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+
+        from jy_lesson_res_media_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="meterialItemId!=null">
+                P.meterial_item_id like CONCAT(CONCAT('%',#{meterialItemId},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+            <if test="filename!=null">
+                and  T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="annualPeriodId!=null">
+                and P.annual_period_id =#{annualPeriodId}
+            </if>
+            <if test="courseId!=null">
+                and P.course_id=#{courseId}
+            </if>
+            <if test="gradeId!=null">
+                and P.grade_id=#{gradeId}
+            </if>
+            <if test="role!=null">
+                and P.role=#{role}
+            </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+        ) Q
+
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by Q.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and pager.sortField==null and pager.sortOrder==null">
+            order by  Q.update_time desc
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+    <select id="findMatFilesCountByMatItemid" parameterType="PrepLessonResourceFile"  resultType="long">
+
+select count(*) from (
+      select
+        T.id id,
+        P.id bound_id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.num_look num_look,
+        P.id Lesson_res_file_meterial_item_id,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+				 from
+        jy_prep_lesson_resource_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="meterialItemId!=null">
+                P.meterial_item_id like CONCAT(CONCAT('%',#{meterialItemId},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+            <if test="filename!=null">
+                and  T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="annualPeriodId!=null">
+                and P.annual_period_id =#{annualPeriodId}
+            </if>
+            <if test="courseId!=null">
+                and P.course_id=#{courseId}
+            </if>
+            <if test="gradeId!=null">
+                and P.grade_id=#{gradeId}
+            </if>
+            <if test="role!=null">
+                and P.role=#{role}
+            </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+
+        union
+        select
+        T.id id,
+        P.id bound_id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.num_look num_look,
+        P.id lesson_res_file_meterial_item_id,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+
+				 from
+        jy_lesson_res_media_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="meterialItemId!=null">
+                P.meterial_item_id like CONCAT(CONCAT('%',#{meterialItemId},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+            <if test="filename!=null">
+                and  T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="annualPeriodId!=null">
+                and P.annual_period_id =#{annualPeriodId}
+            </if>
+            <if test="courseId!=null">
+                and P.course_id=#{courseId}
+            </if>
+            <if test="gradeId!=null">
+                and P.grade_id=#{gradeId}
+            </if>
+            <if test="role!=null">
+                and P.role=#{role}
+            </if>
+            <if test="numLook!=null">
+                and T.num_look=#{numLook}
+            </if>
+        </where>
+        ) Q
+
+    </select>
+
+
+
+
+
+
+
+
+
+    <!--根据条件模糊查询所有平台文件-->
+    <select id="findMatFileListByCondition3"  parameterType="PrepLessonResourceFile"  resultType="PrepLessonResourceFile">
+        select * from ( select
+
+        T.id id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.speaker speaker,
+        T.cover cover,
+        T.num_look num_look,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+
+        from jy_prep_lesson_resource_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+        <if test="filename!=null">
+            T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+        </if>
+        <if test="fileType!=null">
+            and T.file_type=#{fileType}
+        </if>
+        </where>
+
+        Union
+
+        select
+
+        T.id id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.speaker speaker,
+        T.cover cover,
+        T.num_look num_look,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+
+        from jy_lesson_res_media_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="filename!=null">
+                T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+
+        </where>
+        ) Q
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by Q.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+
+
+
+
+
+    <select id="findMatFilesCountByCondition3" parameterType="PrepLessonResourceFile"  resultType="long">
+
+select count(*) from (
+      select
+				T.id id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.num_look num_look,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+				 from
+        jy_prep_lesson_resource_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="filename!=null">
+                T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+        </where>
+
+        union
+
+        select
+        	T.id id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.num_look num_look,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+				 from
+        jy_lesson_res_media_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="filename!=null">
+                T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+            <if test="fileType!=null">
+                and T.file_type=#{fileType}
+            </if>
+        </where>
+        ) Q
+
+    </select>
+</mapper>

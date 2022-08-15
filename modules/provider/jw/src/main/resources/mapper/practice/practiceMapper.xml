@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.practice.IPracticeDao">
+    <!--########################################################################################################################-->
+    <select id="findPracticeListByCondition" parameterType="Practice" resultType="Practice">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('practiceStartdate')">
+                             T.practice_startdate,
+                         </if>
+                         <if test="!pager.excludes.contains('practiceEnddate')">
+                             T.practice_enddate,
+                         </if>
+                         <if test="!pager.excludes.contains('practiceContent')">
+                             T.practice_content,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_practice T
+        <where>
+              <if test="practiceStartdate!=null">
+                 T.practice_startdate=#{practiceStartdate}
+              </if>
+              <if test="practiceEnddate!=null">
+                and T.practice_enddate=#{practiceEnddate}
+              </if>
+              <if test="practiceContent!=null">
+                and T.practice_content=#{practiceContent}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findPracticeCountByCondition" parameterType="Practice" resultType="long">
+        select count(*) from jw_practice
+        <where>
+              <if test="practiceStartdate!=null">
+                 practice_startdate=#{practiceStartdate}
+              </if>
+              <if test="practiceEnddate!=null">
+                and practice_enddate=#{practiceEnddate}
+              </if>
+              <if test="practiceContent!=null">
+                and practice_content=#{practiceContent}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+        </where>
+    </select>
+    <select id="findPracticeById" resultType="Practice">
+        select * from jw_practice where id=#{id}
+    </select>
+    <select id="findOnePracticeByCondition" parameterType="Practice" resultType="Practice">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('practiceStartdate')">
+                             T.practice_startdate,
+                         </if>
+                         <if test="!pager.excludes.contains('practiceEnddate')">
+                             T.practice_enddate,
+                         </if>
+                         <if test="!pager.excludes.contains('practiceContent')">
+                             T.practice_content,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_practice T
+        <where>
+              <if test="practiceStartdate!=null">
+                 T.practice_startdate=#{practiceStartdate}
+              </if>
+              <if test="practiceEnddate!=null">
+                and T.practice_enddate=#{practiceEnddate}
+              </if>
+              <if test="practiceContent!=null">
+                and T.practice_content=#{practiceContent}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+        </where>
+    </select>
+    <insert id="savePractice" parameterType="Practice">
+        insert into jw_practice
+         (
+            id,
+            practice_startdate,
+            practice_enddate,
+            practice_content,
+            create_time,
+            update_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{practiceStartdate}
+                ,
+                #{practiceEnddate}
+                ,
+                #{practiceContent}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updatePractice" parameterType="Practice">
+        update jw_practice
+        <set>
+                    <if test="practiceStartdate!=null ">
+                        practice_startdate=#{practiceStartdate},
+                    </if>
+                    <if test="practiceEnddate!=null ">
+                        practice_enddate=#{practiceEnddate},
+                    </if>
+                    <if test="practiceContent!=null ">
+                        practice_content=#{practiceContent},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deletePractice" >
+        delete from jw_practice where id=#{id}
+    </delete>
+    <delete id="deletePracticeByCondition" >
+        delete from jw_practice
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="practiceStartdate!=null">
+                and practice_startdate=#{practiceStartdate}
+              </if>
+              <if test="practiceEnddate!=null">
+                and practice_enddate=#{practiceEnddate}
+              </if>
+              <if test="practiceContent!=null">
+                and practice_content=#{practiceContent}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSavePractice" parameterType="Practice">
+        INSERT INTO jw_practice (  id,  practice_startdate,  practice_enddate,  practice_content,  create_time,  update_time,  school_id )
+        VALUES
+        <foreach collection="list" item="practice" separator=",">
+            (  #{practice.id},  #{practice.practiceStartdate},  #{practice.practiceEnddate},  #{practice.practiceContent},  #{practice.createTime},  #{practice.updateTime},  #{practice.schoolId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findPracticeListByCondition1" parameterType="Practice" resultType="Practice">
+        SELECT
+        GROUP_CONCAT( A.NAME ) as practiceTeacherName,
+        count( A.teacher_id ) AS teacherNum,
+        T.id,
+        T.practice_startdate,
+        T.practice_enddate,
+        T.practice_content,
+        T.create_time,
+        T.update_time,
+        T.school_id
+        FROM
+        jw_practice T
+        LEFT JOIN jw_practice_jw_teacher A ON T.id = A.practice_id
+       /* LEFT JOIN jw_teacher B ON A.teacher_id = B.id*/
+        <where>
+            <if test="practiceStartdate!=null">
+                and T.practice_startdate  &gt;=#{practiceStartdate}
+            </if>
+            <if test="practiceEnddate!=null">
+                and T.practice_enddate &lt;=#{practiceEnddate}
+            </if>
+            <if test="practiceContent!=null">
+                and T.practice_content  like "%"#{practiceContent}"%"
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+        </where>
+        GROUP BY T.id
+
+        <if test="practiceTeacherName!=null">
+            HAVING practiceTeacherName LIKE "%"#{practiceTeacherName}"%"
+        </if>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+
+
+    <select id="findPracticeListByTeacherId" parameterType="Practice" resultType="Practice">
+        select
+        count(DISTINCT A.teacher_id ) AS teacherNum,
+        T.id,
+        T.practice_startdate,
+        T.practice_enddate,
+        T.practice_content,
+        T.create_time,
+        T.update_time,
+        T.school_id
+        from (select T.* from jw_practice T
+        inner join jw_practice_jw_teacher A on A.practice_id = T.id
+        <where>
+            <if test="practiceTeacherId!=null">
+                 A.teacher_id=#{practiceTeacherId}
+            </if>
+            <if test="practiceStartdate!=null">
+                and T.practice_startdate  &gt;=#{practiceStartdate}
+            </if>
+            <if test="practiceEnddate!=null">
+                and T.practice_enddate &lt;=#{practiceEnddate}
+            </if>
+            <if test="practiceContent!=null">
+                and T.practice_content  like "%"#{practiceContent}"%"
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+        </where>
+        ) T
+        inner join jw_practice_jw_teacher A on A.practice_id = T.id
+        group by T.id
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+
+
+    <select id="findPracticeCountByTeacherId" parameterType="Practice" resultType="long">
+        select count(DISTINCT T.id) from jw_practice T left join jw_practice_jw_teacher A on T.id=A.practice_id
+        left join jw_teacher B on A.teacher_id=B.id
+        <where>
+            <if test="practiceTeacherId!=null">
+                 B.id=#{practiceTeacherId}
+            </if>
+            <if test="practiceStartdate!=null">
+                and T.practice_startdate  &gt;=#{practiceStartdate}
+            </if>
+            <if test="practiceEnddate!=null">
+                and T.practice_enddate &lt;=#{practiceEnddate}
+            </if>
+            <if test="practiceContent!=null">
+                and T.practice_content LIKE "%"#{practiceContent}"%"
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findPracticeCountByCondition1" parameterType="Practice" resultType="long">
+        SELECT
+        count( DISTINCT T.id )
+        FROM
+        jw_practice T
+        LEFT JOIN jw_practice_jw_teacher A ON T.id = A.practice_id
+        LEFT JOIN jw_teacher B ON A.teacher_id = B.id
+        <where>
+            <if test="practiceTeacherName!=null">
+                A.name  LIKE "%"#{practiceTeacherName}"%"
+            </if>
+            <if test="practiceStartdate!=null">
+                and T.practice_startdate  &gt;=#{practiceStartdate}
+            </if>
+            <if test="practiceEnddate!=null">
+                and T.practice_enddate &lt;=#{practiceEnddate}
+            </if>
+            <if test="practiceContent!=null">
+                and T.practice_content LIKE "%"#{practiceContent}"%"
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+        </where>
+    </select>
+
+</mapper>
+

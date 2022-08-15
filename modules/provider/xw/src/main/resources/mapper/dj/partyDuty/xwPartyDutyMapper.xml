@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.partyDuty.XwPartyDutyDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                            and T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                            and T.name like concat('%',#{name},'%')
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwPartyDutyListByCondition" parameterType="XwPartyDuty" resultType="XwPartyDuty">
+        select
+         <include refid="projection"/>
+         from xw_party_duty T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findXwPartyDutyCountByCondition" parameterType="XwPartyDuty" resultType="long">
+        select count(*) from xw_party_duty T
+        <include refid="match"/>
+    </select>
+    <select id="findXwPartyDutyById" resultType="XwPartyDuty">
+        select * from xw_party_duty where id=#{id}
+    </select>
+    <select id="findXwPartyDutyByName" resultType="XwPartyDuty">
+        select * from xw_party_duty where name=#{name}
+    </select>
+    <select id="findOneXwPartyDutyByCondition" parameterType="XwPartyDuty" resultType="XwPartyDuty">
+        select
+         <include refid="projection"/>
+         from xw_party_duty T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwPartyDuty" parameterType="XwPartyDuty">
+        insert into xw_party_duty
+         (
+            id,
+            school_id,
+            name,
+            create_time,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{name}
+                ,
+                now()
+                ,
+                #{updateTime}
+                
+         )
+    </insert>
+    <update id="updateXwPartyDuty" parameterType="XwPartyDuty">
+        update xw_party_duty
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwPartyDuty" >
+        delete from xw_party_duty where id=#{id}
+    </delete>
+    <delete id="deleteXwPartyDutyByCondition" >
+        delete T from xw_party_duty T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwPartyDuty" parameterType="XwPartyDuty">
+        INSERT INTO xw_party_duty (  id,  school_id,  name,  create_time,  update_time )
+        VALUES
+        <foreach collection="list" item="xwPartyDuty" separator=",">
+            (  #{xwPartyDuty.id},  #{xwPartyDuty.schoolId},  #{xwPartyDuty.name},  #{xwPartyDuty.createTime},  #{xwPartyDuty.updateTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

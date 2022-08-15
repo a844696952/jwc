@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.schoolActive.IDmActivityItemDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('activityId')">
+                             T.activity_id,
+                         </if>
+                         <if test="!pager.excludes.contains('projectName')">
+                             T.project_name,
+                         </if>
+                         <if test="!pager.excludes.contains('classesId')">
+                             T.classes_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityId'">
+                            and T.activity_id like concat('%',#{activityId},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_id=#{activityId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="projectName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='projectName'">
+                            and T.project_name like concat('%',#{projectName},'%')
+                         </when>
+                         <otherwise>
+                            and T.project_name=#{projectName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classesId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classesId'">
+                            and T.classes_id like concat('%',#{classesId},'%')
+                         </when>
+                         <otherwise>
+                            and T.classes_id=#{classesId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmActivityItemListByCondition" parameterType="DmActivityItem" resultType="DmActivityItem">
+        select
+         <include refid="projection"/>
+         from dm_activity_item T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDmActivityItemCountByCondition" parameterType="DmActivityItem" resultType="long">
+        select count(*) from dm_activity_item T
+        <include refid="match"/>
+    </select>
+    <select id="findDmActivityItemById" resultType="DmActivityItem">
+        select * from dm_activity_item where id=#{id}
+    </select>
+    <select id="findOneDmActivityItemByCondition" parameterType="DmActivityItem" resultType="DmActivityItem">
+        select
+         <include refid="projection"/>
+         from dm_activity_item T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmActivityItem" parameterType="DmActivityItem">
+        insert into dm_activity_item
+         (
+            id,
+            activity_id,
+            project_name,
+            classes_id,
+            create_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{activityId}
+                ,
+                #{projectName}
+                ,
+                #{classesId}
+                ,
+                now()
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updateDmActivityItem" parameterType="DmActivityItem">
+        update dm_activity_item
+        <set>
+                    <if test="activityId!=null ">
+                        activity_id=#{activityId},
+                    </if>
+                    <if test="projectName!=null ">
+                        project_name=#{projectName},
+                    </if>
+                    <if test="classesId!=null ">
+                        classes_id=#{classesId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmActivityItem" >
+        delete from dm_activity_item where id=#{id}
+    </delete>
+    <delete id="deleteDmActivityItemByCondition" >
+        delete T from dm_activity_item T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmActivityItem" parameterType="DmActivityItem">
+        INSERT INTO dm_activity_item (  id,  activity_id,  project_name,  classes_id,  create_time,  school_id )
+        VALUES
+        <foreach collection="list" item="dmActivityItem" separator=",">
+            (  #{dmActivityItem.id},  #{dmActivityItem.activityId},  #{dmActivityItem.projectName},  #{dmActivityItem.classesId},  #{dmActivityItem.createTime},  #{dmActivityItem.schoolId}  )
+        </foreach>
+    </insert>
+    <select id="findDmActivityItemListByActivityId"
+            resultType="com.yice.edu.cn.common.pojo.dm.schoolActive.DmActivityItem">
+            select * from dm_activity_item where activity_id=#{activityId}
+    </select>
+    <select id="findDmActivityItemListByActivityIdAndClassesId"
+            resultType="com.yice.edu.cn.common.pojo.dm.schoolActive.DmActivityItem">
+            select * from dm_activity_item where activity_id=#{activityId} and classes_id=#{classesId}
+    </select>
+    <update id="updateDmActivityItemById">
+            update dm_activity_item set project_name=#{projectName} where id=#{id}
+    </update>
+    <delete id="deleteDmActivityItemByActivityId">
+            delete from dm_activity_item where activity_id=#{activityId}
+    </delete>
+    <delete id="deleteNotExist">
+            delete from dm_activity_item where activity_id=#{activityId} and id not in
+            <foreach collection="itemIds" item="itemId" open="(" separator="," close=")">
+                #{itemId}
+            </foreach>
+    </delete>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.cms.IXwCmsContentDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('columnId')">
+                             T.column_id,
+                         </if>
+                         <if test="!pager.excludes.contains('title')">
+                             T.title,
+                         </if>
+                         <if test="!pager.excludes.contains('url')">
+                             T.url,
+                         </if>
+                         <if test="!pager.excludes.contains('content')">
+                             T.content,
+                         </if>
+                         <if test="!pager.excludes.contains('fontCoverUrl')">
+                             T.font_cover_url,
+                         </if>
+                         <if test="!pager.excludes.contains('weights')">
+                             T.weights,
+                         </if>
+                         <if test="!pager.excludes.contains('updateDate')">
+                             T.update_date,
+                         </if>
+                         <if test="!pager.excludes.contains('sortNumber')">
+                             T.sort_number,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="columnId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='columnId'">
+                            and T.column_id like concat('%',#{columnId},'%')
+                         </when>
+                         <otherwise>
+                            and T.column_id=#{columnId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="title!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='title'">
+                            and T.title like concat('%',#{title},'%')
+                         </when>
+                         <otherwise>
+                            and T.title=#{title}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="url!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='url'">
+                            and T.url like concat('%',#{url},'%')
+                         </when>
+                         <otherwise>
+                            and T.url=#{url}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="content!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='content'">
+                            and T.content like concat('%',#{content},'%')
+                         </when>
+                         <otherwise>
+                            and T.content=#{content}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fontCoverUrl!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fontCoverUrl'">
+                            and T.font_cover_url like concat('%',#{fontCoverUrl},'%')
+                         </when>
+                         <otherwise>
+                            and T.font_cover_url=#{fontCoverUrl}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="weights!=null">
+                    and T.weights=#{weights}
+              </if>
+              <if test="updateDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateDate'">
+                            and T.update_date like concat('%',#{updateDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_date=#{updateDate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="sortNumber!=null">
+                    and T.sort_number=#{sortNumber}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwCmsContentListByCondition" parameterType="XwCmsContent" resultType="XwCmsContent">
+        select
+         <include refid="projection"/>
+         from xw_cms_content T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findXwCmsContentCountByCondition" parameterType="XwCmsContent" resultType="long">
+        select count(*) from xw_cms_content T
+        <include refid="match"/>
+    </select>
+    <select id="findXwCmsContentById" resultType="XwCmsContent">
+        select * from xw_cms_content where id=#{id}
+    </select>
+    <select id="findOneXwCmsContentByCondition" parameterType="XwCmsContent" resultType="XwCmsContent">
+        select
+         <include refid="projection"/>
+         from xw_cms_content T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwCmsContent" parameterType="XwCmsContent">
+        insert into xw_cms_content
+         (
+            id,
+            column_id,
+            title,
+            url,
+            content,
+            font_cover_url,
+            weights,
+            update_date,
+            sort_number,
+            school_id,
+            type,
+            file_name,
+            is_show,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{columnId}
+                ,
+                #{title}
+                ,
+                #{url}
+                ,
+                #{content}
+                ,
+                #{fontCoverUrl}
+                ,
+                #{weights}
+                ,
+                #{updateDate}
+                ,
+                #{sortNumber}
+                ,
+                #{schoolId}
+                ,
+                #{type}
+                ,
+                #{fileName}
+                ,
+                #{isShow}
+                ,
+                #{createTime}
+         )
+    </insert>
+    <update id="updateXwCmsContent" parameterType="XwCmsContent">
+        update xw_cms_content
+        <set>
+            column_id=#{columnId},
+            title=#{title},
+            url=#{url},
+            content=#{content},
+            font_cover_url=#{fontCoverUrl},
+            weights=#{weights},
+            update_date=#{updateDate},
+            sort_number=#{sortNumber},
+            school_id=#{schoolId},
+            type=#{type},
+            file_name=#{fileName}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwCmsContent" >
+        delete from xw_cms_content where id=#{id}
+    </delete>
+    <delete id="deleteXwCmsContentByCondition" >
+        delete T from xw_cms_content T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwCmsContent" parameterType="XwCmsContent">
+        INSERT INTO xw_cms_content (  id,  column_id,  title,  url,  content,  font_cover_url,  weights,  update_date,  sort_number )
+        VALUES
+        <foreach collection="list" item="xwCmsContent" separator=",">
+            (  #{xwCmsContent.id},  #{xwCmsContent.columnId},  #{xwCmsContent.title},  #{xwCmsContent.url},  #{xwCmsContent.content},  #{xwCmsContent.fontCoverUrl},  #{xwCmsContent.weights},  #{xwCmsContent.updateDate},  #{xwCmsContent.sortNumber}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <update id="updateXwCmsContentForLayout" parameterType="XwCmsContent">
+        update xw_cms_content
+        <set>
+            url=#{url},
+            font_cover_url=#{fontCoverUrl},
+            update_date=#{updateDate},
+            school_id=#{schoolId},
+            file_name=#{fileName},
+            is_show=#{isShow}
+        </set>
+        where column_id=#{columnId} and type = 1
+    </update>
+</mapper>

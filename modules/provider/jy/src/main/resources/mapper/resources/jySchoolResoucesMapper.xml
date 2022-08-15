@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.resources.IJySchoolResoucesDao">
+    <!--########################################################################################################################-->
+    <select id="findJySchoolResoucesListByCondition" parameterType="JySchoolResouces" resultType="com.yice.edu.cn.common.pojo.jy.resources.JySchoolResouces">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('resoucesId')">
+                        T.resouces_id,
+                    </if>
+                    <if test="!pager.excludes.contains('fileId')">
+                        T.file_id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('url')">
+                        T.url,
+                    </if>
+                    <if test="!pager.excludes.contains('fileSize')">
+                        T.file_size,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_school_resouces T
+        <where>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="resoucesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='resoucesId'">
+                        and T.resouces_id like concat('%',#{resoucesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.resouces_id=#{resoucesId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fileId'">
+                        and T.file_id like concat('%',#{fileId},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_id=#{fileId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="url!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='url'">
+                        and T.url like concat('%',#{url},'%')
+                    </when>
+                    <otherwise>
+                        and T.url=#{url}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileSize!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fileSize'">
+                        and T.file_size like concat('%',#{fileSize},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_size=#{fileSize}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findJySchoolResoucesCountByCondition" parameterType="JySchoolResouces" resultType="long">
+        select count(*) from jy_school_resouces T
+        <where>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="resoucesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='resoucesId'">
+                        and T.resouces_id like concat('%',#{resoucesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.resouces_id=#{resoucesId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fileId'">
+                        and T.file_id like concat('%',#{fileId},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_id=#{fileId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="url!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='url'">
+                        and T.url like concat('%',#{url},'%')
+                    </when>
+                    <otherwise>
+                        and T.url=#{url}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileSize!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fileSize'">
+                        and T.file_size like concat('%',#{fileSize},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_size=#{fileSize}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findJySchoolResoucesById" resultType="com.yice.edu.cn.common.pojo.jy.resources.JySchoolResouces">
+        select * from jy_school_resouces where id=#{id}
+    </select>
+    <select id="findOneJySchoolResoucesByCondition" parameterType="JySchoolResouces" resultType="com.yice.edu.cn.common.pojo.jy.resources.JySchoolResouces">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('resoucesId')">
+                        T.resouces_id,
+                    </if>
+                    <if test="!pager.excludes.contains('fileId')">
+                        T.file_id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('url')">
+                        T.url,
+                    </if>
+                    <if test="!pager.excludes.contains('fileSize')">
+                        T.file_size,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_school_resouces T
+        <where>
+            <if test="schoolId!=null">
+                T.school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+            </if>
+            <if test="resoucesId!=null">
+                and T.resouces_id=#{resoucesId}
+            </if>
+            <if test="fileId!=null">
+                and T.file_id=#{fileId}
+            </if>
+            <if test="name!=null">
+                and T.name=#{name}
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="url!=null">
+                and T.url=#{url}
+            </if>
+            <if test="fileSize!=null">
+                and T.file_size=#{fileSize}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+        </where>
+    </select>
+    <insert id="saveJySchoolResouces" parameterType="JySchoolResouces">
+        insert into jy_school_resouces
+        (
+        id,
+        school_id,
+        teacher_id,
+        resouces_id,
+        file_id,
+        name,
+        type,
+        url,
+        file_size,
+        update_time,
+        create_time
+        ) values
+        (
+        #{id}
+        ,
+        #{schoolId}
+        ,
+        #{teacherId}
+        ,
+        #{resoucesId}
+        ,
+        #{fileId}
+        ,
+        #{name}
+        ,
+        #{type}
+        ,
+        #{url}
+        ,
+        #{fileSize}
+        ,
+        #{updateTime}
+        ,
+        now()
+
+        )
+    </insert>
+    <update id="updateJySchoolResouces" parameterType="JySchoolResouces">
+        update jy_school_resouces
+        <set>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="resoucesId!=null ">
+                resouces_id=#{resoucesId},
+            </if>
+            <if test="fileId!=null ">
+                file_id=#{fileId},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="url!=null ">
+                url=#{url},
+            </if>
+            <if test="fileSize!=null ">
+                file_size=#{fileSize},
+            </if>
+            update_time=now(),
+            <if test="createTime!=null ">
+                create_time=#{createTime}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteJySchoolResouces" >
+        delete from jy_school_resouces where id=#{id}
+    </delete>
+    <delete id="deleteJySchoolResoucesByCondition" >
+        delete from jy_school_resouces
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+            <if test="resoucesId!=null">
+                and resouces_id=#{resoucesId}
+            </if>
+            <if test="fileId!=null">
+                and file_id=#{fileId}
+            </if>
+            <if test="name!=null">
+                and name=#{name}
+            </if>
+            <if test="type!=null">
+                and type=#{type}
+            </if>
+            <if test="url!=null">
+                and url=#{url}
+            </if>
+            <if test="fileSize!=null">
+                and file_size=#{fileSize}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveJySchoolResouces" parameterType="JySchoolResouces">
+        INSERT INTO jy_school_resouces (  id,  school_id,  teacher_id,  resouces_id,  file_id,  name,  type,  url,  file_size,  update_time,  create_time )
+        VALUES
+        <foreach collection="list" item="jySchoolResouces" separator=",">
+            (  #{jySchoolResouces.id},  #{jySchoolResouces.schoolId},  #{jySchoolResouces.teacherId},  #{jySchoolResouces.resoucesId},  #{jySchoolResouces.fileId},  #{jySchoolResouces.name},  #{jySchoolResouces.type},  #{jySchoolResouces.url},  #{jySchoolResouces.fileSize},  #{jySchoolResouces.updateTime},  #{jySchoolResouces.createTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findJySchoolResoucesList" parameterType="JySchoolResouces" resultType="com.yice.edu.cn.common.pojo.jy.resources.JySchoolResouces">
+        select * from (
+        select id,name,'file' as url ,update_time,'--' as file_size,0 as `type`,0 as `types`,0 as `schoolResoucesId` from jy_resouces_type
+        where type=1
+        <if test="parentId!=null">
+            and parent_id=#{parentId}
+        </if>
+        <if test="schoolId!=null">
+            and school_id=#{schoolId}
+        </if>
+            union select s.id,s.name,s.url,s.update_time,s.file_size,s.type,1 as `types`,case when j.id is not null then j.id else '0' end as `schoolResoucesId` from jy_school_resouces s left join jy_collection_resource j on j.school_resouces_id = s.id and j.teacher_id = #{teacherId}
+            <where>
+                <if test="schoolId!=null">
+                    and s.school_id=#{schoolId}
+                </if>
+                <if test="name!=null">
+                    and s.name=#{type}
+                </if>
+                <if test="type!=null">
+                    and s.type=#{type}
+                </if>
+                <if test="parentId!=null">
+                    and s.file_id=#{parentId}
+                </if>
+            </where>
+        )t
+        <where>
+            <if test="type!=null">
+                and t.type=#{type}
+            </if>
+        </where>
+        order by t.types,t.update_time desc
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+    <select id="findJySchoolResoucesCount" parameterType="JySchoolResouces" resultType="long">
+        select count(*) from (
+        select id,name,'file' as url ,update_time,'--' as file_size,0 as `type`,0 as `types`,0 as `schoolResoucesId`
+        from jy_resouces_type
+        where type=1
+        <if test="parentId!=null">
+            and parent_id=#{parentId}
+        </if>
+        <if test="schoolId!=null">
+            and school_id=#{schoolId}
+        </if>
+        union select s.id,s.name,s.url,s.update_time,s.file_size,s.type,1 as `types`,case when j.id is not null then j.id else '0' end as `schoolResoucesId` from jy_school_resouces s left join jy_collection_resource j on j.school_resouces_id = s.id and j.teacher_id = #{teacherId}
+        <where>
+            <if test="schoolId!=null">
+                and s.school_id=#{schoolId}
+            </if>
+            <if test="name!=null">
+                and s.name=#{type}
+            </if>
+            <if test="type!=null">
+                and s.type=#{type}
+            </if>
+            <if test="parentId!=null">
+                and s.file_id=#{parentId}
+            </if>
+        </where>
+        )t
+        <where>
+            <if test="type!=null">
+                and t.type=#{type}
+            </if>
+        </where>
+        order by t.types,t.update_time desc
+    </select>
+
+
+    <!-- 批量移动文件信息 -->
+    <update id="updateManySchoolResouces" >
+        update jy_school_resouces
+        <set>
+            <if test="fileId!=null ">
+                file_id=#{fileId},
+            </if>
+        </set>
+        where id in
+        <foreach item="item" collection="rowData" open="(" separator="," close=")">
+            <if test="item!=null">
+                #{item}
+            </if>
+        </foreach>
+    </update>
+    <!--批量分享文件-->
+    <select id="insertManySchoolResouces" resultType="com.yice.edu.cn.common.pojo.jy.resources.JyCollectionResource">
+        select id,teacher_id,'0'as 'file_id',name,type,url,file_size,update_time,create_time from jy_school_resouces where id in
+        <foreach item="item" collection="rowData" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getFileList" resultType="com.yice.edu.cn.common.pojo.jy.resources.JyCollectionResource">
+        select url,name from jy_school_resouces where id in
+        <foreach item="item" collection="rowData" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="repeatSchoolResouces" resultType="int">
+        select count(id) from jy_school_resouces where school_id=#{schoolId} and teacher_id=#{teacherId} and name=#{name} and id  not in (#{id})
+    </select>
+    <delete id="deleteByResoucesType" parameterType="JyResouces">
+        delete from jy_school_resouces where resouces_id in (select id from jy_resouces where file_id in
+        <foreach item="item" collection="rowDatas" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+         )
+    </delete>
+    <delete id="deleteByResoucesId" parameterType="JyResouces">
+        delete from jy_school_resouces where resouces_id in
+        <foreach item="item" collection="rowData" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <select id="censusSchoolResouces" parameterType="JySchoolResouces" resultType="JySchoolResourceCensus">
+        select type,count(type) as 'num' from jy_school_resouces
+        <where>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+            <if test="type!=null">
+                and type=#{type}
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and DATE_FORMAT(create_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+            </if>
+        </where>
+        group by type
+    </select>
+    <select id="censusSumSchoolResouces" parameterType="JySchoolResouces" resultType="long">
+        select count(id) as 'num' from jy_school_resouces
+        <where>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+            <if test="type!=null">
+                and type=#{type}
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and DATE_FORMAT(create_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="censusSumResoucesByDay" parameterType="JySchoolResouces" resultType="JySchoolResourcesByDay">
+        select count(id) as 'cnt',DATE_FORMAT(create_time,'%Y-%m-%d') as 'time' from jy_school_resouces
+        <where>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+            <if test="type!=null">
+                and type=#{type}
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and DATE_FORMAT(create_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+            </if>
+        </where>
+        group by DATE_FORMAT(create_time,'%Y-%m-%d')
+    </select>
+</mapper>

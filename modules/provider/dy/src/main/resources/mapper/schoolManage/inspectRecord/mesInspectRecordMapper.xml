@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.inspectRecord.IMesInspectRecordDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('objectId')">
+                        T.object_id,
+                    </if>
+                    <if test="!pager.excludes.contains('objectName')">
+                        T.object_name,
+                    </if>
+                    <if test="!pager.excludes.contains('className')">
+                        T.class_name,
+                    </if>
+                    <if test="!pager.excludes.contains('objectType')">
+                        T.object_type,
+                    </if>
+                    <if test="!pager.excludes.contains('objectImgUrl')">
+                        T.object_img_url,
+                    </if>
+                    <if test="!pager.excludes.contains('institutionParentName')">
+                        T.institution_parent_name,
+                    </if>
+                    <if test="!pager.excludes.contains('institutionId')">
+                        T.institution_id,
+                    </if>
+                    <if test="!pager.excludes.contains('institutionName')">
+                        T.institution_name,
+                    </if>
+                    <if test="!pager.excludes.contains('happenDate')">
+                        T.happen_date,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('recordUserId')">
+                        T.record_user_id,
+                    </if>
+                    <if test="!pager.excludes.contains('recordUserName')">
+                        T.record_user_name,
+                    </if>
+                    <if test="!pager.excludes.contains('recordUserType')">
+                        T.record_user_type,
+                    </if>
+                    <if test="!pager.excludes.contains('institutionDesc')">
+                        T.institution_desc,
+                    </if>
+                    <if test="!pager.excludes.contains('institutionScore')">
+                        T.institution_score,
+                    </if>
+                    <if test="!pager.excludes.contains('classId')">
+                        T.class_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="objectId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='objectId'">
+                        and T.object_id like concat('%',#{objectId},'%')
+                    </when>
+                    <otherwise>
+                        and T.object_id=#{objectId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="objectName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='objectName'">
+                        and T.object_name like concat('%',#{objectName},'%')
+                    </when>
+                    <otherwise>
+                        and T.object_name=#{objectName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="className!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='className'">
+                        and T.class_name like concat('%',#{className},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_name=#{className}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="objectType!=null">
+                and T.object_type=#{objectType}
+            </if>
+            <if test="objectImgUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='objectImgUrl'">
+                        and T.object_img_url like concat('%',#{objectImgUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.object_img_url=#{objectImgUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="institutionParentName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='institutionParentName'">
+                        and T.institution_parent_name like concat('%',#{institutionParentName},'%')
+                    </when>
+                    <otherwise>
+                        and T.institution_parent_name=#{institutionParentName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="institutionId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='institutionId'">
+                        and T.institution_id like concat('%',#{institutionId},'%')
+                    </when>
+                    <otherwise>
+                        and T.institution_id=#{institutionId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="institutionName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='institutionName'">
+                        and T.institution_name like concat('%',#{institutionName},'%')
+                    </when>
+                    <otherwise>
+                        and T.institution_name=#{institutionName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="happenDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='happenDate'">
+                        and T.happen_date like concat('%',#{happenDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.happen_date=#{happenDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordUserId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordUserId'">
+                        and T.record_user_id like concat('%',#{recordUserId},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_user_id=#{recordUserId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordUserName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordUserName'">
+                        and T.record_user_name like concat('%',#{recordUserName},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_user_name=#{recordUserName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordUserType!=null">
+                and T.record_user_type=#{recordUserType}
+            </if>
+            <if test="institutionDesc!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='institutionDesc'">
+                        and T.institution_desc like concat('%',#{institutionDesc},'%')
+                    </when>
+                    <otherwise>
+                        and T.institution_desc=#{institutionDesc}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="institutionScore!=null">
+                and T.institution_score=#{institutionScore}
+            </if>
+            <if test="classId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classId'">
+                        and T.class_id like concat('%',#{classId},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_id=#{classId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesInspectRecordListByCondition" parameterType="MesInspectRecord" resultType="MesInspectRecord">
+        select
+        <include refid="projection"/>
+        from mes_inspect_record T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findMesInspectRecordCountByCondition" parameterType="MesInspectRecord" resultType="long">
+        select count(*) from mes_inspect_record T
+        <include refid="match"/>
+    </select>
+    <select id="findMesInspectRecordById" resultType="MesInspectRecord">
+        select * from mes_inspect_record where id=#{id}
+    </select>
+    <select id="findOneMesInspectRecordByCondition" parameterType="MesInspectRecord" resultType="MesInspectRecord">
+        select
+        <include refid="projection"/>
+        from mes_inspect_record T
+        <include refid="match"/>
+    </select>
+    <insert id="saveMesInspectRecord" parameterType="MesInspectRecord">
+        insert into mes_inspect_record
+         (
+            id,
+            object_id,
+            object_name,
+            class_name,
+            object_type,
+            object_img_url,
+            institution_parent_name,
+            institution_id,
+            institution_name,
+            happen_date,
+            create_time,
+            record_user_id,
+            record_user_name,
+            record_user_type,
+            institution_desc,
+            institution_score,
+            class_id,
+            school_id,
+            school_year_id,
+            from_to,
+            term
+        ) values
+         (
+                #{id}
+                ,
+                #{objectId}
+                ,
+                #{objectName}
+                ,
+                #{className}
+                ,
+                #{objectType}
+                ,
+                #{objectImgUrl}
+                ,
+                #{institutionParentName}
+                ,
+                #{institutionId}
+                ,
+                #{institutionName}
+                ,
+                #{happenDate}
+                ,
+                now()
+                ,
+                #{recordUserId}
+                ,
+                #{recordUserName}
+                ,
+                #{recordUserType}
+                ,
+                #{institutionDesc}
+                ,
+                #{institutionScore}
+                ,
+                #{classId}
+                ,
+                #{schoolId}
+                ,
+                #{schoolYearId}
+                ,
+                #{fromTo}
+                ,
+                #{term}
+
+         )
+    </insert>
+    <update id="updateMesInspectRecord" parameterType="MesInspectRecord">
+        update mes_inspect_record
+        <set>
+            <if test="objectId!=null ">
+                object_id=#{objectId},
+            </if>
+            <if test="objectName!=null ">
+                object_name=#{objectName},
+            </if>
+            <if test="className!=null ">
+                class_name=#{className},
+            </if>
+            <if test="objectType!=null ">
+                object_type=#{objectType},
+            </if>
+            <if test="objectImgUrl!=null ">
+                object_img_url=#{objectImgUrl},
+            </if>
+            <if test="institutionParentName!=null ">
+                institution_parent_name=#{institutionParentName},
+            </if>
+            <if test="institutionId!=null ">
+                institution_id=#{institutionId},
+            </if>
+            <if test="institutionName!=null ">
+                institution_name=#{institutionName},
+            </if>
+            <if test="happenDate!=null ">
+                happen_date=#{happenDate},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="recordUserId!=null ">
+                record_user_id=#{recordUserId},
+            </if>
+            <if test="recordUserName!=null ">
+                record_user_name=#{recordUserName},
+            </if>
+            <if test="recordUserType!=null ">
+                record_user_type=#{recordUserType},
+            </if>
+            <if test="institutionDesc!=null ">
+                institution_desc=#{institutionDesc},
+            </if>
+            <if test="institutionScore!=null ">
+                institution_score=#{institutionScore},
+            </if>
+            <if test="classId!=null ">
+                class_id=#{classId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteMesInspectRecord" >
+        delete from mes_inspect_record where id=#{id}
+    </delete>
+    <delete id="deleteMesInspectRecordByCondition" >
+        delete T from mes_inspect_record T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesInspectRecord" parameterType="MesInspectRecord">
+        INSERT INTO mes_inspect_record (  id,  object_id,  object_name,  class_name,  object_type,  object_img_url,  institution_parent_name,  institution_id,  institution_name,  happen_date,  create_time,  record_user_id,  record_user_name,  record_user_type,  institution_desc,  institution_score,  class_id,  school_id )
+        VALUES
+        <foreach collection="list" item="mesInspectRecord" separator=",">
+            (  #{mesInspectRecord.id},  #{mesInspectRecord.objectId},  #{mesInspectRecord.objectName},  #{mesInspectRecord.className},  #{mesInspectRecord.objectType},  #{mesInspectRecord.objectImgUrl},  #{mesInspectRecord.institutionParentName},  #{mesInspectRecord.institutionId},  #{mesInspectRecord.institutionName},  #{mesInspectRecord.happenDate},  #{mesInspectRecord.createTime},  #{mesInspectRecord.recordUserId},  #{mesInspectRecord.recordUserName},  #{mesInspectRecord.recordUserType},  #{mesInspectRecord.institutionDesc},  #{mesInspectRecord.institutionScore},  #{mesInspectRecord.classId},  #{mesInspectRecord.schoolId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findMesInstitutionTlListByParentId" parameterType="MesUserAuthInstitution" resultType="MesInstitution">
+        select T1.* from mes_institution T1 left join mes_user_auth_institution T2 on T1.id = T2.institution_id where T2.institution_parent_id = #{institutionParentId} and T2.user_id = #{userId}
+    </select>
+
+    <select id="checkMesInspectRecord" parameterType="MesInspectRecord" resultType="MesInspectRecord">
+        select * from mes_inspect_record
+        where object_id = #{objectId}
+        and create_time between DATE_SUB(NOW(),INTERVAL 15 MINUTE) and now()
+        and institution_id in
+        <foreach collection="institutionIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="findMirAndClassId" parameterType="MirQuery" resultType="MesInspectRecord">
+        SELECT mir.id AS id,mir.object_id AS objectId,mir.object_type AS objectType,
+        mir.object_name AS objectName,
+        mir.object_img_url AS objectImgUrl,
+        mir.institution_parent_name AS institutionParentName,
+        mir.institution_id AS institutionId,
+        mir.happen_date AS happenDate,
+        mir.create_time AS createTime,
+        mir.record_user_id AS recordUserId,
+        mir.record_user_name AS recordUserName,
+        mir.record_user_type AS recordUserType,
+        mir.institution_score AS institutionScore,
+        mir.class_id AS classId,
+        mir.school_id AS schoolId,
+        mir.institution_name AS institutionName,
+        mir.institution_desc AS institutionDesc,
+        mia.`status` AS miaStatus
+        FROM
+        mes_inspect_record AS mir
+        LEFT JOIN mes_institution_audit AS mia ON mir.id = mia.record_id
+        where mir.class_id IN
+        <foreach collection="teacherPosts" index="index" item="teacherPosts" open="(" separator="," close=")">
+            #{teacherPosts.classId}
+        </foreach>
+        <if test="objectType!=null">
+            and mir.object_type = #{objectType}
+        </if>
+        <if test="miaStatus!=null">
+            and mia.`status` = #{miaStatus}
+        </if>
+        <if test="schoolId!=null">
+            and mir.school_id = #{schoolId}
+        </if>
+        order by mir.create_time desc
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+
+
+
+    <select id="findMirAndClassIdCount" parameterType="MirQuery" resultType="long">
+        SELECT count(*) FROM
+        mes_inspect_record AS mir
+        LEFT JOIN mes_institution_audit AS mia ON mir.id = mia.record_id
+        where mir.class_id IN
+        <foreach collection="teacherPosts" index="index" item="teacherPosts" open="(" separator="," close=")">
+            #{teacherPosts.classId}
+        </foreach>
+        <if test="objectType!=null">
+            and mir.object_type = #{objectType}
+        </if>
+        <if test="miaStatus!=null">
+            and mia.`status` = #{miaStatus}
+        </if>
+        <if test="schoolId!=null">
+            and mir.school_id = #{schoolId}
+        </if>
+        order by mir.create_time desc
+    </select>
+
+    <select id="findTeacherPostBySid" parameterType="String" resultType="String">
+        select T1.teacher_id from jw_teacher_post T1
+        left join jw_student T2 on T1.class_id = T2.classes_id
+        where T2.id = #{Sid} and T1.sort = 5
+    </select>
+
+    <select id="findTeacherPostByCid" parameterType="String" resultType="String">
+        select teacher_id from jw_teacher_post where class_id = #{Cid} and sort = 5
+    </select>
+
+    <select id="selectMesInspectRecordById" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.inspectRecord.MesInspectRecord">
+        select
+          id,
+          record_user_name,
+          create_time,
+          happen_date,
+          institution_desc
+        from mes_inspect_record where id=(select record_id from mes_institution_audit where id=#{auditId} limit 1)
+    </select>
+    <update id="updateMesInspectRecordScoreToZero">
+        update  mes_inspect_record set institution_score='0' where id =(select record_id from mes_institution_audit where id=#{auditId} limit 1)
+    </update>
+
+    <select id="findMesInstitutionOlList" parameterType="String" resultType="MesInstitution">
+        SELECT t1.* FROM mes_institution t1
+        inner join mes_time_status t2 on t1.time_status_id = t2.id
+        inner join mes_user_auth_institution t3 on t1.id = t3.Institution_id
+        where t3.user_id = #{userId} and t1.`level` = 1 and t3.`level` = 1 and t2.`status` = 1
+    </select>
+    <update id="updateMesInspectRecordScoreToZeroByIds">
+        update mes_inspect_record set institution_score='0' where id in
+        <foreach collection="list" open="(" separator="," item="recordId" close=")">
+            #{recordId}
+        </foreach>
+    </update>
+    <select id="findHistoryMesInspectRecordListByCondition" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.inspectRecord.MesInspectRecord">
+        select
+          id,
+          object_id,
+          object_name,
+          institution_parent_name,
+          institution_name,
+          institution_score,
+          happen_date,
+          create_time,
+          institution_desc
+        from mes_inspect_record
+        where object_type=#{objectType} and record_user_id=#{recordUserId} and date_format(create_time,'%Y-%m')=#{createTime}  and school_id=#{schoolId}
+        <if test="classId != null and classId != ''">
+            and class_id=#{classId}
+        </if>
+        order by create_time desc
+        <include refid="page"/>
+    </select>
+
+    <!--德育统计-->
+    <select id="findTlInstitutionStatistics" resultType="MesInspectRecord">
+        select T1.institution_name name,count(T1.institution_name) value from mes_inspect_record T1
+        left join mes_institution T2 on T1.institution_id = T2.id
+        left join mes_time_status T3 on T2.time_status_id = T3.id
+        where T1.school_id = #{schoolId} and T1.institution_score != 0 and T3.status = 1 and T1.happen_date between #{startDate} and now() group by T1.institution_id order by value desc
+    </select>
+
+    <select id="findRadarStatistics" resultType="MesInspectRecord">
+        select T1.institution_parent_name,sum(T1.institution_score) sum
+		from mes_inspect_record T1
+        left join mes_institution T2 on T1.institution_id = T2.id
+        left join mes_time_status T3 on T2.time_status_id = T3.id
+        where T1.school_id = #{schoolId} and T1.institution_score != 0 and T3.status = 1 and T1.happen_date between #{startDate} and now()
+		group by T1.institution_parent_name order by T1.institution_parent_name
+    </select>
+
+
+    <select id="findMesInstitution" parameterType="MesUserAuthInstitution" resultType="Integer">
+        select sum(institution_score) from mes_inspect_record T1
+        where T1.class_id=#{id} and T1.happen_date &gt;= #{beginTime}  and T1.happen_date &lt;= #{endTime} and institution_id IN (
+        SELECT I.id from mes_institution I LEFT JOIN
+        mes_time_status S1 ON S1.id=I.time_status_id where S1.`status`=1 AND S1.school_id=#{schoolId} and I.`level`=2
+        );
+    </select>
+    <select id="findMesInspectRecordOneById" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.inspectRecord.MesInspectRecord">
+        select
+          id,
+          object_name,
+          object_img_url,
+          institution_parent_name,
+          institution_name,
+          happen_date,
+          create_time,
+          institution_desc,
+          institution_score,
+          class_id,
+          institution_id
+        from mes_inspect_record where id=#{id}
+
+    </select>
+
+    <!--SchoolYear-->
+
+    <select id="findSchoolYearByCondition" parameterType="SchoolYear" resultType="SchoolYear">
+        select * from school_year
+        <where>
+            <if test="toYear!=null">
+                and to_year=#{toYear} and <![CDATA[now() >= next_term_begin]]>
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findSchoolYearByNowDate" parameterType="SchoolYear" resultType="SchoolYear">
+        select * from school_year where school_id = #{schoolId} and <![CDATA[now() >= last_term_begin]]> and <![CDATA[now() < next_term_begin]]>
+    </select>
+
+    <select id="findAllOlInstitution" parameterType="String" resultType="MesInspectRecord">
+        select name AS institution_parent_name,0 as sum from mes_institution T1
+        left join mes_time_status T2 on T1.time_status_id = T2.id
+        where T2.status = 1 and T1.school_id = #{schoolId} and T1.parent_id = '-1'
+    </select>
+
+    <select id="findMesInspectRecordByTime" parameterType="MesInspectRecord" resultType="MesInspectRecord">
+        SELECT T1.*,T3.id as timeStatusId from mes_inspect_record T1
+		LEFT JOIN mes_institution T2 ON T1.institution_id=T2.id
+		LEFT JOIN mes_time_status T3 on T2.time_status_id=T3.id where
+		<if test="institutionId != null">
+             T1.institution_id=#{institutionId} and
+        </if>
+<!--		<if test="status != null" >
+		     T3.status=#{status} and
+        </if>-->
+		T1.school_id = #{schoolId} and T1.class_id =#{classId} and  T1.happen_date &gt;= #{beginTime}  and T1.happen_date &lt; #{endTime}
+    </select>
+
+    <select id="findMesInspectRecordCountByTime" parameterType="MesInspectRecord" resultType="Integer">
+        SELECT sum(T1.institution_score) from mes_inspect_record T1
+		LEFT JOIN mes_institution T2 ON T1.institution_id=T2.id
+		LEFT JOIN mes_time_status T3 on T2.time_status_id=T3.id where
+        <if test="institutionId != null and institutionId != ''">
+            T1.institution_id=#{institutionId} and
+        </if>
+         <if test="classId != null and classId != ''">
+            T1.class_id=#{classId} and
+         </if>
+		T1.school_id = #{schoolId} and  T1.happen_date &gt;= #{beginTime}  and T1.happen_date &lt; #{endTime}
+    </select>
+    <select id="findMesInspectRecordByClassId" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.inspectRecord.MesInspectRecord">
+        select T1.*,T3.status from mes_inspect_record T1
+	        LEFT JOIN mes_institution T2 on T2.id=T1.institution_id
+	        LEFT JOIN mes_time_status T3 on T2.time_status_id=T3.id
+	    where T1.school_id=#{schoolId} and T1.class_id=#{classId} and T1.create_time &gt;=#{beginTime} and T1.create_time &lt;=#{endTime}  order by T1.create_time DESC
+        <include refid="page"/>
+    </select>
+    <select id="findMesInspectRecordCountByClassId" resultType="long">
+        select count(1) from mes_inspect_record T1
+	        LEFT JOIN mes_institution T2 on T2.id=T1.institution_id
+	        LEFT JOIN mes_time_status T3 on T2.time_status_id=T3.id
+	    where T1.school_id=#{schoolId} and T1.class_id=#{classId} and T1.create_time &gt;=#{beginTime} and T1.create_time &lt;=#{endTime}  order by T1.create_time DESC
+    </select>
+    <select id="findAuditIdByInspectRecordId" resultType="java.lang.String">
+         select id from mes_institution_audit where record_id=#{recordId}
+    </select>
+
+
+
+
+    <select id="judgeTeacher" resultType="long" parameterType="Teacher">
+       SELECT count(1) FROM
+       mes_user_auth_institution AS muai
+       LEFT JOIN mes_institution AS ms ON muai.institution_id = ms.id
+       LEFT JOIN mes_time_status AS mts ON ms.time_status_id = mts.id
+       WHERE mts.`status` = 1 AND muai.user_id = #{id} AND mts.school_id = #{schoolId}
+    </select>
+    <select id="selectClassName" resultType="com.yice.edu.cn.common.pojo.jw.classes.JwClasses">
+       select grade_name,number from jw_classes where id=#{classId}
+    </select>
+    <select id="findMesInstitutionScore" resultType="java.lang.Integer">
+        select sum(institution_score) from mes_inspect_record T1
+        where T1.class_id=#{id} and T1.happen_date &gt;= #{beginTime}  and T1.happen_date &lt;= #{endTime} and institution_id IN (
+	SELECT id from mes_institution where parent_id=#{institutionId}
+	);
+
+    </select>
+    <select id="findMesInspectRecordListByScoreTypeIsOne" resultType="MesInspectRecord">
+        select *,1 scoreType from mes_inspect_record where class_id=#{classId}
+        <if test="createTime != null and createTime != ''">
+            and create_time like concat('%',#{createTime},'%')
+        </if>
+        and institution_score &gt; 0 order by happen_date DESC
+        </select>
+    <select id="findMesInspectRecordListByScoreTypeIsZero" resultType="MesInspectRecord">
+        select *,0 scoreType from mes_inspect_record where class_id=#{classId}
+        <if test="createTime != null and createTime != ''">
+            and create_time like concat('%',#{createTime},'%')
+        </if>
+        and institution_score &lt; 0 order by happen_date DESC
+        </select>
+    <select id="findSchoolIdBystudentId" resultType="java.lang.String">
+        select school_id from jw_student where id=#{studentId}
+    </select>
+
+
+</mapper>

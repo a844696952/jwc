@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.classSchedule.ScheduleListDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('fromTo')">
+                             T.from_to,
+                         </if>
+                         <if test="!pager.excludes.contains('fromToId')">
+                             T.from_to_id,
+                         </if>
+                         <if test="!pager.excludes.contains('term')">
+                             T.term,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('userId')">
+                             T.user_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="updateTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.update_time=#{updateTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="name!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        and T.name like concat('%',#{name},'%')
+                     </when>
+                     <otherwise>
+                        and T.name=#{name}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="fromTo!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('fromTo')">
+                        and T.from_to like concat('%',#{fromTo},'%')
+                     </when>
+                     <otherwise>
+                        and T.from_to=#{fromTo}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="fromToId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('fromToId')">
+                        and T.from_to_id like concat('%',#{fromToId},'%')
+                     </when>
+                     <otherwise>
+                        and T.from_to_id=#{fromToId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="term!=null">
+                and T.term=#{term}
+          </if>
+          <if test="schoolId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                     </when>
+                     <otherwise>
+                        and T.school_id=#{schoolId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="type!=null">
+                and T.type=#{type}
+          </if>
+          <if test="userId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('userId')">
+                        and T.user_id like concat('%',#{userId},'%')
+                     </when>
+                     <otherwise>
+                        and T.user_id=#{userId}
+                     </otherwise>
+                  </choose>
+          </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findScheduleListListByCondition" parameterType="ScheduleList" resultType="ScheduleList">
+        select
+         <include refid="projection"/>
+         from jw_schedule_list T
+         <where>
+            <include refid="match"/>
+         </where>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findScheduleListCountByCondition" parameterType="ScheduleList" resultType="long">
+        select count(*) from jw_schedule_list T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <select id="findScheduleListById" resultType="ScheduleList">
+        select * from jw_schedule_list where id=#{id}
+    </select>
+    <select id="findOneScheduleListByCondition" parameterType="ScheduleList" resultType="ScheduleList">
+        select
+         <include refid="projection"/>
+         from jw_schedule_list T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="saveScheduleList" parameterType="ScheduleList">
+        INSERT INTO jw_schedule_list (  id,  create_time,  update_time,  name,  from_to,  from_to_id,  term,  school_id,  type,  user_id )
+         values
+         (   #{id}  ,   now()  ,   #{updateTime}  ,   #{name}  ,   #{fromTo}  ,   #{fromToId}  ,   #{term}  ,   #{schoolId}  ,   #{type}  ,   #{userId}    )
+    </insert>
+    <update id="updateScheduleList" parameterType="ScheduleList">
+        update jw_schedule_list
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="fromTo!=null ">
+                        from_to=#{fromTo},
+                    </if>
+                    <if test="fromToId!=null ">
+                        from_to_id=#{fromToId},
+                    </if>
+                    <if test="term!=null ">
+                        term=#{term},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type},
+                    </if>
+                    <if test="userId!=null ">
+                        user_id=#{userId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateScheduleListForAll" parameterType="ScheduleList">
+        update jw_schedule_list
+        <set>
+                    create_time=#{createTime},
+                    update_time=now(),
+                    name=#{name},
+                    from_to=#{fromTo},
+                    from_to_id=#{fromToId},
+                    term=#{term},
+                    school_id=#{schoolId},
+                    type=#{type},
+                    user_id=#{userId}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteScheduleList" >
+        delete from jw_schedule_list where id=#{id}
+    </delete>
+    <delete id="deleteScheduleListByCondition" >
+        delete T from jw_schedule_list T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSaveScheduleList" parameterType="ScheduleList">
+        INSERT INTO jw_schedule_list (  id,  create_time,  update_time,  name,  from_to,  from_to_id,  term,  school_id,  type,  user_id )
+        VALUES
+        <foreach collection="list" item="scheduleList" separator=",">
+            (   #{scheduleList.id}  ,   now()  ,   #{scheduleList.updateTime}  ,   #{scheduleList.name}  ,   #{scheduleList.fromTo}  ,   #{scheduleList.fromToId}  ,   #{scheduleList.term}  ,   #{scheduleList.schoolId}  ,   #{scheduleList.type}  ,   #{scheduleList.userId}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <update id="batchUpdateScheduleList" parameterType="ScheduleList">
+        <foreach collection="list" separator=";" item="scheduleList">
+            update jw_schedule_list
+            <set>
+                <if test="scheduleList.createTime!=null ">
+                    create_time=#{scheduleList.createTime},
+                </if>
+                update_time=now(),
+                <if test="scheduleList.name!=null ">
+                    name=#{scheduleList.name},
+                </if>
+                <if test="scheduleList.fromTo!=null ">
+                    from_to=#{scheduleList.fromTo},
+                </if>
+                <if test="scheduleList.fromToId!=null ">
+                    from_to_id=#{scheduleList.fromToId},
+                </if>
+                <if test="scheduleList.term!=null ">
+                    term=#{term},
+                </if>
+                <if test="scheduleList.schoolId!=null ">
+                    school_id=#{schoolId},
+                </if>
+                <if test="scheduleList.type!=null ">
+                    type=#{type},
+                </if>
+                <if test="scheduleList.userId!=null ">
+                    user_id=#{userId}
+                </if>
+            </set>
+            where id= #{scheduleList.id}
+        </foreach>
+    </update>
+</mapper>

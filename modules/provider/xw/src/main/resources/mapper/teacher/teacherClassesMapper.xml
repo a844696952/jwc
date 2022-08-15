@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.teacher.ITeacherClassesDao">
+    <!--###严重警告 这个表要关联三个表查询 要不然数据会有缺失 仔细了解情况再改动############################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="classesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('classesId')">
+                        and T.classes_id like concat('%',#{classesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.classes_id=#{classesId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('teacherId')">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="courseId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('courseId')">
+                        and T.course_id like concat('%',#{courseId},'%')
+                    </when>
+                    <otherwise>
+                        and T.course_id=#{courseId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findTeacherClassesListByCondition" parameterType="TeacherClasses" resultType="TeacherClasses">
+        SELECT DISTINCT
+        <include refid="projection"/>
+        FROM (<include refid="joinFrom"/>
+        <include refid="match"/>) T
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+    <select id="findTeacherClassesCountByCondition" parameterType="TeacherClasses" resultType="long">
+        select count(*) from jw_teacher_classes T
+        <include refid="match"/>
+    </select>
+    <select id="findTeacherClassesById" resultType="TeacherClasses">
+        <include refid="joinFrom"/>
+        where T.id=#{id} limit 1
+    </select>
+    <select id="findOneTeacherClassesByCondition" parameterType="TeacherClasses" resultType="TeacherClasses">
+        select
+        <include refid="projection"/>
+        FROM (<include refid="joinFrom"/>
+        <include refid="match"/>
+        ) T
+    </select>
+    <insert id="saveTeacherClasses" parameterType="TeacherClasses">
+        INSERT INTO jw_teacher_classes (  id,  create_time,  update_time,  del,  classes_id,  teacher_id,  school_id,  course_id )
+         values
+         (   #{id}  ,   now()  ,   #{updateTime}  ,   #{del}  ,   #{classesId}  ,   #{teacherId}  ,   #{schoolId}  ,   #{courseId}    )
+    </insert>
+    <update id="updateTeacherClasses" parameterType="TeacherClasses">
+        update jw_teacher_classes
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="classesId!=null ">
+                classes_id=#{classesId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="courseId!=null ">
+                course_id=#{courseId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateTeacherClassesForAll" parameterType="TeacherClasses">
+        update jw_teacher_classes
+        <set>
+            create_time=#{createTime},
+            update_time=now(),
+            del=#{del},
+            classes_id=#{classesId},
+            teacher_id=#{teacherId},
+            school_id=#{schoolId},
+            course_id=#{courseId}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteTeacherClasses" >
+        delete from jw_teacher_classes where id=#{id}
+    </delete>
+    <delete id="deleteTeacherClassesByCondition" >
+        delete T from jw_teacher_classes T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveTeacherClasses" parameterType="TeacherClasses">
+        INSERT INTO jw_teacher_classes (  id,  create_time,  update_time,  del,  classes_id,  teacher_id,  school_id,  course_id )
+        VALUES
+        <foreach collection="list" item="teacherClasses" separator=",">
+            (   #{teacherClasses.id}  ,   now()  ,   #{teacherClasses.updateTime}  ,   #{teacherClasses.del}  ,   #{teacherClasses.classesId}  ,   #{teacherClasses.teacherId}  ,   #{teacherClasses.schoolId}  ,   #{teacherClasses.courseId}    )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <!--start关联班级和课程-->
+    <sql id="joinFrom">
+        SELECT DISTINCT T.*,c.`number` AS classes_name,c.`grade_id`,c.`grade_name`,c.`enroll_year`,s.`name` AS subject_name,s.`alias` AS course_name
+        FROM jw_teacher_classes T
+        INNER JOIN jw_classes c ON c.`id` = T.`classes_id`
+        INNER JOIN jw_course s ON s.id =  T.`course_id` AND T.`school_id` = s.`school_id`
+    </sql>
+    <!-- end 关联班级和课程-->
+
+    <select id="findTeacherClassPostCourseList" resultType="java.util.Map" parameterType="TeacherClasses">
+        SELECT DISTINCT T.`teacher_id`,T.`classes_id`,T.`update_time`,T.`school_id`,c.`number` AS classes_name,c.`grade_id`,c.`grade_name`,c.`enroll_year`,IFNULL(GROUP_CONCAT(s.alias),'--') course
+        FROM jw_teacher_classes T
+        INNER JOIN jw_classes c ON c.`id` = T.`classes_id`
+        INNER JOIN jw_course s ON s.id =  T.`course_id` AND T.`school_id` = s.`school_id`
+        <include refid="match"/>
+        GROUP BY T.`teacher_id`,T.`classes_id` ORDER BY T.`update_time` DESC
+    </select>
+
+
+    <select id="findClassesByTeacherInfo" parameterType="TeacherClassesForQusSurvey" resultType="TeacherClassesForQusSurvey">
+        select DISTINCT
+        b.name,b.work_number,b.img_url,GROUP_CONCAT( c.grade_id ) grade_id,GROUP_CONCAT(a.classes_id)classes_id,GROUP_CONCAT(c.grade_name) grade_name,GROUP_CONCAT(c.number)classes_name,a.teacher_id,GROUP_CONCAT(c.enroll_year)enroll_year
+        from (select * from jw_teacher_classes  where school_id=#{schoolId} group by teacher_id,classes_id) a
+        inner join jw_teacher b on a.teacher_id=b.id
+        inner join jw_classes c on a.classes_id=c.id
+        <where>
+            <if test="searchContent!=null">
+                 b.name like  CONCAT('%',#{searchContent},'%' ) or  b.work_number like CONCAT('%',#{searchContent},'%' )
+            </if>
+        </where>
+        GROUP BY a.teacher_id
+    </select>
+
+    <select id="findClassesHeadTeacherBySchoolId"  resultType="TeacherClassesForStuEvaluate">
+        select s.id class_id,s.grade_name,s.grade_id,s.number class_number,d.teacher_name,d.teacher_id,e.class_peo_num from jw_classes s
+						left join (select c.id class_id,t.`name` teacher_name,t.id teacher_id from jw_classes c
+											INNER JOIN jw_teacher_post tc ON c.id=tc.class_id AND tc.`dd_id` = '74'
+											INNER join jw_teacher t on t.id=tc.teacher_id
+											where c.school_id=#{schoolId} ) d
+							on s.id=d.class_id
+						left join  (select count(*) class_peo_num,a.id from  jw_classes a
+												inner join jw_student b on a.id=b.classes_id
+												where a.school_id=#{schoolId}
+												GROUP BY a.id) e
+
+							on s.id =e.id
+         where s.school_id=#{schoolId} ORDER BY s.grade_id
+
+    </select>
+
+    <select id="findTeacherClassesByTeacherId" resultType="TeacherClasses">
+        SELECT DISTINCT
+            c.grade_id,
+            c.grade_name,
+            tc.classes_id,
+            c.`number` AS classes_name,
+            jc.`alias` AS course_name,
+            t5.name
+        FROM
+            jw_teacher_classes tc
+            INNER JOIN jw_classes c ON tc.`classes_id` = c.`id`
+            INNER JOIN jw_course jc ON jc.`id` = tc.`course_id` AND jc.`school_id` = tc.`school_id`
+            INNER JOIN ad_dd t4 ON t4.id = c.`grade_id`
+            INNER JOIN ad_dd t5 ON t5.id = t4.level_type
+        WHERE
+            tc.`teacher_id` = #{id}
+            GROUP BY c.grade_id ,c.id
+    </select>
+    <select id="findTeacherClasses" resultType="com.yice.edu.cn.common.pojo.jw.teacher.TeacherClasses">
+        SELECT DISTINCT t1.id,t2.grade_name,t1.classes_id,t2.number AS classesName,t2.grade_id
+        FROM jw_teacher_classes t1
+        LEFT JOIN jw_classes t2 ON t1.classes_id=t2.id
+        where t1.teacher_id=#{id}
+        GROUP BY t1.classes_id ORDER BY t2.grade_id ASC,t2.number ASC
+    </select>
+    <select id="findTeachersByNameId" resultType="com.yice.edu.cn.common.pojo.jw.teacher.Teacher">
+        select DISTINCT t.id,t.name,t.tel from jw_course c inner join  jw_teacher_classes tc
+        on c.id=tc.course_id AND tc.`school_id`=c.`school_id`
+        inner join jw_teacher t on t.id=tc.teacher_id
+        where c.school_id=#{schoolId} and c.name_id=#{nameId}
+    </select>
+    <delete id="deleteTeacherClassesByMutil">
+        delete from jw_teacher_classes where teacher_id=#{teacherId} and classes_id in
+        (<foreach collection="classIds" item="cId" separator=",">
+            #{cId}
+        </foreach>)
+    </delete>
+</mapper>

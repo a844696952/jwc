@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.dd.IDdDao">
+    <!--########################################################################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('typeId')">
+                        T.type_id,
+                    </if>
+                    <if test="!pager.excludes.contains('typeName')">
+                        T.type_name,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('tableName')">
+                        T.table_name,
+                    </if>
+                    <if test="!pager.excludes.contains('levelType')">
+                        T.level_type,
+                    </if>
+                    <if test="!pager.excludes.contains('sort')">
+                        T.sort,
+                    </if>
+                    <if test="!pager.excludes.contains('ext1')">
+                        T.ext1,
+                    </if>
+                    <if test="!pager.excludes.contains('ext2')">
+                        T.ext2,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="typeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='typeId'">
+                        and T.type_id like concat('%',#{typeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.type_id=#{typeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="typeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='typeName'">
+                        and T.type_name like concat('%',#{typeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.type_name=#{typeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="tableName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tableName'">
+                        and T.table_name like concat('%',#{tableName},'%')
+                    </when>
+                    <otherwise>
+                        and T.table_name=#{tableName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="levelType!=null">
+                and T.level_type=#{levelType}
+            </if>
+            <if test="sort!=null">
+                and T.sort=#{sort}
+            </if>
+            <if test="ext1!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='ext1'">
+                        and T.ext1 like concat('%',#{ext1},'%')
+                    </when>
+                    <otherwise>
+                        and T.ext1=#{ext1}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="ext2!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='ext2'">
+                        and T.ext2 like concat('%',#{ext2},'%')
+                    </when>
+                    <otherwise>
+                        and T.ext2=#{ext2}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDdListByCondition" parameterType="Dd" resultType="Dd">
+        select
+        <include refid="projection"/>
+        from ad_dd T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findDdCountByCondition" parameterType="Dd" resultType="long">
+        select count(*) from ad_dd T
+        <include refid="match"/>
+    </select>
+    <select id="findDdById" resultType="Dd">
+        select * from ad_dd where id=#{id}
+    </select>
+    <select id="findOneDdByCondition" parameterType="Dd" resultType="Dd">
+        select
+        <include refid="projection"/>
+        from ad_dd T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDd" parameterType="Dd">
+        insert into ad_dd
+         (
+            id,
+            name,
+            type_id,
+            type_name,
+            del,
+            create_time,
+            update_time,
+            table_name,
+            level_type,
+            sort,
+            ext1,
+            ext2
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{typeId}
+                ,
+                #{typeName}
+                ,
+                #{del}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{tableName}
+                ,
+                #{levelType}
+                ,
+                #{sort}
+                ,
+                #{ext1}
+                ,
+                #{ext2}
+
+         )
+    </insert>
+    <update id="updateDd" parameterType="Dd">
+        update ad_dd
+        <set>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="typeId!=null ">
+                type_id=#{typeId},
+            </if>
+            <if test="typeName!=null ">
+                type_name=#{typeName},
+            </if>
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="tableName!=null ">
+                table_name=#{tableName},
+            </if>
+            <if test="levelType!=null ">
+                level_type=#{levelType},
+            </if>
+            <if test="sort!=null ">
+                sort=#{sort},
+            </if>
+            <if test="ext1!=null ">
+                ext1=#{ext1},
+            </if>
+            <if test="ext2!=null ">
+                ext2=#{ext2}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteDd" >
+        delete from ad_dd where id=#{id}
+    </delete>
+    <delete id="deleteDdByCondition" >
+        delete T from ad_dd T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDd" parameterType="Dd">
+        INSERT INTO ad_dd (  id,  name,  type_id,  type_name,  del,  create_time,  update_time,  table_name,  level_type,  sort,  ext1,  ext2 )
+        VALUES
+        <foreach collection="list" item="dd" separator=",">
+            (  #{dd.id},  #{dd.name},  #{dd.typeId},  #{dd.typeName},  #{dd.del},  #{dd.createTime},  #{dd.updateTime},  #{dd.tableName},  #{dd.levelType},  #{dd.sort},  #{dd.ext1},  #{dd.ext2}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findJwClassesList" parameterType="Dd" resultType="Dd">
+        select
+            T.id,
+            CONCAT(T.number,'班') as name
+        from jw_classes T
+        <where>
+            <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+        </where>
+    </select>
+    <select id="selectSchoolTypeIdBySchoolId" resultType="java.lang.String">
+        select type_id from school where id=#{schoolId}
+    </select>
+</mapper>

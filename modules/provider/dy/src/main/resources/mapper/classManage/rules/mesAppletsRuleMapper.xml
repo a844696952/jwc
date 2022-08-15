@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.classManage.rules.IMesAppletsRuleDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('description')">
+                             T.descriptionription,
+                         </if>
+                         <if test="!pager.excludes.contains('icon')">
+                             T.icon,
+                         </if>
+                         <if test="!pager.excludes.contains('appType')">
+                             T.app_type,
+                         </if>
+                         <if test="!pager.excludes.contains('tagType')">
+                             T.tag_type,
+                         </if>
+                         <if test="!pager.excludes.contains('score')">
+                             T.score,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_Id,
+                         </if>
+                         <if test="!pager.excludes.contains('level')">
+                             T.level,
+                         </if>
+                         <if test="!pager.excludes.contains('sortNumber')">
+                             T.sort_number,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="name!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        and T.name like concat('%',#{name},'%')
+                     </when>
+                     <otherwise>
+                        and T.name=#{name}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="description!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('description')">
+                        and T.description like concat('%',#{description},'%')
+                     </when>
+                     <otherwise>
+                        and T.description=#{description}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="icon!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('icon')">
+                        and T.icon like concat('%',#{icon},'%')
+                     </when>
+                     <otherwise>
+                        and T.icon=#{icon}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="appType!=null">
+                and T.app_type=#{appType}
+          </if>
+          <if test="tagType!=null">
+                and T.tag_type=#{tagType}
+          </if>
+          <if test="score!=null">
+                and T.score=#{score}
+          </if>
+          <if test="parentId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('parentId')">
+                        and T.parent_Id like concat('%',#{parentId},'%')
+                     </when>
+                     <otherwise>
+                        and T.parent_Id=#{parentId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="level!=null">
+                and T.level=#{level}
+          </if>
+          <if test="sortNumber!=null">
+                and T.sort_number=#{sortNumber}
+          </if>
+          <if test="schoolId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                     </when>
+                     <otherwise>
+                        and T.school_id=#{schoolId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesAppletsRuleListByCondition" parameterType="MesAppletsRule" resultType="MesAppletsRule">
+        select
+         <include refid="projection"/>
+         from mes_applets_rule T
+         <where>
+            <include refid="match"/>
+         </where>
+        order by T.sort_number asc
+         <!--
+            <include refid="sort"/>
+            <include refid="page"/>
+         -->
+
+    </select>
+
+
+    <select id="findGroupByParentId" parameterType="MesAppletsRule" resultType="MesAppletsRule">
+        select
+        <include refid="projection"/>
+        from mes_applets_rule T
+        <where>
+            <include refid="match"/>
+        </where>
+        GROUP BY T.parent_id
+
+    </select>
+
+
+    <select id="findNotInId" parameterType="MesAppletsRule" resultType="MesAppletsRule">
+       SELECT * FROM `mes_applets_rule` WHERE `level` = #{level} and id not in( #{id}  )
+    </select>
+
+
+
+    <select id="findIndex" parameterType="Query" resultType="MesAppletsRule">
+       SELECT * FROM `mes_applets_rule` T WHERE T.`level` = '2'
+        <if test="tagType!=null">
+            and T.tag_type=#{tagType}
+        </if>
+        <if test="mesAppletsClassRules!=null and mesAppletsClassRules.size() > 0">
+                and T.id not in
+                <foreach collection="mesAppletsClassRules" index="index" item="mesAppletsClassRules" open="(" separator="," close=")">
+                    #{mesAppletsClassRules.ruleId}
+                </foreach>
+        </if>
+        GROUP BY T.parent_Id
+    </select>
+
+
+    <select id="findIndexNotGroupBy" parameterType="Query" resultType="MesAppletsRule">
+        SELECT * FROM `mes_applets_rule` T WHERE T.`level` = '2' and T.tag_type = #{tagType} and T.parent_Id = #{parentId}
+        <if test="mesAppletsClassRules!=null and mesAppletsClassRules.size() > 0">
+            and T.id not in
+            <foreach collection="mesAppletsClassRules" index="index" item="mesAppletsClassRules" open="(" separator="," close=")">
+                #{mesAppletsClassRules.ruleId}
+            </foreach>
+        </if>
+    </select>
+
+
+
+
+
+    <select id="findMesAppletsRuleCountByCondition" parameterType="MesAppletsRule" resultType="long">
+        select count(*) from mes_applets_rule T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <select id="findMesAppletsRuleById" resultType="MesAppletsRule">
+        select * from mes_applets_rule where id=#{id}
+    </select>
+    <select id="findOneMesAppletsRuleByCondition" parameterType="MesAppletsRule" resultType="MesAppletsRule">
+        select
+         <include refid="projection"/>
+         from mes_applets_rule T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="saveMesAppletsRule" parameterType="MesAppletsRule">
+        INSERT INTO mes_applets_rule (  id,  name,  description,  icon,  app_type,  tag_type,  score,  parent_Id,  level,  sort_number,  school_id,  create_time )
+         values
+         (   #{id}  ,   #{name}  ,   #{description}  ,   #{icon}  ,   #{appType}  ,   #{tagType}  ,   #{score}  ,   #{parentId}  ,   #{level}  ,   #{sortNumber}  ,   #{schoolId}  ,   now()    )
+    </insert>
+    <update id="updateMesAppletsRule" parameterType="MesAppletsRule">
+        update mes_applets_rule
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="description!=null ">
+                        description=#{description},
+                    </if>
+                    <if test="icon!=null ">
+                        icon=#{icon},
+                    </if>
+                    <if test="appType!=null ">
+                        app_type=#{appType},
+                    </if>
+                    <if test="tagType!=null ">
+                        tag_type=#{tagType},
+                    </if>
+                    <if test="score!=null ">
+                        score=#{score},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_Id=#{parentId},
+                    </if>
+                    <if test="level!=null ">
+                        level=#{level},
+                    </if>
+                    <if test="sortNumber!=null ">
+                        sort_number=#{sortNumber},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateMesAppletsRuleForAll" parameterType="MesAppletsRule">
+        update mes_applets_rule
+        <set>
+                    name=#{name},
+                    description=#{description},
+                    icon=#{icon},
+                    app_type=#{appType},
+                    tag_type=#{tagType},
+                    score=#{score},
+                    parent_Id=#{parentId},
+                    level=#{level},
+                    sort_number=#{sortNumber},
+                    school_id=#{schoolId},
+                    create_time=#{createTime}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteMesAppletsRule" >
+        delete from mes_applets_rule where id=#{id}
+    </delete>
+    <delete id="deleteMesAppletsRuleByCondition" >
+        delete T from mes_applets_rule T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSaveMesAppletsRule" parameterType="MesAppletsRule">
+        INSERT INTO mes_applets_rule (  id,  name,  description,  icon,  app_type,  tag_type,  score,  parent_Id,  level,  sort_number,  school_id,  create_time )
+        VALUES
+        <foreach collection="list" item="mesAppletsRule" separator=",">
+            (   #{mesAppletsRule.id}  ,   #{mesAppletsRule.name}  ,   #{mesAppletsRule.description}  ,   #{mesAppletsRule.icon}  ,   #{mesAppletsRule.appType}  ,   #{mesAppletsRule.tagType}  ,   #{mesAppletsRule.score}  ,   #{mesAppletsRule.parentId}  ,   #{mesAppletsRule.level}  ,   #{mesAppletsRule.sortNumber}  ,   #{mesAppletsRule.schoolId}  ,   now()    )
+        </foreach>
+    </insert>
+    <select id="selectMesAppletsRulesByCondition"
+            resultType="com.yice.edu.cn.common.pojo.mes.classManage.rules.MesAppletsRule">
+        select * from mes_applets_rule where level=1
+        <if test="beginTime != null and endTime!=null">
+            and <![CDATA[ create_time <= #{endTime}  ]]>
+            and <![CDATA[ create_time >= #{beginTime}]]>
+        </if>
+        order by sort_number asc
+    </select>
+    <select id="selectMesAppletsRulesByParentId"
+            resultType="com.yice.edu.cn.common.pojo.mes.classManage.rules.MesAppletsRule">
+        select * from mes_applets_rule where parent_id=#{parentId}
+        <if test="beginTime != null and endTime!=null">
+            and <![CDATA[ create_time <= #{endTime}  ]]>
+            and <![CDATA[ create_time >= #{beginTime}]]>
+        </if>
+        order by sort_number asc
+    </select>
+    <select id="selectDyTotalClasses" resultType="java.lang.Long">
+        SELECT count(c.id) from app_perm a left join jw_perm b on a.school_perm_id=b.id left join jw_classes c on c.school_id=b.school_id where a.app_name='常规检查'
+    </select>
+    <select id="selectReferenceClassNumByRuleId" resultType="java.lang.Long">
+        select count(*) from mes_applets_class_rule where rule_id=#{ruleId}
+    </select>
+    <select id="selectClickTimesByRuleId" resultType="long">
+        select count(*) from mes_applets_rule_record where rule_id=#{ruleId}
+    </select>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.assetsStockDetail.IAssetsResQrcodeDaoNew">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('assetsResId')">
+                             T.assets_res_id,
+                         </if>
+                         <if test="!pager.excludes.contains('qrCode')">
+                             T.qr_code,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsName')">
+                             T.assets_name,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('serialNumber')">
+                             T.serial_number,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="assetsResId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='assetsResId'">
+                             T.assets_res_id like concat('%',#{assetsResId},'%')
+                         </when>
+                         <otherwise>
+                             T.assets_res_id=#{assetsResId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="qrCode!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='qrCode'">
+                            and T.qr_code like concat('%',#{qrCode},'%')
+                         </when>
+                         <otherwise>
+                            and T.qr_code=#{qrCode}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='assetsName'">
+                            and T.assets_name like concat('%',#{assetsName},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_name=#{assetsName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="serialNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='serialNumber'">
+                            and T.serial_number like concat('%',#{serialNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.serial_number=#{serialNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findAssetsResQrcodeListByCondition" parameterType="AssetsResQrcode" resultType="AssetsResQrcode">
+        select
+         <include refid="projection"/>
+         from xw_assets_res_qrcode T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findAssetsResQrcodeCountByCondition" parameterType="AssetsResQrcode" resultType="long">
+        select count(*) from xw_assets_res_qrcode T
+        <include refid="match"/>
+    </select>
+    <select id="findAssetsResQrcodeById" resultType="AssetsResQrcode">
+        select * from xw_assets_res_qrcode where assets_res_id=#{id}
+    </select>
+    <select id="findOneAssetsResQrcodeByCondition" parameterType="AssetsResQrcode" resultType="AssetsResQrcode">
+        select
+         <include refid="projection"/>
+         from xw_assets_res_qrcode T
+        <include refid="match"/>
+    </select>
+    <insert id="saveAssetsResQrcode" parameterType="AssetsResQrcode">
+        insert into xw_assets_res_qrcode
+         (
+            assets_res_id,
+            qr_code,
+            assets_name,
+            school_id,
+            serial_number
+        ) values
+         (
+                #{assetsResId}
+                ,
+                #{qrCode}
+                ,
+                #{assetsName}
+                ,
+                #{schoolId}
+                ,
+                #{serialNumber}
+                
+         )
+    </insert>
+    <update id="updateAssetsResQrcode" parameterType="AssetsResQrcode">
+        update xw_assets_res_qrcode
+        <set>
+                    qr_code=#{qrCode},
+                    assets_name=#{assetsName},
+                    school_id=#{schoolId},
+                    serial_number=#{serialNumber}
+          </set>
+         where assets_res_id=#{assets_res_id}
+    </update>
+    <update id="updateAssetsResQrcodeForNotNull" parameterType="AssetsResQrcode">
+        update xw_assets_res_qrcode
+        <set>
+                    <if test="qrCode!=null ">
+                        qr_code=#{qrCode},
+                    </if>
+                    <if test="assetsName!=null ">
+                        assets_name=#{assetsName},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="serialNumber!=null ">
+                        serial_number=#{serialNumber}
+                    </if>
+          </set>
+         where assets_res_id=#{assets_res_id}
+    </update>
+    <delete id="deleteAssetsResQrcode" >
+        delete from xw_assets_res_qrcode where assets_res_id=#{id}
+    </delete>
+    <delete id="deleteAssetsResQrcodeByCondition" >
+        delete T from xw_assets_res_qrcode T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveAssetsResQrcode" parameterType="AssetsResQrcode">
+        INSERT INTO xw_assets_res_qrcode (  assets_res_id,  qr_code,  assets_name,  school_id,  serial_number,create_time)
+        VALUES
+        <foreach collection="list" item="assetsResQrcode" separator=",">
+            (  #{assetsResQrcode.assetsResId},  #{assetsResQrcode.qrCode},  #{assetsResQrcode.assetsName},  #{assetsResQrcode.schoolId},  #{assetsResQrcode.serialNumber} ,now() )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findAssetsResQrcodeCountByAssetsResIds" resultType="int">
+        select count(1) from xw_assets_res_qrcode
+        <where>
+            qr_code is not null
+            and assets_res_id in
+            <foreach collection="assetsResIds1" item="assetsResId" separator="," open="("  close=")">
+                #{assetsResId}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="findAssetsResQrcodes" resultType="com.yice.edu.cn.common.pojo.xw.zc.AssetsResQrcode">
+        select * from xw_assets_res_qrcode
+        <where>
+            qr_code is not null
+            and assets_res_id in
+            <foreach collection="assetsResIds3" item="assetsResId" separator="," open="("  close=")">
+                #{assetsResId}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="findHasQrcodeByAssetsResIds" resultType="String">
+        select assets_res_id from xw_assets_res_qrcode
+        <where>
+            qr_code is not null
+            and assets_res_id in
+            <foreach collection="assetsResIds4" item="assetsResId" separator="," open="("  close=")">
+                #{assetsResId}
+            </foreach>
+        </where>
+    </select>
+
+
+    <delete id="deleteQrcodeByAssetsResIds">
+        delete from xw_assets_res_qrcode
+        <where>
+            assets_res_id in
+            <foreach collection="assetsResIds2" item="assetsResId" separator="," open="("  close=")">
+                #{assetsResIds2}
+            </foreach>
+        </where>
+    </delete>
+</mapper>

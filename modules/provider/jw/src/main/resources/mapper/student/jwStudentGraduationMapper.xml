@@ -1,0 +1,1012 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.student.StudentGraduationDao">
+    <!--########################################################################################################################-->
+    <select id="findJwStudentGraduationListByCondition" parameterType="JwStudentGraduation" resultType="JwStudentGraduation">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('imgUrl')">
+                        T.img_url,
+                    </if>
+                    <if test="!pager.excludes.contains('email')">
+                        T.email,
+                    </if>
+                    <if test="!pager.excludes.contains('nationality')">
+                        T.nationality,
+                    </if>
+                    <if test="!pager.excludes.contains('nationName')">
+                        T.nation_name,
+                    </if>
+                    <if test="!pager.excludes.contains('nation')">
+                        T.nation,
+                    </if>
+                    <if test="!pager.excludes.contains('nationPlace')">
+                        T.nation_place,
+                    </if>
+                    <if test="!pager.excludes.contains('provinceId')">
+                        T.province_id,
+                    </if>
+                    <if test="!pager.excludes.contains('provinceName')">
+                        T.province_name,
+                    </if>
+                    <if test="!pager.excludes.contains('cityId')">
+                        T.city_id,
+                    </if>
+                    <if test="!pager.excludes.contains('cityName')">
+                        T.city_name,
+                    </if>
+                    <if test="!pager.excludes.contains('countyId')">
+                        T.county_id,
+                    </if>
+                    <if test="!pager.excludes.contains('countyName')">
+                        T.county_name,
+                    </if>
+                    <if test="!pager.excludes.contains('address')">
+                        T.address,
+                    </if>
+                    <if test="!pager.excludes.contains('politicsFace')">
+                        T.politics_face,
+                    </if>
+                    <if test="!pager.excludes.contains('birthday')">
+                        T.birthday,
+                    </if>
+                    <if test="!pager.excludes.contains('studentNo')">
+                        T.student_no,
+                    </if>
+                    <if test="!pager.excludes.contains('admissionDate')">
+                        T.admission_date,
+                    </if>
+                    <if test="!pager.excludes.contains('studentCode')">
+                        T.student_code,
+                    </if>
+                    <if test="!pager.excludes.contains('classesId')">
+                        T.classes_id,
+                    </if>
+                    <if test="!pager.excludes.contains('classesName')">
+                        T.classes_name,
+                    </if>
+                    <if test="!pager.excludes.contains('graduationTime')">
+                        T.graduation_time,
+                    </if>
+                    <if test="!pager.excludes.contains('graduationGrade')">
+                        T.graduation_grade,
+                    </if>
+                    <if test="!pager.excludes.contains('graduationClass')">
+                        T.graduation_class,
+                    </if>
+                    <if test="!pager.excludes.contains('studentId')">
+                        T.student_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('enrollYear')">
+                        T.enroll_year,
+                    </if>
+                    <if test="!pager.excludes.contains('guardianContact')">
+                        T.guardian_contact,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jw_student_graduation T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="name!=null">
+                and T.name  like "%"#{name}"%"
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+            </if>
+            <if test="email!=null">
+                and T.email=#{email}
+            </if>
+            <if test="nationality!=null">
+                and T.nationality=#{nationality}
+            </if>
+            <if test="nationName!=null">
+                and T.nation_name=#{nationName}
+            </if>
+            <if test="nation!=null">
+                and T.nation=#{nation}
+            </if>
+            <if test="nationPlace!=null">
+                and T.nation_place=#{nationPlace}
+            </if>
+            <if test="provinceId!=null">
+                and T.province_id=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and T.province_name=#{provinceName}
+            </if>
+            <if test="cityId!=null">
+                and T.city_id=#{cityId}
+            </if>
+            <if test="cityName!=null">
+                and T.city_name=#{cityName}
+            </if>
+            <if test="countyId!=null">
+                and T.county_id=#{countyId}
+            </if>
+            <if test="countyName!=null">
+                and T.county_name=#{countyName}
+            </if>
+            <if test="address!=null">
+                and T.address=#{address}
+            </if>
+            <if test="politicsFace!=null">
+                and T.politics_face=#{politicsFace}
+            </if>
+            <if test="birthday!=null">
+                and T.birthday=#{birthday}
+            </if>
+            <if test="studentNo!=null">
+                and T.student_no=#{studentNo}
+            </if>
+            <if test="admissionDate!=null">
+                and T.admission_date=#{admissionDate}
+            </if>
+            <if test="studentCode!=null">
+                and T.student_code  like "%"#{studentCode}"%"
+            </if>
+            <if test="classesId!=null">
+                and T.classes_id=#{classesId}
+            </if>
+            <if test="classesName!=null">
+                and T.classes_name=#{classesName}
+            </if>
+            <if test="graduationTime!=null">
+                and T.graduation_time=#{graduationTime}
+            </if>
+            <if test="graduationGrade!=null">
+                and T.graduation_grade=#{graduationGrade}
+            </if>
+            <if test="graduationClass!=null">
+                and T.graduation_class=#{graduationClass}
+            </if>
+            <if test="studentId!=null">
+                and T.student_id=#{studentId}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+            </if>
+            <if test="enrollYear!=null">
+                and T.enroll_year=#{enrollYear}
+            </if>
+            <if test="guardianContact!=null">
+                and T.guardian_contact=#{guardianContact}
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findJwStudentGraduationCountByCondition" parameterType="JwStudentGraduation" resultType="long">
+        select count(*) from jw_student_graduation
+        <where>
+            <if test="createTime!=null">
+                create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and del=#{del}
+            </if>
+            <if test="name!=null">
+                and name like "%"#{name}"%"
+            </if>
+            <if test="sex!=null">
+                and sex=#{sex}
+            </if>
+            <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+            </if>
+            <if test="email!=null">
+                and email=#{email}
+            </if>
+            <if test="nationality!=null">
+                and nationality=#{nationality}
+            </if>
+            <if test="nationName!=null">
+                and nation_name=#{nationName}
+            </if>
+            <if test="nation!=null">
+                and nation=#{nation}
+            </if>
+            <if test="nationPlace!=null">
+                and nation_place=#{nationPlace}
+            </if>
+            <if test="provinceId!=null">
+                and province_id=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and province_name=#{provinceName}
+            </if>
+            <if test="cityId!=null">
+                and city_id=#{cityId}
+            </if>
+            <if test="cityName!=null">
+                and city_name=#{cityName}
+            </if>
+            <if test="countyId!=null">
+                and county_id=#{countyId}
+            </if>
+            <if test="countyName!=null">
+                and county_name=#{countyName}
+            </if>
+            <if test="address!=null">
+                and address=#{address}
+            </if>
+            <if test="politicsFace!=null">
+                and politics_face=#{politicsFace}
+            </if>
+            <if test="birthday!=null">
+                and birthday=#{birthday}
+            </if>
+            <if test="studentNo!=null">
+                and student_no=#{studentNo}
+            </if>
+            <if test="admissionDate!=null">
+                and admission_date=#{admissionDate}
+            </if>
+            <if test="studentCode!=null">
+                and student_code like "%"#{studentCode}"%"
+            </if>
+            <if test="classesId!=null">
+                and classes_id=#{classesId}
+            </if>
+            <if test="classesName!=null">
+                and classes_name=#{classesName}
+            </if>
+            <if test="graduationTime!=null">
+                and graduation_time=#{graduationTime}
+            </if>
+            <if test="graduationGrade!=null">
+                and graduation_grade=#{graduationGrade}
+            </if>
+            <if test="graduationClass!=null">
+                and graduation_class=#{graduationClass}
+            </if>
+            <if test="studentId!=null">
+                and student_id=#{studentId}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+            </if>
+            <if test="enrollYear!=null">
+                and enroll_year=#{enrollYear}
+            </if>
+            <if test="guardianContact!=null">
+                and guardian_contact=#{guardianContact}
+            </if>
+        </where>
+    </select>
+    <select id="findJwStudentGraduationById" resultType="JwStudentGraduation">
+        select * from jw_student_graduation where id=#{id}
+    </select>
+    <select id="findOneJwStudentGraduationByCondition" parameterType="JwStudentGraduation" resultType="JwStudentGraduation">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('imgUrl')">
+                        T.img_url,
+                    </if>
+                    <if test="!pager.excludes.contains('email')">
+                        T.email,
+                    </if>
+                    <if test="!pager.excludes.contains('nationality')">
+                        T.nationality,
+                    </if>
+                    <if test="!pager.excludes.contains('nationName')">
+                        T.nation_name,
+                    </if>
+                    <if test="!pager.excludes.contains('nation')">
+                        T.nation,
+                    </if>
+                    <if test="!pager.excludes.contains('nationPlace')">
+                        T.nation_place,
+                    </if>
+                    <if test="!pager.excludes.contains('provinceId')">
+                        T.province_id,
+                    </if>
+                    <if test="!pager.excludes.contains('provinceName')">
+                        T.province_name,
+                    </if>
+                    <if test="!pager.excludes.contains('cityId')">
+                        T.city_id,
+                    </if>
+                    <if test="!pager.excludes.contains('cityName')">
+                        T.city_name,
+                    </if>
+                    <if test="!pager.excludes.contains('countyId')">
+                        T.county_id,
+                    </if>
+                    <if test="!pager.excludes.contains('countyName')">
+                        T.county_name,
+                    </if>
+                    <if test="!pager.excludes.contains('address')">
+                        T.address,
+                    </if>
+                    <if test="!pager.excludes.contains('politicsFace')">
+                        T.politics_face,
+                    </if>
+                    <if test="!pager.excludes.contains('birthday')">
+                        T.birthday,
+                    </if>
+                    <if test="!pager.excludes.contains('studentNo')">
+                        T.student_no,
+                    </if>
+                    <if test="!pager.excludes.contains('admissionDate')">
+                        T.admission_date,
+                    </if>
+                    <if test="!pager.excludes.contains('studentCode')">
+                        T.student_code,
+                    </if>
+                    <if test="!pager.excludes.contains('classesId')">
+                        T.classes_id,
+                    </if>
+                    <if test="!pager.excludes.contains('classesName')">
+                        T.classes_name,
+                    </if>
+                    <if test="!pager.excludes.contains('graduationTime')">
+                        T.graduation_time,
+                    </if>
+                    <if test="!pager.excludes.contains('graduationGrade')">
+                        T.graduation_grade,
+                    </if>
+                    <if test="!pager.excludes.contains('graduationClass')">
+                        T.graduation_class,
+                    </if>
+                    <if test="!pager.excludes.contains('studentId')">
+                        T.student_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('enrollYear')">
+                        T.enroll_year,
+                    </if>
+                    <if test="!pager.excludes.contains('guardianContact')">
+                        T.guardian_contact,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jw_student_graduation T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="name!=null">
+                and T.name=#{name}
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+            </if>
+            <if test="email!=null">
+                and T.email=#{email}
+            </if>
+            <if test="nationality!=null">
+                and T.nationality=#{nationality}
+            </if>
+            <if test="nationName!=null">
+                and T.nation_name=#{nationName}
+            </if>
+            <if test="nation!=null">
+                and T.nation=#{nation}
+            </if>
+            <if test="nationPlace!=null">
+                and T.nation_place=#{nationPlace}
+            </if>
+            <if test="provinceId!=null">
+                and T.province_id=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and T.province_name=#{provinceName}
+            </if>
+            <if test="cityId!=null">
+                and T.city_id=#{cityId}
+            </if>
+            <if test="cityName!=null">
+                and T.city_name=#{cityName}
+            </if>
+            <if test="countyId!=null">
+                and T.county_id=#{countyId}
+            </if>
+            <if test="countyName!=null">
+                and T.county_name=#{countyName}
+            </if>
+            <if test="address!=null">
+                and T.address=#{address}
+            </if>
+            <if test="politicsFace!=null">
+                and T.politics_face=#{politicsFace}
+            </if>
+            <if test="birthday!=null">
+                and T.birthday=#{birthday}
+            </if>
+            <if test="studentNo!=null">
+                and T.student_no=#{studentNo}
+            </if>
+            <if test="admissionDate!=null">
+                and T.admission_date=#{admissionDate}
+            </if>
+            <if test="studentCode!=null">
+                and T.student_code=#{studentCode}
+            </if>
+            <if test="classesId!=null">
+                and T.classes_id=#{classesId}
+            </if>
+            <if test="classesName!=null">
+                and T.classes_name=#{classesName}
+            </if>
+            <if test="graduationTime!=null">
+                and T.graduation_time=#{graduationTime}
+            </if>
+            <if test="graduationGrade!=null">
+                and T.graduation_grade=#{graduationGrade}
+            </if>
+            <if test="graduationClass!=null">
+                and T.graduation_class=#{graduationClass}
+            </if>
+            <if test="studentId!=null">
+                and T.student_id=#{studentId}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+            </if>
+            <if test="enrollYear!=null">
+                and T.enroll_year=#{enrollYear}
+            </if>
+            <if test="guardianContact!=null">
+                and T.guardian_contact=#{guardianContact}
+            </if>
+        </where>
+    </select>
+    <select id="findJwStudentGraduationClassesByYear" resultType="Integer">
+        select distinct(graduation_class)
+        from jw_student_graduation
+        where graduation_time = #{graduationTime}
+        and school_id = #{schoolId}
+    </select>
+    <select id="findStudentGraduationListForExportStudentGraduationByCondition"
+            resultType="com.yice.edu.cn.common.pojo.jw.student.JwStudentGraduation">
+        select T.*
+        from jw_student_graduation T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="name!=null">
+                and T.name  like "%"#{name}"%"
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+            </if>
+            <if test="email!=null">
+                and T.email=#{email}
+            </if>
+            <if test="nationality!=null">
+                and T.nationality=#{nationality}
+            </if>
+            <if test="nationName!=null">
+                and T.nation_name=#{nationName}
+            </if>
+            <if test="nation!=null">
+                and T.nation=#{nation}
+            </if>
+            <if test="nationPlace!=null">
+                and T.nation_place=#{nationPlace}
+            </if>
+            <if test="provinceId!=null">
+                and T.province_id=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and T.province_name=#{provinceName}
+            </if>
+            <if test="cityId!=null">
+                and T.city_id=#{cityId}
+            </if>
+            <if test="cityName!=null">
+                and T.city_name=#{cityName}
+            </if>
+            <if test="countyId!=null">
+                and T.county_id=#{countyId}
+            </if>
+            <if test="countyName!=null">
+                and T.county_name=#{countyName}
+            </if>
+            <if test="address!=null">
+                and T.address=#{address}
+            </if>
+            <if test="politicsFace!=null">
+                and T.politics_face=#{politicsFace}
+            </if>
+            <if test="birthday!=null">
+                and T.birthday=#{birthday}
+            </if>
+            <if test="studentNo!=null">
+                and T.student_no=#{studentNo}
+            </if>
+            <if test="admissionDate!=null">
+                and T.admission_date=#{admissionDate}
+            </if>
+            <if test="studentCode!=null">
+                and T.student_code  like "%"#{studentCode}"%"
+            </if>
+            <if test="classesId!=null">
+                and T.classes_id=#{classesId}
+            </if>
+            <if test="classesName!=null">
+                and T.classes_name=#{classesName}
+            </if>
+            <if test="graduationTime!=null">
+                and T.graduation_time=#{graduationTime}
+            </if>
+            <if test="graduationGrade!=null">
+                and T.graduation_grade=#{graduationGrade}
+            </if>
+            <if test="graduationClass!=null">
+                and T.graduation_class=#{graduationClass}
+            </if>
+            <if test="studentId!=null">
+                and T.student_id=#{studentId}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+            </if>
+            <if test="enrollYear!=null">
+                and T.enroll_year=#{enrollYear}
+            </if>
+            <if test="guardianContact!=null">
+                and T.guardian_contact=#{guardianContact}
+            </if>
+        </where>
+        order by T.create_time desc
+    </select>
+    <insert id="saveJwStudentGraduation" parameterType="JwStudentGraduation">
+        insert into jw_student_graduation
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            name,
+            sex,
+            img_url,
+            email,
+            nationality,
+            nation_name,
+            nation,
+            nation_place,
+            province_id,
+            province_name,
+            city_id,
+            city_name,
+            county_id,
+            county_name,
+            address,
+            politics_face,
+            birthday,
+            student_no,
+            admission_date,
+            student_code,
+            classes_id,
+            classes_name,
+            graduation_time,
+            graduation_grade,
+            graduation_class,
+            student_id,
+            school_id,
+            grade_id,
+            enroll_year,
+            guardian_contact
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{name}
+                ,
+                #{sex}
+                ,
+                #{imgUrl}
+                ,
+                #{email}
+                ,
+                #{nationality}
+                ,
+                #{nationName}
+                ,
+                #{nation}
+                ,
+                #{nationPlace}
+                ,
+                #{provinceId}
+                ,
+                #{provinceName}
+                ,
+                #{cityId}
+                ,
+                #{cityName}
+                ,
+                #{countyId}
+                ,
+                #{countyName}
+                ,
+                #{address}
+                ,
+                #{politicsFace}
+                ,
+                #{birthday}
+                ,
+                #{studentNo}
+                ,
+                #{admissionDate}
+                ,
+                #{studentCode}
+                ,
+                #{classesId}
+                ,
+                #{classesName}
+                ,
+                #{graduationTime}
+                ,
+                #{graduationGrade}
+                ,
+                #{graduationClass}
+                ,
+                #{studentId}
+                ,
+                #{schoolId}
+                ,
+                #{gradeId}
+                ,
+                #{enrollYear}
+                 ,
+                #{guardianContact}
+         )
+    </insert>
+    <update id="updateJwStudentGraduation" parameterType="JwStudentGraduation">
+        update jw_student_graduation
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="sex!=null ">
+                sex=#{sex},
+            </if>
+            <if test="imgUrl!=null ">
+                img_url=#{imgUrl},
+            </if>
+            <if test="email!=null ">
+                email=#{email},
+            </if>
+            <if test="nationality!=null ">
+                nationality=#{nationality},
+            </if>
+            <if test="nationName!=null ">
+                nation_name=#{nationName},
+            </if>
+            <if test="nation!=null ">
+                nation=#{nation},
+            </if>
+            <if test="nationPlace!=null ">
+                nation_place=#{nationPlace},
+            </if>
+            <if test="provinceId!=null ">
+                province_id=#{provinceId},
+            </if>
+            <if test="provinceName!=null ">
+                province_name=#{provinceName},
+            </if>
+            <if test="cityId!=null ">
+                city_id=#{cityId},
+            </if>
+            <if test="cityName!=null ">
+                city_name=#{cityName},
+            </if>
+            <if test="countyId!=null ">
+                county_id=#{countyId},
+            </if>
+            <if test="countyName!=null ">
+                county_name=#{countyName},
+            </if>
+            <if test="address!=null ">
+                address=#{address},
+            </if>
+            <if test="politicsFace!=null ">
+                politics_face=#{politicsFace},
+            </if>
+            <if test="birthday!=null ">
+                birthday=#{birthday},
+            </if>
+            <if test="studentNo!=null ">
+                student_no=#{studentNo},
+            </if>
+            <if test="admissionDate!=null ">
+                admission_date=#{admissionDate},
+            </if>
+            <if test="studentCode!=null ">
+                student_code=#{studentCode},
+            </if>
+            <if test="classesId!=null ">
+                classes_id=#{classesId},
+            </if>
+            <if test="classesName!=null ">
+                classes_name=#{classesName},
+            </if>
+            <if test="graduationTime!=null ">
+                graduation_time=#{graduationTime},
+            </if>
+            <if test="graduationGrade!=null ">
+                graduation_grade=#{graduationGrade},
+            </if>
+            <if test="graduationClass!=null ">
+                graduation_class=#{graduationClass},
+            </if>
+            <if test="studentId!=null ">
+                student_id=#{studentId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="gradeId!=null ">
+                grade_id=#{gradeId},
+            </if>
+            <if test="enrollYear!=null ">
+                enroll_year=#{enrollYear}
+            </if>
+            <if test="guardianContact!=null ">
+                guardian_contact=#{guardianContact}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteJwStudentGraduation" >
+        delete from jw_student_graduation where id=#{id}
+    </delete>
+    <delete id="deleteJwStudentGraduationByCondition" >
+        delete from jw_student_graduation
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and del=#{del}
+            </if>
+            <if test="name!=null">
+                and name=#{name}
+            </if>
+            <if test="sex!=null">
+                and sex=#{sex}
+            </if>
+            <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+            </if>
+            <if test="email!=null">
+                and email=#{email}
+            </if>
+            <if test="nationality!=null">
+                and nationality=#{nationality}
+            </if>
+            <if test="nationName!=null">
+                and nation_name=#{nationName}
+            </if>
+            <if test="nation!=null">
+                and nation=#{nation}
+            </if>
+            <if test="nationPlace!=null">
+                and nation_place=#{nationPlace}
+            </if>
+            <if test="provinceId!=null">
+                and province_id=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and province_name=#{provinceName}
+            </if>
+            <if test="cityId!=null">
+                and city_id=#{cityId}
+            </if>
+            <if test="cityName!=null">
+                and city_name=#{cityName}
+            </if>
+            <if test="countyId!=null">
+                and county_id=#{countyId}
+            </if>
+            <if test="countyName!=null">
+                and county_name=#{countyName}
+            </if>
+            <if test="address!=null">
+                and address=#{address}
+            </if>
+            <if test="politicsFace!=null">
+                and politics_face=#{politicsFace}
+            </if>
+            <if test="birthday!=null">
+                and birthday=#{birthday}
+            </if>
+            <if test="studentNo!=null">
+                and student_no=#{studentNo}
+            </if>
+            <if test="admissionDate!=null">
+                and admission_date=#{admissionDate}
+            </if>
+            <if test="studentCode!=null">
+                and student_code=#{studentCode}
+            </if>
+            <if test="classesId!=null">
+                and classes_id=#{classesId}
+            </if>
+            <if test="classesName!=null">
+                and classes_name=#{classesName}
+            </if>
+            <if test="graduationTime!=null">
+                and graduation_time=#{graduationTime}
+            </if>
+            <if test="graduationGrade!=null">
+                and graduation_grade=#{graduationGrade}
+            </if>
+            <if test="graduationClass!=null">
+                and graduation_class=#{graduationClass}
+            </if>
+            <if test="studentId!=null">
+                and student_id=#{studentId}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+            </if>
+            <if test="enrollYear!=null">
+                and enroll_year=#{enrollYear}
+            </if>
+            <if test="guardianContact!=null">
+                and guardian_contact=#{guardianContact}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveJwStudentGraduation" parameterType="JwStudentGraduation" keyProperty="id">
+        INSERT INTO jw_student_graduation (  id,  create_time,  update_time,  del,  name,  sex,  img_url,  email,  nationality,  nation_name,  nation,  nation_place,  province_id,  province_name,  city_id,  city_name,  county_id,  county_name,  address,  politics_face,  birthday,  student_no,  admission_date,  student_code,  classes_id,  classes_name,  graduation_time,  graduation_grade, graduation_class,student_id,  school_id,  grade_id,  enroll_year,  guardian_contact )
+        VALUES
+        <foreach collection="list" item="jwStudentGraduation" separator=",">
+            (  #{jwStudentGraduation.id},  #{jwStudentGraduation.createTime},  #{jwStudentGraduation.updateTime},  #{jwStudentGraduation.del},  #{jwStudentGraduation.name},  #{jwStudentGraduation.sex},  #{jwStudentGraduation.imgUrl},  #{jwStudentGraduation.email},  #{jwStudentGraduation.nationality},  #{jwStudentGraduation.nationName},  #{jwStudentGraduation.nation},  #{jwStudentGraduation.nativePlace},  #{jwStudentGraduation.provinceId},  #{jwStudentGraduation.provinceName},  #{jwStudentGraduation.cityId},  #{jwStudentGraduation.cityName},  #{jwStudentGraduation.countyId},  #{jwStudentGraduation.countyName},  #{jwStudentGraduation.address},  #{jwStudentGraduation.politicsFace},  #{jwStudentGraduation.birthday},  #{jwStudentGraduation.studentNo},  #{jwStudentGraduation.admissionDate},  #{jwStudentGraduation.studentCode},  #{jwStudentGraduation.classesId},  #{jwStudentGraduation.classesName},  #{jwStudentGraduation.graduationTime}, #{jwStudentGraduation.graduationGrade},#{jwStudentGraduation.graduationClass}, #{jwStudentGraduation.studentId},  #{jwStudentGraduation.schoolId},  #{jwStudentGraduation.gradeId},  #{jwStudentGraduation.enrollYear},  #{jwStudentGraduation.guardianContact}   )
+        </foreach>
+    </insert>
+
+
+    <insert id="piLiangSaveJwStudentGraduation" parameterType="JwStudentGraduation" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO jw_student_graduation (  id,  create_time,  update_time,  del,  name,  sex,  img_url,  email,  nationality,  nation_name,  nation,  nation_place,  province_id,  province_name,  city_id,  city_name,  county_id,  county_name,  address,  politics_face,  birthday,  student_no,  admission_date,  student_code,  classes_id,  classes_name,  graduation_time, graduation_grade, graduation_class, student_id,  school_id,  grade_id,  enroll_year )
+        VALUES
+        <foreach collection="list" item="jwStudentGraduation" separator=",">
+            (  #{jwStudentGraduation.id},  #{jwStudentGraduation.createTime},  #{jwStudentGraduation.updateTime},  #{jwStudentGraduation.del},  #{jwStudentGraduation.name},  #{jwStudentGraduation.sex},  #{jwStudentGraduation.imgUrl},  #{jwStudentGraduation.email},  #{jwStudentGraduation.nationality},  #{jwStudentGraduation.nationName},  #{jwStudentGraduation.nation},  #{jwStudentGraduation.nationPlace},  #{jwStudentGraduation.provinceId},  #{jwStudentGraduation.provinceName},  #{jwStudentGraduation.cityId},  #{jwStudentGraduation.cityName},  #{jwStudentGraduation.countyId},  #{jwStudentGraduation.countyName},  #{jwStudentGraduation.address},  #{jwStudentGraduation.politicsFace},  #{jwStudentGraduation.birthday},  #{jwStudentGraduation.studentNo},  #{jwStudentGraduation.admissionDate},  #{jwStudentGraduation.studentCode},  #{jwStudentGraduation.classesId},  #{jwStudentGraduation.classesName},  #{jwStudentGraduation.graduationTime}, #{jwStudentGraduation.graduationGrade},#{jwStudentGraduation.graduationClass}, #{jwStudentGraduation.studentId},  #{jwStudentGraduation.schoolId},  #{jwStudentGraduation.gradeId},  #{jwStudentGraduation.enrollYear}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

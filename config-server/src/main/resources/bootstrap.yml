@@ -1,0 +1,45 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:pwd9527@localhost:8761/eureka/
+  instance:
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+server:
+  port: 8888
+spring:
+  security:
+    user:
+      name: user
+      password: 02955986-673d-470d-b9a2-7180178d62d1
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://192.168.102.221:10080/wangtingjie/eduConfig.git
+          searchPaths: '{application}'
+        health:
+          repositories:
+            check:
+              name: yed #健康监测
+              label: master
+              profiles: default
+# overrides属性覆盖，或者默认配置
+        overrides:
+          appKey: over
+      label: master
+  application:
+    name: config-server
+  #添加消息总线支持
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: client
+    password: password
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

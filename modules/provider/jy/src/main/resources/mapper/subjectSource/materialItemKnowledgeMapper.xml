@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.subjectSource.IMaterialItemKnowledgeDao">
+    <!--########################################################################################################################-->
+    <select id="findMaterialItemKnowledgeListByCondition" parameterType="MaterialItemKnowledge" resultType="MaterialItemKnowledge">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('materialItemId')">
+                             T.material_item_id,
+                         </if>
+                         <if test="!pager.excludes.contains('knowledgePointId')">
+                             T.knowledge_point_id,
+                         </if>
+                         <if test="!pager.excludes.contains('materialItemPath')">
+                             T.material_item_path,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from material_item_knowledge T
+        <where>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findMaterialItemKnowledgeCountByCondition" parameterType="MaterialItemKnowledge" resultType="long">
+        select count(*) from material_item_knowledge T
+        <where>
+              <if test="materialItemId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='materialItemId'">
+                             T.material_item_id like concat('%',#{materialItemId},'%')
+                         </when>
+                         <otherwise>
+                             T.material_item_id=#{materialItemId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="knowledgePointId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='knowledgePointId'">
+                            and T.knowledge_point_id like concat('%',#{knowledgePointId},'%')
+                         </when>
+                         <otherwise>
+                            and T.knowledge_point_id=#{knowledgePointId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="materialItemPath!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='materialItemPath'">
+                            and T.material_item_path like concat('%',#{materialItemPath},'%')
+                         </when>
+                         <otherwise>
+                            and T.material_item_path=#{materialItemPath}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findMaterialItemKnowledgeById" resultType="MaterialItemKnowledge">
+        select * from material_item_knowledge where =#{id}
+    </select>
+    <select id="findOneMaterialItemKnowledgeByCondition" parameterType="MaterialItemKnowledge" resultType="MaterialItemKnowledge">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('materialItemId')">
+                             T.material_item_id,
+                         </if>
+                         <if test="!pager.excludes.contains('knowledgePointId')">
+                             T.knowledge_point_id,
+                         </if>
+                         <if test="!pager.excludes.contains('materialItemPath')">
+                             T.material_item_path,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from material_item_knowledge T
+        <where>
+        </where>
+    </select>
+    <insert id="saveMaterialItemKnowledge" parameterType="MaterialItemKnowledge">
+        insert into material_item_knowledge
+         (
+            id,
+            material_item_id,
+            knowledge_point_id,
+            material_item_path
+        ) values
+         (
+                #{id}
+                ,
+                #{materialItemId}
+                ,
+                #{knowledgePointId}
+                ,
+                #{materialItemPath}
+                
+         )
+    </insert>
+    <update id="updateMaterialItemKnowledge" parameterType="MaterialItemKnowledge">
+        update material_item_knowledge
+        <set>
+          </set>
+         where =#{}
+    </update>
+    <delete id="deleteMaterialItemKnowledge" >
+        delete from material_item_knowledge where =#{id}
+    </delete>
+    <delete id="deleteMaterialItemKnowledgeByCondition" >
+        delete from material_item_knowledge
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="materialItemId!=null">
+                and material_item_id=#{materialItemId}
+              </if>
+              <if test="knowledgePointId!=null">
+                and knowledge_point_id=#{knowledgePointId}
+              </if>
+              <if test="materialItemPath!=null">
+                and material_item_path=#{materialItemPath}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveMaterialItemKnowledge" parameterType="MaterialItemKnowledge">
+        INSERT INTO material_item_knowledge (  id,  material_item_id,  knowledge_point_id,  material_item_path )
+        VALUES
+        <foreach collection="list" item="materialItemKnowledge" separator=",">
+            (  #{materialItemKnowledge.id},  #{materialItemKnowledge.materialItemId},  #{materialItemKnowledge.knowledgePointId},  #{materialItemKnowledge.materialItemPath}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="batchDeleteMaterialItemKnowledge" resultType="String">
+        DELETE FROM material_item_knowledge WHERE material_item_id IN
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

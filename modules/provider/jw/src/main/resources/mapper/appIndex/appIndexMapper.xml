@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.appIndex.IAppIndexDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('identify')">
+                             T.identify,
+                         </if>
+                         <if test="!pager.excludes.contains('title')">
+                             T.title,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('row')">
+                             T.row,
+                         </if>
+                         <if test="!pager.excludes.contains('col')">
+                             T.col,
+                         </if>
+                         <if test="!pager.excludes.contains('required')">
+                             T.required,
+                         </if>
+                         <if test="!pager.excludes.contains('fixed')">
+                             T.fixed,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="identify!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='identify'">
+                            and T.identify like concat('%',#{identify},'%')
+                         </when>
+                         <otherwise>
+                            and T.identify=#{identify}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="title!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='title'">
+                            and T.title like concat('%',#{title},'%')
+                         </when>
+                         <otherwise>
+                            and T.title=#{title}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="parentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='parentId'">
+                            and T.parent_id like concat('%',#{parentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.parent_id=#{parentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="type!=null">
+                    and T.type=#{type}
+              </if>
+              <if test="row!=null">
+                    and T.row=#{row}
+              </if>
+              <if test="col!=null">
+                    and T.col=#{col}
+              </if>
+              <if test="required!=null">
+                    and T.required=#{required}
+              </if>
+              <if test="fixed!=null">
+                    and T.fixed=#{fixed}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findAppIndexListByCondition" parameterType="AppIndex" resultType="AppIndex">
+        select
+         <include refid="projection"/>
+         from app_index T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findAppIndexCountByCondition" parameterType="AppIndex" resultType="long">
+        select count(*) from app_index T
+        <include refid="match"/>
+    </select>
+    <select id="findAppIndexById" resultType="AppIndex">
+        select * from app_index where id=#{id}
+    </select>
+    <select id="findOneAppIndexByCondition" parameterType="AppIndex" resultType="AppIndex">
+        select
+         <include refid="projection"/>
+         from app_index T
+        <include refid="match"/>
+    </select>
+    <insert id="saveAppIndex" parameterType="AppIndex">
+        insert into app_index
+         (
+            id,
+            identify,
+            title,
+            parent_id,
+            type,
+            row,
+            col,
+            required,
+            fixed
+        ) values
+         (
+                #{id}
+                ,
+                #{identify}
+                ,
+                #{title}
+                ,
+                #{parentId}
+                ,
+                #{type}
+                ,
+                #{row}
+                ,
+                #{col}
+                ,
+                #{required}
+                ,
+                #{fixed}
+                
+         )
+    </insert>
+    <update id="updateAppIndex" parameterType="AppIndex">
+        update app_index
+        <set>
+                    <if test="identify!=null ">
+                        identify=#{identify},
+                    </if>
+                    <if test="title!=null ">
+                        title=#{title},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_id=#{parentId},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type},
+                    </if>
+                    <if test="row!=null ">
+                        row=#{row},
+                    </if>
+                    <if test="col!=null ">
+                        col=#{col},
+                    </if>
+                    <if test="required!=null ">
+                        required=#{required},
+                    </if>
+                    <if test="fixed!=null ">
+                        fixed=#{fixed}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteAppIndex" >
+        delete from app_index where id=#{id}
+    </delete>
+    <delete id="deleteAppIndexByCondition" >
+        delete T from app_index T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveAppIndex" parameterType="AppIndex">
+        INSERT INTO app_index (  id,  identify,  title,  parent_id,  type,  row,  col,  required,  fixed )
+        VALUES
+        <foreach collection="list" item="appIndex" separator=",">
+            (  #{appIndex.id},  #{appIndex.identify},  #{appIndex.title},  #{appIndex.parentId},  #{appIndex.type},  #{appIndex.row},  #{appIndex.col},  #{appIndex.required},  #{appIndex.fixed}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <update id="moveAppIndexes">
+        <foreach collection="list" item="appIndex" separator=";">
+            update app_index set row=#{appIndex.row} where id=#{appIndex.id}
+        </foreach>
+    </update>
+
+    <select id="findAppIndexListForSchool" resultType="AppIndex">
+        select T.id,T.identify,T.title,T.parent_id,T.type,T.required,T.fixed,IFNULL(S.display,1) display,IFNULL(S.row,T.row) row,IFNULL(S.col,T.col) col
+        from app_index T left join school_app_index S on T.id=S.app_index_id and school_id=#{schoolId}
+        where type=#{type}
+        <if test="parentId!=null and parentId!=''">
+            and parent_id=#{parentId}
+        </if>
+        ORDER BY row asc,col asc
+    </select>
+
+</mapper>

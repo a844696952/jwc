@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.IXwDjMyStudyTeacherDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('studyResourceId')">
+                        T.study_resource_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('state')">
+                        T.state,
+                    </if>
+                    <if test="!pager.excludes.contains('endTime')">
+                        T.end_time,
+                    </if>
+                    <if test="!pager.excludes.contains('receiveTime')">
+                        T.receive_time,
+                    </if>
+                    <if test="!pager.excludes.contains('studyType')">
+                        T.study_type,
+                    </if>
+                    <if test="!pager.excludes.contains('studyTitle')">
+                        T.study_title,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studyResourceId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studyResourceId'">
+                        and T.study_resource_id like concat('%',#{studyResourceId},'%')
+                    </when>
+                    <otherwise>
+                        and T.study_resource_id=#{studyResourceId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="state!=null">
+                and T.state=#{state}
+            </if>
+            <if test="endTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='endTime'">
+                        and T.end_time like concat('%',#{endTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.end_time=#{endTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="receiveTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='receiveTime'">
+                        and T.receive_time like concat('%',#{receiveTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.receive_time=#{receiveTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studyType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studyType'">
+                        and T.study_type like concat('%',#{studyType},'%')
+                    </when>
+                    <otherwise>
+                        and T.study_type=#{studyType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studyTitle!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studyTitle'">
+                        and T.study_title like concat('%',#{studyTitle},'%')
+                    </when>
+                    <otherwise>
+                        and T.study_title=#{studyTitle}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item" index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwDjMyStudyTeacherListByCondition" parameterType="XwDjMyStudyTeacher"
+            resultType="XwDjMyStudyTeacher">
+        select
+        <include refid="projection"/>
+        from xw_dj_my_study_teacher T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findXwDjMyStudyTeacherCountByCondition" parameterType="XwDjMyStudyTeacher" resultType="long">
+        select count(*) from xw_dj_my_study_teacher T
+        <include refid="match"/>
+    </select>
+    <select id="findXwDjMyStudyTeacherById" resultType="XwDjMyStudyTeacher">
+        select * from xw_dj_my_study_teacher where id=#{id}
+    </select>
+    <select id="findOneXwDjMyStudyTeacherByCondition" parameterType="XwDjMyStudyTeacher"
+            resultType="XwDjMyStudyTeacher">
+        select
+        <include refid="projection"/>
+        from xw_dj_my_study_teacher T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwDjMyStudyTeacher" parameterType="XwDjMyStudyTeacher">
+        insert into xw_dj_my_study_teacher
+         (
+            id,
+            study_resource_id,
+            teacher_id,
+            school_id,
+            state,
+            end_time,
+            receive_time,
+            study_type,
+            study_title
+        ) values
+         (
+                #{id}
+                ,
+                #{studyResourceId}
+                ,
+                #{teacherId}
+                ,
+                #{schoolId}
+                ,
+                #{state}
+                ,
+                #{endTime}
+                ,
+                DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')
+                ,
+                #{studyType}
+                ,
+                #{studyTitle}
+                
+         )
+    </insert>
+    <update id="updateXwDjMyStudyTeacher" parameterType="XwDjMyStudyTeacher">
+        update xw_dj_my_study_teacher
+        <set>
+            <if test="studyResourceId!=null ">
+                study_resource_id=#{studyResourceId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="state!=null ">
+                state=#{state},
+            </if>
+            <if test="endTime==null ">
+                end_time=DATE_FORMAT(now(),'%Y-%m-%d'),
+            </if>
+            <if test="receiveTime!=null ">
+                receive_time=#{receiveTime},
+            </if>
+            <if test="studyType!=null ">
+                study_type=#{studyType},
+            </if>
+            <if test="studyTitle!=null ">
+                study_title=#{studyTitle}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteXwDjMyStudyTeacher">
+        delete from xw_dj_my_study_teacher where id=#{id}
+    </delete>
+    <delete id="deleteXwDjMyStudyTeacherByCondition">
+        delete T from xw_dj_my_study_teacher T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwDjMyStudyTeacher" parameterType="XwDjMyStudyTeacher">
+        INSERT INTO xw_dj_my_study_teacher ( id, study_resource_id, teacher_id, school_id, state, end_time,
+        receive_time, study_type, study_title )
+        VALUES
+        <foreach collection="list" item="xwDjMyStudyTeacher" separator=",">
+            ( #{xwDjMyStudyTeacher.id}, #{xwDjMyStudyTeacher.studyResourceId}, #{xwDjMyStudyTeacher.teacherId},
+            #{xwDjMyStudyTeacher.schoolId}, #{xwDjMyStudyTeacher.state}, #{xwDjMyStudyTeacher.endTime},
+            #{xwDjMyStudyTeacher.receiveTime}, #{xwDjMyStudyTeacher.studyType}, #{xwDjMyStudyTeacher.studyTitle} )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <!--自定义映射-->
+    <resultMap id="studyTeacherDto" type="com.yice.edu.cn.common.dto.xw.StudyTeacherDto">
+        <result column="study_resource_id" property="resourceId"></result>
+        <result column="teacher_id" property="teacherId"></result>
+        <result column="school_id" property="schoolId"></result>
+        <result column="title" property="title"></result>
+        <result column="type" property="type"></result>
+        <result column="activity_type" property="activityType"></result>
+        <result column="end_time" property="endTime"></result>
+        <result column="publish_time" property="publishTime"></result>
+        <result column="teacher_name" property="name"></result>
+
+    </resultMap>
+    <select id="findXwDjMyStudyTeacherListByTeacherId" parameterType="com.yice.edu.cn.common.dto.xw.StudyTeacherDto"
+            resultMap="studyTeacherDto">
+        select
+        a.study_resource_id,
+        a.teacher_id,
+        a.school_id,
+        b.title,
+        b.type,
+        b.activity_type,
+        a.end_time,
+        b.publish_time,
+        b.teacher_name
+        from
+        xw_dj_my_study_teacher as a
+        left join
+        xw_dj_study_resource as b
+        on
+        a.study_resource_id = b.id
+        where
+        a.teacher_id = #{teacherId} and a.end_time is not null
+        <if test="schoolId!=null and schoolId!=''">
+            and a.school_id = #{schoolId}
+        </if>
+
+        <if test="activityType!=null and activityType!=''">
+            and b.activity_type = #{activityType}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and a.end_time >= #{startTime}
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and #{endTime} >= a.end_time
+        </if>
+        <if test="type!=null and type!=''">
+            and b.type = #{type}
+        </if>
+        <if test="title!=null and title!=''">
+            and b.title like concat('%',#{title},'%')
+        </if>
+        order by b.publish_time desc
+        <include refid="page"/>
+
+    </select>
+
+    <select id="findXwDjMyStudyTeacherCountByTeacherId" parameterType="com.yice.edu.cn.common.dto.xw.StudyTeacherDto"
+            resultType="long">
+        select
+        count(*)
+        from
+        xw_dj_my_study_teacher as a
+        left join
+        xw_dj_study_resource as b
+        on
+        a.study_resource_id = b.id
+        where
+        a.teacher_id = #{teacherId} and a.end_time is not null
+        <if test="schoolId!=null and schoolId!=''">
+            and a.school_id = #{schoolId}
+        </if>
+
+        <if test="activityType!=null and activityType!=''">
+            and b.activity_type = #{activityType}
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and a.end_time >= #{startTime}
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and #{endTime} >= a.end_time
+        </if>
+        <if test="type!=null and type!=''">
+            and b.type = #{type}
+        </if>
+        <if test="title!=null and title!=''">
+            and b.title like concat('%',#{title},'%')
+        </if>
+    </select>
+
+    <select id="findXwDjMyStudyTeacherByTime" parameterType="XwDjMyStudyTeacher" resultType="XwDjMyStudyTeacher">
+        select * from xw_dj_my_study_teacher as T
+        where
+        T.teacher_id = #{teacherId}
+        <if test="id!=null and id!=''">
+            and T.id = #{id}
+        </if>
+        <if test="studyResourceId!=null and studyResourceId!=''">
+            and T.study_resource_id = #{studyResourceId}
+        </if>
+        <if test="schoolId!=null and schoolId!=''">
+            and T.school_id = #{schoolId}
+        </if>
+        <if test="state!=null">
+            and T.state = #{state}
+        </if>
+        <if test="receiveTime!=null and receiveTime!=''">
+            and T.receive_time = #{receiveTime}
+        </if>
+        <if test="studyType!=null and studyType!=''">
+            and T.study_type = #{studyType}
+        </if>
+        <if test="studyTitle!=null and studyTitle!=''">
+            and T.study_title like concat('%',#{studyTitle},'%')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and #{endTime} >= T.end_time
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and T.end_time >= #{startTime}
+        </if>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findXwDjMyStudyTeacherCountByTime" parameterType="XwDjMyStudyTeacher" resultType="long">
+        select count(*) from xw_dj_my_study_teacher as T
+        where
+        T.teacher_id = #{teacherId}
+        <if test="id!=null and id!=''">
+            and T.id = #{id}
+        </if>
+        <if test="studyResourceId!=null and studyResourceId!=''">
+            and T.study_resource_id = #{studyResourceId}
+        </if>
+        <if test="schoolId!=null and schoolId!=''">
+            and T.school_id = #{schoolId}
+        </if>
+        <if test="state!=null">
+            and T.state = #{state}
+        </if>
+        <if test="receiveTime!=null and receiveTime!=''">
+            and T.receive_time = #{receiveTime}
+        </if>
+        <if test="studyType!=null and studyType!=''">
+            and T.study_type = #{studyType}
+        </if>
+        <if test="studyTitle!=null and studyTitle!=''">
+            and T.study_title like concat('%',#{studyTitle},'%')
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            and #{endTime} >= T.end_time
+        </if>
+        <if test="startTime!=null and startTime!=''">
+            and T.end_time >= #{startTime}
+        </if>
+    </select>
+</mapper>

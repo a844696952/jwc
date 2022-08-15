@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.riseClazz.IDormPersonDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('dormId')">
+                             T.dorm_id,
+                         </if>
+                         <if test="!pager.excludes.contains('moveIntoTime')">
+                             T.move_into_time,
+                         </if>
+                         <if test="!pager.excludes.contains('personId')">
+                             T.person_id,
+                         </if>
+                         <if test="!pager.excludes.contains('personType')">
+                             T.person_type,
+                         </if>
+                         <if test="!pager.excludes.contains('isDormLeader')">
+                             T.is_dorm_leader,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('bunkName')">
+                             T.bunk_name,
+                         </if>
+                         <if test="!pager.excludes.contains('bunkSort')">
+                             T.bunk_sort,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('otherWord')">
+                             T.other_word,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="dormId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='dormId'">
+                            and T.dorm_id like concat('%',#{dormId},'%')
+                         </when>
+                         <otherwise>
+                            and T.dorm_id=#{dormId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="moveIntoTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='moveIntoTime'">
+                            and T.move_into_time like concat('%',#{moveIntoTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.move_into_time=#{moveIntoTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="personId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='personId'">
+                            and T.person_id like concat('%',#{personId},'%')
+                         </when>
+                         <otherwise>
+                            and T.person_id=#{personId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="personType!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='personType'">
+                            and T.person_type like concat('%',#{personType},'%')
+                         </when>
+                         <otherwise>
+                            and T.person_type=#{personType}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isDormLeader!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='isDormLeader'">
+                            and T.is_dorm_leader like concat('%',#{isDormLeader},'%')
+                         </when>
+                         <otherwise>
+                            and T.is_dorm_leader=#{isDormLeader}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="remarks!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='remarks'">
+                            and T.remarks like concat('%',#{remarks},'%')
+                         </when>
+                         <otherwise>
+                            and T.remarks=#{remarks}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="bunkName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='bunkName'">
+                            and T.bunk_name like concat('%',#{bunkName},'%')
+                         </when>
+                         <otherwise>
+                            and T.bunk_name=#{bunkName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="bunkSort!=null">
+                    and T.bunk_sort=#{bunkSort}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="otherWord!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='otherWord'">
+                            and T.other_word like concat('%',#{otherWord},'%')
+                         </when>
+                         <otherwise>
+                            and T.other_word=#{otherWord}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+    <select id="findDormPersonListByPersonIds" parameterType="DormPerson" resultType="DormPerson">
+        select
+         <include refid="projection"/>
+         from xw_dorm_person T
+        where
+          T.person_id in
+        <foreach item="personId" index="index" collection="personIds" open="(" separator="," close=")">
+            #{personId}
+        </foreach>
+    </select>
+
+
+    <update id="batchLeaveDormByIds" parameterType="DormPerson">
+        update xw_dorm_person
+        <set>
+            <if test="dormId!=null ">
+                dorm_id=#{dormId},
+            </if>
+            move_into_time=null ,
+            person_id=null ,
+            person_type=null ,
+            is_dorm_leader=null ,
+            remarks=null ,
+            <if test="bunkName!=null ">
+                bunk_name=#{bunkName},
+            </if>
+            <if test="bunkSort!=null ">
+                bunk_sort=#{bunkSort},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="otherWord!=null ">
+                other_word=#{otherWord}
+            </if>
+        </set>
+        where id in
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="getDormBuildingByIds" parameterType="String" resultType="DormBuildingPersonInfo">
+        SELECT
+            A.id dormBuildId,
+            A.NAME dormBuildName,
+            B.id floorId,
+            B.NAME floor,
+            C.id dormId,
+            C.NAME dormName,
+            D.bunk_name
+        FROM
+            jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            INNER JOIN jw_building C ON B.id = C.parent_id
+            LEFT JOIN xw_dorm_person D ON C.id = D.dorm_id
+        WHERE
+            D.id in
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findDormMoveIntoPersonNumByCondition"  parameterType="DormBuildVo" resultType="Dorm">
+        SELECT
+            C.id dormId,
+            count( * ) personNum
+        FROM
+            jw_building A
+        INNER JOIN jw_building B ON A.id = B.parent_id
+        INNER JOIN jw_building C ON B.id = C.parent_id
+        INNER JOIN xw_dorm_person T ON T.dorm_id = C.id
+        <where>
+            T.person_id IS NOT NULL
+            <if test="schoolId!=null">
+                AND T.school_id =#{schoolId}
+            </if>
+            <if test="dormIdList!=null and dormIdList.size()>0">
+                AND C.id IN
+                <foreach collection="dormIdList" item="dormId" open="(" separator="," close=")">
+                    #{dormId}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY
+          C.id
+    </select>
+
+
+    <update id="updateDormByDormId" parameterType="Dorm">
+        update xw_dorm
+        <set>
+            <if test="dormId!=null ">
+                dorm_id=#{dormId},
+            </if>
+            <if test="dormCategory!=null ">
+                dorm_category=#{dormCategory},
+            </if>
+            <if test="dormType!=null ">
+                dorm_type=#{dormType},
+            </if>
+            <if test="remarks!=null ">
+                remarks=#{remarks},
+            </if>
+            <if test="personNum!=null ">
+                person_num=#{personNum},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where dorm_id=#{dormId}
+    </update>
+
+
+    <insert id="batchSaveDormPersonLog" parameterType="DormPersonLog">
+        INSERT INTO xw_dorm_person_log (  id,  person_type,  person_id,  dorm_build_name,  floor,  dorm_name,  bunk_name,  optime,  opt_type,  remarks,  create_time,  update_time,  school_id )
+        VALUES
+        <foreach collection="list" item="dormPersonLog" separator=",">
+            (  #{dormPersonLog.id},  #{dormPersonLog.personType},  #{dormPersonLog.personId},  #{dormPersonLog.dormBuildName},  #{dormPersonLog.floor},  #{dormPersonLog.dormName},  #{dormPersonLog.bunkName},  #{dormPersonLog.optime},  #{dormPersonLog.optType},  #{dormPersonLog.remarks},  now(),  #{dormPersonLog.updateTime},  #{dormPersonLog.schoolId}  )
+        </foreach>
+    </insert>
+
+    <insert id="batchSaveDormPersonOut" parameterType="DormPersonOut">
+        INSERT INTO xw_dorm_person_out (  id,  person_id,  person_name,  person_type,  sex,  guardian_contact,  student_no,  img_url,  teacher_name,  teacher_tel,  classes_id,  work_number,  tel,  departments,  out_time,  create_time,  update_time,  school_id )
+        VALUES
+        <foreach collection="list" item="dormPersonOut" separator=",">
+            (  #{dormPersonOut.id},  #{dormPersonOut.personId},  #{dormPersonOut.personName},  #{dormPersonOut.personType},  #{dormPersonOut.sex},  #{dormPersonOut.guardianContact},  #{dormPersonOut.studentNo},  #{dormPersonOut.imgUrl},  #{dormPersonOut.teacherName},  #{dormPersonOut.teacherTel},  #{dormPersonOut.classesId},  #{dormPersonOut.workNumber},  #{dormPersonOut.tel},  #{dormPersonOut.departments},  #{dormPersonOut.outTime}, now(),  #{dormPersonOut.updateTime},  #{dormPersonOut.schoolId}  )
+        </foreach>
+    </insert>
+
+</mapper>

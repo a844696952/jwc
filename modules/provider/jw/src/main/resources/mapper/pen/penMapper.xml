@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.pen.IPenDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('len')">
+                        T.len,
+                    </if>
+                    <if test="!pager.excludes.contains('brand')">
+                        T.brand,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolYearId')">
+                        T.school_year_id,
+                    </if>
+                    <if test="!pager.excludes.contains('fromTo')">
+                        T.from_to,
+                    </if>
+                    <if test="!pager.excludes.contains('term')">
+                        T.term,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="len!=null">
+            and T.len=#{len}
+        </if>
+        <if test="brand!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('brand')">
+                    and T.brand like concat('%',#{brand},'%')
+                </when>
+                <otherwise>
+                    and T.brand=#{brand}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                    and T.create_time like concat('%',#{createTime},'%')
+                </when>
+                <otherwise>
+                    and T.create_time=#{createTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="updateTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                    and T.update_time like concat('%',#{updateTime},'%')
+                </when>
+                <otherwise>
+                    and T.update_time=#{updateTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="teacherId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('teacherId')">
+                    and T.teacher_id like concat('%',#{teacherId},'%')
+                </when>
+                <otherwise>
+                    and T.teacher_id=#{teacherId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                    and T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                    and T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="name!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                    and T.name like concat('%',#{name},'%')
+                </when>
+                <otherwise>
+                    and T.name=#{name}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolYearId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolYearId')">
+                    and T.school_year_id like concat('%',#{schoolYearId},'%')
+                </when>
+                <otherwise>
+                    and T.school_year_id=#{schoolYearId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="fromTo!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('fromTo')">
+                    and T.from_to like concat('%',#{fromTo},'%')
+                </when>
+                <otherwise>
+                    and T.from_to=#{fromTo}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="term!=null">
+            and T.term=#{term}
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findPenListByCondition" parameterType="Pen" resultType="Pen">
+        select
+        <include refid="projection"/>
+        from pen T
+        <where>
+            <include refid="match"/>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findPenCountByCondition" parameterType="Pen" resultType="long">
+        select count(*) from pen T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <select id="findPenById" resultType="Pen">
+        select * from pen where id=#{id}
+    </select>
+    <select id="findOnePenByCondition" parameterType="Pen" resultType="Pen">
+        select
+        <include refid="projection"/>
+        from pen T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <insert id="savePen" parameterType="Pen">
+        INSERT INTO pen (  id,  len,  brand,  create_time,  update_time,  teacher_id,  school_id,  name,  school_year_id,  from_to,  term )
+         values
+         (   #{id}  ,   #{len}  ,   #{brand}  ,   now()  ,   #{updateTime}  ,   #{teacherId}  ,   #{schoolId}  ,   #{name}  ,   #{schoolYearId}  ,   #{fromTo}  ,   #{term}    )
+    </insert>
+    <update id="updatePen" parameterType="Pen">
+        update pen
+        <set>
+            <if test="len!=null ">
+                len=#{len},
+            </if>
+            <if test="brand!=null ">
+                brand=#{brand},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="schoolYearId!=null ">
+                school_year_id=#{schoolYearId},
+            </if>
+            <if test="fromTo!=null ">
+                from_to=#{fromTo},
+            </if>
+            <if test="term!=null ">
+                term=#{term}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updatePenForAll" parameterType="Pen">
+        update pen
+        <set>
+            len=#{len},
+            brand=#{brand},
+            create_time=#{createTime},
+            update_time=now(),
+            teacher_id=#{teacherId},
+            school_id=#{schoolId},
+            name=#{name},
+            school_year_id=#{schoolYearId},
+            from_to=#{fromTo},
+            term=#{term}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deletePen" >
+        delete from pen where id=#{id}
+    </delete>
+    <delete id="deletePenByCondition" >
+        delete T from pen T
+        <where>
+            <include refid="match"/>
+        </where>
+    </delete>
+    <insert id="batchSavePen" parameterType="Pen">
+        INSERT INTO pen (  id,  len,  brand,  create_time,  update_time,  teacher_id,  school_id,  name,  school_year_id,  from_to,  term )
+        VALUES
+        <foreach collection="list" item="pen" separator=",">
+            (   #{pen.id}  ,   #{pen.len}  ,   #{pen.brand}  ,   now()  ,   #{pen.updateTime}  ,   #{pen.teacherId}  ,   #{pen.schoolId}  ,   #{pen.name}  ,   #{pen.schoolYearId}  ,   #{pen.fromTo}  ,   #{pen.term}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.classManage.rules.IMesAppletsClassRuleDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('ruleId')">
+                             T.rule_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('score')">
+                             T.score,
+                         </if>
+                         <if test="!pager.excludes.contains('sortNumber')">
+                             T.sort_number,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="ruleId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('ruleId')">
+                        and T.rule_id like concat('%',#{ruleId},'%')
+                     </when>
+                     <otherwise>
+                        and T.rule_id=#{ruleId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="classId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('classId')">
+                        and T.class_id like concat('%',#{classId},'%')
+                     </when>
+                     <otherwise>
+                        and T.class_id=#{classId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="score!=null">
+                and T.score=#{score}
+          </if>
+          <if test="sortNumber!=null">
+                and T.sort_number=#{sortNumber}
+          </if>
+            <if test="tagType!=null">
+                and mar.tag_type=#{tagType}
+            </if>
+          <if test="schoolId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                     </when>
+                     <otherwise>
+                        and T.school_id=#{schoolId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesAppletsClassRuleListByCondition" parameterType="MesAppletsClassRule" resultType="MesAppletsClassRule">
+        SELECT T.id,T.rule_id,T.class_id,T.score,T.sort_number,T.school_id,T.create_time,
+        mar.`name`,mar.description, mar.icon FROM mes_applets_class_rule AS T INNER JOIN mes_applets_rule AS mar ON T.rule_id = mar.id
+         <where>
+            <include refid="match"/>
+         </where>
+        ORDER BY T.sort_number asc
+    </select>
+
+
+
+
+    <select id="findMesAppletsClassRuleCountByCondition" parameterType="MesAppletsClassRule" resultType="long">
+        select count(*) from mes_applets_class_rule T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <select id="findMesAppletsClassRuleById" resultType="MesAppletsClassRule">
+         SELECT T.id,T.rule_id,T.class_id,T.score,T.sort_number,T.school_id,T.create_time,
+        mar.`name`,mar.description, mar.icon FROM mes_applets_class_rule AS T INNER JOIN mes_applets_rule AS mar ON T.rule_id = mar.id where T.id=#{id}
+    </select>
+    <select id="findOneMesAppletsClassRuleByCondition" parameterType="MesAppletsClassRule" resultType="MesAppletsClassRule">
+        select
+         <include refid="projection"/>
+         from mes_applets_class_rule T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="saveMesAppletsClassRule" parameterType="MesAppletsClassRule">
+        INSERT INTO mes_applets_class_rule (  id,  rule_id,  class_id,  score,  sort_number,  school_id,  create_time )
+         values
+         (   #{id}  ,   #{ruleId}  ,   #{classId}  ,   #{score}  ,   #{sortNumber}  ,   #{schoolId}  ,   now()    )
+    </insert>
+    <update id="updateMesAppletsClassRule" parameterType="MesAppletsClassRule">
+        update mes_applets_class_rule
+        <set>
+                    <if test="ruleId!=null ">
+                        rule_id=#{ruleId},
+                    </if>
+                    <if test="classId!=null ">
+                        class_id=#{classId},
+                    </if>
+                    <if test="score!=null ">
+                        score=#{score},
+                    </if>
+                    <if test="sortNumber!=null ">
+                        sort_number=#{sortNumber},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateMesAppletsClassRuleForAll" parameterType="MesAppletsClassRule">
+        update mes_applets_class_rule
+        <set>
+                    rule_id=#{ruleId},
+                    class_id=#{classId},
+                    score=#{score},
+                    sort_number=#{sortNumber},
+                    school_id=#{schoolId},
+                    create_time=#{createTime}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteMesAppletsClassRule" >
+        delete from mes_applets_class_rule where id=#{id}
+    </delete>
+    <delete id="deleteMesAppletsClassRuleByCondition" >
+        delete T from mes_applets_class_rule T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSaveMesAppletsClassRule" parameterType="MesAppletsClassRule">
+        INSERT INTO mes_applets_class_rule (  id,  rule_id,  class_id,  score,  sort_number,  school_id,  create_time )
+        VALUES
+        <foreach collection="list" item="mesAppletsClassRule" separator=",">
+            (   #{mesAppletsClassRule.id}  ,   #{mesAppletsClassRule.ruleId}  ,   #{mesAppletsClassRule.classId}  ,   #{mesAppletsClassRule.score}  ,   #{mesAppletsClassRule.sortNumber}  ,   #{mesAppletsClassRule.schoolId}  ,   now()    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

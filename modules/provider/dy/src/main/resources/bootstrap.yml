@@ -1,0 +1,94 @@
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:pwd9527@localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+    #设定实例的集群名称
+      cluster: dy-cluster
+      #设置该集群在spring boot admin中的密码，该配置会被admin server获取到
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+server:
+  port: 8888
+spring:
+#  main:
+#    allow-bean-definition-overriding: true
+  security:
+    user:
+      name: user
+      password: 02955986-673d-470d-b9a2-7180178d62d1
+  application:
+    name: dy
+  cloud:
+    config:
+      label: master
+      profile: dev
+      discovery:
+        enabled: true
+        serviceId: config-server
+#用户名和密码必须放在bootstrap.yml中
+      username: user
+      password: 02955986-673d-470d-b9a2-7180178d62d1
+      fail-fast: true
+  #添加消息总线支持
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: client
+    password: password
+  sleuth:
+    sampler:
+      percentage: 1
+  profiles:
+    active: dev
+#    active: test
+feign:
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 21000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.yice.edu.cn.common.pojo
+  configuration:
+    cache-enabled: false
+    lazy-loading-enabled: true
+    default-statement-timeout: 20000
+    aggressive-lazy-loading: false
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+logging:
+  level:
+     com.yice.edu.cn.dy.dao: debug
+  path: ./_log/${spring.application.name}
+snowflake:
+  workerId: 2 #同一个服务之间集群时可以一样，不同服务必须不同
+  datacenterId: 1 #不同的数据中心不一样

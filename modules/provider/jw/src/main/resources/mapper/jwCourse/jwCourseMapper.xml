@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.jwCourse.JwCourseDao">
+    <!--########################################################################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('nameId')">
+                        T.name_id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('alias')">
+                        T.alias,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('exam')">
+                        T.exam,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="nameId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('nameId')">
+                        and T.name_id like concat('%',#{nameId},'%')
+                    </when>
+                    <otherwise>
+                        and T.name_id=#{nameId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="alias!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('alias')">
+                        and T.alias like concat('%',#{alias},'%')
+                    </when>
+                    <otherwise>
+                        and T.alias=#{alias}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="exam!=null">
+                and T.exam=#{exam}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findJwCourseListByCondition" parameterType="JwCourse" resultType="JwCourse">
+        select
+        <include refid="projection"/>
+        from jw_course T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findJwCourseCountByCondition" parameterType="JwCourse" resultType="long">
+        select count(*) from jw_course T
+        <include refid="match"/>
+    </select>
+    <select id="findJwCourseById" resultType="JwCourse">
+        select * from jw_course where id=#{id} and school_id = #{schoolId}
+    </select>
+    <select id="findOneJwCourseByCondition" parameterType="JwCourse" resultType="JwCourse">
+        select
+        <include refid="projection"/>
+        from jw_course T
+        <include refid="match"/>
+    </select>
+    <insert id="saveJwCourse" parameterType="JwCourse">
+        INSERT INTO jw_course (  id,  create_time,  update_time,  del,  name_id,  name,  alias,  school_id,  exam )
+         values
+         (   #{id}  ,   now()  ,   #{updateTime}  ,   #{del}  ,   #{nameId}  ,   #{name}  ,   #{alias}  ,   #{schoolId}  ,   #{exam}    )
+    </insert>
+    <update id="updateJwCourse" parameterType="JwCourse">
+        update jw_course
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="nameId!=null ">
+                name_id=#{nameId},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="alias!=null ">
+                alias=#{alias},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="exam!=null">
+                exam=#{exam}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateJwCourseForAll" parameterType="JwCourse">
+        update jw_course
+        <set>
+            create_time=#{createTime},
+            update_time=now(),
+            del=#{del},
+            name_id=#{nameId},
+            name=#{name},
+            alias=#{alias},
+            school_id=#{schoolId},
+            exam=#{exam}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteJwCourse" >
+        delete from jw_course where =#{id}
+    </delete>
+    <delete id="deleteJwCourseByCondition" >
+        delete T from jw_course T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveJwCourse" parameterType="JwCourse">
+        INSERT INTO jw_course (  id,  create_time,  update_time,  del,  name_id,  name,  alias,  school_id,  exam )
+        VALUES
+        <foreach collection="list" item="jwCourse" separator=",">
+            (   #{jwCourse.id}  ,   now()  ,   #{jwCourse.updateTime}  ,   #{jwCourse.del}  ,   #{jwCourse.nameId}  ,   #{jwCourse.name}  ,   #{jwCourse.alias}  ,   #{jwCourse.schoolId}  ,   #{jwCourse.exam}    )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <update id="updateJwCourseSchoolId" parameterType="JwCourse">
+        update jw_course
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="nameId!=null ">
+                name_id=#{nameId},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="alias!=null ">
+                alias=#{alias},
+            </if>
+            <if test="exam!=null">
+                exam=#{exam}
+            </if>
+        </set>
+        where id=#{id}
+        and school_id = #{schoolId}
+    </update>
+    <!--通过id获得数组字典的一行记录-->
+    <select id="queryOneById" resultType="Dd" parameterType="String">
+        select * from ad_dd id = #{id} and del = 1
+    </select>
+
+    <!--获得数据字典的课程类型-->
+    <select id="queryAllByTypeIdType" resultType="Dd">
+        select * from  ad_dd where type_id = 14 and del = 1
+    </select>
+
+    <!--获得数据字典的场地类型-->
+    <select id="queryAllByTypeIdBuilding" resultType="Dd">
+        select * from  ad_dd where type_id =10 and del = 1
+    </select>
+
+    <!--判断重复-->
+    <select id="distinctJwCourse" parameterType="JwCourse" resultType="long">
+        select count(*) from jw_course T
+        where
+         T.school_id =#{schoolId}
+            and T.alias = #{alias}
+        <if test="id!=null">
+            and T.id != #{id}
+        </if>
+    </select>
+
+    <select id="findJwCourseListByConditionGai" parameterType="JwCourse" resultType="JwCourse">
+        select
+        <include refid="projection"/>
+        from jw_course T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findJwCourseListByConditionKong" parameterType="JwCourse" resultType="JwCourse">
+        select
+        <include refid="projection"/>
+        from jw_course T
+        <where>
+            <if test="name!=null">
+                (T.name like concat('%',#{name},'%')
+                or T.alias like concat('%',#{name},'%'))
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id = #{schoolId}
+            </if>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findJwCourseCountByConditionKong" parameterType="JwCourse" resultType="long">
+        select count(*) from jw_course T
+        <where>
+            <if test="name!=null">
+                (T.name like concat('%',#{name},'%')
+                or T.alias like concat('%',#{name},'%'))
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id = #{schoolId}
+            </if>
+        </where>
+    </select>
+
+    <!--过滤科目和课表是否允许考试-->
+    <select id="findSchoolEaxmCourseList" resultType="JwCourse" parameterType="String">
+       SELECT
+	t1.id,
+	t1.name,
+	jw.alias,
+	jw.school_id
+FROM
+	`ad_dd` t1
+	INNER JOIN jw_course jw ON t1.id = jw.name_id
+	AND jw.school_id = #{schoolId}
+	AND jw.exam = 1
+	AND t1.ext1 = 1
+	order by jw.id
+    </select>
+</mapper>

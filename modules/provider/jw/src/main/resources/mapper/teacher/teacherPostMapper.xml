@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.teacher.ITeacherPostDao">
+    <!--########################################################################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('ddId')">
+                        T.dd_id,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeName')">
+                        T.grade_name,
+                    </if>
+                    <if test="!pager.excludes.contains('classId')">
+                        T.class_id,
+                    </if>
+                    <if test="!pager.excludes.contains('sort')">
+                        T.sort,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                    and T.create_time like concat('%',#{createTime},'%')
+                </when>
+                <otherwise>
+                    and T.create_time=#{createTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="updateTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                    and T.update_time like concat('%',#{updateTime},'%')
+                </when>
+                <otherwise>
+                    and T.update_time=#{updateTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="del!=null">
+            and T.del=#{del}
+        </if>
+        <if test="name!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                    and T.name like concat('%',#{name},'%')
+                </when>
+                <otherwise>
+                    and T.name=#{name}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="teacherId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('teacherId')">
+                    and T.teacher_id like concat('%',#{teacherId},'%')
+                </when>
+                <otherwise>
+                    and T.teacher_id=#{teacherId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                    and T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                    and T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="ddId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('ddId')">
+                    and T.dd_id like concat('%',#{ddId},'%')
+                </when>
+                <otherwise>
+                    and T.dd_id=#{ddId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="gradeId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('gradeId')">
+                    and T.grade_id like concat('%',#{gradeId},'%')
+                </when>
+                <otherwise>
+                    and T.grade_id=#{gradeId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="gradeName!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('gradeName')">
+                    and T.grade_name like concat('%',#{gradeName},'%')
+                </when>
+                <otherwise>
+                    and T.grade_name=#{gradeName}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="classId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('classId')">
+                    and T.class_id like concat('%',#{classId},'%')
+                </when>
+                <otherwise>
+                    and T.class_id=#{classId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="sort!=null">
+            and T.sort=#{sort}
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findTeacherPostListByCondition" parameterType="TeacherPost" resultType="TeacherPost">
+        select
+        <include refid="projection"/>
+        from (<include refid="joinFrom"/>
+        <where>
+            <include refid="match"/>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>) T
+    </select>
+    <select id="findTeacherPostCountByCondition" parameterType="TeacherPost" resultType="long">
+        select count(*) from jw_teacher_post T
+        <include refid="match"/>
+    </select>
+    <select id="findTeacherPostById" resultType="TeacherPost">
+        <include refid="joinFrom"/>
+        where T.id=#{id} limit 1
+    </select>
+    <select id="findOneTeacherPostByCondition" parameterType="TeacherPost" resultType="TeacherPost">
+        select
+        <include refid="projection"/>
+        from (<include refid="joinFrom"/>) T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <insert id="saveTeacherPost" parameterType="TeacherPost">
+        insert into jw_teacher_post
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            name,
+            teacher_id,
+            school_id,
+            dd_id,
+            grade_id,
+            grade_name,
+            class_id,
+            sort
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{name}
+                ,
+                #{teacherId}
+                ,
+                #{schoolId}
+                ,
+                #{ddId}
+                ,
+                #{gradeId}
+                ,
+                #{gradeName}
+                ,
+                #{classId}
+                ,
+                #{sort}
+
+         )
+    </insert>
+    <update id="updateTeacherPost" parameterType="TeacherPost">
+        update jw_teacher_post
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="ddId!=null ">
+                dd_id=#{ddId},
+            </if>
+            <if test="gradeId!=null ">
+                grade_id=#{gradeId},
+            </if>
+            <if test="gradeName!=null ">
+                grade_name=#{gradeName},
+            </if>
+            <if test="classId!=null ">
+                class_id=#{classId},
+            </if>
+            <if test="sort!=null ">
+                sort=#{sort}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteTeacherPost" >
+        delete from jw_teacher_post where id=#{id}
+    </delete>
+    <delete id="deleteTeacherPostByCondition" >
+        delete T from jw_teacher_post T
+        <where>
+            <include refid="match"/>
+        </where>
+    </delete>
+    <insert id="batchSaveTeacherPost" parameterType="TeacherPost">
+        INSERT INTO jw_teacher_post (  id,  create_time,  update_time,  del,  name,  teacher_id,  school_id,  dd_id,  grade_id,  grade_name,  class_id,  sort )
+        VALUES
+        <foreach collection="list" item="teacherPost" separator=",">
+            (  #{teacherPost.id},  #{teacherPost.createTime},  #{teacherPost.updateTime},  #{teacherPost.del},  #{teacherPost.name},  #{teacherPost.teacherId},  #{teacherPost.schoolId},  #{teacherPost.ddId},  #{teacherPost.gradeId},  #{teacherPost.gradeName},  #{teacherPost.classId},  #{teacherPost.sort}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <sql id="joinFrom">
+        SELECT T.`id`, T.`create_time`, T.`update_time`, T.`del`, T.`teacher_id`,jt.name as teacher_name, T.`name`, T.`school_id`, T.`dd_id`, T.`sort`,  T.`class_id`,
+         c.`number` class_name,
+         c.`enroll_year` enroll_year,
+         IFNULL(c.`grade_id`,T.`grade_id`) grade_id,
+         IFNULL(c.`grade_name`,T.`grade_name`) grade_name
+         FROM jw_teacher_post T
+         inner join jw_teacher jt on T.`teacher_id` = jt.id
+        LEFT JOIN jw_classes c ON T.`class_id` = c.`id` AND T.`school_id` = c.`school_id`
+    </sql>
+    <select id="findTeachersByPost" parameterType="TeacherPost" resultType="Teacher">
+        select a.*
+        from jw_teacher a
+        inner join jw_teacher_post T on a.id = T.teacher_id
+        <where>
+            <include refid="match"/>
+            <!--提供教师模糊查询-->
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and a.name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and a.name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        <include refid="sort"></include>
+        <include refid="page"></include>
+    </select>
+    <select id="findTeacherListByPost" parameterType="TeacherPost" resultType="TeacherPost">
+        select DISTINCT T.`id`,t.`work_number`,t.`img_url`,t.`name` AS teacher_name,t.`sex`
+        from jw_teacher t
+        inner join jw_teacher_post T on t.id = T.teacher_id
+        <where>
+            <include refid="match"/>
+            <!--提供教师模糊查询-->
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and t.name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and t.name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        <include refid="sort"></include>
+        <include refid="page"></include>
+    </select>
+    <select id="findTeachers4Grade" resultType="TeacherPost">
+        SELECT d.`id` AS grade_id,d.`name` AS grade_name,tp.`id`,t.`work_number`,t.`img_url`,t.`name` AS teacher_name,t.`sex` FROM ad_dd d
+        INNER JOIN school s ON s.`type_id` = d.`level_type`
+        LEFT JOIN jw_teacher_post tp ON tp.`grade_id`= d.`id` AND tp.`dd_id` = '73' AND tp.`school_id` = s.`id`
+        LEFT JOIN jw_teacher t ON t.id = tp.`teacher_id` AND t.`school_id` = s.`id`
+        WHERE d.`type_id` = '4' AND s.`id` = #{schoolId}
+        ORDER BY d.`id`;
+    </select>
+    <select id="findTeachers4Class" parameterType="TeacherPost" resultType="TeacherPost">
+        SELECT c.`grade_id`,c.`grade_name`,c.`number` as class_name,c.`id` AS class_id,tp.`id`,t.`work_number`,t.`img_url`,t.`name` AS teacher_name,t.`sex` FROM jw_classes c
+        LEFT JOIN jw_teacher_post tp ON tp.`class_id` = c.`id` AND tp.`dd_id` = '74'
+        LEFT JOIN jw_teacher t ON t.`id` = tp.`teacher_id` AND t.`school_id` = c.`school_id`
+        <where>
+            <if test="schoolId!=null">
+                and c.`school_id` = #{schoolId}
+            </if>
+            <if test="gradeId!=null">
+                and c.`grade_id` = #{gradeId}
+            </if>
+            <if test="teacherName!=null">
+                and t.`name` like concat('%',#{teacherName},'%')
+            </if>
+        </where>
+        ORDER BY c.`grade_id`,c.`number`;
+    </select>
+</mapper>

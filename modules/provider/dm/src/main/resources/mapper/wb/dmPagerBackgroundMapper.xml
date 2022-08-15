@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.wb.LatticePager.IDmPagerBackgroundDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('pagerNumber')">
+                             T.pager_number,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('latticeId')">
+                             T.lattice_id,
+                         </if>
+                         <if test="!pager.excludes.contains('imagePath')">
+                             T.image_path,
+                         </if>
+                         <if test="!pager.excludes.contains('latticeNumber')">
+                             T.lattice_number,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="name!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        and T.name like concat('%',#{name},'%')
+                     </when>
+                     <otherwise>
+                        and T.name=#{name}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="pagerNumber!=null">
+                and T.pager_number=#{pagerNumber}
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="schoolId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                     </when>
+                     <otherwise>
+                        and T.school_id=#{schoolId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="latticeId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('latticeId')">
+                        and T.lattice_id like concat('%',#{latticeId},'%')
+                     </when>
+                     <otherwise>
+                        and T.lattice_id=#{latticeId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="imagePath!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('imagePath')">
+                        and T.image_path like concat('%',#{imagePath},'%')
+                     </when>
+                     <otherwise>
+                        and T.image_path=#{imagePath}
+                     </otherwise>
+                  </choose>
+          </if>
+            <if test="latticeNumber!=null">
+                and T.lattice_number=#{latticeNumber}
+            </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmPagerBackgroundListByCondition" parameterType="DmPagerBackground" resultType="DmPagerBackground">
+        select
+         <include refid="projection"/>
+         from dm_pager_background T
+         <where>
+            <include refid="match"/>
+         </where>
+         <include refid="sort"/>
+         <include refid="page"/>
+    </select>
+
+
+    <select id="findDmPagerBackgroundCountByCondition" parameterType="DmPagerBackground" resultType="long">
+        select count(*) from dm_pager_background T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <select id="findDmPagerBackgroundById" resultType="DmPagerBackground">
+        select * from dm_pager_background where id=#{id}
+    </select>
+    <select id="findOneDmPagerBackgroundByCondition" parameterType="DmPagerBackground" resultType="DmPagerBackground">
+        select
+         <include refid="projection"/>
+         from dm_pager_background T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="saveDmPagerBackground" parameterType="DmPagerBackground">
+        INSERT INTO dm_pager_background (  id,  name,  pager_number,  create_time,  school_id,  lattice_id,  image_path,lattice_number )
+         values
+         (   #{id}  ,   #{name}  ,   #{pagerNumber}  ,   now()  ,   #{schoolId}  ,   #{latticeId}  ,   #{imagePath} ,   #{latticeNumber}   )
+    </insert>
+    <update id="updateDmPagerBackground" parameterType="DmPagerBackground">
+        update dm_pager_background
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="pagerNumber!=null ">
+                        pager_number=#{pagerNumber},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="latticeId!=null ">
+                        lattice_id=#{latticeId},
+                    </if>
+                    <if test="imagePath!=null ">
+                        image_path=#{imagePath},
+                    </if>
+                    <if test="latticeNumber!=null ">
+                        lattice_number=#{latticeNumber}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateDmPagerBackgroundForAll" parameterType="DmPagerBackground">
+        update dm_pager_background
+        <set>
+                    name=#{name},
+                    pager_number=#{pagerNumber},
+                    create_time=#{createTime},
+                    school_id=#{schoolId},
+                    lattice_id=#{latticeId},
+                    image_path=#{imagePath},
+                    lattice_number=#{latticeNumber}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmPagerBackground" >
+        delete from dm_pager_background where id=#{id}
+    </delete>
+    <delete id="deleteDmPagerBackgroundByCondition" >
+        delete T from dm_pager_background T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSaveDmPagerBackground" parameterType="DmPagerBackground">
+        INSERT INTO dm_pager_background (  id,  name,  pager_number,  create_time,  school_id,  lattice_id,  image_path,lattice_number )
+        VALUES
+        <foreach collection="list" item="dmPagerBackground" separator=",">
+            (   #{dmPagerBackground.id}  ,   #{dmPagerBackground.name}  ,   #{dmPagerBackground.pagerNumber}  ,   now()  ,   #{dmPagerBackground.schoolId}  ,   #{dmPagerBackground.latticeId}  ,   #{dmPagerBackground.imagePath} ,   #{dmPagerBackground.latticeNumber}   )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findDmPagerBackgroundInNumber" parameterType="DmPagerBackground" resultType="DmPagerBackground">
+        select * from dm_pager_background T where T.lattice_id = #{latticeId} and T.pager_number in
+        <foreach collection="numberArrays" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+
+    <select id="findPagerNumberIsNull" parameterType="DmPagerBackground" resultType="DmPagerBackground">
+        select * from dm_pager_background T where T.lattice_id = #{latticeId} and T.pager_number is not NULL
+    </select>
+
+</mapper>

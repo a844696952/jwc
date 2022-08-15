@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.cms.IXwCmsHeaderNavigationDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('navigationName')">
+                             T.navigation_name,
+                         </if>
+                         <if test="!pager.excludes.contains('navigationUrl')">
+                             T.navigation_url,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="navigationName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('navigationName')">
+                            and T.navigation_name like concat('%',#{navigationName},'%')
+                         </when>
+                         <otherwise>
+                            and T.navigation_name=#{navigationName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="navigationUrl!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('navigationUrl')">
+                            and T.navigation_url like concat('%',#{navigationUrl},'%')
+                         </when>
+                         <otherwise>
+                            and T.navigation_url=#{navigationUrl}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwCmsHeaderNavigationListByCondition" parameterType="XwCmsHeaderNavigation" resultType="XwCmsHeaderNavigation">
+        select
+         <include refid="projection"/>
+         from xw_cms_header_navigation T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findXwCmsHeaderNavigationCountByCondition" parameterType="XwCmsHeaderNavigation" resultType="long">
+        select count(*) from xw_cms_header_navigation T
+        <include refid="match"/>
+    </select>
+    <select id="findXwCmsHeaderNavigationById" resultType="XwCmsHeaderNavigation">
+        select * from xw_cms_header_navigation where id=#{id}
+    </select>
+    <select id="findOneXwCmsHeaderNavigationByCondition" parameterType="XwCmsHeaderNavigation" resultType="XwCmsHeaderNavigation">
+        select
+         <include refid="projection"/>
+         from xw_cms_header_navigation T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwCmsHeaderNavigation" parameterType="XwCmsHeaderNavigation">
+        INSERT INTO xw_cms_header_navigation (  id,  school_id,  navigation_name,  navigation_url )
+         values
+         (   #{id}  ,   #{schoolId}  ,   #{navigationName}  ,   #{navigationUrl}    )
+    </insert>
+    <update id="updateXwCmsHeaderNavigation" parameterType="XwCmsHeaderNavigation">
+        update xw_cms_header_navigation
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="navigationName!=null ">
+                        navigation_name=#{navigationName},
+                    </if>
+                    <if test="navigationUrl!=null ">
+                        navigation_url=#{navigationUrl}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateXwCmsHeaderNavigationForAll" parameterType="XwCmsHeaderNavigation">
+        update xw_cms_header_navigation
+        <set>
+                    school_id=#{schoolId},
+                    navigation_name=#{navigationName},
+                    navigation_url=#{navigationUrl}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwCmsHeaderNavigation" >
+        delete from xw_cms_header_navigation where id=#{id}
+    </delete>
+    <delete id="deleteXwCmsHeaderNavigationByCondition" >
+        delete T from xw_cms_header_navigation T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwCmsHeaderNavigation" parameterType="XwCmsHeaderNavigation">
+        INSERT INTO xw_cms_header_navigation (  id,  school_id,  navigation_name,  navigation_url )
+        VALUES
+        <foreach collection="list" item="xwCmsHeaderNavigation" separator=",">
+            (   #{xwCmsHeaderNavigation.id}  ,   #{xwCmsHeaderNavigation.schoolId}  ,   #{xwCmsHeaderNavigation.navigationName}  ,   #{xwCmsHeaderNavigation.navigationUrl}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <delete id="deleteXwCmsHeaderNavigationAll" >
+        delete from xw_cms_header_navigation
+    </delete>
+</mapper>

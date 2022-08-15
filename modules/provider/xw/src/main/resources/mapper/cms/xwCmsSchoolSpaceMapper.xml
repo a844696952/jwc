@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.cms.IXwCmsSchoolSpaceDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('operateTime')">
+                             T.operate_time,
+                         </if>
+                         <if test="!pager.excludes.contains('secondDomain')">
+                             T.second_domain,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="operateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='operateTime'">
+                            and T.operate_time like concat('%',#{operateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.operate_time=#{operateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="provinceId!=null">
+                and S.province_id=#{provinceId}
+            </if>
+            <if test="schoolStatus!=null">
+               and S.status=#{schoolStatus}
+            </if>
+            <if test="outTime!=null">
+                and S.out_time > #{outTime}
+            </if>
+
+            <if test="provinceName!=null">
+                and S.province_name like concat('%',#{provinceName},'%')
+            </if>
+            <if test="name!=null">
+                and S.name like concat('%',#{name},'%')
+            </if>
+
+              <if test="secondDomain!=null">
+                  and T.second_domain like concat('%',#{secondDomain},'%')
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwCmsSchoolSpaceListByCondition" parameterType="XwCmsSchoolSpace" resultType="XwCmsSchoolSpace">
+      select * from (
+        select T.id,T.school_id,T.operate_time,T.second_domain,(case when T.status  is null then 0 else T.status end) as status,
+        S.province_name as provinceName ,S.province_id as provinceId,S.name,S.status as schoolStatus,S.id as schoolId,S.out_time as outTime,
+        (case when C.status is null then 0 else C.status end) as schoolSpaceStatus,
+        (select domain from xw_cms_domain limit 1) as domain
+        from xw_cms_school_space T
+        right join  school S on T.school_id=S.id
+        left join xw_cms_school_space_config C on C.school_id = T.school_id
+        ) as temp
+        <where>
+            <if test="schoolStatus!=null">
+                and temp.schoolStatus=#{schoolStatus}
+            </if>
+            <if test="outTime!=null">
+                and temp.outTime > #{outTime}
+            </if>
+            <if test="provinceId!=null">
+                and temp.provinceId=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and temp.provinceName like concat('%',#{provinceName},'%')
+            </if>
+            <if test="name!=null">
+                and temp.name like concat('%',#{name},'%')
+            </if>
+            <if test="secondDomain!=null">
+                and temp.second_domain like concat('%',#{secondDomain},'%')
+            </if>
+            <if test="status!=null">
+                and temp.status=#{status}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                temp.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+         <include refid="page"/>
+    </select>
+
+    <select id="findXwCmsSchoolSpaceCountByCondition" parameterType="XwCmsSchoolSpace" resultType="long">
+        select count(*) from (
+        select T.id,T.school_id,T.operate_time,T.second_domain,(case when T.status  is null then 0 else T.status end) as status,
+        S.province_name as provinceName ,S.province_id as provinceId,S.name,S.status as schoolStatus,S.id as schoolId,S.out_time as outTime,
+        (case when C.status is null then 0 else C.status end) as schoolSpaceStatus,
+        (select domain from xw_cms_domain limit 1) as domain
+        from xw_cms_school_space T
+        right join  school S on T.school_id=S.id
+        left join xw_cms_school_space_config C on C.school_id = T.school_id
+        ) as temp
+        <where>
+            <if test="schoolStatus!=null">
+                and temp.schoolStatus=#{schoolStatus}
+            </if>
+            <if test="outTime!=null">
+                and temp.outTime > #{outTime}
+            </if>
+            <if test="provinceId!=null">
+                and temp.provinceId=#{provinceId}
+            </if>
+            <if test="provinceName!=null">
+                and temp.provinceName like concat('%',#{provinceName},'%')
+            </if>
+            <if test="name!=null">
+                and temp.name like concat('%',#{name},'%')
+            </if>
+            <if test="secondDomain!=null">
+                and temp.second_domain like concat('%',#{secondDomain},'%')
+            </if>
+            <if test="status!=null">
+                and temp.status=#{status}
+            </if>
+        </where>
+    </select>
+    <select id="findXwCmsSchoolSpaceById" resultType="XwCmsSchoolSpace">
+        select * from xw_cms_school_space where id=#{id}
+    </select>
+    <select id="findOneXwCmsSchoolSpaceByCondition" parameterType="XwCmsSchoolSpace" resultType="XwCmsSchoolSpace">
+        select
+         <include refid="projection"/>
+         from xw_cms_school_space T
+        <include refid="match"/>
+    </select>
+
+    <select id="findXwCmsSchoolSpaceByDomain" resultType="XwCmsSchoolSpace">
+      select * from xw_cms_school_space where second_domain=#{secondDomain} limit 1
+    </select>
+    
+    <select id="findProvinceList" resultType="XwCmsSchoolSpace">
+        select id as provinceId,name as provinceName from ad_region
+        where level_type =1
+    </select>
+
+    <insert id="saveXwCmsSchoolSpace" parameterType="XwCmsSchoolSpace">
+        insert into xw_cms_school_space
+         (
+            id,
+            school_id,
+            operate_time,
+            second_domain,
+            status,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{operateTime}
+                ,
+                #{secondDomain}
+                ,
+                #{status}
+                ,
+                #{createTime}
+         )
+    </insert>
+    <update id="updateXwCmsSchoolSpace" parameterType="XwCmsSchoolSpace">
+        update xw_cms_school_space
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="operateTime!=null ">
+                        operate_time=#{operateTime},
+                    </if>
+                    <if test="secondDomain!=null ">
+                        second_domain=#{secondDomain},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+
+    <update id="updateXwCmsSchoolSpaceBySchoolId" parameterType="XwCmsSchoolSpace">
+        update xw_cms_school_space
+        <set>
+            <if test="operateTime!=null ">
+                operate_time=#{operateTime},
+            </if>
+            <if test="status!=null ">
+                status=#{status}
+            </if>
+        </set>
+        where school_id=#{schoolId}
+    </update>
+
+    <delete id="deleteXwCmsSchoolSpace" >
+        delete from xw_cms_school_space where id=#{id}
+    </delete>
+    <delete id="deleteXwCmsSchoolSpaceByCondition" >
+        delete T from xw_cms_school_space T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwCmsSchoolSpace" parameterType="XwCmsSchoolSpace">
+        INSERT INTO xw_cms_school_space (  id,  school_id,  operate_time,  second_domain,  status )
+        VALUES
+        <foreach collection="list" item="xwCmsSchoolSpace" separator=",">
+            (  #{xwCmsSchoolSpace.id},  #{xwCmsSchoolSpace.schoolId},  #{xwCmsSchoolSpace.operateTime},  #{xwCmsSchoolSpace.secondDomain},  #{xwCmsSchoolSpace.status}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

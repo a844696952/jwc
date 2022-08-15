@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.repairNew.IRepairFileDao">
+        <!--########################################################generated code start,do not update################################################################-->
+        <sql id="projection">
+            <choose>
+                <when test="pager!=null and pager.includes!=null">
+                    <foreach collection="pager.includes" item="field" separator=",">
+                        T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                    </foreach>
+                </when>
+                <when test="pager!=null and pager.excludes!=null">
+                    <trim suffixOverrides=",">
+                        <if test="!pager.excludes.contains('id')">
+                            T.id,
+                        </if>
+                        <if test="!pager.excludes.contains('repairId')">
+                            T.repair_id,
+                        </if>
+                        <if test="!pager.excludes.contains('upkeepFileUrl')">
+                            T.upkeep_file_url,
+                        </if>
+                        <if test="!pager.excludes.contains('upkeepFileName')">
+                            T.upkeep_file_name,
+                        </if>
+                        <if test="!pager.excludes.contains('scrapFileUrl')">
+                            T.scrap_file_url,
+                        </if>
+                        <if test="!pager.excludes.contains('scrapFileName')">
+                            T.scrap_file_name,
+                        </if>
+                        <if test="!pager.excludes.contains('schoolId')">
+                            T.school_id,
+                        </if>
+                        <if test="!pager.excludes.contains('assetsStockDetailId')">
+                            T.assets_stock_detail_id,
+                        </if>
+                        <if test="!pager.excludes.contains('createTime')">
+                            T.create_time,
+                        </if>
+                    </trim>
+                </when>
+                <otherwise>
+                    T.*
+                </otherwise>
+            </choose>
+        </sql>
+        <sql id="match">
+            <where>
+                <if test="id!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='id'">
+                            T.id like concat('%',#{id},'%')
+                        </when>
+                        <otherwise>
+                            T.id=#{id}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="repairId!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='repairId'">
+                            and T.repair_id like concat('%',#{repairId},'%')
+                        </when>
+                        <otherwise>
+                            and T.repair_id=#{repairId}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="upkeepFileUrl!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='upkeepFileUrl'">
+                            and T.upkeep_file_url like concat('%',#{upkeepFileUrl},'%')
+                        </when>
+                        <otherwise>
+                            and T.upkeep_file_url=#{upkeepFileUrl}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="upkeepFileName!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='upkeepFileName'">
+                            and T.upkeep_file_name like concat('%',#{upkeepFileName},'%')
+                        </when>
+                        <otherwise>
+                            and T.upkeep_file_name=#{upkeepFileName}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="scrapFileUrl!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='scrapFileUrl'">
+                            and T.scrap_file_url like concat('%',#{scrapFileUrl},'%')
+                        </when>
+                        <otherwise>
+                            and T.scrap_file_url=#{scrapFileUrl}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="scrapFileName!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='scrapFileName'">
+                            and T.scrap_file_name like concat('%',#{scrapFileName},'%')
+                        </when>
+                        <otherwise>
+                            and T.scrap_file_name=#{scrapFileName}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="schoolId!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                        </when>
+                        <otherwise>
+                            and T.school_id=#{schoolId}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="assetsStockDetailId!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='assetsStockDetailId'">
+                            and T.assets_stock_detail_id like concat('%',#{assetsStockDetailId},'%')
+                        </when>
+                        <otherwise>
+                            and T.assets_stock_detail_id=#{assetsStockDetailId}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="createTime!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                        </when>
+                        <otherwise>
+                            and T.create_time=#{createTime}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                    <foreach collection="pager.rangeArray" item="item"  index="i">
+                        <if test="i==0 and item!=null">
+                            and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                        </if>
+                        <if test="i==1 and item!=null">
+                            and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                        </if>
+                    </foreach>
+
+                </if>
+            </where>
+        </sql>
+        <sql id="sort">
+            <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+                order by
+                <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+                </foreach>
+            </if>
+        </sql>
+        <sql id="page">
+            <if test="pager!=null and  pager.paging">
+                limit #{pager.beginRow},#{pager.pageSize}
+            </if>
+        </sql>
+
+
+        <select id="findRepairFileListByCondition" parameterType="RepairFile" resultType="RepairFile">
+            select
+            <include refid="projection"/>
+            from xw_repair_file T
+            <include refid="match"/>
+            <include refid="sort"/>
+            <include refid="page"/>
+
+
+        </select>
+        <select id="findRepairFileCountByCondition" parameterType="RepairFile" resultType="long">
+            select count(*) from xw_repair_file T
+            <include refid="match"/>
+        </select>
+        <select id="findRepairFileById" resultType="RepairFile">
+        select * from xw_repair_file where id=#{id}
+    </select>
+        <select id="findOneRepairFileByCondition" parameterType="RepairFile" resultType="RepairFile">
+            select
+            <include refid="projection"/>
+            from xw_repair_file T
+            <include refid="match"/>
+        </select>
+        <insert id="saveRepairFile" parameterType="RepairFile">
+        insert into xw_repair_file
+         (
+            id,
+            repair_id,
+            upkeep_file_url,
+            upkeep_file_name,
+            scrap_file_url,
+            scrap_file_name,
+            school_id,
+            assets_stock_detail_id,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{repairId}
+                ,
+                #{upkeepFileUrl}
+                ,
+                #{upkeepFileName}
+                ,
+                #{scrapFileUrl}
+                ,
+                #{scrapFileName}
+                ,
+                #{schoolId}
+                ,
+                #{assetsStockDetailId}
+                ,
+                now()
+
+         )
+    </insert>
+        <update id="updateRepairFile" parameterType="RepairFile">
+            update xw_repair_file
+            <set>
+                <if test="repairId!=null ">
+                    repair_id=#{repairId},
+                </if>
+                <if test="upkeepFileUrl!=null ">
+                    upkeep_file_url=#{upkeepFileUrl},
+                </if>
+                <if test="upkeepFileName!=null ">
+                    upkeep_file_name=#{upkeepFileName},
+                </if>
+                <if test="scrapFileUrl!=null ">
+                    scrap_file_url=#{scrapFileUrl},
+                </if>
+                <if test="scrapFileName!=null ">
+                    scrap_file_name=#{scrapFileName},
+                </if>
+                <if test="schoolId!=null ">
+                    school_id=#{schoolId},
+                </if>
+                <if test="assetsStockDetailId!=null ">
+                    assets_stock_detail_id=#{assetsStockDetailId}
+                </if>
+            </set>
+            where id=#{id}
+        </update>
+        <delete id="deleteRepairFile" >
+        delete from xw_repair_file where id=#{id}
+    </delete>
+        <delete id="deleteRepairFileByCondition" >
+            delete T from xw_repair_file T
+            <include refid="match"/>
+        </delete>
+        <insert id="batchSaveRepairFile" parameterType="RepairFile">
+            INSERT INTO xw_repair_file (  id,  repair_id,  upkeep_file_url,  upkeep_file_name,  scrap_file_url,  scrap_file_name,  school_id,  assets_stock_detail_id  , create_time)
+            VALUES
+            <foreach collection="list" item="repairFile" separator=",">
+                (  #{repairFile.id},  #{repairFile.repairId},  #{repairFile.upkeepFileUrl},  #{repairFile.upkeepFileName},  #{repairFile.scrapFileUrl},  #{repairFile.scrapFileName},  #{repairFile.schoolId},  #{repairFile.assetsStockDetailId} , now() )
+            </foreach>
+        </insert>
+        <!--##################################################generated code end,do not update######################################################################-->
+    </mapper>

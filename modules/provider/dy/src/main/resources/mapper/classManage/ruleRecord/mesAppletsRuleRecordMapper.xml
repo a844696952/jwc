@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.classManage.ruleRecord.IMesAppletsRuleRecordDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('studentId')">
+                             T.student_id,
+                         </if>
+                         <if test="!pager.excludes.contains('ruleId')">
+                             T.rule_id,
+                         </if>
+                         <if test="!pager.excludes.contains('ruleName')">
+                             T.rule_name,
+                         </if>
+                         <if test="!pager.excludes.contains('score')">
+                             T.score,
+                         </if>
+                         <if test="!pager.excludes.contains('tagType')">
+                             T.tag_type,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('classesId')">
+                             T.classes_id,
+                         </if>
+                         <if test="!pager.excludes.contains('comment')">
+                             T.comment,
+                         </if>
+                         <if test="!pager.excludes.contains('commentator')">
+                             T.commentator,
+                         </if>
+                         <if test="!pager.excludes.contains('commentatorId')">
+                             T.commentator_id,
+                         </if>
+                         <if test="!pager.excludes.contains('commentatorPost')">
+                             T.commentator_post,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolYearId')">
+                             T.school_year_id,
+                         </if>
+                         <if test="!pager.excludes.contains('fromTo')">
+                             T.from_to,
+                         </if>
+                         <if test="!pager.excludes.contains('term')">
+                             T.term,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="studentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='studentId'">
+                            and T.student_id like concat('%',#{studentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.student_id=#{studentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="ruleId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='ruleId'">
+                            and T.rule_id like concat('%',#{ruleId},'%')
+                         </when>
+                         <otherwise>
+                            and T.rule_id=#{ruleId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="ruleName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='ruleName'">
+                            and T.rule_name like concat('%',#{ruleName},'%')
+                         </when>
+                         <otherwise>
+                            and T.rule_name=#{ruleName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="score!=null">
+                    and T.score=#{score}
+              </if>
+              <if test="tagType!=null">
+                    and T.tag_type=#{tagType}
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classesId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classesId'">
+                            and T.classes_id like concat('%',#{classesId},'%')
+                         </when>
+                         <otherwise>
+                            and T.classes_id=#{classesId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="comment!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='comment'">
+                            and T.comment like concat('%',#{comment},'%')
+                         </when>
+                         <otherwise>
+                            and T.comment=#{comment}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="commentator!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='commentator'">
+                            and T.commentator like concat('%',#{commentator},'%')
+                         </when>
+                         <otherwise>
+                            and T.commentator=#{commentator}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="commentatorId!=null">
+                    and T.commentator_id=#{commentatorId}
+              </if>
+              <if test="commentatorPost!=null">
+                    and T.commentator_post=#{commentatorPost}
+              </if>
+              <if test="schoolYearId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolYearId'">
+                            and T.school_year_id like concat('%',#{schoolYearId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_year_id=#{schoolYearId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fromTo!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fromTo'">
+                            and T.from_to like concat('%',#{fromTo},'%')
+                         </when>
+                         <otherwise>
+                            and T.from_to=#{fromTo}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="term!=null">
+                    and T.term=#{term}
+              </if>
+            <if test="searchBeginTime!=null">
+                and T.create_time <![CDATA[ >= ]]> #{searchBeginTime}
+            </if>
+            <if test="searchEndTime!=null">
+                and T.create_time <![CDATA[ <= ]]> #{searchEndTime}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesAppletsRuleRecordListByCondition" parameterType="MesAppletsRuleRecord" resultType="MesAppletsRuleRecord">
+        select
+         <include refid="projection"/>,T2.name studentName,T2.img_url,T3.icon
+         from mes_applets_rule_record T
+        LEFT JOIN jw_student T2
+        ON T.student_id = T2.id
+        LEFT JOIN mes_applets_rule AS T3
+        ON T.rule_id = T3.id
+
+        <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findMesAppletsRuleRecordCountByCondition" parameterType="MesAppletsRuleRecord" resultType="long">
+        select count(*) from mes_applets_rule_record T
+        <include refid="match"/>
+    </select>
+    <select id="findMesAppletsRuleRecordById" resultType="MesAppletsRuleRecord">
+        SELECT T1.*,T2.icon,T2.description
+        FROM
+        mes_applets_rule_record T1
+        LEFT JOIN mes_applets_rule AS T2
+        ON T1.rule_id = T2.id
+        WHERE T1.id=#{id}
+    </select>
+    <select id="findOneMesAppletsRuleRecordByCondition" parameterType="MesAppletsRuleRecord" resultType="MesAppletsRuleRecord">
+        select
+         <include refid="projection"/>
+         from mes_applets_rule_record T
+        <include refid="match"/>
+    </select>
+    <insert id="saveMesAppletsRuleRecord" parameterType="MesAppletsRuleRecord">
+        insert into mes_applets_rule_record
+         (
+            id,
+            student_id,
+            rule_id,
+            rule_name,
+            score,
+            tag_type,
+            school_id,
+            create_time,
+            classes_id,
+            comment,
+            commentator,
+            commentator_id,
+            commentator_post,
+            school_year_id,
+            from_to,
+            term
+        ) values
+         (
+                #{id}
+                ,
+                #{studentId}
+                ,
+                #{ruleId}
+                ,
+                #{ruleName}
+                ,
+                #{score}
+                ,
+                #{tagType}
+                ,
+                #{schoolId}
+                ,
+                #{createTime}
+                ,
+                #{classesId}
+                ,
+                #{comment}
+                ,
+                #{commentator}
+                ,
+                #{commentatorId}
+                ,
+                #{commentatorPost}
+                ,
+                #{schoolYearId}
+                ,
+                #{fromTo}
+                ,
+                #{term}
+                
+         )
+    </insert>
+    <update id="updateMesAppletsRuleRecord" parameterType="MesAppletsRuleRecord">
+        update mes_applets_rule_record
+        <set>
+                    <if test="studentId!=null ">
+                        student_id=#{studentId},
+                    </if>
+                    <if test="ruleId!=null ">
+                        rule_id=#{ruleId},
+                    </if>
+                    <if test="ruleName!=null ">
+                        rule_name=#{ruleName},
+                    </if>
+                    <if test="score!=null ">
+                        score=#{score},
+                    </if>
+                    <if test="tagType!=null ">
+                        tag_type=#{tagType},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="classesId!=null ">
+                        classes_id=#{classesId},
+                    </if>
+                        comment=#{comment},
+                    <if test="commentator!=null ">
+                        commentator=#{commentator},
+                    </if>
+                    <if test="commentatorId!=null ">
+                        commentator_id=#{commentatorId},
+                    </if>
+                    <if test="commentatorPost!=null ">
+                        commentator_post=#{commentatorPost},
+                    </if>
+                    <if test="schoolYearId!=null ">
+                        school_year_id=#{schoolYearId},
+                    </if>
+                    <if test="fromTo!=null ">
+                        from_to=#{fromTo},
+                    </if>
+                    <if test="term!=null ">
+                        term=#{term}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteMesAppletsRuleRecord" >
+        delete from mes_applets_rule_record where id=#{id}
+    </delete>
+    <delete id="deleteMesAppletsRuleRecordByCondition" >
+        delete T from mes_applets_rule_record T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesAppletsRuleRecord" parameterType="MesAppletsRuleRecord">
+        INSERT INTO mes_applets_rule_record (  id,  student_id,  rule_id,  rule_name,  score,  tag_type,  school_id,  create_time,  classes_id,  comment,  commentator,  commentator_post,  school_year_id,  from_to,  term )
+        VALUES
+        <foreach collection="list" item="mesAppletsRuleRecord" separator=",">
+            (  #{mesAppletsRuleRecord.id},  #{mesAppletsRuleRecord.studentId},  #{mesAppletsRuleRecord.ruleId},  #{mesAppletsRuleRecord.ruleName},  #{mesAppletsRuleRecord.score},  #{mesAppletsRuleRecord.tagType},  #{mesAppletsRuleRecord.schoolId},  #{mesAppletsRuleRecord.createTime},  #{mesAppletsRuleRecord.classesId},  #{mesAppletsRuleRecord.comment},  #{mesAppletsRuleRecord.commentator},  #{mesAppletsRuleRecord.commentatorPost},  #{mesAppletsRuleRecord.schoolYearId},  #{mesAppletsRuleRecord.fromTo},  #{mesAppletsRuleRecord.term}  )
+        </foreach>
+    </insert>
+    <select id="findMesAppletsRuleRecordByStudentIdAndSearchTime" resultType="MesAppletsRuleRecord">
+        select
+        (SELECT SUM(score) from mes_applets_rule_record where student_id=#{studentId}
+        and create_time &lt;= #{searchEndTime} and create_time &gt;= #{searchBeginTime} and score &gt;= 0) addScore,
+        (SELECT SUM(score) from mes_applets_rule_record where student_id=#{studentId}
+        and create_time &lt;= #{searchEndTime} and create_time &gt;= #{searchBeginTime} and score &lt;= 0) reduceScore,
+        (SELECT count(id) from mes_applets_rule_record where student_id=#{studentId}
+        and create_time &lt;= #{searchEndTime} and create_time &gt;= #{searchBeginTime}) recordCount
+    </select>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findCommentatorByTidAndCid" parameterType="MesAppletsRuleRecord" resultType="MesAppletsRuleRecord">
+        SELECT t.name commentator,tp.name operator_post_name
+        FROM
+        jw_teacher AS t
+        LEFT JOIN
+        jw_teacher_post AS tp
+        ON
+        t.id = tp.teacher_id
+        WHERE
+        t.id = #{commentatorId} AND tp.class_id = #{classesId}
+    </select>
+    <select id="findStudentBySid" parameterType="String" resultType="MesAppletsRuleRecord">
+        select name from jw_student where id = #{commentatorId}
+    </select>
+    <select id="findTeachingClassByTid" parameterType="String" resultType="MesAppletsRuleRecord">
+        select
+            T1.id classes_id,T1.grade_id,T1.grade_name,T1.number class_number,T2.`name` operator_post_name
+        from
+        jw_classes T1
+        left join
+        jw_teacher_post T2
+        on
+        T1.id = T2.class_id
+        where T2.school_id = #{schoolId} and T2.teacher_id = #{teacherId} and T2.name = '班主任'
+        union
+        select
+            T1.id classes_id,T1.grade_id,T1.grade_name,T1.number class_number,null operator_post_name
+        from
+        jw_classes T1
+        left join
+        jw_teacher_classes T2
+        on
+        T1.id = T2.classes_id
+        where T2.school_id = #{schoolId} and T2.teacher_id = #{teacherId}
+    </select>
+    <select id="findMesStudentRecordVoListByCid" parameterType="MesAppletsRuleRecord" resultType="MesStudentRecordVo">
+        SELECT T1.id student_id,T1.`name`,T1.img_url,SUM(if(T2.score<![CDATA[ > ]]>0 AND T2.create_time BETWEEN #{searchBeginTime} AND #{searchEndTime},T2.score,0))
+         add_score_sum,SUM(if(T2.score<![CDATA[ < ]]>0 AND T2.create_time BETWEEN #{searchBeginTime} AND #{searchEndTime},T2.score,0)) reduce_score_sum
+        FROM
+        jw_student AS T1
+        LEFT JOIN mes_applets_rule_record AS T2
+        ON T1.id = T2.student_id
+        WHERE
+        T1.school_id = #{schoolId} AND T1.classes_id = #{classesId} GROUP BY T1.id ORDER BY T1.`name`
+    </select>
+    <select id="findHighFrequencyMesAppletsRuleRecord" resultType="MesAppletsRuleRecord">
+        SELECT SUM(score) addScore,count(1) recordCount,rule_name from mes_applets_rule_record where create_time &lt;= #{searchEndTime} and create_time &gt;= #{searchBeginTime}
+         and student_id=#{studentId} GROUP BY rule_id ORDER BY count(1) DESC LIMIT 0,5
+    </select>
+    <select id="findScoreChangeByDay" resultType="MesAppletsRuleRecord">
+        select * from mes_applets_rule_record where create_time &lt;= #{searchEndTime} and create_time &gt;= #{searchBeginTime} and student_id=#{studentId}
+    </select>
+
+    <select id="findClassRuleRecordByRange" parameterType="MesAppletsRuleRecord" resultType="MesAppletsRuleRecord">
+        SELECT * from mes_applets_rule_record  where classes_id=#{classesId} and school_id=#{schoolId}
+        and create_time<![CDATA[ >= ]]> #{searchBeginTime} and create_time <![CDATA[ < ]]> #{searchEndTime}
+    </select>
+
+    <select id="findClassRuleRecordList" parameterType="MesAppletsRuleRecord" resultType="MesAppletsRuleRecord">
+        SELECT T.name as studentName,T.img_url,T.id as studentId,(case  when sum(R.score) is null then 0 else sum(R.score) end) as totalScore from jw_student T
+        left join mes_applets_rule_record R
+        on T.id = R.student_id and  R.create_time<![CDATA[ >= ]]> #{searchBeginTime} and R.create_time <![CDATA[ < ]]> #{searchEndTime}
+        <where>
+            <if test="schoolId != null">
+                T.school_id=#{schoolId}
+            </if>
+             and T.classes_id=#{classesId}
+        </where>
+        GROUP BY T.id,T.img_url
+        ORDER BY totalScore desc
+    </select>
+    <select id="findStudentById" resultType="com.yice.edu.cn.common.pojo.jw.student.Student">
+        select `name`,id,classes_id,school_id from jw_student where id=#{id}
+    </select>
+
+    <select id="findStudentByParentId" resultType="com.yice.edu.cn.common.pojo.jw.student.Student">
+        select b.id,b.name,b.classes_id,b.img_url,a.relationship,b.sex,b.birthday,b.student_code,c.grade_name,c.number as classes_number,d.name as school_name
+        from jw_parent_jw_student a
+        left join jw_student b on a.student_id=b.id
+        left join jw_classes c on c.id=b.classes_id
+        left join school d on d.id=b.school_id
+        where a.parent_id=#{parentId}
+    </select>
+    <select id="findClassTeacherTelByClassesId" resultType="com.yice.edu.cn.common.pojo.jw.teacher.Teacher">
+        SELECT b.id,b.name,b.tel from jw_teacher_post a left join jw_teacher b on a.teacher_id=b.id where class_id=#{classesId}  and sort=5
+    </select>
+    <select id="findJwParentByStudentId" resultType="Parent">
+        select id,name, tel from jw_parent where student_id=#{studentId};
+    </select>
+    <select id="findCurrentTermTime" resultType="com.yice.edu.cn.common.pojo.jw.schoolYear.SchoolYear">
+        SELECT last_term_begin,next_term_begin from school_year where school_id=#{schoolId}  ORDER BY last_term_begin desc limit 1
+    </select>
+    <select id="findJwClaCadresBySid" parameterType="String" resultType="JwClaCadres">
+        SELECT
+        T1.*
+        FROM
+        jw_cla_cadres AS T1
+        INNER JOIN jw_cla_cadres_stu AS T2
+        ON
+        T1.id = T2.cla_cadres_id
+        WHERE
+        T2.student_id = #{studentId}
+    </select>
+    <select id="findParentOpenIdsBySid" parameterType="String" resultType="String">
+        select t1.open_id
+        from mes_applets_teacher t1
+        inner join jw_parent t2
+        on t1.object_id = t2.id
+        where t1.type = 2 and t2.student_id = #{studentId}
+    </select>
+    <select id="findTodayRecordOidAndSid" resultType="MesStudentRecordVo">
+        SELECT
+        T3.student_id,T1.open_id,T4.`name`,T4.img_url
+        FROM
+        mes_applets_teacher AS T1
+        INNER JOIN jw_parent AS T2 ON T1.object_id = T2.id
+        INNER JOIN mes_applets_rule_record AS T3 ON T2.student_id = T3.student_id
+        INNER JOIN jw_student AS T4 ON T3.student_id = T4.id
+        WHERE T3.create_time BETWEEN #{searchBeginTime} AND #{searchEndTime} AND T1.open_id is not null GROUP BY T1.open_id
+    </select>
+    <select id="findClassIdByWeeks" resultType="String">
+        select distinct classes_id from mes_applets_rule_record where create_time between #{searchBeginTime} and #{searchEndTime}
+    </select>
+    <select id="findMesStudentRecordVoBySid" parameterType="String" resultType="MesStudentRecordVo">
+        SELECT
+        T1.open_id,T3.id AS student_id,T3.`name`,T3.img_url
+        FROM mes_applets_teacher AS T1
+        INNER JOIN jw_parent AS T2
+        ON T1.object_id = T2.id
+        INNER JOIN jw_student AS T3
+        ON T2.student_id = T3.id
+        where T1.type = 2 AND T1.open_id IS NOT NULL AND T2.student_id = #{studentId}
+    </select>
+    <select id="findTeacherPostByTidAndCid" resultType="TeacherPost">
+        select * from jw_teacher_post where teacher_id = #{teacherId} and class_id = #{classId} and sort = 5
+    </select>
+    <select id="findStudentCount" resultType="long">
+        select count(1) from jw_student where classes_id=(select classes_id from jw_student where id=#{studentId});
+    </select>
+</mapper>

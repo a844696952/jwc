@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.wage.IWageValueDao">
+    <!--########################################################################################################################-->
+    <select id="findWageValueListByCondition" parameterType="WageValue" resultType="WageValue">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('wageAttributeId')">
+                             T.wage_attribute_id,
+                         </if>
+                         <if test="!pager.excludes.contains('valueSize')">
+                             T.value_size,
+                         </if>
+                         <if test="!pager.excludes.contains('recordId')">
+                             T.record_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from xw_wage_value T
+        <where>
+              <if test="wageAttributeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageAttributeId'">
+                             T.wage_attribute_id like concat('%',#{wageAttributeId},'%')
+                         </when>
+                         <otherwise>
+                             T.wage_attribute_id=#{wageAttributeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="valueSize!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='valueSize'">
+                            and T.value_size like concat('%',#{valueSize},'%')
+                         </when>
+                         <otherwise>
+                            and T.value_size=#{valueSize}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="recordId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='recordId'">
+                            and T.record_id like concat('%',#{recordId},'%')
+                         </when>
+                         <otherwise>
+                            and T.record_id=#{recordId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWageValueCountByCondition" parameterType="WageValue" resultType="long">
+        select count(*) from xw_wage_value T
+        <where>
+              <if test="wageAttributeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='wageAttributeId'">
+                             T.wage_attribute_id like concat('%',#{wageAttributeId},'%')
+                         </when>
+                         <otherwise>
+                             T.wage_attribute_id=#{wageAttributeId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="valueSize!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='valueSize'">
+                            and T.value_size like concat('%',#{valueSize},'%')
+                         </when>
+                         <otherwise>
+                            and T.value_size=#{valueSize}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="recordId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='recordId'">
+                            and T.record_id like concat('%',#{recordId},'%')
+                         </when>
+                         <otherwise>
+                            and T.record_id=#{recordId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findWageValueById" resultType="WageValue">
+        select * from xw_wage_value where id=#{id}
+    </select>
+    <select id="findOneWageValueByCondition" parameterType="WageValue" resultType="WageValue">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('wageAttributeId')">
+                             T.wage_attribute_id,
+                         </if>
+                         <if test="!pager.excludes.contains('valueSize')">
+                             T.value_size,
+                         </if>
+                         <if test="!pager.excludes.contains('recordId')">
+                             T.record_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from xw_wage_value T
+        <where>
+              <if test="wageAttributeId!=null">
+                 T.wage_attribute_id=#{wageAttributeId}
+              </if>
+              <if test="valueSize!=null">
+                and T.value_size=#{valueSize}
+              </if>
+              <if test="recordId!=null">
+                and T.record_id=#{recordId}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+        </where>
+    </select>
+    <insert id="saveWageValue" parameterType="WageValue">
+        insert into xw_wage_value
+         (
+            id,
+            wage_attribute_id,
+            value_size,
+            record_id,
+            school_id,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{wageAttributeId}
+                ,
+                #{valueSize}
+                ,
+                #{recordId}
+                ,
+                #{schoolId}
+                ,
+                now()
+         )
+    </insert>
+    <update id="updateWageValue" parameterType="WageValue">
+        update xw_wage_value
+        <set>
+                    <if test="wageAttributeId!=null ">
+                        wage_attribute_id=#{wageAttributeId},
+                    </if>
+                    <if test="valueSize!=null ">
+                        value_size=#{valueSize},
+                    </if>
+                    <if test="recordId!=null ">
+                        record_id=#{recordId},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteWageValue" >
+        delete from xw_wage_value where id=#{id}
+    </delete>
+    <delete id="deleteWageValueByCondition" >
+        delete from xw_wage_value
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="wageAttributeId!=null">
+                and wage_attribute_id=#{wageAttributeId}
+              </if>
+              <if test="valueSize!=null">
+                and value_size=#{valueSize}
+              </if>
+              <if test="recordId!=null">
+                and record_id=#{recordId}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveWageValue" parameterType="WageValue">
+        INSERT INTO xw_wage_value (  id,  wage_attribute_id,  value_size,  record_id,  school_id )
+        VALUES
+        <foreach collection="list" item="wageValue" separator=",">
+            (  #{wageValue.id},  #{wageValue.wageAttributeId},  #{wageValue.valueSize},  #{wageValue.recordId},  #{wageValue.schoolId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <delete id="deleteWageValueByRecordId" >
+        delete from xw_wage_value where record_id=#{id}
+    </delete>
+</mapper>

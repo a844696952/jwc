@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.wb.pentrace.IDmPentraceDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('sectionId')">
+                             T.sectionId,
+                         </if>
+                         <if test="!pager.excludes.contains('pageId')">
+                             T.pageId,
+                         </if>
+                         <if test="!pager.excludes.contains('seq')">
+                             T.seq,
+                         </if>
+                         <if test="!pager.excludes.contains('bookId')">
+                             T.bookId,
+                         </if>
+                         <if test="!pager.excludes.contains('list')">
+                             T.list,
+                         </if>
+                         <if test="!pager.excludes.contains('studentid')">
+                             T.studentid,
+                         </if>
+                         <if test="!pager.excludes.contains('ownerId')">
+                             T.ownerId,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="sectionId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='sectionId'">
+                            and T.sectionId like concat('%',#{sectionId},'%')
+                         </when>
+                         <otherwise>
+                            and T.sectionId=#{sectionId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="pageId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='pageId'">
+                            and T.pageId like concat('%',#{pageId},'%')
+                         </when>
+                         <otherwise>
+                            and T.pageId=#{pageId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="seq!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='seq'">
+                            and T.seq like concat('%',#{seq},'%')
+                         </when>
+                         <otherwise>
+                            and T.seq=#{seq}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="bookId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='bookId'">
+                            and T.bookId like concat('%',#{bookId},'%')
+                         </when>
+                         <otherwise>
+                            and T.bookId=#{bookId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="list!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='list'">
+                            and T.list like concat('%',#{list},'%')
+                         </when>
+                         <otherwise>
+                            and T.list=#{list}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="studentid!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='studentid'">
+                            and T.studentid like concat('%',#{studentid},'%')
+                         </when>
+                         <otherwise>
+                            and T.studentid=#{studentid}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="ownerId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='ownerId'">
+                            and T.ownerId like concat('%',#{ownerId},'%')
+                         </when>
+                         <otherwise>
+                            and T.ownerId=#{ownerId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmPentraceListByCondition" parameterType="DmPentrace" resultType="DmPentrace">
+        select
+         <include refid="projection"/>
+         from dm_pentrace T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDmPentraceCountByCondition" parameterType="DmPentrace" resultType="long">
+        select count(*) from dm_pentrace T
+        <include refid="match"/>
+    </select>
+    <select id="findDmPentraceById" resultType="DmPentrace">
+        select * from dm_pentrace where =#{id}
+    </select>
+    <select id="findOneDmPentraceByCondition" parameterType="DmPentrace" resultType="DmPentrace">
+        select
+         <include refid="projection"/>
+         from dm_pentrace T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmPentrace" parameterType="DmPentrace">
+        insert into dm_pentrace
+         (
+            id,
+            sectionId,
+            pageId,
+            seq,
+            bookId,
+            list,
+            studentid,
+            ownerId,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{sectionId}
+                ,
+                #{pageId}
+                ,
+                #{seq}
+                ,
+                #{bookId}
+                ,
+                #{list}
+                ,
+                #{studentid}
+                ,
+                #{ownerId}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateDmPentrace" parameterType="DmPentrace">
+        update dm_pentrace
+        <set>
+          </set>
+         where =#{}
+    </update>
+    <delete id="deleteDmPentrace" >
+        delete from dm_pentrace where =#{id}
+    </delete>
+    <delete id="deleteDmPentraceByCondition" >
+        delete T from dm_pentrace T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmPentrace" parameterType="DmPentrace">
+        INSERT INTO dm_pentrace (  id,  sectionId,  pageId,  seq,  bookId,  list,  studentid,  ownerId,  create_time )
+        VALUES
+        <foreach collection="list" item="dmPentrace" separator=",">
+            (  #{dmPentrace.id},  #{dmPentrace.sectionId},  #{dmPentrace.pageId},  #{dmPentrace.seq},  #{dmPentrace.bookId},  #{dmPentrace.list},  #{dmPentrace.studentid},  #{dmPentrace.ownerId},  #{dmPentrace.createTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

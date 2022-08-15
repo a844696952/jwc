@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.cms.IXwCmsSchoolSpaceConfigDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwCmsSchoolSpaceConfigListByCondition" parameterType="XwCmsSchoolSpaceConfig" resultType="XwCmsSchoolSpaceConfig">
+        select
+         <include refid="projection"/>
+         from xw_cms_school_space_config T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findXwCmsSchoolSpaceConfigCountByCondition" parameterType="XwCmsSchoolSpaceConfig" resultType="long">
+        select count(*) from xw_cms_school_space_config T
+        <include refid="match"/>
+    </select>
+    <select id="findXwCmsSchoolSpaceConfigById" resultType="XwCmsSchoolSpaceConfig">
+        select * from xw_cms_school_space_config where id=#{id}
+    </select>
+
+    <select id="findOneXwCmsSchoolSpaceConfigByCondition" parameterType="XwCmsSchoolSpaceConfig" resultType="XwCmsSchoolSpaceConfig">
+        select T.*,X.second_domain,(select domain from xw_cms_domain) as domain
+         from xw_cms_school_space_config T
+         inner join xw_cms_school_space X on T.school_id = X.school_id
+         where X.school_id =#{schoolId} and X.status = 1
+    </select>
+
+    <select id="findSchoolIdBySecondDomain" resultType="java.lang.String">
+      select S.school_id from xw_cms_school_space S
+      inner join xw_cms_school_space_config T
+      on S.school_id = T.school_id
+      inner join school P
+      on P.id=S.school_id
+      where  S.second_domain = #{secondDomain} and  S.status = 1 and T.status =1 and P.status ='42' and P.out_time  <![CDATA[ >= ]]> (SELECT NOW())
+    </select>
+    
+    <select id="findSchoolSpaceConfigById" resultType="XwCmsSchoolSpaceConfig">
+        select * from xw_cms_school_space_config where school_id = #{schoolId}
+    </select>
+    
+    <insert id="saveXwCmsSchoolSpaceConfig" parameterType="XwCmsSchoolSpaceConfig">
+        insert into xw_cms_school_space_config
+         (
+            id,
+            school_id,
+            status,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{status}
+                ,
+                #{createTime}
+         )
+    </insert>
+    <update id="updateXwCmsSchoolSpaceConfig" parameterType="XwCmsSchoolSpaceConfig">
+        update xw_cms_school_space_config
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwCmsSchoolSpaceConfig" >
+        delete from xw_cms_school_space_config where id=#{id}
+    </delete>
+    <delete id="deleteXwCmsSchoolSpaceConfigByCondition" >
+        delete T from xw_cms_school_space_config T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwCmsSchoolSpaceConfig" parameterType="XwCmsSchoolSpaceConfig">
+        INSERT INTO xw_cms_school_space_config (  id,  school_id,  status )
+        VALUES
+        <foreach collection="list" item="xwCmsSchoolSpaceConfig" separator=",">
+            (  #{xwCmsSchoolSpaceConfig.id},  #{xwCmsSchoolSpaceConfig.schoolId},  #{xwCmsSchoolSpaceConfig.status}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

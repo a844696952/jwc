@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.attachFile.IMesAttachFileDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('referenceId')">
+                             T.reference_id,
+                         </if>
+                         <if test="!pager.excludes.contains('fileName')">
+                             T.file_name,
+                         </if>
+                         <if test="!pager.excludes.contains('filePath')">
+                             T.file_path,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('fileType')">
+                             T.file_type,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="referenceId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='referenceId'">
+                            and T.reference_id like concat('%',#{referenceId},'%')
+                         </when>
+                         <otherwise>
+                            and T.reference_id=#{referenceId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fileName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fileName'">
+                            and T.file_name like concat('%',#{fileName},'%')
+                         </when>
+                         <otherwise>
+                            and T.file_name=#{fileName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="filePath!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='filePath'">
+                            and T.file_path like concat('%',#{filePath},'%')
+                         </when>
+                         <otherwise>
+                            and T.file_path=#{filePath}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fileType!=null">
+                    and T.file_type=#{fileType}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesAttachFileListByCondition" parameterType="MesAttachFile" resultType="MesAttachFile">
+        select
+         <include refid="projection"/>
+         from mes_attach_file T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findMesAttachFileCountByCondition" parameterType="MesAttachFile" resultType="long">
+        select count(*) from mes_attach_file T
+        <include refid="match"/>
+    </select>
+    <select id="findMesAttachFileById" resultType="MesAttachFile">
+        select * from mes_attach_file where id=#{id}
+    </select>
+    <select id="findOneMesAttachFileByCondition" parameterType="MesAttachFile" resultType="MesAttachFile">
+        select
+         <include refid="projection"/>
+         from mes_attach_file T
+        <include refid="match"/>
+    </select>
+    <insert id="saveMesAttachFile" parameterType="MesAttachFile">
+        insert into mes_attach_file
+         (
+            id,
+            reference_id,
+            file_name,
+            file_path,
+            create_time,
+            school_id,
+            file_type
+        ) values
+         (
+                #{id}
+                ,
+                #{referenceId}
+                ,
+                #{fileName}
+                ,
+                #{filePath}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                #{fileType}
+                
+         )
+    </insert>
+    <update id="updateMesAttachFile" parameterType="MesAttachFile">
+        update mes_attach_file
+        <set>
+                    <if test="referenceId!=null ">
+                        reference_id=#{referenceId},
+                    </if>
+                    <if test="fileName!=null ">
+                        file_name=#{fileName},
+                    </if>
+                    <if test="filePath!=null ">
+                        file_path=#{filePath},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="fileType!=null ">
+                        file_type=#{fileType}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteMesAttachFile" >
+        delete from mes_attach_file where id=#{id}
+    </delete>
+    <delete id="deleteMesAttachFileByCondition" >
+        delete T from mes_attach_file T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesAttachFile" parameterType="MesAttachFile">
+        INSERT INTO mes_attach_file (  id,  reference_id,  file_name,  file_path,  create_time,  school_id,  file_type )
+        VALUES
+        <foreach collection="list" item="mesAttachFile" separator=",">
+            (  #{mesAttachFile.id},  #{mesAttachFile.referenceId},  #{mesAttachFile.fileName},  #{mesAttachFile.filePath},  #{mesAttachFile.createTime},  #{mesAttachFile.schoolId},  #{mesAttachFile.fileType}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

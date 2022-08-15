@@ -1,0 +1,100 @@
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:pwd9527@localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+    #设定实例的集群名称
+      cluster: yed-cluster
+      #设置该集群在spring boot admin中的密码，该配置会被admin server获取到
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+server:
+  port: 8111
+spring:
+#  main:
+#    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-request-size: 200MB
+      max-file-size: 200MB
+      location: ${user.dir}/_log/${spring.application.name}
+  security:
+    user:
+      name: user
+      password: 02955986-673d-470d-b9a2-7180178d62d1
+  application:
+    name: yed
+  cloud:
+    config:
+      label: master
+      profile: dev
+      discovery:
+        enabled: true
+        serviceId: config-server
+#用户名和密码必须放在bootstrap.yml中
+      username: user
+      password: 02955986-673d-470d-b9a2-7180178d62d1
+      fail-fast: true
+  #添加消息总线支持
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: client
+    password: password
+  sleuth:
+    sampler:
+      percentage: 1
+  profiles:
+    active: dev
+  jackson:
+    default-property-inclusion: non_null
+feign:
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  path: ./_log/${spring.application.name}
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  local:
+    default:
+      type: linkedhashmap
+      keyConvertor: fastjson
+      valueEncoder: kryo
+      valueDecoder: kryo
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      valueEncoder: kryo
+      valueDecoder: kryo
+      uri: redis://${spring.redis.host}:${spring.redis.port}/

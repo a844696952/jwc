@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.classes.IDmClassDescDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('des')">
+                        T.des,
+                    </if>
+                    <if test="!pager.excludes.contains('classId')">
+                        T.class_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('classAlias')">
+                        T.class_alias,
+                    </if>
+                    <if test="!pager.excludes.contains('classLogan')">
+                        T.class_logan,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="des!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='des'">
+                        and T.des like concat('%',#{des},'%')
+                    </when>
+                    <otherwise>
+                        and T.des=#{des}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classId'">
+                        and T.class_id like concat('%',#{classId},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_id=#{classId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classAlias!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classAlias'">
+                        and T.class_alias like concat('%',#{classAlias},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_alias=#{classAlias}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classLogan!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classLogan'">
+                        and T.class_logan like concat('%',#{classLogan},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_logan=#{classLogan}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmClassDescListByCondition" parameterType="DmClassDesc" resultType="DmClassDesc">
+        select
+        <include refid="projection"/>
+        from dm_class_desc T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findDmClassDescCountByCondition" parameterType="DmClassDesc" resultType="long">
+        select count(*) from dm_class_desc T
+        <include refid="match"/>
+    </select>
+    <select id="findDmClassDescById" resultType="DmClassDesc">
+        select * from dm_class_desc where id=#{id}
+    </select>
+    <select id="findOneDmClassDescByCondition" parameterType="DmClassDesc" resultType="DmClassDesc">
+        select
+        <include refid="projection"/>
+        from dm_class_desc T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmClassDesc" parameterType="DmClassDesc">
+        insert into dm_class_desc
+        (
+        id,
+        des,
+        class_id,
+        school_id,
+        class_alias,
+        class_logan,
+        create_time
+        ) values
+        (
+        #{id}
+        ,
+        #{des}
+        ,
+        #{classId}
+        ,
+        #{schoolId}
+        ,
+        #{classAlias}
+        ,
+        #{classLogan}
+        ,
+        sysdate()
+        )
+    </insert>
+    <update id="updateDmClassDesc" parameterType="DmClassDesc">
+        update dm_class_desc
+        <set>
+            <if test="des!=null ">
+                des=#{des},
+            </if>
+            <if test="classId!=null ">
+                class_id=#{classId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="classAlias!=null ">
+                class_alias=#{classAlias},
+            </if>
+            <if test="classLogan!=null ">
+                class_logan=#{classLogan}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteDmClassDesc" >
+        delete from dm_class_desc where id=#{id}
+    </delete>
+    <delete id="deleteDmClassDescByCondition" >
+        delete T from dm_class_desc T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmClassDesc" parameterType="DmClassDesc">
+        INSERT INTO dm_class_desc (  id,  des,  class_id,  school_id,  class_alias,  class_logan )
+        VALUES
+        <foreach collection="list" item="dmClassDesc" separator=",">
+            (  #{dmClassDesc.id},  #{dmClassDesc.des},  #{dmClassDesc.classId},  #{dmClassDesc.schoolId},  #{dmClassDesc.classAlias},  #{dmClassDesc.classLogan}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findJwClassesListByCardCondition" parameterType="JwClasses" resultType="JwClasses">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('number')">
+                        T.number,
+                    </if>
+                    <if test="!pager.excludes.contains('remarks')">
+                        T.remarks,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeName')">
+                        T.grade_name,
+                    </if>
+                    <if test="!pager.excludes.contains('spaceId')">
+                        T.space_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('enrollYear')">
+                        T.enroll_year,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jw_classes T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="number!=null">
+                and T.number=#{number}
+            </if>
+            <if test="remarks!=null">
+                and T.remarks=#{remarks}
+            </if>
+            <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+            </if>
+            <if test="gradeName!=null">
+                and T.grade_name=#{gradeName}
+            </if>
+            <if test="spaceId!=null">
+                and T.space_id=#{spaceId}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="enrollYear!=null">
+                and T.enroll_year=#{enrollYear}
+            </if>
+            <if test="headTeacher!=null">
+                and exists(select 1 from dm_class_card d where d.class_id=T.id and FIND_IN_SET(#{headTeacher},d.teacher_id))
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findJwClassesCountByCardCondition" parameterType="JwClasses" resultType="long">
+        select count(*) from jw_classes
+        <where>
+            <if test="createTime!=null">
+                create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and del=#{del}
+            </if>
+            <if test="number!=null">
+                and number=#{number}
+            </if>
+            <if test="remarks!=null">
+                and remarks=#{remarks}
+            </if>
+            <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+            </if>
+            <if test="gradeName!=null">
+                and grade_name=#{gradeName}
+            </if>
+            <if test="spaceId!=null">
+                and space_id=#{spaceId}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="enrollYear!=null">
+                and enroll_year=#{enrollYear}
+            </if>
+            <if test="headTeacher!=null">
+                and exists(select 1 from dm_class_card d where d.class_id=jw_classes.id and FIND_IN_SET(#{headTeacher},d.teacher_id))
+            </if>
+        </where>
+    </select>
+
+    <!--查询云班牌种的绑定班级-->
+    <select id="findDmClassesListByCardCondition" parameterType="JwClasses" resultType="JwClasses">
+        SELECT
+        T.create_time,
+        T.class_id as id,
+        T.id as classCardId,
+        J.grade_id,
+        T.lock_status,
+        T.user_name,
+        J.grade_name,
+        J.number
+        FROM
+        dm_class_card T left join jw_classes J on T.class_id = J.id
+        WHERE
+        T.school_id =#{schoolId}
+        and T.class_id is not null
+        <if test="gradeId!=null">
+            and J.grade_id=#{gradeId}
+        </if>
+        <if test="classesId!=null">
+            and T.class_id=#{classesId}
+        </if>
+        <if test="headTeacher!=null">
+            AND   FIND_IN_SET( #{headTeacher}, T.teacher_id )
+        </if>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findDmClassesCountByCardCondition" parameterType="JwClasses" resultType="long">
+        SELECT
+            count( * )
+        FROM
+            dm_class_card T
+            LEFT JOIN jw_classes J ON T.class_id = J.id
+        WHERE
+        T.school_id =#{schoolId}
+        <if test="headTeacher!=null">
+            AND   FIND_IN_SET( #{headTeacher}, T.teacher_id )
+        </if>
+    </select>
+</mapper>

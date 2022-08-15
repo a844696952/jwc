@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.eehManagement.IEehTreeDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('title')">
+                             T.title,
+                         </if>
+                         <if test="!pager.excludes.contains('icon')">
+                             T.icon,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('provinceId')">
+                             T.province_id,
+                         </if>
+                         <if test="!pager.excludes.contains('cityId')">
+                             T.city_id,
+                         </if>
+                         <if test="!pager.excludes.contains('areaId')">
+                             T.area_id,
+                         </if>
+                         <if test="!pager.excludes.contains('provinceName')">
+                             T.province_name,
+                         </if>
+                         <if test="!pager.excludes.contains('cityName')">
+                             T.city_name,
+                         </if>
+                         <if test="!pager.excludes.contains('areaName')">
+                             T.area_name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('level')">
+                             T.level,
+                         </if>
+                         <if test="!pager.excludes.contains('leaf')">
+                             T.leaf,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('relation')">
+                             T.relation,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="title!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='title'">
+                            and T.title like concat('%',#{title},'%')
+                         </when>
+                         <otherwise>
+                            and T.title=#{title}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="icon!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='icon'">
+                            and T.icon like concat('%',#{icon},'%')
+                         </when>
+                         <otherwise>
+                            and T.icon=#{icon}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="parentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='parentId'">
+                            and T.parent_id like concat('%',#{parentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.parent_id=#{parentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="type!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='type'">
+                            and T.type like concat('%',#{type},'%')
+                         </when>
+                         <otherwise>
+                            and T.type=#{type}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="provinceId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='provinceId'">
+                            and T.province_id like concat('%',#{provinceId},'%')
+                         </when>
+                         <otherwise>
+                            and T.province_id=#{provinceId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="cityId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='cityId'">
+                            and T.city_id like concat('%',#{cityId},'%')
+                         </when>
+                         <otherwise>
+                            and T.city_id=#{cityId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="areaId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='areaId'">
+                            and T.area_id like concat('%',#{areaId},'%')
+                         </when>
+                         <otherwise>
+                            and T.area_id=#{areaId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="provinceName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='provinceName'">
+                            and T.province_name like concat('%',#{provinceName},'%')
+                         </when>
+                         <otherwise>
+                            and T.province_name=#{provinceName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="cityName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='cityName'">
+                            and T.city_name like concat('%',#{cityName},'%')
+                         </when>
+                         <otherwise>
+                            and T.city_name=#{cityName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="areaName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='areaName'">
+                            and T.area_name like concat('%',#{areaName},'%')
+                         </when>
+                         <otherwise>
+                            and T.area_name=#{areaName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="level!=null">
+                    and T.level=#{level}
+              </if>
+              <if test="leaf!=null">
+                    and T.leaf=#{leaf}
+              </if>
+              <if test="status!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='status'">
+                            and T.status like concat('%',#{status},'%')
+                         </when>
+                         <otherwise>
+                            and T.status=#{status}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="relation!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='relation'">
+                            and T.relation like concat('%',#{relation},'%')
+                         </when>
+                         <otherwise>
+                            and T.relation=#{relation}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findEehTreeListByCondition" parameterType="EehTree" resultType="EehTree">
+        select
+         <include refid="projection"/>
+         from eeh_tree T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findEehTreeCountByCondition" parameterType="EehTree" resultType="long">
+        select count(*) from eeh_tree T
+        <include refid="match"/>
+    </select>
+    <select id="findEehTreeById" resultType="EehTree">
+        select * from eeh_tree where id=#{id}
+    </select>
+    <select id="findOneEehTreeByCondition" parameterType="EehTree" resultType="EehTree">
+        select
+         <include refid="projection"/>
+         from eeh_tree T
+        <include refid="match"/>
+    </select>
+    <insert id="saveEehTree" parameterType="EehTree">
+        insert into eeh_tree
+         (
+            id,
+            title,
+            icon,
+            parent_id,
+            type,
+            province_id,
+            city_id,
+            area_id,
+            province_name,
+            city_name,
+            area_name,
+            create_time,
+            update_time,
+            level,
+            leaf,
+            status,
+            relation
+        ) values
+         (
+                #{id}
+                ,
+                #{title}
+                ,
+                #{icon}
+                ,
+                #{parentId}
+                ,
+                #{type}
+                ,
+                #{provinceId}
+                ,
+                #{cityId}
+                ,
+                #{areaId}
+                ,
+                #{provinceName}
+                ,
+                #{cityName}
+                ,
+                #{areaName}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{level}
+                ,
+                #{leaf}
+                ,
+                #{status}
+                ,
+                #{relation}
+                
+         )
+    </insert>
+    <update id="updateEehTree" parameterType="EehTree">
+        update eeh_tree
+        <set>
+                    <if test="title!=null ">
+                        title=#{title},
+                    </if>
+                    <if test="icon!=null ">
+                        icon=#{icon},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_id=#{parentId},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type},
+                    </if>
+                    <if test="provinceId!=null ">
+                        province_id=#{provinceId},
+                    </if>
+                    <if test="cityId!=null ">
+                        city_id=#{cityId},
+                    </if>
+                    <if test="areaId!=null ">
+                        area_id=#{areaId},
+                    </if>
+                    <if test="provinceName!=null ">
+                        province_name=#{provinceName},
+                    </if>
+                    <if test="cityName!=null ">
+                        city_name=#{cityName},
+                    </if>
+                    <if test="areaName!=null ">
+                        area_name=#{areaName},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="level!=null ">
+                        level=#{level},
+                    </if>
+                    <if test="leaf!=null ">
+                        leaf=#{leaf},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="relation!=null ">
+                        relation=#{relation}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteEehTree" >
+        delete from eeh_tree where id=#{id}
+    </delete>
+    <delete id="deleteEehTreeByCondition" >
+        delete T from eeh_tree T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveEehTree" parameterType="EehTree">
+        INSERT INTO eeh_tree (  id,  title,  icon,  parent_id,  type,  province_id,  city_id,  area_id,  province_name,  city_name,  area_name,  create_time,  update_time,  level,  leaf,  status,  relation )
+        VALUES
+        <foreach collection="list" item="eehTree" separator=",">
+            (  #{eehTree.id},  #{eehTree.title},  #{eehTree.icon},  #{eehTree.parentId},  #{eehTree.type},  #{eehTree.provinceId},  #{eehTree.cityId},  #{eehTree.areaId},  #{eehTree.provinceName},  #{eehTree.cityName},  #{eehTree.areaName},  #{eehTree.createTime},  #{eehTree.updateTime},  #{eehTree.level},  #{eehTree.leaf},  #{eehTree.status},  #{eehTree.relation}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findEehTreeByPid" parameterType="EehTree" resultType="EehTree">
+       select * from eeh_tree where parent_id=#{id}
+    </select>
+
+    <select id="lookEehTreeNewById" resultType="EehTree">
+        select T.title,T.province_name,T.city_name,T.area_name,T.create_time,A.status as accountStatus from eeh_tree T left join eeh_account A on T.id=A.eeh_id where T.id=#{id} and A.account_type="1"
+    </select>
+
+    <select id="findAllTreeMenu" parameterType="EehTree" resultType="EehTree">
+        select
+        <include refid="projection"/>,
+        A.status as accountStatus
+        from eeh_tree T left join eeh_account A on T.id=A.eeh_id
+        where A.account_type=#{accountStatus} and T.type=#{type}
+    </select>
+
+    <select id="findEehSchoolListNoCondition" parameterType="EehTree" resultType="EehTree">
+     SELECT T.id,T.title,T.parent_id from eeh_tree T union SELECT B.id,B.`name` as title,A.eeh_id as parent_id from eeh_tree T inner join eeh_school A on T.id=A.eeh_id inner join school B on A.school_id=B.id
+    </select>
+</mapper>

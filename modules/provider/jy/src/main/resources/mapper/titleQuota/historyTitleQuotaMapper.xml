@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.titleQuota.IHistoryTitleQuotaDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('increaseQuantity')">
+                        T.increaseQuantity,
+                    </if>
+                    <if test="!pager.excludes.contains('modifyContentClosingDate')">
+                        T.modify_content_closing_date,
+                    </if>
+                    <if test="!pager.excludes.contains('remarks')">
+                        T.remarks,
+                    </if>
+                    <if test="!pager.excludes.contains('uploadVouchers')">
+                        T.upload_vouchers,
+                    </if>
+                    <if test="!pager.excludes.contains('operator')">
+                        T.operator,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="increaseQuantity!=null">
+                and T.increaseQuantity=#{increaseQuantity}
+            </if>
+            <if test="modifyContentClosingDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('modifyContentClosingDate')">
+                        and T.modify_content_closing_date like concat('%',#{modifyContentClosingDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.modify_content_closing_date=#{modifyContentClosingDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="remarks!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('remarks')">
+                        and T.remarks like concat('%',#{remarks},'%')
+                    </when>
+                    <otherwise>
+                        and T.remarks=#{remarks}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="uploadVouchers!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('uploadVouchers')">
+                        and T.upload_vouchers like concat('%',#{uploadVouchers},'%')
+                    </when>
+                    <otherwise>
+                        and T.upload_vouchers=#{uploadVouchers}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="operator!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('operator')">
+                        and T.operator like concat('%',#{operator},'%')
+                    </when>
+                    <otherwise>
+                        and T.operator=#{operator}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findHistoryTitleQuotaListByCondition" parameterType="HistoryTitleQuota" resultType="HistoryTitleQuota">
+        select
+        <include refid="projection"/>
+        from jy_history_title_quota T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findHistoryTitleQuotaCountByCondition" parameterType="HistoryTitleQuota" resultType="long">
+        select count(*) from jy_history_title_quota T
+        <include refid="match"/>
+    </select>
+    <select id="findHistoryTitleQuotaById" resultType="HistoryTitleQuota">
+        select * from jy_history_title_quota where id=#{id}
+    </select>
+    <select id="findOneHistoryTitleQuotaByCondition" parameterType="HistoryTitleQuota" resultType="HistoryTitleQuota">
+        select
+        <include refid="projection"/>
+        from jy_history_title_quota T
+        <include refid="match"/>
+    </select>
+    <insert id="saveHistoryTitleQuota" parameterType="HistoryTitleQuota">
+        INSERT INTO jy_history_title_quota (  id,  increaseQuantity,  modify_content_closing_date,  remarks,  upload_vouchers,  operator,  create_time,  update_time,  school_id )
+         values
+         (   #{id}  ,   #{increaseQuantity}  ,   #{modifyContentClosingDate}  ,   #{remarks}  ,   #{uploadVouchers}  ,   #{operator}  ,   now()  ,   #{updateTime}  ,   #{schoolId}    )
+    </insert>
+    <update id="updateHistoryTitleQuota" parameterType="HistoryTitleQuota">
+        update jy_history_title_quota
+        <set>
+            <if test="increaseQuantity!=null ">
+                increaseQuantity=#{increaseQuantity},
+            </if>
+            <if test="modifyContentClosingDate!=null ">
+                modify_content_closing_date=#{modifyContentClosingDate},
+            </if>
+            <if test="remarks!=null ">
+                remarks=#{remarks},
+            </if>
+            <if test="uploadVouchers!=null ">
+                upload_vouchers=#{uploadVouchers},
+            </if>
+            <if test="operator!=null ">
+                operator=#{operator},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateHistoryTitleQuotaForAll" parameterType="HistoryTitleQuota">
+        update jy_history_title_quota
+        <set>
+            increaseQuantity=#{increaseQuantity},
+            modify_content_closing_date=#{modifyContentClosingDate},
+            remarks=#{remarks},
+            upload_vouchers=#{uploadVouchers},
+            operator=#{operator},
+            create_time=#{createTime},
+            update_time=now(),
+            school_id=#{schoolId}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteHistoryTitleQuota" >
+        delete from jy_history_title_quota where id=#{id}
+    </delete>
+    <delete id="deleteHistoryTitleQuotaByCondition" >
+        delete T from jy_history_title_quota T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveHistoryTitleQuota" parameterType="HistoryTitleQuota">
+        INSERT INTO jy_history_title_quota (  id,  increaseQuantity,  modify_content_closing_date,  remarks,  upload_vouchers,  operator,  create_time,  update_time,  school_id )
+        VALUES
+        <foreach collection="list" item="historyTitleQuota" separator=",">
+            (   #{historyTitleQuota.id}  ,   #{historyTitleQuota.increaseQuantity}  ,   #{historyTitleQuota.modifyContentClosingDate}  ,   #{historyTitleQuota.remarks}  ,   #{historyTitleQuota.uploadVouchers}  ,   #{historyTitleQuota.operator}  ,   now()  ,   #{historyTitleQuota.updateTime}  ,   #{historyTitleQuota.schoolId}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <!--查询操作历史记录-->
+    <select id="findHistoryTitleQuotaListByCondition4Like" parameterType="HistoryTitleQuota" resultType="HistoryTitleQuota">
+        SELECT
+        t1.modify_content_closing_date  modifyContentClosingDate,
+        t1.remarks,
+        t1.upload_vouchers uploadVouchers,
+        t1.operator operator,
+        t1.create_time createTime,
+        t1.school_id schoolId,
+        t1.increaseQuantity,
+        GROUP_CONCAT( t3.resource_name ) resourceName,
+        GROUP_CONCAT( t3.id ) ids
+        FROM
+        jy_history_title_quota t1
+        LEFT JOIN jy_platform_topichiscoty t2 ON t1.id = t2.history_title_quotaId
+        LEFT JOIN jy_resource_platform t3 ON t2.platform_id = t3.id
+        <if test="schoolId!=null ">
+            WHERE  t1.school_id=#{schoolId}
+        </if>
+        GROUP BY t1.id
+        order by  t1.create_time desc
+        <include refid="page"/>
+    </select>
+
+    <!--不根据schoolId查询操作记录-->
+    <select id="findHistoryTitleQuotasByConditionNoSchoolId" parameterType="HistoryTitleQuota" resultType="HistoryTitleQuota">
+        SELECT
+            t1.modify_content_closing_date modifyContentClosingDate,
+            t1.remarks,
+            t1.upload_vouchers uploadVouchers,
+            t1.operator operator,
+            t1.create_time createTime,
+            t1.school_id schoolId,
+            t1.increaseQuantity,
+            t4.`name`,
+            CONCAT( t4.province_name, t4.city_name, t4.district_name, t4.address ) address,
+            GROUP_CONCAT( t3.resource_name ) resourceName,
+            GROUP_CONCAT( t3.id ) ids
+          FROM
+            jy_history_title_quota t1
+          LEFT JOIN jy_platform_topichiscoty t2 ON t1.id = t2.history_title_quotaId
+          LEFT JOIN jy_resource_platform t3 ON t2.platform_id = t3.id
+          INNER JOIN school t4 ON t1.school_id = t4.id
+          <if test="startTime!=null and endTime!=null">
+            WHERE DATE_FORMAT(t1.create_time,'%Y-%m-%d') between #{startTime} and #{endTime}
+          </if>
+          <if test="name!=null">
+              <choose>
+                  <when test="startTime!=null and endTime!=null">
+                      and  t4.name like concat('%',#{name},'%')
+                  </when>
+                  <otherwise>
+                      WHERE t4.name like concat('%',#{name},'%')
+                  </otherwise>
+              </choose>
+          </if>
+          GROUP BY
+            t1.id
+          ORDER BY
+            t1.create_time DESC
+        <include refid="page"/>
+    </select>
+</mapper>

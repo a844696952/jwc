@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.timetable.ITimetableJobDao">
+    <!--########################################################################################################################-->
+    <select id="findTimetableJobListByCondition" parameterType="TimetableJob" resultType="TimetableJob">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createUserId')">
+                             T.create_user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeIds')">
+                             T.grade_ids,
+                         </if>
+                         <if test="!pager.excludes.contains('courseIds')">
+                             T.course_ids,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_timetable_job T
+        <where>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                             T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                             T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="type!=null">
+                    and T.type=#{type}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createUserId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createUserId'">
+                            and T.create_user_id like concat('%',#{createUserId},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_user_id=#{createUserId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="gradeIds!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeIds'">
+                            and T.grade_ids like concat('%',#{gradeIds},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_ids=#{gradeIds}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="courseIds!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseIds'">
+                            and T.course_ids like concat('%',#{courseIds},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_ids=#{courseIds}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findTimetableJobCountByCondition" parameterType="TimetableJob" resultType="long">
+        select count(*) from jw_timetable_job T
+        <where>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                             T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                             T.name=#{name}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="type!=null">
+                    and T.type=#{type}
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="createUserId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createUserId'">
+                            and T.create_user_id like concat('%',#{createUserId},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_user_id=#{createUserId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="gradeIds!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeIds'">
+                            and T.grade_ids like concat('%',#{gradeIds},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_ids=#{gradeIds}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="courseIds!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseIds'">
+                            and T.course_ids like concat('%',#{courseIds},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_ids=#{courseIds}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+            </if>
+        </where>
+    </select>
+    <select id="findTimetableJobById" resultType="TimetableJob">
+        select * from jw_timetable_job where id=#{id}
+    </select>
+    <select id="findOneTimetableJobByCondition" parameterType="TimetableJob" resultType="TimetableJob">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createUserId')">
+                             T.create_user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeIds')">
+                             T.grade_ids,
+                         </if>
+                         <if test="!pager.excludes.contains('courseIds')">
+                             T.course_ids,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_timetable_job T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="type!=null">
+                and T.type=#{type}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="createUserId!=null">
+                and T.create_user_id=#{createUserId}
+              </if>
+              <if test="gradeIds!=null">
+                and T.grade_ids=#{gradeIds}
+              </if>
+              <if test="courseIds!=null">
+                and T.course_ids=#{courseIds}
+              </if>
+              <if test="status!=null">
+                and T.status=#{status}
+              </if>
+        </where>
+    </select>
+    <insert id="saveTimetableJob" parameterType="TimetableJob">
+        insert into jw_timetable_job
+         (
+            id,
+            name,
+            type,
+            create_time,
+            update_time,
+            school_id,
+            create_user_id,
+            grade_ids,
+            course_ids,
+            status
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{type}
+                ,
+                now()
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                #{createUserId}
+                ,
+                #{gradeIds}
+                ,
+                #{courseIds}
+                ,
+                #{status}
+                
+         )
+    </insert>
+    <update id="updateTimetableJob" parameterType="TimetableJob">
+        update jw_timetable_job
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type},
+                    </if>
+                    update_time=now(),
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createUserId!=null ">
+                        create_user_id=#{createUserId},
+                    </if>
+                    <if test="gradeIds!=null ">
+                        grade_ids=#{gradeIds},
+                    </if>
+                    <if test="courseIds!=null ">
+                        course_ids=#{courseIds},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteTimetableJob" >
+        delete from jw_timetable_job where id=#{id}
+    </delete>
+    <delete id="deleteTimetableJobByCondition" >
+        delete from jw_timetable_job
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="type!=null">
+                and type=#{type}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="createUserId!=null">
+                and create_user_id=#{createUserId}
+              </if>
+              <if test="gradeIds!=null">
+                and grade_ids=#{gradeIds}
+              </if>
+              <if test="courseIds!=null">
+                and course_ids=#{courseIds}
+              </if>
+              <if test="status!=null">
+                and status=#{status}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveTimetableJob" parameterType="TimetableJob">
+        INSERT INTO jw_timetable_job (  id,  name,  type,  create_time,  update_time,  school_id,  create_user_id,  grade_ids,  course_ids,  status )
+        VALUES
+        <foreach collection="list" item="timetableJob" separator=",">
+            (  #{timetableJob.id},  #{timetableJob.name},  #{timetableJob.type},  #{timetableJob.createTime},  #{timetableJob.updateTime},  #{timetableJob.schoolId},  #{timetableJob.createUserId},  #{timetableJob.gradeIds},  #{timetableJob.courseIds},  #{timetableJob.status}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    
+    
+    <select id="findTeacherClassAndCourseByGradeId" resultType="TimetableTeachInfo">
+    	SELECT t.id teacher_id,t.name teacher_name,a.grade_id,a.grade_name,tc.classes_id class_id,a.`number` AS classes_name,c.id course_id,c.alias course_name
+    	FROM jw_teacher_classes tc
+		INNER JOIN  jw_course c ON tc.course_id=c.id AND tc.`school_id`=c.`school_id`
+		INNER JOIN jw_teacher t ON tc.teacher_id=t.id
+		INNER JOIN jw_classes a ON a.id = tc.`classes_id`
+		where a.grade_id=#{gradeId} and tc.school_id=#{schoolId}
+    </select>
+    
+    <select id="findGradeTeacherByGradeId" resultType="TeacherBo">
+    	SELECT DISTINCT t.id id,t.name name,c.alias course_name
+    	FROM jw_teacher_classes tc
+		INNER JOIN  jw_course c ON tc.course_id=c.id AND tc.`school_id`=c.`school_id`
+		INNER JOIN jw_teacher t ON tc.teacher_id=t.id
+		INNER JOIN jw_classes a ON a.id = tc.`classes_id`
+		where a.grade_id=#{gradeId} and tc.school_id=#{schoolId}
+    </select>
+    
+    <select id="findCoursingByGradeId" resultType="Course">
+    	SELECT DISTINCT c.id,c.alias name
+    	FROM jw_teacher_classes tc
+		INNER JOIN  jw_course c ON tc.course_id=c.id AND tc.`school_id`=c.`school_id`
+		INNER JOIN jw_teacher t ON tc.teacher_id=t.id
+		INNER JOIN jw_classes a ON a.id = tc.`classes_id`
+		where a.grade_id=#{gradeId} and tc.school_id=#{schoolId}
+    </select>
+    
+    <select id="deleteAllTimetableData">
+    		
+    		delete from jw_timetable where job_id=#{id};
+    		delete from jw_timetable_arrange_time where job_id=#{id};
+    		delete from jw_timetable_job where id=#{id};
+    		delete from jw_timetable_teach_info where job_id=#{id};
+    		delete from jw_timetable_time where job_id=#{id};
+    	
+    </select>
+</mapper>

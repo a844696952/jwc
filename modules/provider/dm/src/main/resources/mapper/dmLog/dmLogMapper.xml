@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.dmLog.IDmLogDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_Id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_Id,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('msg')">
+                             T.msg,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('url')">
+                             T.url,
+                         </if>
+                         <if test="!pager.excludes.contains('cardId')">
+                             T.card_id,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_Id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_Id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_Id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_Id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="type!=null">
+                    and T.type=#{type}
+              </if>
+              <if test="msg!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='msg'">
+                            and T.msg like concat('%',#{msg},'%')
+                         </when>
+                         <otherwise>
+                            and T.msg=#{msg}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+              <if test="url!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='url'">
+                            and T.url like concat('%',#{url},'%')
+                         </when>
+                         <otherwise>
+                            and T.url=#{url}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="cardId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='cardId'">
+                            and T.card_id like concat('%',#{cardId},'%')
+                         </when>
+                         <otherwise>
+                            and T.card_id=#{cardId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmLogListByCondition" parameterType="DmLog" resultType="DmLog">
+        select
+         <include refid="projection"/>
+         from dm_log T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDmLogCountByCondition" parameterType="DmLog" resultType="long">
+        select count(*) from dm_log T
+        <include refid="match"/>
+    </select>
+    <select id="findDmLogById" resultType="DmLog">
+        select * from dm_log where id=#{id}
+    </select>
+    <select id="findOneDmLogByCondition" parameterType="DmLog" resultType="DmLog">
+        select
+         <include refid="projection"/>
+         from dm_log T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmLog" parameterType="DmLog">
+        insert into dm_log
+         (
+            id,
+            school_Id,
+            teacher_Id,
+            type,
+            msg,
+            create_time,
+            status,
+            url,
+            card_id,
+            update_time
+        ) values
+         (
+                #{id},
+                #{schoolId},
+                #{teacherId},
+                #{type},
+                #{msg},
+                now(),
+                #{status},
+                #{url},
+                #{cardId},
+                now()
+         )
+    </insert>
+    <update id="updateDmLog" parameterType="DmLog">
+        update dm_log
+        <set>
+                    <if test="schoolId!=null ">
+                        school_Id=#{schoolId},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_Id=#{teacherId},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type},
+                    </if>
+                    <if test="msg!=null ">
+                        msg=#{msg},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="url!=null ">
+                        url=#{url},
+                    </if>
+                    <if test="cardId!=null ">
+                        card_id=#{cardId},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmLog" >
+        delete from dm_log where id=#{id}
+    </delete>
+    <delete id="deleteDmLogByCondition" >
+        delete T from dm_log T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmLog" parameterType="DmLog">
+        INSERT INTO dm_log (  id,  school_Id,  teacher_Id,  type,  msg,  create_time,  status,  url,  card_id,  update_time )
+        VALUES
+        <foreach collection="list" item="dmLog" separator=",">
+            (  #{dmLog.id},  #{dmLog.schoolId},  #{dmLog.teacherId},  #{dmLog.type},  #{dmLog.msg},  #{dmLog.createTime},  #{dmLog.status},  #{dmLog.url},  #{dmLog.cardId},  #{dmLog.updateTime}  )
+        </foreach>
+    </insert>
+
+    <select id="findTeacherPostBySid" parameterType="String" resultType="String">
+        select T1.teacher_id from jw_teacher_post T1
+        left join jw_student T2 on T1.class_id = T2.classes_id
+        where T2.id = #{studentId} and T1.sort = 5
+    </select>
+
+    <select id="findParentsByStudentId" parameterType="String" resultType="String">
+        SELECT parent_id from jw_parent_jw_student where student_id=#{studentId}
+
+    </select>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

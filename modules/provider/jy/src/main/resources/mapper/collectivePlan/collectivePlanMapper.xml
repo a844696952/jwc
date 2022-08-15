@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.collectivePlan.ICollectivePlanDao">
+    <!--########################################################################################################################-->
+    <select id="ByCondition" parameterType="CollectivePlan" resultType="CollectivePlan">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolYear')">
+                        T.school_year,
+                    </if>
+                    <if test="!pager.excludes.contains('planName')">
+                        T.plan_name,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('semester')">
+                        T.semester,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('subjectId')">
+                        T.subject_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teachingPlanId')">
+                        T.teaching_plan_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateCount')">
+                        T.update_count,
+                    </if>
+                    <if test="!pager.excludes.contains('commentCount')">
+                        T.comment_count,
+                    </if>
+                    <if test="!pager.excludes.contains('studyingId')">
+                        T.studying_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_collective_plan T
+        <where>
+            <if test="schoolYear!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolYear'">
+                        T.school_year like concat('%',#{schoolYear},'%')
+                    </when>
+                    <otherwise>
+                        T.school_year=#{schoolYear}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="planName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='planName'">
+                        and T.plan_name like concat('%',#{planName},'%')
+                    </when>
+                    <otherwise>
+                        and T.plan_name=#{planName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="semester!=null">
+                and T.semester=#{semester}
+            </if>
+            <if test="gradeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='gradeId'">
+                        and T.grade_id like concat('%',#{gradeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.grade_id=#{gradeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="subjectId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='subjectId'">
+                        and T.subject_id like concat('%',#{subjectId},'%')
+                    </when>
+                    <otherwise>
+                        and T.subject_id=#{subjectId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teachingPlanId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teachingPlanId'">
+                        and T.teaching_plan_id like concat('%',#{teachingPlanId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teaching_plan_id=#{teachingPlanId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateCount!=null">
+                and T.update_count=#{updateCount}
+            </if>
+            <if test="commentCount!=null">
+                and T.comment_count=#{commentCount}
+            </if>
+            <if test="studyingId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studyingId'">
+                        and T.studying_id like concat('%',#{studyingId},'%')
+                    </when>
+                    <otherwise>
+                        and T.studying_id=#{studyingId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findCollectivePlanCountByCondition" parameterType="CollectivePlan" resultType="long">
+        select count(*) from jy_collective_plan T
+        <where>
+            <if test="schoolYear!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolYear'">
+                        T.school_year like concat('%',#{schoolYear},'%')
+                    </when>
+                    <otherwise>
+                        T.school_year=#{schoolYear}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="planName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='planName'">
+                        and T.plan_name like concat('%',#{planName},'%')
+                    </when>
+                    <otherwise>
+                        and T.plan_name=#{planName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="semester!=null">
+                and T.semester=#{semester}
+            </if>
+            <if test="gradeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='gradeId'">
+                        and T.grade_id like concat('%',#{gradeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.grade_id=#{gradeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="subjectId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='subjectId'">
+                        and T.subject_id like concat('%',#{subjectId},'%')
+                    </when>
+                    <otherwise>
+                        and T.subject_id=#{subjectId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teachingPlanId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teachingPlanId'">
+                        and T.teaching_plan_id like concat('%',#{teachingPlanId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teaching_plan_id=#{teachingPlanId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateCount!=null">
+                and T.update_count=#{updateCount}
+            </if>
+            <if test="commentCount!=null">
+                and T.comment_count=#{commentCount}
+            </if>
+            <if test="studyingId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studyingId'">
+                        and T.studying_id like concat('%',#{studyingId},'%')
+                    </when>
+                    <otherwise>
+                        and T.studying_id=#{studyingId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findCollectivePlanById" resultType="CollectivePlan">
+        select * from jy_collective_plan where id=#{id}
+    </select>
+    <select id=" " parameterType="CollectivePlan" resultType="CollectivePlan">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolYear')">
+                        T.school_year,
+                    </if>
+                    <if test="!pager.excludes.contains('planName')">
+                        T.plan_name,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('semester')">
+                        T.semester,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('subjectId')">
+                        T.subject_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teachingPlanId')">
+                        T.teaching_plan_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateCount')">
+                        T.update_count,
+                    </if>
+                    <if test="!pager.excludes.contains('commentCount')">
+                        T.comment_count,
+                    </if>
+                    <if test="!pager.excludes.contains('studyingId')">
+                        T.studying_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_collective_plan T
+        <where>
+            <if test="schoolYear!=null">
+                T.school_year=#{schoolYear}
+            </if>
+            <if test="planName!=null">
+                and T.plan_name=#{planName}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+            </if>
+            <if test="semester!=null">
+                and T.semester=#{semester}
+            </if>
+            <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+            </if>
+            <if test="subjectId!=null">
+                and T.subject_id=#{subjectId}
+            </if>
+            <if test="teachingPlanId!=null">
+                and T.teaching_plan_id=#{teachingPlanId}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="updateCount!=null">
+                and T.update_count=#{updateCount}
+            </if>
+            <if test="commentCount!=null">
+                and T.comment_count=#{commentCount}
+            </if>
+            <if test="studyingId!=null">
+                and T.studying_id=#{studyingId}
+            </if>
+        </where>
+    </select>
+    <insert id="saveCollectivePlan" parameterType="CollectivePlan">
+        insert into jy_collective_plan
+        (
+        id,
+        school_year,
+        plan_name,
+        school_id,
+        teacher_id,
+        semester,
+        grade_id,
+        subject_id,
+        teaching_plan_id,
+        create_time,
+        update_time,
+        update_count,
+        comment_count,
+        studying_id
+        ) values
+        (
+        #{id}
+        ,
+        #{schoolYear}
+        ,
+        #{planName}
+        ,
+        #{schoolId}
+        ,
+        #{teacherId}
+        ,
+        #{semester}
+        ,
+        #{gradeId}
+        ,
+        #{subjectId}
+        ,
+        #{teachingPlanId}
+        ,
+        now()
+        ,
+        #{updateTime}
+        ,
+        #{updateCount}
+        ,
+        #{commentCount}
+        ,
+        #{studyingId}
+
+        )
+    </insert>
+    <update id="updateCollectivePlan" parameterType="CollectivePlan">
+        update jy_collective_plan
+        <set>
+            <if test="schoolYear!=null ">
+                school_year=#{schoolYear},
+            </if>
+            <if test="planName!=null ">
+                plan_name=#{planName},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="semester!=null ">
+                semester=#{semester},
+            </if>
+            <if test="gradeId!=null ">
+                grade_id=#{gradeId},
+            </if>
+            <if test="subjectId!=null ">
+                subject_id=#{subjectId},
+            </if>
+            <if test="teachingPlanId!=null ">
+                teaching_plan_id=#{teachingPlanId},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="updateCount!=null ">
+                update_count=#{updateCount},
+            </if>
+            <if test="commentCount!=null ">
+                comment_count=#{commentCount},
+            </if>
+            <if test="studyingId!=null ">
+                studying_id=#{studyingId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteCollectivePlan" >
+        delete from jy_collective_plan where id=#{id}
+    </delete>
+    <delete id="deleteCollectivePlanByCondition" >
+        delete from jy_collective_plan
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="schoolYear!=null">
+                and school_year=#{schoolYear}
+            </if>
+            <if test="planName!=null">
+                and plan_name=#{planName}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+            <if test="semester!=null">
+                and semester=#{semester}
+            </if>
+            <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+            </if>
+            <if test="subjectId!=null">
+                and subject_id=#{subjectId}
+            </if>
+            <if test="teachingPlanId!=null">
+                and teaching_plan_id=#{teachingPlanId}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="updateCount!=null">
+                and update_count=#{updateCount}
+            </if>
+            <if test="commentCount!=null">
+                and comment_count=#{commentCount}
+            </if>
+            <if test="studyingId!=null">
+                and studying_id=#{studyingId}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveCollectivePlan" parameterType="CollectivePlan">
+        INSERT INTO jy_collective_plan (  id,  school_year,  plan_name,  school_id,  teacher_id,  semester,  grade_id,  subject_id,  teaching_plan_id,  create_time,  update_time,  update_count,  comment_count,  studying_id )
+        VALUES
+        <foreach collection="list" item="collectivePlan" separator=",">
+            (  #{collectivePlan.id},  #{collectivePlan.schoolYear},  #{collectivePlan.planName},  #{collectivePlan.schoolId},  #{collectivePlan.teacherId},  #{collectivePlan.semester},  #{collectivePlan.gradeId},  #{collectivePlan.subjectId},  #{collectivePlan.teachingPlanId},  #{collectivePlan.createTime},  #{collectivePlan.updateTime},  #{collectivePlan.updateCount},  #{collectivePlan.commentCount},  #{collectivePlan.studyingId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <!--查询 讨论组名称是否重复-->
+    <select id="findCollectivePlanByPlanName" parameterType="CollectivePlan" resultType="CollectivePlan">
+        SELECT
+        *
+        FROM
+        jy_collective_plan
+        WHERE
+        plan_name = #{planName}
+        AND school_year= #{schoolYear}
+        AND school_id = #{schoolId}
+        <if test="id!=null">
+            and id <![CDATA[ <> ]]> #{id}
+        </if>
+    </select>
+     <!-- 编辑一条讨论组-->
+    <select id="findOneCollectivePlanByCondition" parameterType="CollectivePlan" resultType="com.yice.edu.cn.common.pojo.jy.collectivePlan.CollectivePlan">
+        SELECT
+            T.id,
+            T.school_year,
+            T.plan_name,
+            T.school_id,
+            T.teacher_id,
+            T.semester,
+            T.grade_id,
+            T.subject_id,
+            T.create_time,
+            T.update_time,
+            T.update_count,
+            T.comment_count,
+            T.studying_id AS studyingId,
+            T2.NAME AS studyingName,
+            T3.NAME AS subjectName,
+            T4.NAME AS gradeName
+        FROM
+            jy_collective_plan T
+            LEFT JOIN ad_dd T2 ON T2.id = T.studying_id
+            LEFT JOIN subject_material T3 on T3.id = T.subject_id
+            LEFT JOIN  subject_material T4 on T4.id = T.grade_id
+        <where>
+            T.id = #{id}
+        </where>
+    </select>
+    <!--查询我创建的备课组-->
+    <select id="findCollectivePlanList" parameterType="CollectivePlan" resultType="CollectivePlan">
+            SELECT
+                t3.id,
+                t3.plan_name,
+                t3.create_time,
+                t3.subjectName,
+                t3.gradeName,
+                t3.semester,
+                t3.school_year,
+                SUM(t3.sta = 0) AS planCount
+            FROM
+                (
+            SELECT
+                T.id,
+                T.plan_name,
+                T.create_time,
+                T.school_year,
+                T.semester,
+                T3.NAME AS subjectName,
+                T4.NAME AS gradeName,
+                IFNULL( T2.`status`, 1 ) AS sta
+            FROM
+                jy_collective_plan T
+                LEFT JOIN jy_teacher_collection T2 on T.id = T2.collection_plan_id
+                LEFT JOIN subject_material T3 on T3.id = T.subject_id
+                LEFT JOIN  subject_material T4 on T4.id = T.grade_id
+                LEFT JOIN jy_team_teaching_plan T5 on T5.id = T2.teacher_plan_id
+            WHERE
+                T.teacher_id = #{teacherId}
+                <if test="schoolYear!=null">
+                    and  T.school_year = #{schoolYear}
+                </if>
+                ) t3
+            GROUP BY t3.id ORDER BY t3.create_time desc
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+
+    <!--查询集体备课首用讨论组-->
+    <select id="findCollectivePlanListByTeacherId" parameterType="CollectivePlan" resultType="CollectivePlan">
+        SELECT
+        T.id,
+        T.plan_name,
+        T.create_time
+        FROM
+        jy_collective_plan T left join
+        jy_collective_plan_teacher T2   on T2.collective_plan_id = T.id
+        <where>
+        T2.teacher_id = #{teacherId}
+        <if test="schoolYear!=null">
+            and  T.school_year = #{schoolYear}
+        </if>
+        GROUP BY T.id
+        ORDER BY
+        T.create_time DESC
+        </where>
+    </select>
+
+    <select id="findSchoolYear" parameterType="CollectivePlan" resultType="CollectivePlan">
+        SELECT
+        T.school_year
+        FROM
+        jy_collective_plan T
+        LEFT JOIN jy_collective_plan_teacher T2 ON T2.collective_plan_id = T.id
+        WHERE
+        T2.teacher_id = #{teacherId}
+        GROUP BY
+        T.school_year
+        ORDER BY
+        T.school_year ASC
+    </select>
+
+    <delete id="deleteLessonsFileById" >
+        DELETE jy_lessons_file
+        FROM
+        jy_lessons_file
+        <where>
+            teaching_plan_id in (
+            SELECT t2.id
+               FROM
+                  jy_team_teaching_plan t2
+                LEFT JOIN  jy_teacher_collection t3 on t2.id = t3.teacher_plan_id
+                WHERE
+                  t3.collection_plan_id = #{id}
+            )
+        </where>
+    </delete>
+
+    <delete id="deleteTeamTeachingPlanById" >
+        DELETE jy_team_teaching_plan
+        FROM
+        jy_team_teaching_plan
+        JOIN jy_teacher_collection
+        <where>
+            jy_teacher_collection.collection_plan_id = #{id}
+            AND jy_team_teaching_plan.id = jy_teacher_collection.teacher_plan_id
+        </where>
+    </delete>
+
+
+
+</mapper>

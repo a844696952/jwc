@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dormManage.dorm.IDormStatisticsDao">
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+    <select id="findDormInfoStatistics" parameterType="DormBuildVo" resultType="DormStatistics">
+        SELECT
+            C.id dormId,
+            C.NAME dormName,
+            C.capacity,
+            T.dorm_category,
+            T.dorm_type,
+            T.person_num,
+            T.school_id
+        FROM
+            jw_building A
+        INNER JOIN jw_building B ON A.id = B.parent_id
+        INNER JOIN jw_building C ON B.id = C.parent_id
+        LEFT JOIN xw_dorm T ON T.dorm_id = C.id
+        <where>
+            C.type_id = '107'
+            <if test="dormBuildId!=null">
+                AND A.id = #{dormBuildId}
+            </if>
+            <if test="floorId!=null">
+                AND B.id = #{floorId}
+            </if>
+        </where>
+        ORDER BY
+        C.name
+        <include refid="page"></include>
+    </select>
+
+    <select id="findDormInfoCountStatistics" parameterType="DormBuildVo" resultType="long">
+        SELECT
+        COUNT(*)
+        FROM
+        jw_building A
+        INNER JOIN jw_building B ON A.id = B.parent_id
+        INNER JOIN jw_building C ON B.id = C.parent_id
+        LEFT JOIN xw_dorm T ON T.dorm_id = C.id
+        <where>
+            C.type_id = '107'
+            <if test="dormBuildId!=null">
+                AND A.id = #{dormBuildId}
+            </if>
+            <if test="floorId!=null">
+                AND B.id = #{floorId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findDormBuildStatistics" parameterType="DormBuildVo" resultType="DormStatistics">
+        SELECT
+        M.id dormBuildId,
+        M.NAME dormBuildName,
+        sum( M.capacity ) buildCapacity,
+        sum( M.person_num ) buildPersonNum,
+        sum( M.capacity ) - sum( M.person_num ) buildEmptyNum,
+        count(*) capacity
+        FROM
+        (
+            SELECT
+                A.id,
+                A.NAME,
+                D.dorm_id,
+                C.NAME dormName,
+                C.capacity,
+                D.person_num
+            FROM
+                jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            INNER JOIN jw_building C ON B.id = C.parent_id
+            LEFT JOIN xw_dorm D ON D.dorm_id = C.id
+            <where>
+                C.type_id = '107'
+                <if test="dormBuildId!=null">
+                    and A.id=#{dormBuildId}
+                </if>
+                <if test="schoolId!=null">
+                    and A.school_id=#{schoolId}
+                </if>
+            </where>
+            GROUP BY
+            C.id
+        ) M
+        GROUP BY
+        M.id
+    </select>
+
+    <select id="findDormBuildStatisticsSex" parameterType="DormBuildVo" resultType="DormStatistics">
+        SELECT
+            A.id dormBuildId,
+            A.`name` dormBuildName,
+            E.dorm_type sex,
+            count( * ) sexCount
+        FROM
+            jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            INNER JOIN jw_building C ON B.id = C.parent_id
+            INNER JOIN xw_dorm_person D ON C.id = D.dorm_id
+            INNER JOIN xw_dorm E ON D.dorm_id = E.dorm_id
+        <where>
+            C.type_id = '107'
+            AND D.person_id IS NOT NULL
+            <if test="dormBuildId!=null">
+                and A.id=#{dormBuildId}
+            </if>
+            <if test="schoolId!=null">
+                and D.school_id=#{schoolId}
+            </if>
+        </where>
+        GROUP BY
+            E.dorm_type
+    </select>
+
+    <select id="findDormBuildStatisticsForFloors" parameterType="DormBuildVo" resultType="DormStatistics">
+        SELECT
+            M.id dormBuildId,
+            M.name dormBuildName,
+            count( * ) floors
+        FROM
+            (
+                SELECT
+                    A.id,
+                    A.NAME,
+                    B.id floorsId,
+                    B.NAME floorsName
+                FROM
+                    jw_building A
+                    INNER JOIN jw_building B ON A.id = B.parent_id
+                    INNER JOIN jw_building C ON B.id = C.parent_id
+               <where>
+                   C.type_id = '107'
+                   <if test="dormBuildId!=null">
+                       and A.id=#{dormBuildId}
+                   </if>
+                   <if test="schoolId!=null">
+                       and A.school_id=#{schoolId}
+                   </if>
+               </where>
+                GROUP BY
+                    B.id
+            ) M
+        GROUP BY
+            M.id
+    </select>
+
+
+    <select id="findDormBuildFloorsByCondition" parameterType="Building" resultType="DormBuildingPersonInfo">
+        SELECT
+            B.id floorId,
+            B.NAME floor,
+            B.parent_id
+        FROM
+            jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            INNER JOIN jw_building C ON B.id = C.parent_id
+       <where>
+           C.type_id = '107'
+           <if test="parentId!=null">
+               AND B.parent_id = #{parentId}
+           </if>
+       </where>
+        GROUP BY
+            B.id
+    </select>
+</mapper>

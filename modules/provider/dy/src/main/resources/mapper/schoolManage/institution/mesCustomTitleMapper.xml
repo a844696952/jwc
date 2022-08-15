@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.institution.IMesCustomTitleDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('attrKey')">
+                        T.attr_key,
+                    </if>
+                    <if test="!pager.excludes.contains('attrValue')">
+                        T.attr_value,
+                    </if>
+                    <if test="!pager.excludes.contains('refrenceId')">
+                        T.refrence_id,
+                    </if>
+                    <if test="!pager.excludes.contains('attrType')">
+                        T.attr_type,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('childrenType')">
+                        T.children_type,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('sortNumber')">
+                        T.sort_number,
+                    </if>
+                    <if test="!pager.excludes.contains('percentageBegin')">
+                        T.percentage_begin,
+                    </if>
+                    <if test="!pager.excludes.contains('percentageEnd')">
+                        T.percentage_end,
+                    </if>
+                    <if test="!pager.excludes.contains('timeStatusId')">
+                        T.time_status_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="attrKey!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='attrKey'">
+                        and T.attr_key like concat('%',#{attrKey},'%')
+                    </when>
+                    <otherwise>
+                        and T.attr_key=#{attrKey}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="attrValue!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='attrValue'">
+                        and T.attr_value like concat('%',#{attrValue},'%')
+                    </when>
+                    <otherwise>
+                        and T.attr_value=#{attrValue}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="refrenceId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='refrenceId'">
+                        and T.refrence_id like concat('%',#{refrenceId},'%')
+                    </when>
+                    <otherwise>
+                        and T.refrence_id=#{refrenceId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="attrType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='attrType'">
+                        and T.attr_type like concat('%',#{attrType},'%')
+                    </when>
+                    <otherwise>
+                        and T.attr_type=#{attrType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="childrenType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='childrenType'">
+                        and T.children_type like concat('%',#{childrenType},'%')
+                    </when>
+                    <otherwise>
+                        and T.children_type=#{childrenType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sortNumber!=null">
+                and T.sort_number=#{sortNumber}
+            </if>
+            <if test="percentageBegin!=null">
+                and T.percentage_begin=#{percentageBegin}
+            </if>
+            <if test="percentageEnd!=null">
+                and T.percentage_end=#{percentageEnd}
+            </if>
+            <if test="timeStatusId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='timeStatusId'">
+                        and T.time_status_id like concat('%',#{timeStatusId},'%')
+                    </when>
+                    <otherwise>
+                        and T.time_status_id=#{timeStatusId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesCustomTitleListByCondition" parameterType="MesCustomTitle" resultType="MesCustomTitle">
+        select
+        <include refid="projection"/>
+        from mes_custom_title T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findMesCustomTitleListByFirstRank" resultType="MesCustomTitle">
+          select T2.* from mes_time_status T
+			LEFT JOIN mes_custom_title T2 ON T2.time_status_id=T.id
+		  where T.school_id=#{id} and T.status=1 and T2.children_type='rank' and T2.attr_type='first_institution' ORDER BY T2.sort_number
+    </select>
+    <select id="findMesCustomTitleListByTotalRank" resultType="MesCustomTitle">
+          select T2.* from mes_time_status T
+			LEFT JOIN mes_custom_title T2 ON T2.time_status_id=T.id
+		  where T.school_id=#{id} and T.status=1 and T2.children_type='rank' and T2.attr_type='total' ORDER BY T2.sort_number
+    </select>
+    <select id="findMesCustomTitleListByTotalReach" resultType="MesCustomTitle">
+          select T2.* from mes_time_status T
+			LEFT JOIN mes_custom_title T2 ON T2.time_status_id=T.id
+		  where T.school_id=#{id} and T.status=1 and T2.children_type='reach' and T2.attr_type='total' ORDER BY T2.sort_number
+    </select>
+    <select id="findMesCustomTitleListByFirstReach" resultType="MesCustomTitle">
+          select T2.* from mes_time_status T
+			LEFT JOIN mes_custom_title T2 ON T2.time_status_id=T.id
+		  where T.school_id=#{id} and T.status=1 and T2.children_type='reach' and T2.attr_type='first_institution' ORDER BY T2.sort_number
+    </select>
+    <select id="findMesCustomTitleCountByCondition" parameterType="MesCustomTitle" resultType="long">
+        select count(*) from mes_custom_title T
+        <include refid="match"/>
+    </select>
+    <select id="findMesCustomTitleById" resultType="MesCustomTitle">
+        select * from mes_custom_title where id=#{id}
+    </select>
+    <select id="findOneMesCustomTitleByCondition" parameterType="MesCustomTitle" resultType="MesCustomTitle">
+        select
+        <include refid="projection"/>
+        from mes_custom_title T
+        <include refid="match"/>
+    </select>
+    <insert id="saveMesCustomTitle" parameterType="MesCustomTitle">
+        insert into mes_custom_title
+         (
+            id,
+            attr_key,
+            attr_value,
+            refrence_id,
+            attr_type,
+            school_id,
+            children_type,
+            create_time,
+            sort_number,
+            percentage_begin,
+            percentage_end,
+            time_status_id
+        ) values
+         (
+                #{id}
+                ,
+                #{attrKey}
+                ,
+                #{attrValue}
+                ,
+                #{refrenceId}
+                ,
+                #{attrType}
+                ,
+                #{schoolId}
+                ,
+                #{childrenType}
+                ,
+                now()
+                ,
+                #{sortNumber}
+                ,
+                #{percentageBegin}
+                ,
+                #{percentageEnd}
+                ,
+                #{timeStatusId}
+
+         )
+    </insert>
+    <update id="updateMesCustomTitle" parameterType="MesCustomTitle">
+        update mes_custom_title
+        <set>
+            <if test="attrKey!=null ">
+                attr_key=#{attrKey},
+            </if>
+            <if test="attrValue!=null ">
+                attr_value=#{attrValue},
+            </if>
+            <if test="refrenceId!=null ">
+                refrence_id=#{refrenceId},
+            </if>
+            <if test="attrType!=null ">
+                attr_type=#{attrType},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="childrenType!=null ">
+                children_type=#{childrenType},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="sortNumber!=null ">
+                sort_number=#{sortNumber},
+            </if>
+            <if test="percentageBegin!=null ">
+                percentage_begin=#{percentageBegin},
+            </if>
+            <if test="percentageEnd!=null ">
+                percentage_end=#{percentageEnd},
+            </if>
+            <if test="timeStatusId!=null ">
+                time_status_id=#{timeStatusId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteMesCustomTitle" >
+        delete from mes_custom_title where id=#{id}
+    </delete>
+    <delete id="deleteMesCustomTitleByCondition" >
+        delete T from mes_custom_title T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesCustomTitle" parameterType="MesCustomTitle">
+        INSERT INTO mes_custom_title (  id,  attr_key,  attr_value,  refrence_id,  attr_type,  school_id,  children_type,  create_time,  sort_number,  percentage_begin,  percentage_end,  time_status_id )
+        VALUES
+        <foreach collection="list" item="mesCustomTitle" separator=",">
+            (  #{mesCustomTitle.id},  #{mesCustomTitle.attrKey},  #{mesCustomTitle.attrValue},  #{mesCustomTitle.refrenceId},  #{mesCustomTitle.attrType},  #{mesCustomTitle.schoolId},  #{mesCustomTitle.childrenType},  now(),  #{mesCustomTitle.sortNumber},  #{mesCustomTitle.percentageBegin},  #{mesCustomTitle.percentageEnd},  #{mesCustomTitle.timeStatusId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findCurrentSchoolYear" resultType="SchoolYear">
+          SELECT * from school_year where from_year=(SELECT MAX(from_year) from school_year where school_id=#{schoolId}) and school_id=#{schoolId};
+    </select>
+    <select id="selectByTotalAndTimeStatusId" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.institution.MesCustomTitle">
+        select * from mes_custom_title where attr_type='total' and time_status_id=#{timeStatusId} order by sort_number asc
+    </select>
+    <select id="selectByFirstInstitutionAndTimeStatusId"
+            resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.institution.MesCustomTitle">
+        select * from mes_custom_title where attr_type='first_institution' and time_status_id=#{timeStatusId} order by sort_number asc
+    </select>
+</mapper>

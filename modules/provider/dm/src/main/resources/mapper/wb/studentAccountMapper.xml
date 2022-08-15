@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.wb.studentAccount.IStudentAccountDao">
+    <!--########################################################################################################################-->
+    <select id="findStudentAccountListByCondition2" parameterType="StudentAccount" resultType="StudentAccount">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('studentId')">
+                             T.student_id,
+                         </if>
+                         <if test="!pager.excludes.contains('padAccount')">
+                             T.pad_account,
+                         </if>
+                         <if test="!pager.excludes.contains('padPassword')">
+                             T.pad_password,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('imei')">
+                             T.imei,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from dm_student_account T
+        <where>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('classId')">
+                        and T.class_id like concat('%',#{classId},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_id=#{classId}
+                    </otherwise>
+                </choose>
+            </if>
+              <if test="studentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='studentId'">
+                             T.student_id like concat('%',#{studentId},'%')
+                         </when>
+                         <otherwise>
+                             T.student_id=#{studentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="padAccount!=null">
+                    and T.pad_account=#{padAccount}
+              </if>
+              <if test="padPassword!=null">
+                    and T.pad_password=#{padPassword}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="imei!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='imei'">
+                            and T.imei like concat('%',#{imei},'%')
+                         </when>
+                         <otherwise>
+                            and T.imei=#{imei}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findStudentAccountCountByCondition2" parameterType="StudentAccount" resultType="long">
+        select count(*) from dm_student_account T
+        <where>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('classId')">
+                        and T.class_id like concat('%',#{classId},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_id=#{classId}
+                    </otherwise>
+                </choose>
+            </if>
+              <if test="studentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='studentId'">
+                             T.student_id like concat('%',#{studentId},'%')
+                         </when>
+                         <otherwise>
+                             T.student_id=#{studentId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="padAccount!=null">
+                    and T.pad_account=#{padAccount}
+            </if>
+              <if test="padPassword!=null">
+                    and T.pad_password=#{padPassword}
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="imei!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='imei'">
+                            and T.imei like concat('%',#{imei},'%')
+                         </when>
+                         <otherwise>
+                            and T.imei=#{imei}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findStudentAccountById" resultType="StudentAccount">
+        select * from dm_student_account where id=#{id}
+    </select>
+    <select id="findOneStudentAccountByCondition" parameterType="StudentAccount" resultType="StudentAccount">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('studentId')">
+                             T.student_id,
+                         </if>
+                         <if test="!pager.excludes.contains('padAccount')">
+                             T.pad_account,
+                         </if>
+                         <if test="!pager.excludes.contains('padPassword')">
+                             T.pad_password,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('imei')">
+                             T.imei,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from dm_student_account T
+        <where>
+              <if test="studentId!=null">
+                 T.student_id=#{studentId}
+              </if>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="classId!=null">
+                 T.class_id=#{classId}
+              </if>
+              <if test="padAccount!=null">
+                and T.pad_account=#{padAccount}
+              </if>
+              <if test="padPassword!=null">
+                and T.pad_password=#{padPassword}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="imei!=null">
+                and T.imei=#{imei}
+              </if>
+        </where>
+    </select>
+    <insert id="saveStudentAccount" parameterType="StudentAccount">
+        insert IGNORE into dm_student_account
+         (
+            id,
+            school_id,
+            class_id,
+            student_id,
+            pad_account,
+            pad_password,
+            create_time,
+            update_time,
+            imei,
+            pen_factory
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{classId}
+                ,
+                #{studentId}
+                ,
+                #{padAccount}
+                ,
+                #{padPassword}
+                ,
+                now()
+                ,
+                now()
+                ,
+                #{imei}
+                ,
+                #{penFactory}
+                
+         )
+    </insert>
+    <update id="updateStudentAccount" parameterType="StudentAccount">
+        update dm_student_account
+        <set>
+                    update_time = now(),
+                    <if test="padAccount!=null ">
+                        pad_account=#{padAccount},
+                    </if>
+                    <if test="padPassword!=null ">
+                        pad_password=#{padPassword},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                        imei=#{imei},
+                    <if test="studentType!=null ">
+                        student_type=#{studentType},
+                    </if>
+                    <if test="penFactory!=null">
+                        pen_factory=#{penFactory}
+                    </if>
+          </set>
+
+         where student_id=#{studentId}
+    </update>
+    <delete id="deleteStudentAccount" >
+        delete from dm_student_account where id=#{id}
+    </delete>
+    <delete id="deleteStudentAccountByCondition" >
+        delete from dm_student_account
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="studentId!=null">
+                and student_id=#{studentId}
+              </if>
+              <if test="padAccount!=null">
+                and pad_account=#{padAccount}
+              </if>
+              <if test="padPassword!=null">
+                and pad_password=#{padPassword}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="imei!=null">
+                and imei=#{imei}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveStudentAccount" parameterType="StudentAccount">
+        INSERT IGNORE INTO  dm_student_account (  id,school_id, class_id, student_id,  pad_account,  pad_password,  create_time,update_time,  imei, pen_factory )
+        VALUES
+        <foreach collection="list" item="studentAccount" separator=",">
+            (  #{studentAccount.id},#{studentAccount.schoolId},#{studentAccount.classId},  #{studentAccount.studentId},  #{studentAccount.padAccount},  #{studentAccount.padPassword},  now(), now(),  #{studentAccount.imei}, #{studentAccount.penFactory}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findStudentAccountListByCondition" parameterType="StudentAccount" resultType="StudentAccount">
+        SELECT
+        t2.id,
+        t1.id as studentId,
+        t1.`name`,
+        t3.grade_id,
+        t3.grade_name,
+        t1.classes_id,
+        t3.number as className,
+        t2.pad_account,
+        t2.pad_password,
+        t2.imei,
+        t2.create_time,
+        t2.update_time,
+        t2.student_type,
+        t2.pen_factory
+        FROM
+        dm_student_account t2
+        LEFT JOIN jw_student t1 ON t1.id = t2.student_id
+        LEFT JOIN jw_classes t3 ON t1.classes_id = t3.id
+        <where>
+            t1.school_id=#{schoolId}
+            <if test=" updateTime1 != null and updateTime1 != '' ">
+                and t2.update_time <![CDATA[>= ]]> #{updateTime1}
+            </if>
+            <if test=" updateTime2 != null and updateTime2 != '' ">
+                and t2.update_time <![CDATA[<= ]]> #{updateTime2}
+            </if>
+            <if test="name != null and name != '' ">
+                and t1.name like concat('%',#{name},'%')
+            </if>
+            <if test="gradeId!=null">
+                and t3.grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and t1.classes_id=#{classId}
+            </if>
+            <if test="imei!=null">
+                and t2.imei like concat('%',#{imei},'%')
+            </if>
+            <if test="studentType != null">
+                and student_type=#{studentType}
+            </if>
+            <if test="penFactory != null">
+                and pen_factory=#{penFactory}
+            </if>
+        </where>
+        order by t2.student_type desc,t2.update_time desc
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findStudentAccountCountByCondition" parameterType="StudentAccount" resultType="long">
+        SELECT
+            count(*)
+        FROM
+        dm_student_account t2
+        LEFT JOIN jw_student t1 ON t1.id = t2.student_id
+        LEFT JOIN jw_classes t3 ON t1.classes_id = t3.id
+        <where>
+            t1.school_id=#{schoolId}
+            <if test=" updateTime1 != null and updateTime1 != '' ">
+                and t2.update_time &gt;= #{updateTime1}
+            </if>
+            <if test=" updateTime2 != null and updateTime2 != '' ">
+                and t2.update_time &lt;= #{updateTime2}
+            </if>
+            <if test="name != null and name != '' ">
+                and t1.name like concat('%',#{name},'%')
+            </if>
+            <if test="gradeId!=null">
+                and t3.grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and t1.classes_id=#{classId}
+            </if>
+            <if test="penFactory!=null">
+                and t2.pen_factory=#{penFactory}
+            </if>
+        </where>
+    </select>
+    <!-- 给智能笔笔提供imei及学生信息-->
+    <select id="findStudentAccountImei" parameterType="StudentAccount" resultType="StudentAccount">
+        SELECT
+        t2.id as student_id,
+        t2.`name`,
+        t3.grade_id,
+        t3.grade_name,
+        t2.classes_id,
+        t3.number AS className,
+        IFNULL(t1.imei,' ') as imei
+        FROM
+        jw_student t2
+        LEFT JOIN dm_student_account t1 ON t2.id = t1.student_id
+        LEFT JOIN jw_classes t3 ON t2.classes_id = t3.id
+        <where>
+            t2.school_id=#{schoolId}
+            <if test="gradeId!=null">
+                and t3.grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and t2.classes_id=#{classId}
+            </if>
+        </where>
+    </select>
+
+    <update id="batchResetStudentPwd" parameterType="java.util.List">
+         update dm_student_account set pad_password = 888888 where student_id in
+        <foreach item="item" index="index" collection="studentIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
+
+    <select id="getMaxPadAccount" resultType="java.lang.Integer">
+        select IFNULL(MAX(pad_account), '100000') from dm_student_account
+    </select>
+
+    <delete id="batchDeleteByIds" parameterType="java.util.List">
+        delete from dm_student_account where id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </delete>
+
+    <select id="findStudentAccountByImeiAndId" parameterType="StudentAccount" resultType="StudentAccount">
+            SELECT
+            *
+            FROM
+            dm_student_account d
+            LEFT JOIN jw_student j ON d.student_id = j.id
+            WHERE
+            d.imei=#{imei}
+    </select>
+
+    <select id="findStudentAccountByStudentIds" parameterType="java.util.List" resultType="StudentAccount">
+        select * from dm_student_account where student_id in
+        <foreach item="item" index="index" collection="studentIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <update id="batchUpdateStudentType">
+        update dm_student_account set student_type=#{studentType},update_time=now()  where id in
+        <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="deleteStudentAccountByClassIds" parameterType="java.util.List">
+        delete from dm_student_account where student_id in (
+          select id from jw_student where classes_id in
+            <foreach item="item" index="index" collection="clazzIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        )
+    </delete>
+
+    <delete id="deleteByClassIds" parameterType="java.util.List">
+        delete from dm_student_account where class_id in
+        <foreach item="item" index="index" collection="clazzIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--智慧课堂笔盒绑定开始-->
+    <select id="findWisdomClassStudentAccountListByCondition" parameterType="StudentAccount" resultType="WisdomClassStudentAccount">
+        SELECT
+        t2.id,
+        t1.id as studentId,
+        t1.`name`,
+        t3.grade_id,
+        t3.grade_name,
+        t1.classes_id,
+        t3.number as className,
+        t2.imei,
+        t2.create_time,
+        t2.update_time,
+        t2.student_type,
+        t2.pen_factory
+        FROM
+        dm_student_account t2
+        LEFT JOIN jw_student t1 ON t1.id = t2.student_id
+        LEFT JOIN jw_classes t3 ON t1.classes_id = t3.id
+        <where>
+            t1.school_id=#{schoolId}
+            <if test=" updateTime1 != null and updateTime1 != '' ">
+                and t2.update_time <![CDATA[>= ]]> #{updateTime1}
+            </if>
+            <if test=" updateTime2 != null and updateTime2 != '' ">
+                and t2.update_time <![CDATA[<= ]]> #{updateTime2}
+            </if>
+            <if test="name != null and name != '' ">
+                and t1.name like concat('%',#{name},'%')
+            </if>
+            <if test="gradeId!=null">
+                and t3.grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and t1.classes_id=#{classId}
+            </if>
+            <if test="penFactory!=null">
+                and t2.pen_factory=#{penFactory}
+            </if>
+        </where>
+        order by t2.student_type desc,t2.update_time desc
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findWisdomClassStudentAccountCountByCondition" parameterType="StudentAccount" resultType="Long">
+        SELECT
+        count(*)
+        FROM
+        dm_student_account t2
+        LEFT JOIN jw_student t1 ON t1.id = t2.student_id
+        LEFT JOIN jw_classes t3 ON t1.classes_id = t3.id
+        <where>
+            t1.school_id=#{schoolId}
+            <if test=" updateTime1 != null and updateTime1 != '' ">
+                and t2.update_time &gt;= #{updateTime1}
+            </if>
+            <if test=" updateTime2 != null and updateTime2 != '' ">
+                and t2.update_time &lt;= #{updateTime2}
+            </if>
+            <if test="name != null and name != '' ">
+                and t1.name like concat('%',#{name},'%')
+            </if>
+            <if test="gradeId!=null">
+                and t3.grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and t1.classes_id=#{classId}
+            </if>
+            <if test="penFactory!=null">
+                and t2.pen_factory=#{penFactory}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateWisdomClassStudentAccount" parameterType="StudentAccount">
+        update dm_student_account set pen_factory = #{penFactory} where class_id = #{classId} and school_id = #{schoolId}
+    </update>
+
+    <!--智慧课堂笔盒绑定结束-->
+</mapper>

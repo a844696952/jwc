@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.resourceCenter.IResourceCenterTypeDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('sort')">
+                        T.sort,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sort!=null">
+                and T.sort=#{sort}
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findResourceCenterTypeListByCondition" parameterType="ResourceCenterType" resultType="ResourceCenterType">
+        select
+        <include refid="projection"/>
+        from jy_resource_center_type T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findResourceCenterTypeCountByCondition" parameterType="ResourceCenterType" resultType="long">
+        select count(*) from jy_resource_center_type T
+        <include refid="match"/>
+    </select>
+    <select id="findResourceCenterTypeById" resultType="ResourceCenterType">
+        select * from jy_resource_center_type where id=#{id}
+    </select>
+    <select id="findOneResourceCenterTypeByCondition" parameterType="ResourceCenterType" resultType="ResourceCenterType">
+        select
+        <include refid="projection"/>
+        from jy_resource_center_type T
+        <include refid="match"/>
+    </select>
+    <insert id="saveResourceCenterType" parameterType="ResourceCenterType">
+        insert into jy_resource_center_type
+         (
+            id,
+            name,
+            create_time,
+            sort,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                CURDATE()
+                ,
+                #{sort}
+                ,
+                #{schoolId}
+
+         )
+    </insert>
+    <update id="updateResourceCenterType" parameterType="ResourceCenterType">
+        update jy_resource_center_type
+        <set>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="sort!=null ">
+                sort=#{sort},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteResourceCenterType" >
+        delete from jy_resource_center_type where id=#{id}
+    </delete>
+    <delete id="deleteResourceCenterTypeByCondition" >
+        delete T from jy_resource_center_type T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveResourceCenterType" parameterType="ResourceCenterType">
+        INSERT INTO jy_resource_center_type (  id,  name,  create_time,  sort,  school_id )
+        VALUES
+        <foreach collection="list" item="resourceCenterType" separator=",">
+            (  #{resourceCenterType.id},  #{resourceCenterType.name},  #{resourceCenterType.createTime},  #{resourceCenterType.sort},  #{resourceCenterType.schoolId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.prepareLessonsNew.IJySubjectMaterialExtendDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('parentId')">
+                        T.parent_id,
+                    </if>
+                    <if test="!pager.excludes.contains('ddId')">
+                        T.dd_id,
+                    </if>
+                    <if test="!pager.excludes.contains('annualPeriodId')">
+                        T.annual_period_id,
+                    </if>
+                    <if test="!pager.excludes.contains('materialId')">
+                        T.material_id,
+                    </if>
+                    <if test="!pager.excludes.contains('level')">
+                        T.level,
+                    </if>
+                    <if test="!pager.excludes.contains('leaf')">
+                        T.leaf,
+                    </if>
+                    <if test="!pager.excludes.contains('path')">
+                        T.path,
+                    </if>
+                    <if test="!pager.excludes.contains('sort')">
+                        T.sort,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createUserId')">
+                        T.create_user_id,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateUserId')">
+                        T.update_user_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('deleteStatus')">
+                        T.delete_status,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="name!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                    and T.name like concat('%',#{name},'%')
+                </when>
+                <otherwise>
+                    and T.name=#{name}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="parentId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('parentId')">
+                    and T.parent_id like concat('%',#{parentId},'%')
+                </when>
+                <otherwise>
+                    and T.parent_id=#{parentId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="ddId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('ddId')">
+                    and T.dd_id like concat('%',#{ddId},'%')
+                </when>
+                <otherwise>
+                    and T.dd_id=#{ddId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="annualPeriodId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('annualPeriodId')">
+                    and T.annual_period_id like concat('%',#{annualPeriodId},'%')
+                </when>
+                <otherwise>
+                    and T.annual_period_id=#{annualPeriodId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="materialId!=null">
+            and T.material_id=#{materialId}
+        </if>
+        <if test="level!=null">
+            and T.level=#{level}
+        </if>
+        <if test="leaf!=null">
+            and T.leaf=#{leaf}
+        </if>
+        <if test="path!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('path')">
+                    and T.path like concat('%',#{path},'%')
+                </when>
+                <otherwise>
+                    and T.path=#{path}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="sort!=null">
+            and T.sort=#{sort}
+        </if>
+        <if test="createTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                    and T.create_time like concat('%',#{createTime},'%')
+                </when>
+                <otherwise>
+                    and T.create_time=#{createTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createUserId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createUserId')">
+                    and T.create_user_id like concat('%',#{createUserId},'%')
+                </when>
+                <otherwise>
+                    and T.create_user_id=#{createUserId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="updateTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                    and T.update_time like concat('%',#{updateTime},'%')
+                </when>
+                <otherwise>
+                    and T.update_time=#{updateTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="updateUserId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('updateUserId')">
+                    and T.update_user_id like concat('%',#{updateUserId},'%')
+                </when>
+                <otherwise>
+                    and T.update_user_id=#{updateUserId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                    and T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                    and T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="type!=null">
+            and T.type=#{type}
+        </if>
+        <if test="deleteStatus!=null">
+            and T.delete_status=#{deleteStatus}
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item" index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findJySubjectMaterialExtendListByCondition" parameterType="JySubjectMaterialExtend"
+            resultType="JySubjectMaterialExtend">
+        select
+        <include refid="projection"/>
+        from jy_subject_material_extend T
+        <where>
+            <include refid="match"/>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findJySubjectMaterialExtendCountByCondition" parameterType="JySubjectMaterialExtend" resultType="long">
+        select count(*) from jy_subject_material_extend T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <select id="findJySubjectMaterialExtendById" resultType="JySubjectMaterialExtend">
+        select * from jy_subject_material_extend where id=#{id}
+    </select>
+    <select id="findOneJySubjectMaterialExtendByCondition" parameterType="JySubjectMaterialExtend"
+            resultType="JySubjectMaterialExtend">
+        select
+        <include refid="projection"/>
+        from jy_subject_material_extend T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <insert id="saveJySubjectMaterialExtend" parameterType="JySubjectMaterialExtend">
+        INSERT INTO jy_subject_material_extend (  id,  name,  parent_id,  dd_id,  annual_period_id,material_id,  level,  leaf,  path,  sort,  create_time,  create_user_id,  update_time,  update_user_id,  school_id,  type,  delete_status )
+         values
+         (   #{id}  ,   #{name}  ,   #{parentId}  ,   #{ddId}  ,   #{annualPeriodId}  ,#{materialId},   #{level}  ,   #{leaf}  ,   #{path}  ,   #{sort}  ,   now()  ,   #{createUserId}  ,   #{updateTime}  ,   #{updateUserId}  ,   #{schoolId}  ,   #{type}  ,   #{deleteStatus}    )
+    </insert>
+    <update id="updateJySubjectMaterialExtend" parameterType="JySubjectMaterialExtend">
+        update jy_subject_material_extend
+        <set>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="parentId!=null ">
+                parent_id=#{parentId},
+            </if>
+            <if test="ddId!=null ">
+                dd_id=#{ddId},
+            </if>
+            <if test="annualPeriodId!=null ">
+                annual_period_id=#{annualPeriodId},
+            </if>
+            <if test="materialId!=null ">
+                material_id=#{materialId},
+            </if>
+            <if test="level!=null ">
+                level=#{level},
+            </if>
+            <if test="leaf!=null ">
+                leaf=#{leaf},
+            </if>
+            <if test="path!=null ">
+                path=#{path},
+            </if>
+            <if test="sort!=null ">
+                sort=#{sort},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="createUserId!=null ">
+                create_user_id=#{createUserId},
+            </if>
+            update_time=now(),
+            <if test="updateUserId!=null ">
+                update_user_id=#{updateUserId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="deleteStatus!=null ">
+                delete_status=#{deleteStatus}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateJySubjectMaterialExtendForAll" parameterType="JySubjectMaterialExtend">
+        update jy_subject_material_extend
+        <set>
+            name=#{name},
+            parent_id=#{parentId},
+            dd_id=#{ddId},
+            annual_period_id=#{annualPeriodId},
+            material_id=#{materialId},
+            level=#{level},
+            leaf=#{leaf},
+            path=#{path},
+            sort=#{sort},
+            create_time=#{createTime},
+            create_user_id=#{createUserId},
+            update_time=now(),
+            update_user_id=#{updateUserId},
+            school_id=#{schoolId},
+            type=#{type},
+            delete_status=#{deleteStatus}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteJySubjectMaterialExtend">
+        delete from jy_subject_material_extend where id=#{id}
+    </delete>
+    <delete id="deleteJySubjectMaterialExtendByCondition">
+        delete T from jy_subject_material_extend T
+        <where>
+            <include refid="match"/>
+        </where>
+    </delete>
+    <insert id="batchSaveJySubjectMaterialExtend" parameterType="JySubjectMaterialExtend">
+        INSERT INTO jy_subject_material_extend ( id, name, parent_id, dd_id, annual_period_id,material_id, level, leaf, path, sort,
+        create_time, create_user_id, update_time, update_user_id, school_id, type, delete_status )
+        VALUES
+        <foreach collection="list" item="jySubjectMaterialExtend" separator=",">
+            ( #{jySubjectMaterialExtend.id} , #{jySubjectMaterialExtend.name} , #{jySubjectMaterialExtend.parentId} ,
+            #{jySubjectMaterialExtend.ddId} , #{jySubjectMaterialExtend.annualPeriodId} ,#{jySubjectMaterialExtend.materialId},
+            #{jySubjectMaterialExtend.level} , #{jySubjectMaterialExtend.leaf} , #{jySubjectMaterialExtend.path} ,
+            #{jySubjectMaterialExtend.sort} , now() , #{jySubjectMaterialExtend.createUserId} ,
+            #{jySubjectMaterialExtend.updateTime} , #{jySubjectMaterialExtend.updateUserId} ,
+            #{jySubjectMaterialExtend.schoolId} , #{jySubjectMaterialExtend.type} , #{jySubjectMaterialExtend.deleteStatus} )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

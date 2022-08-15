@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.audit.IMesOperateRecordDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('auditId')">
+                             T.audit_id,
+                         </if>
+                         <if test="!pager.excludes.contains('operatorId')">
+                             T.operator_id,
+                         </if>
+                         <if test="!pager.excludes.contains('operateContent')">
+                             T.operate_content,
+                         </if>
+                         <if test="!pager.excludes.contains('operateDate')">
+                             T.operate_date,
+                         </if>
+                         <if test="!pager.excludes.contains('operateType')">
+                             T.operate_type,
+                         </if>
+                         <if test="!pager.excludes.contains('operateStatus')">
+                             T.operate_status,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="auditId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='auditId'">
+                            and T.audit_id like concat('%',#{auditId},'%')
+                         </when>
+                         <otherwise>
+                            and T.audit_id=#{auditId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="operatorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='operatorId'">
+                            and T.operator_id like concat('%',#{operatorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.operator_id=#{operatorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="operateContent!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='operateContent'">
+                            and T.operate_content like concat('%',#{operateContent},'%')
+                         </when>
+                         <otherwise>
+                            and T.operate_content=#{operateContent}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="operateDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='operateDate'">
+                            and T.operate_date like concat('%',#{operateDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.operate_date=#{operateDate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="operateType!=null">
+                    and T.operate_type=#{operateType}
+              </if>
+              <if test="operateStatus!=null">
+                    and T.operate_status=#{operateStatus}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesOperateRecordListByCondition" parameterType="MesOperateRecord" resultType="MesOperateRecord">
+        select
+         <include refid="projection"/>
+         from mes_operate_record T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findMesOperateRecordCountByCondition" parameterType="MesOperateRecord" resultType="long">
+        select count(*) from mes_operate_record T
+        <include refid="match"/>
+    </select>
+    <select id="findMesOperateRecordById" resultType="MesOperateRecord">
+        select * from mes_operate_record where id=#{id}
+    </select>
+    <select id="findOneMesOperateRecordByCondition" parameterType="MesOperateRecord" resultType="MesOperateRecord">
+        select
+         <include refid="projection"/>
+         from mes_operate_record T
+        <include refid="match"/>
+    </select>
+    <insert id="saveMesOperateRecord" parameterType="MesOperateRecord">
+        insert into mes_operate_record
+         (
+            id,
+            audit_id,
+            operator_id,
+            operate_content,
+            operate_date,
+            operate_type,
+            operate_status,
+            create_time,
+            school_id,
+            operator_name,
+            school_year_id,
+            from_to,
+            term
+        ) values
+         (
+                #{id}
+                ,
+                #{auditId}
+                ,
+                #{operatorId}
+                ,
+                #{operateContent}
+                ,
+                now()
+                ,
+                #{operateType}
+                ,
+                #{operateStatus}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                #{operatorName}
+                ,
+                #{schoolYearId}
+                ,
+                #{fromTo}
+                ,
+                #{term}
+                
+         )
+    </insert>
+    <update id="updateMesOperateRecord" parameterType="MesOperateRecord">
+        update mes_operate_record
+        <set>
+                    <if test="auditId!=null ">
+                        audit_id=#{auditId},
+                    </if>
+                    <if test="operatorId!=null ">
+                        operator_id=#{operatorId},
+                    </if>
+                    <if test="operateContent!=null ">
+                        operate_content=#{operateContent},
+                    </if>
+                    <if test="operateDate!=null ">
+                        operate_date=#{operateDate},
+                    </if>
+                    <if test="operateType!=null ">
+                        operate_type=#{operateType},
+                    </if>
+                    <if test="operateStatus!=null ">
+                        operate_status=#{operateStatus},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteMesOperateRecord" >
+        delete from mes_operate_record where id=#{id}
+    </delete>
+    <delete id="deleteMesOperateRecordByCondition" >
+        delete T from mes_operate_record T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesOperateRecord" parameterType="MesOperateRecord">
+        INSERT INTO mes_operate_record (  id,  audit_id,  operator_id,  operate_content,  operate_date,  operate_type,  operate_status,  create_time,  school_id,  school_year_id,  from_to,  term,operator_name )
+        VALUES
+        <foreach collection="list" item="mesOperateRecord" separator=",">
+            (  #{mesOperateRecord.id},  #{mesOperateRecord.auditId},  #{mesOperateRecord.operatorId},  #{mesOperateRecord.operateContent},
+              #{mesOperateRecord.operateDate},  #{mesOperateRecord.operateType},  #{mesOperateRecord.operateStatus},
+                #{mesOperateRecord.createTime},  #{mesOperateRecord.schoolId},  #{mesOperateRecord.schoolYearId},  #{mesOperateRecord.fromTo},
+                  #{mesOperateRecord.term},#{mesOperateRecord.operatorName})
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="selectMesOperateRecordForAppeal" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.audit.MesOperateRecord">
+        select * from mes_operate_record where audit_id=#{auditId}  and operate_type='0' order by operate_date desc limit 1
+    </select>
+    <select id="selectMesOperateRecordExceptLatestAppeal" resultType="com.yice.edu.cn.common.pojo.mes.schoolManage.audit.MesOperateRecord">
+        select * from mes_operate_record where audit_id=#{auditId} and <![CDATA[id<>#{id}]]> order by operate_date asc
+    </select>
+    <select id="selectTeacherIdsByAuditId" resultType="java.lang.String">
+        select teacher_id from jw_teacher_post where class_id=(select mir.class_id from mes_institution_audit mia LEFT JOIN mes_inspect_record mir on mir.id=mia.record_id where mia.id=#{auditId} limit 1) and sort='5'
+    </select>
+    <select id="findMesOperateRecordsByAuditId" resultType="MesOperateRecord">
+        select * from mes_operate_record where audit_id=#{auditId} order by operate_date
+    </select>
+</mapper>

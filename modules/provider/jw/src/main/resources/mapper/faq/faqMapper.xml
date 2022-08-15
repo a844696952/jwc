@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.faq.IFaqDao">
+    <!--########################################################################################################################-->
+    <select id="findFaqListByCondition" parameterType="Faq" resultType="Faq">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                         <if test="!pager.excludes.contains('answer')">
+                             T.answer,
+                         </if>
+                         <if test="!pager.excludes.contains('appsource')">
+                             T.appsource,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from sys_faq T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="sort!=null">
+                and T.sort=#{sort}
+              </if>
+              <if test="answer!=null">
+                and T.answer=#{answer}
+              </if>
+              <if test="appsource!=null">
+                and T.appsource=#{appsource}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findFaqCountByCondition" parameterType="Faq" resultType="long">
+        select count(*) from sys_faq
+        <where>
+              <if test="name!=null">
+                 name=#{name}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="sort!=null">
+                and sort=#{sort}
+              </if>
+              <if test="answer!=null">
+                and answer=#{answer}
+              </if>
+              <if test="appsource!=null">
+                and appsource=#{appsource}
+              </if>
+        </where>
+    </select>
+    <select id="findFaqById" resultType="Faq">
+        select * from sys_faq where id=#{id}
+    </select>
+    <select id="findOneFaqByCondition" parameterType="Faq" resultType="Faq">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                         <if test="!pager.excludes.contains('answer')">
+                             T.answer,
+                         </if>
+                         <if test="!pager.excludes.contains('appsource')">
+                             T.appsource,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from sys_faq T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="sort!=null">
+                and T.sort=#{sort}
+              </if>
+              <if test="answer!=null">
+                and T.answer=#{answer}
+              </if>
+              <if test="appsource!=null">
+                and T.appsource=#{appsource}
+              </if>
+        </where>
+    </select>
+    <insert id="saveFaq" parameterType="Faq">
+        insert into sys_faq
+         (
+            id,
+            name,
+            update_time,
+            sort,
+            answer,
+            appsource
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{updateTime}
+                ,
+                #{sort}
+                ,
+                #{answer}
+                ,
+                #{appsource}
+                
+         )
+    </insert>
+    <update id="updateFaq" parameterType="Faq">
+        update sys_faq
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    update_time=#{updateTime},
+                    <if test="sort!=null ">
+                        sort=#{sort},
+                    </if>
+                    <if test="answer!=null ">
+                        answer=#{answer},
+                    </if>
+                    <if test="appsource!=null ">
+                        appsource=#{appsource}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteFaq" >
+        delete from sys_faq where id=#{id}
+    </delete>
+    <delete id="deleteFaqByCondition" >
+        delete from sys_faq
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="sort!=null">
+                and sort=#{sort}
+              </if>
+              <if test="answer!=null">
+                and answer=#{answer}
+              </if>
+              <if test="appsource!=null">
+                and appsource=#{appsource}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveFaq" parameterType="Faq">
+        INSERT INTO sys_faq (  id,  name,  update_time,  sort,  answer,  appsource )
+        VALUES
+        <foreach collection="list" item="faq" separator=",">
+            (  #{faq.id},  #{faq.name},  #{faq.updateTime},  #{faq.sort},  #{faq.answer},  #{faq.appsource}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findFaqListByCondition4Like" parameterType="Faq" resultType="Faq">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('sort')">
+                        T.sort,
+                    </if>
+                    <if test="!pager.excludes.contains('answer')">
+                        T.answer,
+                    </if>
+                    <if test="!pager.excludes.contains('appsource')">
+                        T.appsource,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from sys_faq T
+        <where>
+            <if test="name!=null">
+                T.name like "%"#{name}"%"
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="sort!=null">
+                and T.sort=#{sort}
+            </if>
+            <if test="answer!=null">
+                and T.answer=#{answer}
+            </if>
+            <if test="appsource!=null">
+                and T.appsource=#{appsource}
+            </if>
+
+        </where>
+        order by T.sort desc ,T.update_time desc
+        <!--<if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">-->
+            <!--order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}-->
+        <!--</if>-->
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findFaqCountByCondition4Like" parameterType="Faq" resultType="long">
+        select count(*) from sys_faq
+        <where>
+            <if test="name!=null">
+                name like "%"#{name}"%"
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="sort!=null">
+                and sort=#{sort}
+            </if>
+            <if test="answer!=null">
+                and answer=#{answer}
+            </if>
+            <if test="appsource!=null">
+                and appsource=#{appsource}
+            </if>
+        </where>
+    </select>
+</mapper>

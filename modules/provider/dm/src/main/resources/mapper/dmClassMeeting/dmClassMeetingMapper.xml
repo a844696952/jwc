@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.dmClassMeeting.IDmClassMeetingDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('classMeetingName')">
+                             T.class_meeting_name,
+                         </if>
+                         <if test="!pager.excludes.contains('classMeetingTime')">
+                             T.class_meeting_time,
+                         </if>
+                         <if test="!pager.excludes.contains('classMeetingContent')">
+                             T.class_meeting_content,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classMeetingName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classMeetingName'">
+                            and T.class_meeting_name like concat('%',#{classMeetingName},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_meeting_name=#{classMeetingName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classMeetingTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classMeetingTime'">
+                            and T.class_meeting_time like concat('%',#{classMeetingTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_meeting_time=#{classMeetingTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classMeetingContent!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classMeetingContent'">
+                            and T.class_meeting_content like concat('%',#{classMeetingContent},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_meeting_content=#{classMeetingContent}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classId'">
+                            and T.class_id like concat('%',#{classId},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_id=#{classId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="beginTime!=null">
+                and T.class_meeting_time <![CDATA[ >= ]]> #{beginTime}
+            </if>
+            <if test="endTime!=null">
+                and T.class_meeting_time <![CDATA[ <= ]]> #{endTime}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmClassMeetingListByCondition" parameterType="DmClassMeeting" resultType="DmClassMeeting">
+        select
+        <include refid="projection"/>
+        ,df.file_path
+        from dm_class_meeting T left join dm_attachment_file df on T.id = df.reference_id
+        <include refid="match"/>
+        GROUP BY T.id
+        <include refid="sort"/>
+        <include refid="page"/>
+
+    </select>
+    <select id="findDmClassMeetingCountByCondition" parameterType="DmClassMeeting" resultType="long">
+        select count(*) from dm_class_meeting T
+        <include refid="match"/>
+    </select>
+    <select id="findDmClassMeetingById" resultType="DmClassMeeting">
+        select * from dm_class_meeting where id=#{id}
+    </select>
+    <select id="findOneDmClassMeetingByCondition" parameterType="DmClassMeeting" resultType="DmClassMeeting">
+        select
+         <include refid="projection"/>
+         from dm_class_meeting T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmClassMeeting" parameterType="DmClassMeeting">
+        insert into dm_class_meeting
+         (
+            id,
+            class_meeting_name,
+            class_meeting_time,
+            class_meeting_content,
+            create_time,
+            school_id,
+            class_id
+        ) values
+         (
+                #{id}
+                ,
+                #{classMeetingName}
+                ,
+                #{classMeetingTime}
+                ,
+                #{classMeetingContent}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                #{classId}
+                
+         )
+    </insert>
+    <update id="updateDmClassMeeting" parameterType="DmClassMeeting">
+        update dm_class_meeting
+        <set>
+                    <if test="classMeetingName!=null ">
+                        class_meeting_name=#{classMeetingName},
+                    </if>
+                    <if test="classMeetingTime!=null ">
+                        class_meeting_time=#{classMeetingTime},
+                    </if>
+                    <if test="classMeetingContent!=null ">
+                        class_meeting_content=#{classMeetingContent},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="classId!=null ">
+                        class_id=#{classId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmClassMeeting" >
+        delete from dm_class_meeting where id=#{id}
+    </delete>
+    <delete id="deleteDmClassMeetingByCondition" >
+        delete T from dm_class_meeting T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmClassMeeting" parameterType="DmClassMeeting">
+        INSERT INTO dm_class_meeting (  id,  class_meeting_name,  class_meeting_time,  class_meeting_content,  create_time,  school_id,  class_id )
+        VALUES
+        <foreach collection="list" item="dmClassMeeting" separator=",">
+            (  #{dmClassMeeting.id},  #{dmClassMeeting.classMeetingName},  #{dmClassMeeting.classMeetingTime},  #{dmClassMeeting.classMeetingContent},  #{dmClassMeeting.createTime},  #{dmClassMeeting.schoolId},  #{dmClassMeeting.classId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findDmClassMeetingImgsByclassId" parameterType="String" resultType="DmAttachmentFile">
+        SELECT
+        T1.*
+        FROM
+        dm_attachment_file AS T1
+        INNER JOIN dm_class_meeting AS T2 ON T1.reference_id = T2.id
+        WHERE
+        T2.class_id = #{classId} ORDER BY T1.create_time DESC LIMIT 2
+    </select>
+</mapper>

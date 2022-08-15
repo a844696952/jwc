@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.titleQuota.ITopicQuotaResourcesDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('remainingMargin')">
+                        T.remaining_margin,
+                    </if>
+                    <if test="!pager.excludes.contains('totalMargin')">
+                        T.total_margin,
+                    </if>
+                    <if test="!pager.excludes.contains('remarks')">
+                        T.remarks,
+                    </if>
+                    <if test="!pager.excludes.contains('closingDate')">
+                        T.closing_date,
+                    </if>
+                    <if test="!pager.excludes.contains('uploadVouchers')">
+                        T.upload_vouchers,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="remainingMargin!=null">
+                and T.remaining_margin=#{remainingMargin}
+            </if>
+            <if test="totalMargin!=null">
+                and T.total_margin=#{totalMargin}
+            </if>
+            <if test="remarks!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('remarks')">
+                        and T.remarks like concat('%',#{remarks},'%')
+                    </when>
+                    <otherwise>
+                        and T.remarks=#{remarks}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="closingDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('closingDate')">
+                        and T.closing_date like concat('%',#{closingDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.closing_date=#{closingDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="uploadVouchers!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('uploadVouchers')">
+                        and T.upload_vouchers like concat('%',#{uploadVouchers},'%')
+                    </when>
+                    <otherwise>
+                        and T.upload_vouchers=#{uploadVouchers}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findTopicQuotaResourcesListByCondition" parameterType="TopicQuotaResources" resultType="TopicQuotaResources">
+        select
+        <include refid="projection"/>
+        from jy_topic_quota_resources T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findTopicQuotaResourcesCountByCondition" parameterType="TopicQuotaResources" resultType="long">
+        select count(*) from jy_topic_quota_resources T
+        <include refid="match"/>
+    </select>
+    <select id="findTopicQuotaResourcesById" resultType="TopicQuotaResources">
+        select * from jy_topic_quota_resources where id=#{id}
+    </select>
+    <select id="findOneTopicQuotaResourcesByCondition" parameterType="TopicQuotaResources" resultType="TopicQuotaResources">
+        select
+        <include refid="projection"/>
+        from jy_topic_quota_resources T
+        <include refid="match"/>
+    </select>
+    <insert id="saveTopicQuotaResources" parameterType="TopicQuotaResources">
+        INSERT INTO jy_topic_quota_resources (  id,  remaining_margin,  total_margin,  remarks,  closing_date,  upload_vouchers,  create_time,  update_time,  school_id )
+         values
+         (   #{id}  ,   #{remainingMargin}  ,   #{totalMargin}  ,   #{remarks}  ,   #{closingDate}  ,   #{uploadVouchers}  ,   now()  ,   #{updateTime}  ,   #{schoolId}    )
+    </insert>
+    <update id="updateTopicQuotaResources" parameterType="TopicQuotaResources">
+        update jy_topic_quota_resources
+        <set>
+            <if test="remainingMargin!=null ">
+                remaining_margin=#{remainingMargin},
+            </if>
+            <if test="totalMargin!=null ">
+                total_margin=#{totalMargin},
+            </if>
+            <if test="remarks!=null ">
+                remarks=#{remarks},
+            </if>
+            <if test="closingDate!=null ">
+                closing_date=#{closingDate},
+            </if>
+            <if test="uploadVouchers!=null ">
+                upload_vouchers=#{uploadVouchers},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateTopicQuotaResourcesForAll" parameterType="TopicQuotaResources">
+        update jy_topic_quota_resources
+        <set>
+            remaining_margin=#{remainingMargin},
+            total_margin=#{totalMargin},
+            remarks=#{remarks},
+            closing_date=#{closingDate},
+            upload_vouchers=#{uploadVouchers},
+            create_time=#{createTime},
+            update_time=now(),
+            school_id=#{schoolId}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteTopicQuotaResources" >
+        delete from jy_topic_quota_resources where id=#{id}
+    </delete>
+    <delete id="deleteTopicQuotaResourcesByCondition" >
+        delete T from jy_topic_quota_resources T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveTopicQuotaResources" parameterType="TopicQuotaResources">
+        INSERT INTO jy_topic_quota_resources (  id,  remaining_margin,  total_margin,  remarks,  closing_date,  upload_vouchers,  create_time,  update_time,  school_id )
+        VALUES
+        <foreach collection="list" item="topicQuotaResources" separator=",">
+            (   #{topicQuotaResources.id}  ,   #{topicQuotaResources.remainingMargin}  ,   #{topicQuotaResources.totalMargin}  ,   #{topicQuotaResources.remarks}  ,   #{topicQuotaResources.closingDate}  ,   #{topicQuotaResources.uploadVouchers}  ,   now()  ,   #{topicQuotaResources.updateTime}  ,   #{topicQuotaResources.schoolId}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <!--查询基本学校题库信息-->
+    <select id="getBaiscInfo" parameterType="TopicQuotaResources" resultType="TopicQuotaResources">
+      SELECT
+        t1.id schoolId,
+        t1.`name`,
+        CONCAT( t1.province_name, t1.city_name, t1.district_name, t1.address ) address,
+        t2.remaining_margin remainingMargin,
+        t2.closing_date closingDate,
+        t2.id,
+        t2.total_margin totalMargin,
+        t2.remarks,
+        t2.upload_vouchers uploadVouchers,
+        t2.create_time createTime,
+        t2.update_time updateTime,
+        GROUP_CONCAT(t4.id)  ids
+      FROM
+        school t1
+        LEFT join jy_topic_quota_resources t2  ON t1.id=t2.school_id
+        LEFT join jy_platform_topicQuRe t3 ON  t2.id=t3.topic_quota_resource_id
+        LEFT join jy_resource_platform t4   ON t3.platform_id=t4.id
+      WHERE
+        t1.id =#{schoolId}
+      group by t1.id
+    </select>
+    <select id="findPaltFormByCondition" parameterType="TopicQuotaResources" resultType="ResourcePlatform">
+    SELECT
+	  t3.id,
+	  t3.resource_name resourceName
+      FROM
+	  jy_topic_quota_resources t1
+	  LEFT JOIN jy_platform_topicQuRe t2 ON t1.id = t2.topic_quota_resource_id
+	  LEFT JOIN jy_resource_platform t3 ON t2.platform_id = t3.id
+    WHERE
+	  DATE( CURDATE( ) ) &lt;= t1.closing_date
+	  AND t1.school_id=#{schoolId}
+    </select>
+
+    <!--维护资源表-->
+    <update id="updateTopicQuotaResources4Like" parameterType="TopicQuotaResources">
+        update jy_topic_quota_resources
+        <set>
+            <if test="totalMargin!=null ">
+                total_margin=total_margin+#{increaseQuantity},
+            </if>
+            <if test="remarks!=null ">
+                remarks=#{remarks},
+            </if>
+            <if test="closingDate!=null ">
+                closing_date=#{closingDate},
+            </if>
+            upload_vouchers=#{uploadVouchers},
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--有访问就加一-->
+    <update id="updateTopicQuotaResourcesByOne" parameterType="TopicQuotaResources">
+        update jy_topic_quota_resources
+           set remaining_margin=remaining_margin+1,
+               update_time=now()
+        where school_id=#{schoolId}
+    </update>
+
+</mapper>

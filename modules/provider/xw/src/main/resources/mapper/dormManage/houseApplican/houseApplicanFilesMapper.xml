@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dormManage.houseApplican.IHouseApplicanFilesDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('houseApplicanId')">
+                             T.house_applican_id,
+                         </if>
+                         <if test="!pager.excludes.contains('fileUrl')">
+                             T.file_url,
+                         </if>
+                         <if test="!pager.excludes.contains('fileName')">
+                             T.file_name,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="houseApplicanId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='houseApplicanId'">
+                            and T.house_applican_id like concat('%',#{houseApplicanId},'%')
+                         </when>
+                         <otherwise>
+                            and T.house_applican_id=#{houseApplicanId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fileUrl!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fileUrl'">
+                            and T.file_url like concat('%',#{fileUrl},'%')
+                         </when>
+                         <otherwise>
+                            and T.file_url=#{fileUrl}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fileName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fileName'">
+                            and T.file_name like concat('%',#{fileName},'%')
+                         </when>
+                         <otherwise>
+                            and T.file_name=#{fileName}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findHouseApplicanFilesListByCondition" parameterType="HouseApplicanFiles" resultType="HouseApplicanFiles">
+        select
+         <include refid="projection"/>
+         from xw_house_applican_files T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findHouseApplicanFilesCountByCondition" parameterType="HouseApplicanFiles" resultType="long">
+        select count(*) from xw_house_applican_files T
+        <include refid="match"/>
+    </select>
+    <select id="findHouseApplicanFilesById" resultType="HouseApplicanFiles">
+        select * from xw_house_applican_files where id=#{id}
+    </select>
+    <select id="findOneHouseApplicanFilesByCondition" parameterType="HouseApplicanFiles" resultType="HouseApplicanFiles">
+        select
+         <include refid="projection"/>
+         from xw_house_applican_files T
+        <include refid="match"/>
+    </select>
+    <insert id="saveHouseApplicanFiles" parameterType="HouseApplicanFiles">
+        insert into xw_house_applican_files
+         (
+            id,
+            school_id,
+            create_time,
+            house_applican_id,
+            file_url,
+            file_name
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                now()
+                ,
+                #{houseApplicanId}
+                ,
+                #{fileUrl}
+                ,
+                #{fileName}
+                
+         )
+    </insert>
+    <update id="updateHouseApplicanFiles" parameterType="HouseApplicanFiles">
+        update xw_house_applican_files
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="houseApplicanId!=null ">
+                        house_applican_id=#{houseApplicanId},
+                    </if>
+                    <if test="fileUrl!=null ">
+                        file_url=#{fileUrl},
+                    </if>
+                    <if test="fileName!=null ">
+                        file_name=#{fileName}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteHouseApplicanFiles" >
+        delete from xw_house_applican_files where id=#{id}
+    </delete>
+    <delete id="deleteHouseApplicanFilesByCondition" >
+        delete T from xw_house_applican_files T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveHouseApplicanFiles" parameterType="HouseApplicanFiles">
+        INSERT INTO xw_house_applican_files (  id,  school_id,  create_time,  house_applican_id,  file_url,  file_name )
+        VALUES
+        <foreach collection="list" item="houseApplicanFiles" separator=",">
+            (  #{houseApplicanFiles.id},  #{houseApplicanFiles.schoolId},  now(),  #{houseApplicanFiles.houseApplicanId},  #{houseApplicanFiles.fileUrl},  #{houseApplicanFiles.fileName}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

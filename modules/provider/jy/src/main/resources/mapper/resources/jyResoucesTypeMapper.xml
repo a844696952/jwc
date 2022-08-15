@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.resources.IJyResoucesTypeDao">
+    <!--########################################################################################################################-->
+    <select id="findJyResoucesTypeListByCondition" parameterType="JyResoucesType" resultType="JyResoucesType">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('parentId')">
+                        T.parent_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_resouces_type T
+        <where>
+            <if test="parentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='parentId'">
+                        T.parent_id like concat('%',#{parentId},'%')
+                    </when>
+                    <otherwise>
+                        T.parent_id=#{parentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findJyResoucesTypeCountByCondition" parameterType="JyResoucesType" resultType="long">
+        select count(*) from jy_resouces_type T
+        <where>
+            <if test="parentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='parentId'">
+                        T.parent_id like concat('%',#{parentId},'%')
+                    </when>
+                    <otherwise>
+                        T.parent_id=#{parentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findJyResoucesTypeById" resultType="JyResoucesType">
+        select * from jy_resouces_type where id=#{id}
+    </select>
+    <select id="findOneJyResoucesTypeByCondition" parameterType="JyResoucesType" resultType="JyResoucesType">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('parentId')">
+                        T.parent_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_resouces_type T
+        <where>
+            <if test="parentId!=null">
+                T.parent_id=#{parentId}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+            </if>
+            <if test="name!=null">
+                and T.name=#{name}
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+        </where>
+    </select>
+    <insert id="saveJyResoucesType" parameterType="JyResoucesType">
+        insert into jy_resouces_type
+        (
+        id,
+        parent_id,
+        school_id,
+        teacher_id,
+        name,
+        type,
+        update_time,
+        create_time
+        ) values
+        (
+        #{id}
+        ,
+        #{parentId}
+        ,
+        #{schoolId}
+        ,
+        #{teacherId}
+        ,
+        #{name}
+        ,
+        #{type}
+        ,
+        now()
+        ,
+        now()
+
+        )
+    </insert>
+    <update id="updateJyResoucesType" parameterType="JyResoucesType">
+        update jy_resouces_type
+        <set>
+            <if test="parentId!=null ">
+                parent_id=#{parentId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            update_time=now(),
+            <if test="createTime!=null ">
+                create_time=#{createTime}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteJyResoucesType" >
+        delete from jy_resouces_type where id=#{id}
+    </delete>
+    <delete id="deleteJyResoucesTypeByCondition" >
+        delete from jy_resouces_type
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="parentId!=null">
+                and parent_id=#{parentId}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+            <if test="name!=null">
+                and name=#{name}
+            </if>
+            <if test="type!=null">
+                and type=#{type}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveJyResoucesType" parameterType="JyResoucesType">
+        INSERT INTO jy_resouces_type (  id,  parent_id,  school_id,  teacher_id,  name,  type,  update_time,  create_time )
+        VALUES
+        <foreach collection="list" item="jyResoucesType" separator=",">
+            (  #{jyResoucesType.id},  #{jyResoucesType.parentId},  #{jyResoucesType.schoolId},  #{jyResoucesType.teacherId},  #{jyResoucesType.name},  #{jyResoucesType.type},  #{jyResoucesType.updateTime},  #{jyResoucesType.createTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <!-- 批量删除文件信息 -->
+    <delete id="deleteManyResoucesType">
+        delete from jy_resouces_type where id in
+        <foreach item="item" collection="rowDatas" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <!-- 批量移动文件信息 -->
+    <update id="updateManyResoucesType" >
+        update jy_resouces_type set parent_id=#{fileId} where id in
+        <foreach item="item" collection="rowDatas" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <select id="repeatType" resultType="int">
+        select count(id) from jy_resouces_type where school_id=#{schoolId} and teacher_id=#{teacherId} and name=#{name} and type=#{type} and id  not in (#{id})
+    </select>
+    <select id="getTreeList" resultType="JyResoucesType">
+        select id,name,parent_id from jy_resouces_type
+        <where>
+            <if test="parentId!=null">
+                parent_id=#{parentId}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+            <if test="name!=null">
+                and name=#{name}
+            </if>
+            <if test="type!=null">
+                and type=#{type}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="removeRepartResoucesType" resultType="JyResoucesType">
+        select id from jy_resouces_type where id in
+        <foreach item="item" collection="rowDatas" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        or parent_id in
+        <foreach item="item" collection="rowDatas" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

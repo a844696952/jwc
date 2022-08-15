@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.parent.IParentDao">
+    <!--########################################################################################################################-->
+    <select id="findParentListByCondition" parameterType="Parent" resultType="Parent">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('tel')">
+                        T.tel,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('password')">
+                        T.password,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('studentId')">
+                        T.student_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('openId')">
+                        T.open_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jw_parent T
+        <where>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        T.tel=#{tel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="password!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='password'">
+                        and T.password like concat('%',#{password},'%')
+                    </when>
+                    <otherwise>
+                        and T.password=#{password}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='sex'">
+                        and T.sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and T.sex=#{sex}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studentId'">
+                        and T.student_id like concat('%',#{studentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_id=#{studentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="openId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='openId'">
+                        and T.open_id like concat('%',#{openId},'%')
+                    </when>
+                    <otherwise>
+                        and T.open_id=#{openId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findParentCountByCondition" parameterType="Parent" resultType="long">
+        select count(*) from jw_parent
+        <where>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        T.tel=#{tel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="password!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='password'">
+                        and T.password like concat('%',#{password},'%')
+                    </when>
+                    <otherwise>
+                        and T.password=#{password}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='sex'">
+                        and T.sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and T.sex=#{sex}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studentId'">
+                        and T.student_id like concat('%',#{studentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_id=#{studentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findParentById" resultType="Parent">
+        select * from jw_parent where id=#{id}
+    </select>
+    <select id="findOneParentByCondition" parameterType="Parent" resultType="Parent">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('tel')">
+                        T.tel,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('password')">
+                        T.password,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('studentId')">
+                        T.student_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jw_parent T
+        <where>
+            <if test="tel!=null">
+                T.tel=#{tel}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="password!=null">
+                and T.password=#{password}
+            </if>
+            <if test="name!=null">
+                and T.name=#{name}
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="studentId!=null">
+                and T.student_id=#{studentId}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+        </where>
+    </select>
+    <insert id="saveParent" parameterType="Parent">
+        insert into jw_parent
+         (
+            id,
+            tel,
+            create_time,
+            update_time,
+            password,
+            name,
+            sex,
+            student_id,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{tel}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{password}
+                ,
+                #{name}
+                ,
+                #{sex}
+                ,
+                #{studentId}
+                ,
+                #{schoolId}
+
+         )
+    </insert>
+    <update id="updateParent" parameterType="Parent">
+        update jw_parent
+        <set>
+            <if test="tel!=null ">
+                tel=#{tel},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="password!=null ">
+                password=#{password},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="sex!=null ">
+                sex=#{sex},
+            </if>
+            <if test="studentId!=null ">
+                student_id=#{studentId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="openId!=null ">
+                open_id=#{openId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteParent" >
+        delete from jw_parent where id=#{id}
+    </delete>
+    <delete id="deleteParentByCondition" >
+        delete from jw_parent
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="tel!=null">
+                and tel=#{tel}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="password!=null">
+                and password=#{password}
+            </if>
+            <if test="name!=null">
+                and name=#{name}
+            </if>
+            <if test="sex!=null">
+                and sex=#{sex}
+            </if>
+            <if test="studentId!=null">
+                and student_id=#{studentId}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveParent" parameterType="Parent">
+        INSERT INTO jw_parent (  id,  tel,  create_time,  update_time,  password,  name,  sex,  student_id,  school_id )
+        VALUES
+        <foreach collection="list" item="parent" separator=",">
+            (  #{parent.id},  #{parent.tel},  #{parent.createTime},  #{parent.updateTime},  #{parent.password},  #{parent.name},  #{parent.sex},  #{parent.studentId},  #{parent.schoolId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <update id="updatePassword" parameterType="Parent">
+        update jw_parent
+        <set>
+            <if test="tel!=null ">
+                tel=#{tel},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="password!=null ">
+                password=#{password},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="sex!=null ">
+                sex=#{sex},
+            </if>
+            <if test="studentId!=null ">
+                student_id=#{studentId}
+            </if>
+        </set>
+        where tel=#{tel}
+    </update>
+
+    <insert id="saveParentStudent" parameterType="ParentStudent" useGeneratedKeys="true" keyProperty="id">
+        insert into jw_parent_jw_student
+         (
+            id,
+            parent_id,
+            student_id,
+            create_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{parentId}
+                ,
+                #{studentId}
+                ,
+                now()
+                ,
+                #{schoolId}
+
+         )
+    </insert>
+    <select id="findParentStudentListByCondition" parameterType="ParentStudent" resultType="ParentStudent">
+        select  T.*
+        from jw_parent_jw_student T
+        <where>
+            <if test="parentId!=null">
+                T.parent_id=#{parentId}
+            </if>
+            <if test="studentId!=null">
+                and T.student_id=#{studentId}
+            </if>
+        </where>
+    </select>
+    <update id="updateParentStudent" parameterType="ParentStudent">
+        update jw_parent_jw_student T
+        <set>
+            <if test="relationship!=null ">
+                T.relationship=#{relationship}
+            </if>
+        </set>
+        <where>
+            <if test="parentId!=null">
+                T.parent_id=#{parentId}
+            </if>
+            <if test="studentId!=null">
+                and T.student_id=#{studentId}
+            </if>
+        </where>
+    </update>
+    <!--########################################################################################################################-->
+    <select id="getBoundStudentList" parameterType="ParentStudent" resultType="Student">
+        select * from jw_student S where
+        exists
+        (select * from jw_parent_jw_student P where
+        S.id= P.student_id
+        and P.parent_id = #{parentId}
+        );
+    </select>
+
+
+    <delete id="deleteParentStudentByCondition" >
+        delete from jw_parent_jw_student
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="parentId!=null">
+                and parent_id=#{parentId}
+            </if>
+            <if test="studentId!=null">
+                and student_id=#{studentId}
+            </if>
+        </where>
+    </delete>
+
+    <delete id="deleteParentStudentByParentId" >
+     DELETE FROM jw_parent_jw_student  WHERE  parent_id = #{parentId} AND NOT EXISTS(SELECT * FROM jw_student s WHERE s.`id` = student_id)
+    </delete>
+
+    <update id="updateParent1" parameterType="Parent">
+        update jw_parent
+        <set>
+                update_time=now(),
+                student_id=#{studentId},
+                school_id=#{schoolId}
+        </set>
+        where id=#{id}
+    </update>
+    <!--##########  by-GZW ####################################################################################################-->
+<!--    <select id="getBoundStudentListInCenter" parameterType="ParentStudent" resultType="ParentStudentFile">
+        SELECT jw_student.id as id,
+         jw_student.img_url ,
+         jw_student.`name` as name,
+         jw_parent.`name` as parent_name ,
+         jw_parent_jw_student.relationship,
+         jw_student.sex ,
+         jw_student.birthday,
+         school.`name` as school_name,
+         jw_student.student_code ,
+         jw_student.grade_name ,
+          jw_classes.number as classes_number,
+           jw_student.school_id as school_id
+        FROM
+        (
+        (
+        (
+        (jw_student  JOIN jw_parent_jw_student  ON  jw_student.id= jw_parent_jw_student.student_id
+        and jw_parent_jw_student.parent_id =  #{parentId} )
+        JOIN school on school_id= school.id
+        )
+        JOIN  jw_parent on jw_parent.id =  #{parentId}
+        )
+        left JOIN  jw_classes on jw_student.classes_id = jw_classes.id
+        )
+    </select>-->
+    <select id="getBoundStudentListInCenter" parameterType="ParentStudent" resultType="ParentStudentFile">
+        SELECT
+		 jw_student.*,
+         jw_parent.`name` as parent_name ,
+         jw_parent_jw_student.relationship,
+         school.`name` as school_name,
+         jw_classes.number as classes_number,
+         jw_classes.grade_id as gradeId,
+          jw_classes.grade_name as gradeName
+        FROM
+        (
+        (
+        (
+        (jw_student  JOIN jw_parent_jw_student  ON  jw_student.id= jw_parent_jw_student.student_id
+        and jw_parent_jw_student.parent_id = #{parentId} )
+        )
+        left JOIN  jw_parent on jw_parent.id =  #{parentId}
+        )
+        left JOIN  jw_classes on jw_student.classes_id = jw_classes.id
+        )
+        left JOIN school on jw_student.school_id= school.id
+    </select>
+
+
+    <update id="setStudentidToNull" parameterType="Parent">
+        update jw_parent
+        <set>
+            student_id=null,
+            school_id=null
+        </set>
+        where student_id=#{studentId}
+    </update>
+
+    <select id="findParentByStudentId" resultType="Parent">
+        select * from jw_parent where student_id=#{id}
+    </select>
+    <select id="findParentMsgByStudentId" resultType="ParentStudentFile">
+       SELECT jw_parent.id parent_id ,
+        jw_parent.tel guardianContact ,
+        jw_parent.name parent_name ,
+        jw_parent_jw_student.`relationship` relationship ,
+        jw_parent_jw_student.`student_id` id
+        FROM jw_parent INNER  JOIN
+        jw_parent_jw_student ON jw_parent.id = jw_parent_jw_student.parent_id
+        WHERE jw_parent_jw_student.student_id=#{id}
+    </select>
+
+    <delete id="deleteParentStudentByShiftpromotion">
+        DELETE jw_parent_jw_student.* FROM	jw_parent_jw_student  left join jw_student  on jw_parent_jw_student.student_id=jw_student.id left join jw_classes  on
+        jw_student.classes_id=jw_classes.id where jw_classes.id in
+        (
+        <foreach collection="list" separator="," item="id">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <select id="findSchoolByParentId" parameterType="ParentStudent" resultType="ParentStudent">
+        SELECT T.parent_id,T.student_id,A.school_id from jw_parent_jw_student T left join jw_student A on T.student_id=A.id where T.parent_id=#{parentId}
+    </select>
+
+    <select id="removeParentIdByClassList"  resultType="String">
+        SELECT T.id from jw_parent T  left join jw_student A on T.student_id=A.id  where A.classes_id
+        in
+        (
+        <foreach collection="list" separator="," item="id">
+            #{id}
+        </foreach>
+        )
+    </select>
+
+  <!--  <select id="findStudentIdByClassId" parameterType="arraylist" resultType="arraylist">
+        select A.id  from jw_student A left join jw_classes B on
+        A.classes_id=B.id left join jw_parent_jw_student C on A.id=C.student_id where B.id in
+        (
+        <foreach collection="list" separator="," item="id">
+            #{id}
+        </foreach>
+        )
+    </select>-->
+</mapper>

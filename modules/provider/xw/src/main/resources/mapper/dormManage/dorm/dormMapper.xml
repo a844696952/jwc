@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dormManage.dorm.IDormDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('dormId')">
+                             T.dorm_id,
+                         </if>
+                         <if test="!pager.excludes.contains('dormCategory')">
+                             T.dorm_category,
+                         </if>
+                         <if test="!pager.excludes.contains('dormType')">
+                             T.dorm_type,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('personNum')">
+                             T.person_num,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="dormId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='dormId'">
+                            and T.dorm_id like concat('%',#{dormId},'%')
+                         </when>
+                         <otherwise>
+                            and T.dorm_id=#{dormId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="dormCategory!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='dormCategory'">
+                            and T.dorm_category like concat('%',#{dormCategory},'%')
+                         </when>
+                         <otherwise>
+                            and T.dorm_category=#{dormCategory}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="dormType!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='dormType'">
+                            and T.dorm_type like concat('%',#{dormType},'%')
+                         </when>
+                         <otherwise>
+                            and T.dorm_type=#{dormType}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="remarks!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='remarks'">
+                            and T.remarks like concat('%',#{remarks},'%')
+                         </when>
+                         <otherwise>
+                            and T.remarks=#{remarks}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="personNum!=null">
+                    and T.person_num=#{personNum}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDormListByCondition" parameterType="Dorm" resultType="Dorm">
+        select
+         <include refid="projection"/>
+         from xw_dorm T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDormCountByCondition" parameterType="Dorm" resultType="long">
+        select count(*) from xw_dorm T
+        <include refid="match"/>
+    </select>
+    <select id="findDormById" resultType="Dorm">
+        SELECT
+            T.*,
+            A.NAME,
+            A.capacity
+        FROM
+            xw_dorm T
+            LEFT JOIN jw_building A ON T.dorm_id = A.id
+        WHERE
+            T.id = #{id}
+    </select>
+    <select id="findOneDormByCondition" parameterType="Dorm" resultType="Dorm">
+        select
+         <include refid="projection"/>
+         from xw_dorm T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDorm" parameterType="Dorm">
+        insert into xw_dorm
+         (
+            id,
+            dorm_id,
+            dorm_category,
+            dorm_type,
+            remarks,
+            person_num,
+            create_time,
+            update_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{dormId}
+                ,
+                #{dormCategory}
+                ,
+                #{dormType}
+                ,
+                #{remarks}
+                ,
+                #{personNum}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updateDorm" parameterType="Dorm">
+        update xw_dorm
+        <set>
+                    <if test="dormId!=null ">
+                        dorm_id=#{dormId},
+                    </if>
+                    <if test="dormCategory!=null ">
+                        dorm_category=#{dormCategory},
+                    </if>
+                    <if test="dormType!=null ">
+                        dorm_type=#{dormType},
+                    </if>
+                    <if test="remarks!=null ">
+                        remarks=#{remarks},
+                    </if>
+                    <if test="personNum!=null ">
+                        person_num=#{personNum},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+        <where>
+            <if test="id!=null">
+                AND id=#{id}
+            </if>
+            <if test="dormId!=null">
+                AND dorm_id=#{dormId}
+            </if>
+        </where>
+
+    </update>
+    <delete id="deleteDorm" >
+        delete from xw_dorm where id=#{id}
+    </delete>
+    <delete id="deleteDormByCondition" >
+        delete T from xw_dorm T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDorm" parameterType="Dorm">
+        INSERT INTO xw_dorm (  id,  dorm_id,  dorm_category,  dorm_type,  remarks,  person_num,  create_time,  update_time,  school_id )
+        VALUES
+        <foreach collection="list" item="dorm" separator=",">
+            (  #{dorm.id},  #{dorm.dormId},  #{dorm.dormCategory},  #{dorm.dormType},  #{dorm.remarks},  #{dorm.personNum},  #{dorm.createTime},  #{dorm.updateTime},  #{dorm.schoolId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <resultMap id="DormBuildingMap" type="Dorm">
+        <id property="dormId" column="oneId"></id>
+        <result property="name" column="oneName"></result>
+        <result property="level" column="oneLevel"></result>
+        <collection property="children" javaType="ArrayList" ofType="Dorm">
+            <id property="dormId" column="twoId"></id>
+            <result property="name" column="twoName"></result>
+            <result property="level" column="twoLevel"></result>
+            <collection property="children" javaType="ArrayList" ofType="Dorm">
+                <id property="id" column="id"></id>
+                <result property="dormId" column="ThreeId"></result>
+                <result property="name" column="ThreeName"></result>
+                <result property="level" column="ThreeLevel"></result>
+                <result property="capacity" column="capacity"></result>
+                <result property="dormCategory" column="dorm_category"></result>
+                <result property="dormType" column="dorm_type"></result>
+                <result property="remarks" column="remarks"></result>
+                <result property="personNum" column="person_num"></result>
+                <result property="schoolId" column="school_id"></result>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="findDormBuildingTreeByCondition" parameterType="DormBuildVo" resultMap="DormBuildingMap">
+        SELECT
+            A.id  oneId,
+            A.NAME oneName,
+            A.`level` oneLevel,
+            B.id  twoId,
+            B.NAME twoName,
+            B.`level` twoLevel,
+            C.id ThreeId,
+            C.NAME ThreeName,
+            C.capacity,
+            C.`level` ThreeLevel,
+            T.id,
+            T.dorm_category,
+            T.dorm_type,
+            T.remarks,
+            T.person_num,
+            T.school_id
+        FROM
+            jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            INNER JOIN jw_building C ON B.id = C.parent_id
+            LEFT JOIN xw_dorm T ON T.dorm_id = C.id
+       <where>
+           C.type_id = '107'
+           <if test="dormCategory!=null">
+               AND T.dorm_category = #{dormCategory}
+           </if>
+           <if test="dormType!=null">
+               AND T.dorm_type = #{dormType}
+           </if>
+           <if test="dormBuildIdList!=null and dormBuildIdList.size()>0">
+               AND A.id IN
+               <foreach collection="dormBuildIdList" item="dormBuildId" open="(" separator="," close=")">
+                   #{dormBuildId}
+               </foreach>
+           </if>
+           <if test="floorId!=null">
+               AND B.id = #{floorId}
+           </if>
+       </where>
+        ORDER BY
+            A.create_time,
+            B.NAME,
+            C.NAME
+    </select>
+
+    <select id="findDormFloorNum" parameterType="DormBuildVo" resultType="Dorm">
+        SELECT
+            M.id dormId,
+            M.NAME,
+            sum( M.capacity ) floorCapacity,
+            sum( M.person_num ) floorPersonNum,
+            sum(dormStatus) floorEmptyNum
+        FROM
+          (
+            SELECT
+                B.id,
+                B.NAME,
+                C.parent_id,
+                C.capacity,
+                T.person_num,
+                C.capacity - T.person_num dormStatus
+            FROM
+                jw_building A
+                INNER JOIN jw_building B ON A.id = B.parent_id
+                INNER JOIN jw_building C ON B.id = C.parent_id
+                LEFT JOIN xw_dorm T ON T.dorm_id = C.id
+            <where>
+                C.type_id = '107'
+                <if test="schoolId!=null">
+                    AND A.school_id = #{schoolId}
+                </if>
+                <if test="staffId!=null">
+                    AND D.staff_id = #{staffId}
+                </if>
+                <if test="dormCategory!=null">
+                    AND T.dorm_category = #{dormCategory}
+                </if>
+                <if test="dormType!=null">
+                    AND T.dorm_type = #{dormType}
+                </if>
+                <if test="dormStatus!=null">
+                    <choose>
+                        <when test="dormStatus==1">
+                            AND  C.capacity - T.person_num  = '0'
+                        </when>
+                        <otherwise>
+                            AND C.capacity - T.person_num  &lt;&gt; '0'
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="dormBuildIdList!=null and dormBuildIdList.size()>0">
+                    AND A.id IN
+                    <foreach collection="dormBuildIdList" item="dormBuildId" open="(" separator="," close=")">
+                        #{dormBuildId}
+                    </foreach>
+                </if>
+            </where>
+            GROUP BY
+                C.id
+          ) M
+        GROUP BY
+            M.parent_id
+    </select>
+
+    <update id="updateDormByDormId" parameterType="Dorm">
+        update xw_dorm
+        <set>
+            <if test="dormId!=null ">
+                dorm_id=#{dormId},
+            </if>
+            <if test="dormCategory!=null ">
+                dorm_category=#{dormCategory},
+            </if>
+            <if test="dormType!=null ">
+                dorm_type=#{dormType},
+            </if>
+            <if test="remarks!=null ">
+                remarks=#{remarks},
+            </if>
+            <if test="personNum!=null ">
+                person_num=#{personNum},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where dorm_id=#{dormId}
+    </update>
+
+
+    <select id="findDormBuildingTreeByConditionTap" parameterType="DormBuildVo" resultMap="DormBuildingMap">
+        SELECT
+            A.id oneId,
+            A.NAME oneName,
+            A.`level` oneLevel,
+            B.id twoId,
+            B.NAME twoName,
+            B.`level` twoLevel,
+            C.id ThreeId,
+            C.NAME ThreeName,
+            C.capacity,
+            C.`level` ThreeLevel
+        FROM
+            jw_building A
+        INNER JOIN jw_building B ON A.id = B.parent_id
+        INNER JOIN jw_building C ON B.id = C.parent_id
+        INNER JOIN
+        (
+          SELECT * FROM xw_dorm_person
+          <where>
+            <if test="schoolId!=null">
+                AND school_id = #{schoolId}
+
+            </if>
+            <if test="dormType!=null">
+                <if test="dormType==1">
+                    AND person_type = '1'
+                </if>
+                <if test="dormType==2 or dormType==3">
+                    AND person_type in ('2','3')
+                </if>
+            </if>
+              GROUP BY dorm_id
+          </where>
+        ) D ON C.id = D.dorm_id
+        <where>
+            <if test="dormBuildId!=null">
+                AND A.id = #{dormBuildId}
+            </if>
+            <if test="floorId!=null">
+                AND B.id = #{floorId}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="findDormListByTypeAndCategory" parameterType="Dorm" resultType="DormBuildingPersonInfo">
+        SELECT
+            T.dorm_id,
+            A.name dormName,
+            T.dorm_type,
+            T.dorm_category,
+            A.parent_id
+        FROM
+            xw_dorm T
+            INNER JOIN jw_building A on T.dorm_id = A.id
+            <if test="isNullBunk==true">
+                INNER JOIN xw_dorm_person B ON T.dorm_id = B.dorm_id
+            </if>
+        <where>
+            <if test="dormType!=null">
+                AND T.dorm_type = #{dormType}
+            </if>
+            <if test="dormCategory!=null">
+                <if test="dormCategory==1">
+                    AND T.dorm_category = '1'
+                </if>
+                <if test="dormCategory==2 or dormCategory==3 or dormCategory==4">
+                    AND T.dorm_category in ('2','3','4')
+                </if>
+            </if>
+            <if test="dormType!=null">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="dormId!=null">
+                AND T.dorm_id = #{dormId}
+            </if>
+            <if test="isNullBunk==true">
+                AND B.person_id IS NULL
+            </if>
+        </where>
+        GROUP BY
+            T.dorm_id
+    </select>
+
+    <select id="findBuildingById" resultType="Building">
+        select * from jw_building where id=#{id}
+    </select>
+
+    <delete id="batchDeleteDormByDormIdList">
+        delete T from xw_dorm T where T.dorm_id in
+        <foreach collection="dormIdList" index="index" item="dormId" open="(" separator="," close=")">
+            #{dormId}
+        </foreach>
+    </delete>
+
+    <select id="findDormBuildingAndFloor" parameterType="String" resultType="Building">
+        SELECT
+            B.id,
+            CONCAT( A.NAME, B.NAME ) name,
+            B.`level`,
+            B.school_id
+        FROM
+            jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            INNER JOIN jw_building C ON B.id = C.parent_id
+        <where>
+            C.type_id = '107'
+            AND A.school_id = #{schoolId}
+        </where>
+
+        GROUP BY
+            B.id
+        ORDER BY
+            A.create_time,
+            B.NAME
+    </select>
+
+    <select id="findDormByFloorId" parameterType="Building" resultType="Dorm">
+        SELECT
+            B.id dormId,
+            B.NAME,
+            T.id,
+            T.dorm_category,
+            T.dorm_type,
+            T.remarks,
+            T.person_num,
+            T.school_id
+        FROM
+            jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            LEFT JOIN xw_dorm T ON B.id = T.dorm_id
+        <where>
+            B.type_id = '107'
+            <if test="id!=null">
+                AND  A.id = #{id}
+            </if>
+            <if test="schoolId">
+                AND A.school_id = #{schoolId}
+            </if>
+        </where>
+        ORDER BY
+	        B.create_time
+    </select>
+</mapper>

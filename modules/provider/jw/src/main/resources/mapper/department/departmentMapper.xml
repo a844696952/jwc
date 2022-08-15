@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.department.IDepartmentDao">
+    <!--########################################################################################################################-->
+    <select id="findDepartmentListByCondition" parameterType="Department" resultType="Department">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('path')">
+                             T.path,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_department T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="parentId!=null">
+                and T.parent_id=#{parentId}
+              </if>
+              <if test="path!=null">
+                and T.path=#{path}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findDepartmentCountByCondition" parameterType="Department" resultType="long">
+        select count(*) from jw_department
+        <where>
+              <if test="name!=null">
+                 name=#{name}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="parentId!=null">
+                and parent_id=#{parentId}
+              </if>
+              <if test="path!=null">
+                and path=#{path}
+              </if>
+        </where>
+    </select>
+    <select id="findDepartmentById" resultType="Department">
+        select * from jw_department where id=#{id}
+    </select>
+    <select id="findOneDepartmentByCondition" parameterType="Department" resultType="Department">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('path')">
+                             T.path,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_department T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="parentId!=null">
+                and T.parent_id=#{parentId}
+              </if>
+              <if test="path!=null">
+                and T.path=#{path}
+              </if>
+        </where>
+    </select>
+    <insert id="saveDepartment" parameterType="Department">
+        insert into jw_department
+         (
+            id,
+            name,
+            school_id,
+            parent_id,
+            path
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{schoolId}
+                ,
+                #{parentId}
+                ,
+                #{path}
+                
+         )
+    </insert>
+    <update id="updateDepartment" parameterType="Department">
+        update jw_department
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_id=#{parentId},
+                    </if>
+                    <if test="path!=null ">
+                        path=#{path}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDepartment" >
+        delete from jw_department where id=#{id}
+    </delete>
+    <delete id="deleteDepartmentByCondition" >
+        delete from jw_department
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="parentId!=null">
+                and parent_id=#{parentId}
+              </if>
+              <if test="path!=null">
+                and path=#{path}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveDepartment" parameterType="Department">
+        INSERT INTO jw_department (  id,  name,  school_id,  parent_id,  path )
+        VALUES
+        <foreach collection="list" item="department" separator=",">
+            (  #{department.id},  #{department.name},  #{department.schoolId},  #{department.parentId},  #{department.path}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findDepartmentTreeBySchoolId" resultType="com.yice.edu.cn.common.pojo.jw.department.Department">
+        SELECT T.id id,D.id parent_id,T.name name,D.school_id school_id,1 type,T.img_url imgUrl,T.tel tel FROM jw_department D inner join jw_department_teacher DT on D.id=DT.department_id and D.school_id=#{schoolId} inner join jw_teacher T on DT.teacher_id=T.id
+        <if test="personType!=0">
+            where T.person_type=#{personType}
+        </if>
+        union all
+        select id,parent_id,name,school_id,0 type,null imgUrl,null tel from jw_department where school_id=#{schoolId}
+    </select>
+    <select id="findSelectTeachers" resultType="com.yice.edu.cn.common.pojo.jw.teacher.Teacher">
+        SELECT T.id,T.name from jw_teacher T inner join jw_department_teacher DT on T.id=DT.teacher_id and DT.department_id=#{departmentId}
+    </select>
+    <select id="findAllTeacherBySchoolId" resultType="com.yice.edu.cn.common.pojo.jw.teacher.Teacher">
+        select id,name from jw_teacher where school_id=#{schoolId} and status=40
+    </select>
+    <select id="getMyDepartmentNames" resultType="com.yice.edu.cn.common.pojo.jw.department.Department">
+        select d.id id,d.name name  from (select * from jw_department_teacher where teacher_id=#{id}) A inner join jw_department d on A.department_id=d.id
+    </select>
+    <select id="findDepartmentTreeToSchoolNotifyBySchoolId" resultType="com.yice.edu.cn.common.pojo.jw.department.Department">
+        select id,parent_id,name,school_id,0 type,null imgUrl from jw_department where school_id=#{schoolId}
+    </select>
+    <select id="findDepartmentInIds" resultType="com.yice.edu.cn.common.pojo.jw.department.Department">
+        select id,name from jw_department where school_id=#{schoolId} and id in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="findTeacherInIds" resultType="com.yice.edu.cn.common.pojo.jw.department.Department">
+        select id,name from jw_teacher where school_id=#{schoolId} and status='40' and id in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+</mapper>

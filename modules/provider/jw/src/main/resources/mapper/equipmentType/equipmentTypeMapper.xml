@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.equipmentType.EquipmentTypeDao">
+    <!--########################################################################################################################-->
+    <select id="findEquipmentTypeListByCondition" parameterType="EquipmentType" resultType="EquipmentType">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('className')">
+                             T.class_name,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentNumber')">
+                             T.equipment_number,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_type T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="className!=null">
+                and T.class_name=#{className}
+              </if>
+              <if test="equipmentNumber!=null">
+                and BINARY T.equipment_number=#{equipmentNumber}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findEquipmentTypeCountByCondition" parameterType="EquipmentType" resultType="long">
+        select count(*) from equipment_type
+        <where>
+              <if test="createTime!=null">
+                 create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="className!=null">
+                and class_name=#{className}
+              </if>
+              <if test="equipmentNumber!=null">
+                and  BINARY  equipment_number=#{equipmentNumber}
+              </if>
+        </where>
+    </select>
+    <select id="findEquipmentTypeById" resultType="EquipmentType">
+        select * from equipment_type where id=#{id}
+    </select>
+    <select id="findOneEquipmentTypeByCondition" parameterType="EquipmentType" resultType="EquipmentType">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('className')">
+                             T.class_name,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentNumber')">
+                             T.equipment_number,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_type T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="className!=null">
+                and T.class_name=#{className}
+              </if>
+              <if test="equipmentNumber!=null">
+                and  T.equipment_number=#{equipmentNumber}
+              </if>
+        </where>
+    </select>
+    <insert id="saveEquipmentType" parameterType="EquipmentType">
+        insert into equipment_type
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            class_name,
+            equipment_number
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{className}
+                ,
+                #{equipmentNumber}
+                
+         )
+    </insert>
+    <update id="updateEquipmentType" parameterType="EquipmentType">
+        update equipment_type
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="className!=null ">
+                        class_name=#{className},
+                    </if>
+                    <if test="equipmentNumber!=null ">
+                        equipment_number=#{equipmentNumber}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteEquipmentType" >
+        delete from equipment_type where id=#{id}
+    </delete>
+    <delete id="deleteEquipmentTypeByCondition" >
+        delete from equipment_type
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="className!=null">
+                and class_name=#{className}
+              </if>
+              <if test="equipmentNumber!=null">
+                and equipment_number=#{equipmentNumber}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveEquipmentType" parameterType="EquipmentType">
+        INSERT INTO equipment_type (  id,  create_time,  update_time,  del,  class_name,  equipment_number )
+        VALUES
+        <foreach collection="list" item="equipmentType" separator=",">
+            (  #{equipmentType.id},  #{equipmentType.createTime},  #{equipmentType.updateTime},  #{equipmentType.del},  #{equipmentType.className},  #{equipmentType.equipmentNumber}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

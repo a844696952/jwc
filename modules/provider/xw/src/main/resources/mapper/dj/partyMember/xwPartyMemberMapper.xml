@@ -1,0 +1,1192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.partyMember.XwPartyMemberDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('partyCommitteeId')">
+                        T.party_committee_id,
+                    </if>
+                    <if test="!pager.excludes.contains('partyCommitteeName')">
+                        T.party_committee_name,
+                    </if>
+                    <if test="!pager.excludes.contains('partyBranchId')">
+                        T.party_branch_id,
+                    </if>
+                    <if test="!pager.excludes.contains('partyBranchName')">
+                        T.party_branch_name,
+                    </if>
+                    <if test="!pager.excludes.contains('partyDutiesId')">
+                        T.party_duties_id,
+                    </if>
+                    <if test="!pager.excludes.contains('partyDutiesName')">
+                        T.party_duties_name,
+                    </if>
+                    <if test="!pager.excludes.contains('applyTime')">
+                        T.apply_time,
+                    </if>
+                    <if test="!pager.excludes.contains('workerTime')">
+                        T.worker_time,
+                    </if>
+                    <if test="!pager.excludes.contains('archivalSituationId')">
+                        T.archival_situation_id,
+                    </if>
+                    <if test="!pager.excludes.contains('archivalSituationName')">
+                        T.archival_situation_name,
+                    </if>
+                    <if test="!pager.excludes.contains('archivalSituationRemark')">
+                        T.archival_situation_remark,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherName')">
+                        T.teacher_name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('tel')">
+                        T.tel,
+                    </if>
+                    <if test="!pager.excludes.contains('partyTypeId')">
+                        T.party_type_id,
+                    </if>
+                    <if test="!pager.excludes.contains('partyTypeName')">
+                        T.party_type_name,
+                    </if>
+                    <if test="!pager.excludes.contains('intact')">
+                        T.intact,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyCommitteeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyCommitteeId'">
+                        and T.party_committee_id like concat('%',#{partyCommitteeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_committee_id=#{partyCommitteeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyCommitteeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyCommitteeName'">
+                        and T.party_committee_name like concat('%',#{partyCommitteeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_committee_name=#{partyCommitteeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyBranchId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyBranchId'">
+                        and T.party_branch_id like concat('%',#{partyBranchId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_branch_id=#{partyBranchId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyBranchName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyBranchName'">
+                        and T.party_branch_name like concat('%',#{partyBranchName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_branch_name=#{partyBranchName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyDutiesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyDutiesId'">
+                        and T.party_duties_id like concat('%',#{partyDutiesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_duties_id=#{partyDutiesId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyDutiesName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyDutiesName'">
+                        and T.party_duties_name like concat('%',#{partyDutiesName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_duties_name=#{partyDutiesName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="applyTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='applyTime'">
+                        and T.apply_time like concat('%',#{applyTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.apply_time=#{applyTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="workerTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='workerTime'">
+                        and T.worker_time like concat('%',#{workerTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.worker_time=#{workerTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="archivalSituationId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='archivalSituationId'">
+                        and T.archival_situation_id like concat('%',#{archivalSituationId},'%')
+                    </when>
+                    <otherwise>
+                        and T.archival_situation_id=#{archivalSituationId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="archivalSituationName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='archivalSituationName'">
+                        and T.archival_situation_name like concat('%',#{archivalSituationName},'%')
+                    </when>
+                    <otherwise>
+                        and T.archival_situation_name=#{archivalSituationName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="archivalSituationRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='archivalSituationRemark'">
+                        and T.archival_situation_remark like concat('%',#{archivalSituationRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.archival_situation_remark=#{archivalSituationRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and T.teacher_name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and T.tel=#{tel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyTypeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyTypeId'">
+                        and T.party_type_id like concat('%',#{partyTypeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_type_id=#{partyTypeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyTypeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyTypeName'">
+                        and T.party_type_name like concat('%',#{partyTypeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_type_name=#{partyTypeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="intact!=null">
+                and T.intact=#{intact}
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwPartyMemberListByCondition" parameterType="XwPartyMember" resultType="XwPartyMember">
+        select
+        <include refid="projection"/>
+        from xw_party_member T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findXwPartyMemberCountByCondition" parameterType="XwPartyMember" resultType="long">
+        select count(*) from xw_party_member T
+        <include refid="match"/>
+    </select>
+    <select id="findXwPartyMemberById" resultType="XwPartyMember">
+        select * from xw_party_member where id=#{id}
+    </select>
+
+    <select id="findOneXwPartyMemberByCondition" parameterType="XwPartyMember" resultType="XwPartyMember">
+        select
+        <include refid="projection"/>
+        from xw_party_member T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwPartyMember" parameterType="XwPartyMember">
+        insert into xw_party_member
+        (
+        id,
+        school_id,
+        teacher_id,
+        party_committee_id,
+        party_committee_name,
+        party_branch_id,
+        party_branch_name,
+        party_duties_id,
+        party_duties_name,
+        apply_time,
+        worker_time,
+        archival_situation_id,
+        archival_situation_name,
+        archival_situation_remark,
+        teacher_name,
+        sex,
+        tel,
+        party_type_id,
+        party_type_name,
+        intact,
+        create_time,
+        update_time
+        ) values
+        (
+        #{id}
+        ,
+        #{schoolId}
+        ,
+        #{teacherId}
+        ,
+        #{partyCommitteeId}
+        ,
+        #{partyCommitteeName}
+        ,
+        #{partyBranchId}
+        ,
+        #{partyBranchName}
+        ,
+        #{partyDutiesId}
+        ,
+        #{partyDutiesName}
+        ,
+        #{applyTime}
+        ,
+        #{workerTime}
+        ,
+        #{archivalSituationId}
+        ,
+        #{archivalSituationName}
+        ,
+        #{archivalSituationRemark}
+        ,
+        #{teacherName}
+        ,
+        #{sex}
+        ,
+        #{tel}
+        ,
+        #{partyTypeId}
+        ,
+        #{partyTypeName}
+        ,
+        #{intact}
+        ,
+        now()
+        ,
+        #{updateTime}
+
+        )
+    </insert>
+    <update id="updateXwPartyMember" parameterType="XwPartyMember">
+        update xw_party_member
+        <set>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="partyCommitteeId!=null ">
+                party_committee_id=#{partyCommitteeId},
+            </if>
+            <if test="partyCommitteeName!=null ">
+                party_committee_name=#{partyCommitteeName},
+            </if>
+            <if test="partyBranchId!=null ">
+                party_branch_id=#{partyBranchId},
+            </if>
+            <if test="partyBranchName!=null ">
+                party_branch_name=#{partyBranchName},
+            </if>
+            <if test="partyDutiesId!=null ">
+                party_duties_id=#{partyDutiesId},
+            </if>
+            <if test="partyDutiesName!=null ">
+                party_duties_name=#{partyDutiesName},
+            </if>
+            <if test="applyTime!=null ">
+                apply_time=#{applyTime},
+            </if>
+            <if test="workerTime!=null ">
+                worker_time=#{workerTime},
+            </if>
+            <if test="archivalSituationId!=null ">
+                archival_situation_id=#{archivalSituationId},
+            </if>
+            <if test="archivalSituationName!=null ">
+                archival_situation_name=#{archivalSituationName},
+            </if>
+            <if test="archivalSituationRemark!=null ">
+                archival_situation_remark=#{archivalSituationRemark},
+            </if>
+            <if test="teacherName!=null ">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="sex!=null ">
+                sex=#{sex},
+            </if>
+            <if test="tel!=null ">
+                tel=#{tel},
+            </if>
+            <if test="partyTypeId!=null ">
+                party_type_id=#{partyTypeId},
+            </if>
+            <if test="partyTypeName!=null ">
+                party_type_name=#{partyTypeName},
+            </if>
+            <if test="intact!=null ">
+                intact=#{intact},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteXwPartyMember" >
+        delete from xw_party_member where id=#{id}
+    </delete>
+    <delete id="deleteXwPartyMemberByCondition" >
+        delete T from xw_party_member T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwPartyMember" parameterType="XwPartyMember">
+        replace into xw_party_member (  id,  school_id,  teacher_id,  party_committee_id,  party_committee_name,  party_branch_id,  party_branch_name,  party_duties_id,  party_duties_name,  apply_time,  worker_time,  archival_situation_id,  archival_situation_name,  archival_situation_remark,  teacher_name,  sex,  tel,  party_type_id,  party_type_name,  intact,  create_time,  update_time )
+        VALUES
+        <foreach collection="list" item="xwPartyMember" separator=",">
+            (  #{xwPartyMember.id},  #{xwPartyMember.schoolId},  #{xwPartyMember.teacherId},  #{xwPartyMember.partyCommitteeId},  #{xwPartyMember.partyCommitteeName},  #{xwPartyMember.partyBranchId},  #{xwPartyMember.partyBranchName},  #{xwPartyMember.partyDutiesId},  #{xwPartyMember.partyDutiesName},  #{xwPartyMember.applyTime},  #{xwPartyMember.workerTime},  #{xwPartyMember.archivalSituationId},  #{xwPartyMember.archivalSituationName},  #{xwPartyMember.archivalSituationRemark},  #{xwPartyMember.teacherName},  #{xwPartyMember.sex},  #{xwPartyMember.tel},  #{xwPartyMember.partyTypeId},  #{xwPartyMember.partyTypeName},  #{xwPartyMember.intact},  #{xwPartyMember.createTime},  #{xwPartyMember.updateTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <sql id="matchs">
+        <where>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and te.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and te.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyCommitteeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyCommitteeId'">
+                        and T.party_committee_id like concat('%',#{partyCommitteeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_committee_id=#{partyCommitteeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyCommitteeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyCommitteeName'">
+                        and T.party_committee_name like concat('%',#{partyCommitteeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_committee_name=#{partyCommitteeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyBranchId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyBranchId'">
+                        and T.party_branch_id like concat('%',#{partyBranchId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_branch_id=#{partyBranchId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyBranchName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyBranchName'">
+                        and T.party_branch_name like concat('%',#{partyBranchName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_branch_name=#{partyBranchName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyDutiesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyDutiesId'">
+                        and T.party_duties_id like concat('%',#{partyDutiesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_duties_id=#{partyDutiesId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyDutiesName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyDutiesName'">
+                        and T.party_duties_name like concat('%',#{partyDutiesName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_duties_name=#{partyDutiesName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="applyTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='applyTime'">
+                        and T.apply_time like concat('%',#{applyTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.apply_time=#{applyTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="workerTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='workerTime'">
+                        and T.worker_time like concat('%',#{workerTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.worker_time=#{workerTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="archivalSituationId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='archivalSituationId'">
+                        and T.archival_situation_id like concat('%',#{archivalSituationId},'%')
+                    </when>
+                    <otherwise>
+                        and T.archival_situation_id=#{archivalSituationId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="archivalSituationName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='archivalSituationName'">
+                        and T.archival_situation_name like concat('%',#{archivalSituationName},'%')
+                    </when>
+                    <otherwise>
+                        and T.archival_situation_name=#{archivalSituationName}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and te.name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and te.name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyTypeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyTypeId'">
+                        and T.party_type_id like concat('%',#{partyTypeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_type_id=#{partyTypeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="intact!=null">
+                and T.intact=#{intact}
+            </if>
+            <if test="teacherStatus!=null">
+                and te.status=#{teacherStatus}
+            </if>
+        </where>
+    </sql>
+
+    <select id="findXwPartyMemberListByConditions" parameterType="XwPartyMember" resultType="XwPartyMember">
+        select te.id as 'teacherId',te.name as 'teacherName',te.tel,te.sex,T.party_committee_name as 'partyCommitteeName',T.party_branch_name as 'partyBranchName',T.party_duties_name as 'partyDutiesName',T.intact,T.party_type_name as 'partyTypeName',T.id from xw_party_member T left join
+        <choose>
+            <when test="teacherStatus==40">
+                jw_teacher te
+            </when>
+            <when test="teacherStatus==41">
+                jw_teacher_quit te
+            </when>
+        </choose>
+        on T.teacher_id = te.id
+        <include refid="matchs"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+    <select id="findXwPartyMemberCountByConditions" parameterType="XwPartyMember" resultType="long">
+        select count(T.id) from xw_party_member T left join
+        <choose>
+            <when test="teacherStatus==40">
+                jw_teacher te
+            </when>
+            <when test="teacherStatus==41">
+                jw_teacher_quit te
+            </when>
+        </choose>
+        on T.teacher_id = te.id
+        <include refid="matchs"/>
+    </select>
+
+    <update id="updateParty" parameterType="com.yice.edu.cn.common.pojo.xw.dj.partyMember.XwPartyMember">
+        update xw_party_member
+        <set>
+            <if test="partyCommitteeId!=null ">
+                party_committee_id=#{partyCommitteeId},
+            </if>
+            <if test="partyCommitteeName!=null ">
+                party_committee_name=#{partyCommitteeName},
+            </if>
+            <if test="partyBranchId!=null ">
+                party_branch_id=#{partyBranchId},
+            </if>
+            <if test="partyBranchName!=null ">
+                party_branch_name=#{partyBranchName},
+            </if>
+            <if test="partyDutiesId!=null ">
+                party_duties_id=#{partyDutiesId},
+            </if>
+            <if test="partyDutiesName!=null ">
+                party_duties_name=#{partyDutiesName},
+            </if>
+            <if test="applyTime!=null ">
+                apply_time=#{applyTime},
+            </if>
+            <if test="workerTime!=null ">
+                worker_time=#{workerTime},
+            </if>
+            <if test="archivalSituationId!=null ">
+                archival_situation_id=#{archivalSituationId},
+            </if>
+            <if test="archivalSituationName!=null ">
+                archival_situation_name=#{archivalSituationName},
+            </if>
+            <if test="archivalSituationRemark!=null ">
+                archival_situation_remark=#{archivalSituationRemark},
+            </if>
+            <if test="intact!=null ">
+                intact=#{intact},
+            </if>
+            <if test="updateTime!=null ">
+                update_time=#{updateTime},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="batchUpdateParty" parameterType="com.yice.edu.cn.common.pojo.xw.dj.partyMember.XwPartyMember">
+        update xw_party_member
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="party_committee_id =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.partyCommitteeId!=null">
+                        when id=#{i.id} then #{i.partyCommitteeId}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="party_committee_name =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.partyCommitteeName!=null">
+                        when id=#{i.id} then #{i.partyCommitteeName}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="party_branch_id =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.partyBranchId!=null">
+                        when id=#{i.id} then #{i.partyBranchId}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="party_branch_name =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.partyBranchName!=null">
+                        when id=#{i.id} then #{i.partyBranchName}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="party_duties_id =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.partyDutiesId!=null">
+                        when id=#{i.id} then #{i.partyDutiesId}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="party_duties_name =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.partyDutiesName!=null">
+                        when id=#{i.id} then #{i.partyDutiesName}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="party_type_id =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.partyTypeId!=null">
+                        when id=#{i.id} then #{i.partyTypeId}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="party_type_name =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.partyTypeName!=null">
+                        when id=#{i.id} then #{i.partyTypeName}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="apply_time =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.applyTime!=null">
+                        when id=#{i.id} then #{i.applyTime}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="worker_time =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.applyTime!=null">
+                        when id=#{i.id} then #{i.workerTime}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="archival_situation_id =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.archivalSituationId!=null">
+                        when id=#{i.id} then #{i.archivalSituationId}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="archival_situation_name =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.archivalSituationName!=null">
+                        when id=#{i.id} then #{i.archivalSituationName}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="archival_situation_remark =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.archivalSituationRemark!=null">
+                        when id=#{i.id} then #{i.archivalSituationRemark}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="intact =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.intact!=null">
+                        when id=#{i.id} then #{i.intact}
+                    </if>
+                </foreach>
+            </trim>
+
+            <trim prefix="update_time =case" suffix="end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.updateTime!=null">
+                        when id=#{i.id} then #{i.updateTime}
+                    </if>
+                </foreach>
+            </trim>
+
+        </trim>
+        where id in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <!---根据党员类型查询组织结构树-->
+    <select id="getPartyMemberTree" resultType="XwPartyMember">
+       	SELECT ad.id,ad.name,null ,-1 parent_id ,null teacher_id,1 type from ad_dd ad
+		where ad.type_id=26
+        union all
+        SELECT xm.id,jt.name,jt.img_url,xm.party_type_id parent_id,jt.id teacher_id,2 type from xw_party_member xm
+        inner join  jw_teacher jt on xm.teacher_id=jt.id and xm.school_id=#{schoolId}
+    </select>
+
+    <select id="getTeacherList" resultType="IdAndName">
+        select T.id as 'id',T.name as 'name' from jw_teacher T  where school_id = #{schoolId} and T.`status` = 40 and
+        T.id not in( select x.teacher_id from xw_party_member x where x.school_id = #{schoolId} )
+    </select>
+    <sql id="matchss">
+        <where>
+            <if test="rowData!=null">
+                T.id in
+                <foreach item="item" collection="rowData" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyCommitteeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyCommitteeId'">
+                        and T.party_committee_id like concat('%',#{partyCommitteeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_committee_id=#{partyCommitteeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyCommitteeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyCommitteeName'">
+                        and T.party_committee_name like concat('%',#{partyCommitteeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_committee_name=#{partyCommitteeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyBranchId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyBranchId'">
+                        and T.party_branch_id like concat('%',#{partyBranchId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_branch_id=#{partyBranchId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyBranchName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyBranchName'">
+                        and T.party_branch_name like concat('%',#{partyBranchName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_branch_name=#{partyBranchName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyDutiesId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyDutiesId'">
+                        and T.party_duties_id like concat('%',#{partyDutiesId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_duties_id=#{partyDutiesId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyDutiesName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyDutiesName'">
+                        and T.party_duties_name like concat('%',#{partyDutiesName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_duties_name=#{partyDutiesName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="applyTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='applyTime'">
+                        and T.apply_time like concat('%',#{applyTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.apply_time=#{applyTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="workerTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='workerTime'">
+                        and T.worker_time like concat('%',#{workerTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.worker_time=#{workerTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="archivalSituationId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='archivalSituationId'">
+                        and T.archival_situation_id like concat('%',#{archivalSituationId},'%')
+                    </when>
+                    <otherwise>
+                        and T.archival_situation_id=#{archivalSituationId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="archivalSituationName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='archivalSituationName'">
+                        and T.archival_situation_name like concat('%',#{archivalSituationName},'%')
+                    </when>
+                    <otherwise>
+                        and T.archival_situation_name=#{archivalSituationName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="archivalSituationRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='archivalSituationRemark'">
+                        and T.archival_situation_remark like concat('%',#{archivalSituationRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.archival_situation_remark=#{archivalSituationRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and T.teacher_name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and T.tel=#{tel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyTypeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyTypeId'">
+                        and T.party_type_id like concat('%',#{partyTypeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_type_id=#{partyTypeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="partyTypeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='partyTypeName'">
+                        and T.party_type_name like concat('%',#{partyTypeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.party_type_name=#{partyTypeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="intact!=null">
+                and T.intact=#{intact}
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="findXwPartyMemberListByArray" parameterType="XwPartyMember" resultType="XwPartyMember">
+        select T.* from xw_party_member T
+        <include refid="matchss"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+    <select id="getTeacherNameListByString" resultType="String" parameterType="XwPartyMember" >
+        select group_concat(j.name) from xw_party_member T left join jw_teacher j on T.teacher_id = j.id where T.school_id = #{schoolId} and T.id in
+        <foreach item="item" collection="rowData" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <update id="bachUpdateByArray" parameterType="XwPartyMember">
+        update xw_party_member
+        <set>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="partyCommitteeId!=null ">
+                party_committee_id=#{partyCommitteeId},
+            </if>
+            <if test="partyCommitteeName!=null ">
+                party_committee_name=#{partyCommitteeName},
+            </if>
+            <if test="partyBranchId!=null ">
+                party_branch_id=#{partyBranchId},
+            </if>
+            <if test="partyBranchName!=null ">
+                party_branch_name=#{partyBranchName},
+            </if>
+            <if test="partyDutiesId!=null ">
+                party_duties_id=#{partyDutiesId},
+            </if>
+            <if test="partyDutiesName!=null ">
+                party_duties_name=#{partyDutiesName},
+            </if>
+            <if test="applyTime!=null ">
+                apply_time=#{applyTime},
+            </if>
+            <if test="workerTime!=null ">
+                worker_time=#{workerTime},
+            </if>
+            <if test="archivalSituationId!=null ">
+                archival_situation_id=#{archivalSituationId},
+            </if>
+            <if test="archivalSituationName!=null ">
+                archival_situation_name=#{archivalSituationName},
+            </if>
+            <if test="archivalSituationRemark!=null ">
+                archival_situation_remark=#{archivalSituationRemark},
+            </if>
+            <if test="teacherName!=null ">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="sex!=null ">
+                sex=#{sex},
+            </if>
+            <if test="tel!=null ">
+                tel=#{tel},
+            </if>
+            <if test="partyTypeId!=null ">
+                party_type_id=#{partyTypeId},
+            </if>
+            <if test="partyTypeName!=null ">
+                party_type_name=#{partyTypeName},
+            </if>
+            <if test="intact!=null ">
+                intact=#{intact},
+            </if>
+            update_time=now()
+        </set>
+        where id in
+        <foreach item="item" collection="rowData" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <insert id="batchSaveXwPartyMemberByRowData" parameterType="XwPartyMember">
+        replace into xw_party_member (  id,  school_id,  teacher_id,  party_committee_id,  party_committee_name,  party_branch_id,  party_branch_name,  party_duties_id,  party_duties_name,  apply_time,  worker_time,  archival_situation_id,  archival_situation_name,  archival_situation_remark,  teacher_name,  sex,  tel,  party_type_id,  party_type_name,  intact,  create_time,  update_time )
+        VALUES
+        <foreach collection="list" item="xwPartyMember" separator=",">
+            (  #{xwPartyMember.id},  #{xwPartyMember.schoolId},  #{xwPartyMember.teacherId},  #{xwPartyMember.partyCommitteeId},  #{xwPartyMember.partyCommitteeName},  #{xwPartyMember.partyBranchId},  #{xwPartyMember.partyBranchName},  #{xwPartyMember.partyDutiesId},  #{xwPartyMember.partyDutiesName},  #{xwPartyMember.applyTime},  #{xwPartyMember.workerTime},  #{xwPartyMember.archivalSituationId},  #{xwPartyMember.archivalSituationName},  #{xwPartyMember.archivalSituationRemark},  #{xwPartyMember.teacherName},  #{xwPartyMember.sex},  #{xwPartyMember.tel},  #{xwPartyMember.partyTypeId},  #{xwPartyMember.partyTypeName},  #{xwPartyMember.intact},  #{xwPartyMember.createTime},  now()  )
+        </foreach>
+    </insert>
+    <select id="lookXwPartyMemberById" resultType="XwPartyMemberVaild">
+        select * from xw_party_member where id=#{id}
+    </select>
+
+
+    <select id="findXwPartyMemberListByTeacherIds"  resultType="com.yice.edu.cn.common.pojo.xw.dj.partyMember.XwPartyMember">
+        select
+        id,teacher_id
+        from xw_party_member T
+        <where>
+            T.teacher_id in
+            <foreach item="item" collection="teacherIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.prepareLessons.ITeachingPlanDao">
+	<resultMap type="TeachingPlan" id="teachingPlanAndFile">
+		<id column="id" property="id"/>
+		<result column="course_name" property="courseName"/>
+		<result column="chapter_id" property="chapterId"/>
+		<result column="chapter_name" property="chapterName"/>
+		<result column="textbook_name" property="textbookName"/>
+		<result column="teach_target" property="teachTarget"/>
+		<result column="tearch_point" property="tearchPoint"/>
+		<result column="tearch_method" property="tearchMethod"/>
+		<result column="teach_difficulty" property="teachDifficulty"/>
+		<result column="tearch_process" property="tearchProcess"/>
+		<result column="item_package_ids" property="itemPackageIds"/>
+		<result column="view_count" property="viewCount"/>
+		<result column="download_count" property="downloadCount"/>
+		<collection property="lessonsFiles"  ofType="LessonsFile" javaType="ArrayList" >
+			<id column="file_id" property="id"/>
+			<result column="file_name" property="fileName"/>
+			<result column="icon_path" property="iconPath"/>
+			<result column="file_path" property="filePath"/>
+		</collection>
+	</resultMap>
+	
+	
+    <select id="findTeachingPlanListByCondition" parameterType="TeachingPlan" resultType="TeachingPlan">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('textbookId')">
+                             T.textbook_id,
+                         </if>
+                         <if test="!pager.excludes.contains('textbookName')">
+                             T.textbook_name,
+                         </if>
+                         <if test="!pager.excludes.contains('chapterId')">
+                             T.chapter_id,
+                         </if>
+                         <if test="!pager.excludes.contains('chapterName')">
+                             T.chapter_name,
+                         </if>
+                         <if test="!pager.excludes.contains('courseName')">
+                             T.course_name,
+                         </if>
+                         <if test="!pager.excludes.contains('teachTarget')">
+                             T.teach_target,
+                         </if>
+                         <if test="!pager.excludes.contains('tearchPoint')">
+                             T.tearch_point,
+                         </if>
+                         <if test="!pager.excludes.contains('tearchMethod')">
+                             T.tearch_method,
+                         </if>
+                         <if test="!pager.excludes.contains('teachDifficulty')">
+                             T.teach_difficulty,
+                         </if>
+                         <if test="!pager.excludes.contains('tearchProcess')">
+                             T.tearch_process,
+                         </if>
+                         <if test="!pager.excludes.contains('itemPackageIds')">
+                             T.item_package_ids,
+                         </if>
+                         <if test="!pager.excludes.contains('downloadCount')">
+                             T.download_count,
+                         </if>
+                         <if test="!pager.excludes.contains('viewCount')">
+                             T.view_count,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_teaching_plan T
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="shareStatus!=null">
+                and T.share_status=#{shareStatus}
+              </if>
+              <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+              </if>
+              <if test="textbookId!=null">
+                and T.textbook_id=#{textbookId}
+              </if>
+              <if test="textbookName!=null">
+                and T.textbook_name=#{textbookName}
+              </if>
+              <if test="chapterId!=null">
+                and T.chapter_id=#{chapterId}
+              </if>
+              <if test="chapterName!=null">
+                and T.chapter_name=#{chapterName}
+              </if>
+              <if test="courseName!=null">
+                and T.course_name=#{courseName}
+              </if>
+              <if test="teachTarget!=null">
+                and T.teach_target=#{teachTarget}
+              </if>
+              <if test="tearchPoint!=null">
+                and T.tearch_point=#{tearchPoint}
+              </if>
+              <if test="tearchMethod!=null">
+                and T.tearch_method=#{tearchMethod}
+              </if>
+              <if test="tearchProcess!=null">
+                and T.tearch_process=#{tearchProcess}
+              </if>
+              <if test="itemPackageIds!=null">
+                and T.item_package_ids=#{itemPackageIds}
+              </if>
+              <if test="downloadCount!=null">
+                and T.download_count=#{downloadCount}
+              </if>
+              <if test="viewCount!=null">
+                and T.view_count=#{viewCount}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findTeachingPlanCountByCondition" parameterType="TeachingPlan" resultType="long">
+        select count(*) from jy_teaching_plan
+        <where>
+              <if test="schoolId!=null">
+                 school_id=#{schoolId}
+              </if>
+              <if test="shareStatus!=null">
+                and share_status=#{shareStatus}
+              </if>
+              <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+              </if>
+              <if test="textbookId!=null">
+                and textbook_id=#{textbookId}
+              </if>
+              <if test="textbookName!=null">
+                and textbook_name=#{textbookName}
+              </if>
+              <if test="chapterId!=null">
+                and chapter_id=#{chapterId}
+              </if>
+              <if test="chapterName!=null">
+                and chapter_name=#{chapterName}
+              </if>
+              <if test="courseName!=null">
+                and course_name=#{courseName}
+              </if>
+              <if test="teachTarget!=null">
+                and teach_target=#{teachTarget}
+              </if>
+              <if test="tearchPoint!=null">
+                and tearch_point=#{tearchPoint}
+              </if>
+              <if test="tearchMethod!=null">
+                and tearch_method=#{tearchMethod}
+              </if>
+              <if test="tearchProcess!=null">
+                and tearch_process=#{tearchProcess}
+              </if>
+              <if test="itemPackageIds!=null">
+                and item_package_ids=#{itemPackageIds}
+              </if>
+              <if test="downloadCount!=null">
+                and download_count=#{downloadCount}
+              </if>
+              <if test="viewCount!=null">
+                and view_count=#{viewCount}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+        </where>
+    </select>	
+    <select id="findTeachingPlanById" resultMap="teachingPlanAndFile">
+        select 
+        tp.id,tp.course_name,tp.chapter_id,tp.chapter_name,tp.textbook_name,tp.teach_target,tp.tearch_process,tp.teach_difficulty,tp.tearch_method,tp.tearch_point,tp.item_package_ids,tp.view_count,tp.download_count,lf.id file_id,lf.file_name,lf.icon_path,lf.file_path 
+        from 
+        jy_teaching_plan tp 
+        left join jy_lessons_file lf on tp.id=lf.teaching_plan_id  
+        where 
+        tp.id=#{id}
+    </select>
+    
+    <insert id="saveTeachingPlan" parameterType="TeachingPlan" useGeneratedKeys="true" keyProperty="id">
+        insert into jy_teaching_plan
+         (
+            id,
+            school_id,
+            teacher_id,
+            textbook_id,
+            textbook_name,
+            chapter_id,
+            chapter_name,
+            course_name,
+            teach_target,
+            tearch_point,
+            tearch_method,
+            teach_difficulty,
+            tearch_process,
+            item_package_ids,
+            download_count,
+            view_count,
+            create_time,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{teacherId}
+                ,
+                #{textbookId}
+                ,
+                #{textbookName}
+                ,
+                #{chapterId}
+                ,
+                #{chapterName}
+                ,
+                #{courseName}
+                ,
+                #{teachTarget}
+                ,
+                #{tearchPoint}
+                ,
+                #{tearchMethod}
+                ,
+                #{teachDifficulty}
+                ,
+                #{tearchProcess}
+                ,
+                #{itemPackageIds}
+                ,
+                #{downloadCount}
+                ,
+                #{viewCount}
+                ,
+                now()
+                ,
+                #{updateTime}
+                
+         )
+    </insert>
+    <update id="updateTeachingPlan" parameterType="TeachingPlan">
+        update jy_teaching_plan
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="textbookId!=null ">
+                        textbook_id=#{textbookId},
+                    </if>
+                    <if test="textbookName!=null ">
+                        textbook_name=#{textbookName},
+                    </if>
+                    <if test="chapterId!=null ">
+                        chapter_id=#{chapterId},
+                    </if>
+                    <if test="chapterName!=null ">
+                        chapter_name=#{chapterName},
+                    </if>
+                    <if test="courseName!=null ">
+                        course_name=#{courseName},
+                    </if>
+
+                        teach_target=#{teachTarget},
+
+
+                        tearch_point=#{tearchPoint},
+
+
+                        tearch_method=#{tearchMethod},
+
+                        teach_difficulty=#{teachDifficulty},
+
+                        tearch_process=#{tearchProcess},
+
+                    <if test="itemPackageIds!=null ">
+                        item_package_ids=#{itemPackageIds},
+                    </if>
+                    <if test="downloadCount!=null ">
+                        download_count=#{downloadCount},
+                    </if>
+                    <if test="viewCount!=null ">
+                        view_count=#{viewCount},
+                    </if>
+                    <if test="shareStatus!=null ">
+                        share_status=#{shareStatus},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteTeachingPlan" >
+        delete from jy_teaching_plan where id=#{id}
+    </delete>
+    <update id="updateViewCount">
+    	update jy_teaching_plan set view_count=view_count+1 where id=#{id}
+    </update>
+    
+    <update id="updateDownloadCount">
+    	update jy_teaching_plan set download_count=download_count+1 where id=#{id}
+    </update>
+
+
+</mapper>

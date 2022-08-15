@@ -1,0 +1,198 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #http://cloud.spring.io/spring-cloud-static/Finchley.RELEASE/multi/multi__configuration_2.html#_discoveryclient_route_definition_locator
+      routes:
+      - id: yed
+        uri: lb://yed
+        predicates:
+        - Path=/yed/**
+        filters:
+        - YedLoginFilter
+        - StripPrefix=1
+        #- SecureHeaders  #对静态文件的mime type有限制 http://cloud.spring.io/spring-cloud-static/Finchley.RELEASE/multi/multi__gatewayfilter_factories.html#_secureheaders_gatewayfilter_factory
+#        - name: RequestRateLimiter
+#          args:
+#            redis-rate-limiter.replenishRate: 19
+#            redis-rate-limiter.burstCapacity: 20
+#            key-resolver: "#{@ipKeyResolver}"
+      - id: osp
+        uri: lb://osp
+        predicates:
+        - Path=/osp/**
+        filters:
+        - OspLoginFilter
+        - StripPrefix=1
+        #- SecureHeaders  #对静态文件的mime type有限制 http://cloud.spring.io/spring-cloud-static/Finchley.RELEASE/multi/multi__gatewayfilter_factories.html#_secureheaders_gatewayfilter_factory
+#        - name: RequestRateLimiter
+#          args:
+#            redis-rate-limiter.replenishRate: 19
+#            redis-rate-limiter.burstCapacity: 20
+#            key-resolver: "#{@ipKeyResolver}"
+      - id: tap
+        uri: lb://tap
+        predicates:
+        - Path=/tap/**
+        filters:
+        - TapLoginFilter
+        - StripPrefix=1
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 19
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+      - id: ecc
+        uri: lb://ecc
+        predicates:
+        - Path=/ecc/**
+        filters:
+        - EccLoginFilter
+        - StripPrefix=1
+        #- SecureHeaders  #对静态文件的mime type有限制 http://cloud.spring.io/spring-cloud-static/Finchley.RELEASE/multi/multi__gatewayfilter_factories.html#_secureheaders_gatewayfilter_factory
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 19
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+      - id: bmp
+        uri: lb://bmp
+        predicates:
+        - Path=/bmp/**
+        filters:
+        - BmpLoginFilter
+        - StripPrefix=1
+        #- SecureHeaders  #对静态文件的mime type有限制 http://cloud.spring.io/spring-cloud-static/Finchley.RELEASE/multi/multi__gatewayfilter_factories.html#_secureheaders_gatewayfilter_factory
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 19
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+      - id: rpm
+        uri: lb://rpm
+        predicates:
+        - Path=/rpm/**
+        filters:
+        - RpmLoginFilter
+        - StripPrefix=1
+        #- SecureHeaders  #对静态文件的mime type有限制 http://cloud.spring.io/spring-cloud-static/Finchley.RELEASE/multi/multi__gatewayfilter_factories.html#_secureheaders_gatewayfilter_factory
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 19
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+      - id: cc
+        uri: lb://cc
+        predicates:
+        - Path=/cc/**
+        filters:
+        - CcLoginFilter
+        - StripPrefix=1
+        #- SecureHeaders  #对静态文件的mime type有限制 http://cloud.spring.io/spring-cloud-static/Finchley.RELEASE/multi/multi__gatewayfilter_factories.html#_secureheaders_gatewayfilter_factory
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 19
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+      - id: ewb
+        uri: lb://ewb
+        predicates:
+        - Path=/ewb/**
+        filters:
+        - EwbLoginFilter
+        - StripPrefix=1
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 19
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+      - id: api
+        uri: lb://api
+        predicates:
+        - Path=/api/**
+        filters:
+        - ApiLoginFilter
+        - StripPrefix=1
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 19
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+      - id: ws
+        uri: lb:ws://ws
+        predicates:
+        - Path=/ws/**
+        filters:
+        - WsLoginFilter
+        - StripPrefix=1
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 19
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+      - id: pcd
+        uri: lb://pcd
+        predicates:
+        - Path= /pcd/**
+        filters:
+        - PcdLoginFilter
+        - StripPrefix=1
+        #- SecureHeaders  #对静态文件的mime type有限制 http://cloud.spring.io/spring-cloud-static/Finchley.RELEASE/multi/multi__gatewayfilter_factories.html#_secureheaders_gatewayfilter_factory
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 19
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+      - id: mes
+        uri: lb://mes
+        predicates:
+          - Path=/mes/**
+        filters:
+          - MesLoginFilter
+          - StripPrefix=1
+          - name: RequestRateLimiter
+            args:
+              redis-rate-limiter.replenishRate: 19
+              redis-rate-limiter.burstCapacity: 20
+              key-resolver: "#{@ipKeyResolver}"
+      default-filters:
+
+
+  thymeleaf:
+    prefix: classpath:/
+  freemarker:
+    suffix:
+    template-loader-path: classpath:/
+
+#在项目中权限不需要控制的路径,支持spring ant风格
+yed:
+  login:
+    ignores:
+    - /yed/login/**
+    - /yed/**/*.*
+    - /yed/v2/api-docs/**
+    - /yed/swagger-resources/**
+    - /yed
+osp:
+  login:
+    ignores:
+    - /osp/login/**
+    - /osp/**/*.*
+    - /osp/v2/api-docs/**
+    - /osp/swagger-resources/**
+    - /osp/h5nl/**
+    - /osp
+    - /osp/kqOriginDataReceive/**
+    - /osp/xwCmsOfficialWebsite/**
+    - /osp/datasource/teacherHeadImg/**
+api:
+  login:
+    ignores:
+    - /api/open/**
+    - /api/login/**
+    - /api/**/*.*
+    - /api/v2/api-docs/**
+    - /api/swagger-resources/**
+    - /api/cloudMarket/**
+

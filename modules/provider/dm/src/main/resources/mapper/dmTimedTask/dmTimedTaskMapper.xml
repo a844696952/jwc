@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.dmTimedTask.IDmTimedTaskDao">
+    <!--########################################################################################################################-->
+    <select id="findDmTimedTaskListByCondition" parameterType="DmTimedTask" resultType="DmTimedTask">
+        select
+        T.id,
+        T.equipment_id,
+        T.school_id,
+        IFNULL(T.monday_start_time,' ') as monday_start_time,
+        IFNULL(T.monday_shutdown_time, ' ') as monday_shutdown_time,
+        IFNULL(T.tuesday_start_time, ' ') as tuesday_start_time,
+        IFNULL(T.tuesday_shutdown_time, ' ')as tuesday_shutdown_time,
+        IFNULL(T.wednesday_start_time, ' ') as wednesday_start_time,
+        IFNULL(T.wednesday_shutdown_time, ' ') as wednesday_shutdown_time,
+        IFNULL(T.thursday_start_time, ' ') as thursday_start_time,
+        IFNULL(T.thursday_shutdown_time, ' ') as thursday_shutdown_time,
+        IFNULL(T.friday_start_time, ' ') as friday_start_time,
+        IFNULL(T.friday_shutdown_time, ' ') as friday_shutdown_time,
+        IFNULL(T.saturday_start_time, ' ') as saturday_start_time,
+        IFNULL(T.saturday_shutdown_time, ' ') as saturday_shutdown_time,
+        IFNULL(T.sunday_start_time, ' ') as sunday_start_time,
+        IFNULL(T.sunday_shutdown_time, ' ') as sunday_shutdown_time,
+        T.create_time,
+        T.update_time
+        from dm_timed_task T
+        <where>
+              <if test="equipmentId!=null">
+                 T.equipment_id=#{equipmentId}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="mondayStartTime!=null">
+                and T.monday_start_time=#{mondayStartTime}
+              </if>
+              <if test="mondayShutdownTime!=null">
+                and T.monday_shutdown_time=#{mondayShutdownTime}
+              </if>
+              <if test="tuesdayStartTime!=null">
+                and T.tuesday_start_time=#{tuesdayStartTime}
+              </if>
+              <if test="tuesdayShutdownTime!=null">
+                and T.tuesday_shutdown_time=#{tuesdayShutdownTime}
+              </if>
+              <if test="wednesdayStartTime!=null">
+                and T.wednesday_start_time=#{wednesdayStartTime}
+              </if>
+              <if test="wednesdayShutdownTime!=null">
+                and T.wednesday_shutdown_time=#{wednesdayShutdownTime}
+              </if>
+              <if test="thursdayStartTime!=null">
+                and T.thursday_start_time=#{thursdayStartTime}
+              </if>
+              <if test="thursdayShutdownTime!=null">
+                and T.thursday_shutdown_time=#{thursdayShutdownTime}
+              </if>
+              <if test="fridayStartTime!=null">
+                and T.friday_start_time=#{fridayStartTime}
+              </if>
+              <if test="fridayShutdownTime!=null">
+                and T.friday_shutdown_time=#{fridayShutdownTime}
+              </if>
+              <if test="saturdayStartTime!=null">
+                and T.saturday_start_time=#{saturdayStartTime}
+              </if>
+              <if test="saturdayShutdownTime!=null">
+                and T.saturday_shutdown_time=#{saturdayShutdownTime}
+              </if>
+              <if test="sundayStartTime!=null">
+                and T.sunday_start_time=#{sundayStartTime}
+              </if>
+              <if test="sundayShutdownTime!=null">
+                and T.sunday_shutdown_time=#{sundayShutdownTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findDmTimedTaskCountByCondition" parameterType="DmTimedTask" resultType="long">
+        select count(*) from dm_timed_task
+        <where>
+              <if test="equipmentId!=null">
+                 equipment_id=#{equipmentId}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="mondayStartTime!=null">
+                and monday_start_time=#{mondayStartTime}
+              </if>
+              <if test="mondayShutdownTime!=null">
+                and monday_shutdown_time=#{mondayShutdownTime}
+              </if>
+              <if test="tuesdayStartTime!=null">
+                and tuesday_start_time=#{tuesdayStartTime}
+              </if>
+              <if test="tuesdayShutdownTime!=null">
+                and tuesday_shutdown_time=#{tuesdayShutdownTime}
+              </if>
+              <if test="wednesdayStartTime!=null">
+                and wednesday_start_time=#{wednesdayStartTime}
+              </if>
+              <if test="wednesdayShutdownTime!=null">
+                and wednesday_shutdown_time=#{wednesdayShutdownTime}
+              </if>
+              <if test="thursdayStartTime!=null">
+                and thursday_start_time=#{thursdayStartTime}
+              </if>
+              <if test="thursdayShutdownTime!=null">
+                and thursday_shutdown_time=#{thursdayShutdownTime}
+              </if>
+              <if test="fridayStartTime!=null">
+                and friday_start_time=#{fridayStartTime}
+              </if>
+              <if test="fridayShutdownTime!=null">
+                and friday_shutdown_time=#{fridayShutdownTime}
+              </if>
+              <if test="saturdayStartTime!=null">
+                and saturday_start_time=#{saturdayStartTime}
+              </if>
+              <if test="saturdayShutdownTime!=null">
+                and saturday_shutdown_time=#{saturdayShutdownTime}
+              </if>
+              <if test="sundayStartTime!=null">
+                and sunday_start_time=#{sundayStartTime}
+              </if>
+              <if test="sundayShutdownTime!=null">
+                and sunday_shutdown_time=#{sundayShutdownTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+        </where>
+    </select>
+    <select id="findDmTimedTaskById" resultType="DmTimedTask">
+        select * from dm_timed_task where id=#{id}
+    </select>
+    <select id="findOneDmTimedTaskByCondition" parameterType="DmTimedTask" resultType="DmTimedTask">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('equipmentId')">
+                             T.equipment_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('mondayStartTime')">
+                             T.monday_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('mondayShutdownTime')">
+                             T.monday_shutdown_time,
+                         </if>
+                         <if test="!pager.excludes.contains('tuesdayStartTime')">
+                             T.tuesday_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('tuesdayShutdownTime')">
+                             T.tuesday_shutdown_time,
+                         </if>
+                         <if test="!pager.excludes.contains('wednesdayStartTime')">
+                             T.wednesday_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('wednesdayShutdownTime')">
+                             T.wednesday_shutdown_time,
+                         </if>
+                         <if test="!pager.excludes.contains('thursdayStartTime')">
+                             T.thursday_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('thursdayShutdownTime')">
+                             T.thursday_shutdown_time,
+                         </if>
+                         <if test="!pager.excludes.contains('fridayStartTime')">
+                             T.friday_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('fridayShutdownTime')">
+                             T.friday_shutdown_time,
+                         </if>
+                         <if test="!pager.excludes.contains('saturdayStartTime')">
+                             T.saturday_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('saturdayShutdownTime')">
+                             T.saturday_shutdown_time,
+                         </if>
+                         <if test="!pager.excludes.contains('sundayStartTime')">
+                             T.sunday_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('sundayShutdownTime')">
+                             T.sunday_shutdown_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from dm_timed_task T
+        <where>
+              <if test="equipmentId!=null">
+                 T.equipment_id=#{equipmentId}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="mondayStartTime!=null">
+                and T.monday_start_time=#{mondayStartTime}
+              </if>
+              <if test="mondayShutdownTime!=null">
+                and T.monday_shutdown_time=#{mondayShutdownTime}
+              </if>
+              <if test="tuesdayStartTime!=null">
+                and T.tuesday_start_time=#{tuesdayStartTime}
+              </if>
+              <if test="tuesdayShutdownTime!=null">
+                and T.tuesday_shutdown_time=#{tuesdayShutdownTime}
+              </if>
+              <if test="wednesdayStartTime!=null">
+                and T.wednesday_start_time=#{wednesdayStartTime}
+              </if>
+              <if test="wednesdayShutdownTime!=null">
+                and T.wednesday_shutdown_time=#{wednesdayShutdownTime}
+              </if>
+              <if test="thursdayStartTime!=null">
+                and T.thursday_start_time=#{thursdayStartTime}
+              </if>
+              <if test="thursdayShutdownTime!=null">
+                and T.thursday_shutdown_time=#{thursdayShutdownTime}
+              </if>
+              <if test="fridayStartTime!=null">
+                and T.friday_start_time=#{fridayStartTime}
+              </if>
+              <if test="fridayShutdownTime!=null">
+                and T.friday_shutdown_time=#{fridayShutdownTime}
+              </if>
+              <if test="saturdayStartTime!=null">
+                and T.saturday_start_time=#{saturdayStartTime}
+              </if>
+              <if test="saturdayShutdownTime!=null">
+                and T.saturday_shutdown_time=#{saturdayShutdownTime}
+              </if>
+              <if test="sundayStartTime!=null">
+                and T.sunday_start_time=#{sundayStartTime}
+              </if>
+              <if test="sundayShutdownTime!=null">
+                and T.sunday_shutdown_time=#{sundayShutdownTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveDmTimedTask" parameterType="DmTimedTask">
+        insert into dm_timed_task
+         (
+            id,
+            equipment_id,
+            school_id,
+            monday_start_time,
+            monday_shutdown_time,
+            tuesday_start_time,
+            tuesday_shutdown_time,
+            wednesday_start_time,
+            wednesday_shutdown_time,
+            thursday_start_time,
+            thursday_shutdown_time,
+            friday_start_time,
+            friday_shutdown_time,
+            saturday_start_time,
+            saturday_shutdown_time,
+            sunday_start_time,
+            sunday_shutdown_time,
+            create_time,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{equipmentId}
+                ,
+                #{schoolId}
+                ,
+                #{mondayStartTime}
+                ,
+                #{mondayShutdownTime}
+                ,
+                #{tuesdayStartTime}
+                ,
+                #{tuesdayShutdownTime}
+                ,
+                #{wednesdayStartTime}
+                ,
+                #{wednesdayShutdownTime}
+                ,
+                #{thursdayStartTime}
+                ,
+                #{thursdayShutdownTime}
+                ,
+                #{fridayStartTime}
+                ,
+                #{fridayShutdownTime}
+                ,
+                #{saturdayStartTime}
+                ,
+                #{saturdayShutdownTime}
+                ,
+                #{sundayStartTime}
+                ,
+                #{sundayShutdownTime}
+                ,
+                now()
+                ,
+                #{updateTime}
+                
+         )
+    </insert>
+    <update id="updateDmTimedTask" parameterType="DmTimedTask">
+        update dm_timed_task
+        <set>
+                    <if test="equipmentId!=null ">
+                        equipment_id=#{equipmentId},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                        monday_start_time=#{mondayStartTime},
+                        monday_shutdown_time=#{mondayShutdownTime},
+                        tuesday_start_time=#{tuesdayStartTime},
+                        tuesday_shutdown_time=#{tuesdayShutdownTime},
+                        wednesday_start_time=#{wednesdayStartTime},
+                        wednesday_shutdown_time=#{wednesdayShutdownTime},
+                        thursday_start_time=#{thursdayStartTime},
+                        thursday_shutdown_time=#{thursdayShutdownTime},
+                        friday_start_time=#{fridayStartTime},
+                        friday_shutdown_time=#{fridayShutdownTime},
+                        saturday_start_time=#{saturdayStartTime},
+                        saturday_shutdown_time=#{saturdayShutdownTime},
+                        sunday_start_time=#{sundayStartTime},
+                        sunday_shutdown_time=#{sundayShutdownTime},
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmTimedTask" >
+        delete from dm_timed_task where id=#{id}
+    </delete>
+    <delete id="deleteDmTimedTaskByCondition" >
+        delete from dm_timed_task
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="equipmentId!=null">
+                and equipment_id=#{equipmentId}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="mondayStartTime!=null">
+                and monday_start_time=#{mondayStartTime}
+              </if>
+              <if test="mondayShutdownTime!=null">
+                and monday_shutdown_time=#{mondayShutdownTime}
+              </if>
+              <if test="tuesdayStartTime!=null">
+                and tuesday_start_time=#{tuesdayStartTime}
+              </if>
+              <if test="tuesdayShutdownTime!=null">
+                and tuesday_shutdown_time=#{tuesdayShutdownTime}
+              </if>
+              <if test="wednesdayStartTime!=null">
+                and wednesday_start_time=#{wednesdayStartTime}
+              </if>
+              <if test="wednesdayShutdownTime!=null">
+                and wednesday_shutdown_time=#{wednesdayShutdownTime}
+              </if>
+              <if test="thursdayStartTime!=null">
+                and thursday_start_time=#{thursdayStartTime}
+              </if>
+              <if test="thursdayShutdownTime!=null">
+                and thursday_shutdown_time=#{thursdayShutdownTime}
+              </if>
+              <if test="fridayStartTime!=null">
+                and friday_start_time=#{fridayStartTime}
+              </if>
+              <if test="fridayShutdownTime!=null">
+                and friday_shutdown_time=#{fridayShutdownTime}
+              </if>
+              <if test="saturdayStartTime!=null">
+                and saturday_start_time=#{saturdayStartTime}
+              </if>
+              <if test="saturdayShutdownTime!=null">
+                and saturday_shutdown_time=#{saturdayShutdownTime}
+              </if>
+              <if test="sundayStartTime!=null">
+                and sunday_start_time=#{sundayStartTime}
+              </if>
+              <if test="sundayShutdownTime!=null">
+                and sunday_shutdown_time=#{sundayShutdownTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveDmTimedTask" parameterType="DmTimedTask">
+        INSERT INTO dm_timed_task (  id,  equipment_id,  school_id,  monday_start_time,  monday_shutdown_time,  tuesday_start_time,  tuesday_shutdown_time,  wednesday_start_time,  wednesday_shutdown_time,  thursday_start_time,  thursday_shutdown_time,  friday_start_time,  friday_shutdown_time,  saturday_start_time,  saturday_shutdown_time,  sunday_start_time,  sunday_shutdown_time,  create_time,  update_time )
+        VALUES
+        <foreach collection="list" item="dmTimedTask" separator=",">
+            (  #{dmTimedTask.id},  #{dmTimedTask.equipmentId},  #{dmTimedTask.schoolId},  #{dmTimedTask.mondayStartTime},  #{dmTimedTask.mondayShutdownTime},  #{dmTimedTask.tuesdayStartTime},  #{dmTimedTask.tuesdayShutdownTime},  #{dmTimedTask.wednesdayStartTime},  #{dmTimedTask.wednesdayShutdownTime},  #{dmTimedTask.thursdayStartTime},  #{dmTimedTask.thursdayShutdownTime},  #{dmTimedTask.fridayStartTime},  #{dmTimedTask.fridayShutdownTime},  #{dmTimedTask.saturdayStartTime},  #{dmTimedTask.saturdayShutdownTime},  #{dmTimedTask.sundayStartTime},  #{dmTimedTask.sundayShutdownTime},  #{dmTimedTask.createTime},  #{dmTimedTask.updateTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findDmTimedTaskByEquipmentId" resultType="DmTimedTask">
+        select * from dm_timed_task where equipment_id=#{equipmentId}
+    </select>
+
+    <update id="updateDmTimedTaskByEquipmentId" parameterType="DmTimedTask">
+        update dm_timed_task
+        <set>
+            <if test="equipmentId!=null ">
+                equipment_id=#{equipmentId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            monday_start_time=#{mondayStartTime},
+            monday_shutdown_time=#{mondayShutdownTime},
+            tuesday_start_time=#{tuesdayStartTime},
+            tuesday_shutdown_time=#{tuesdayShutdownTime},
+            wednesday_start_time=#{wednesdayStartTime},
+            wednesday_shutdown_time=#{wednesdayShutdownTime},
+            thursday_start_time=#{thursdayStartTime},
+            thursday_shutdown_time=#{thursdayShutdownTime},
+            friday_start_time=#{fridayStartTime},
+            friday_shutdown_time=#{fridayShutdownTime},
+            saturday_start_time=#{saturdayStartTime},
+            saturday_shutdown_time=#{saturdayShutdownTime},
+            sunday_start_time=#{sundayStartTime},
+            sunday_shutdown_time=#{sundayShutdownTime},
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now()
+        </set>
+        where equipment_id=#{equipmentId}
+    </update>
+
+
+
+    <delete id="deleteDmTimedTaskAll"  parameterType = "string">
+        delete  from  dm_timed_task  where   equipment_id   in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+             #{id}
+        </foreach>
+    </delete>
+
+</mapper>

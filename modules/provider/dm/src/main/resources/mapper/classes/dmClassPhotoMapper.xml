@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.classes.IDmClassPhotoDao">
+    <!--########################################################################################################################-->
+    <select id="findDmClassPhotoListByCondition" parameterType="DmClassPhoto" resultType="DmClassPhoto">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>deleteDmClassPhoto
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+
+                         <if test="!pager.excludes.contains('imgName')">
+                             T.img_name,
+                         </if>
+                         <if test="!pager.excludes.contains('imgType')">
+                             T.img_type,
+                         </if>
+                         <if test="!pager.excludes.contains('imgUrl')">
+                             T.img_url,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('imgSort')">
+                             T.img_sort,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.* ,C.grade_id
+             </otherwise>
+         </choose>
+         from dm_class_photo T left join jw_classes C on T.class_id = C.id
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="classId!=null">
+                and T.class_id=#{classId}
+              </if>
+              <if test="imgName!=null">
+                and T.img_name=#{imgName}
+              </if>
+              <if test="imgNameLike!=null">
+                and T.img_name like concat('%${imgNameLike}%')
+              </if>
+              <if test="imgType!=null">
+                and T.img_type=#{imgType}
+              </if>
+              <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="imgSort!=null">
+                and T.img_sort=#{imgSort}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findDmClassPhotoCountByCondition" parameterType="DmClassPhoto" resultType="long">
+        select count(*) from dm_class_photo
+        <where>
+              <if test="schoolId!=null">
+                 school_id=#{schoolId}
+              </if>
+              <if test="classId!=null">
+                and class_id=#{classId}
+              </if>
+
+
+              <if test="imgName!=null">
+                and img_name=#{imgName}
+              </if>
+             <if test="imgNameLike!=null">
+                and img_name like concat('%${imgNameLike}%')
+              </if>
+              <if test="imgType!=null">
+                and img_type=#{imgType}
+              </if>
+              <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="imgSort!=null">
+                and img_sort=#{imgSort}
+              </if>
+        </where>
+    </select>
+    <select id="findDmClassPhotoById" resultType="DmClassPhoto">
+        select * from dm_class_photo where id=#{id}
+    </select>
+    <select id="findOneDmClassPhotoByCondition" parameterType="DmClassPhoto" resultType="DmClassPhoto">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('imgName')">
+                             T.img_name,
+                         </if>
+                         <if test="!pager.excludes.contains('imgType')">
+                             T.img_type,
+                         </if>
+                         <if test="!pager.excludes.contains('imgUrl')">
+                             T.img_url,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('imgSort')">
+                             T.img_sort,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from dm_class_photo T
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="classId!=null">
+                and T.class_id=#{classId}
+              </if>
+              <if test="imgName!=null">
+                and T.img_name=#{imgName}
+              </if>
+              <if test="imgType!=null">
+                and T.img_type=#{imgType}
+              </if>
+              <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="imgSort!=null">
+                and T.img_sort=#{imgSort}
+              </if>
+        </where>
+    </select>
+    <insert id="saveDmClassPhoto" parameterType="DmClassPhoto" useGeneratedKeys="true" keyProperty="id">
+        insert into dm_class_photo
+         (
+            id,
+            school_id,
+            class_id,
+            img_name,
+            img_type,
+            img_url,
+            create_time,
+            img_sort
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{classId}
+                ,
+                #{imgName}
+                ,
+                #{imgType}
+                ,
+                #{imgUrl}
+                ,
+                now()
+                ,
+                <!--#{imgSort}-->
+          (select ifnull(a.imgSort,'1') from (select max(img_sort)+1 imgSort from dm_class_photo
+              where school_id=#{schoolId}
+              and class_id=#{classId}) a)
+        )
+    </insert>
+    <update id="updateDmClassPhoto" parameterType="DmClassPhoto">
+        update dm_class_photo
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="classId!=null ">
+                        class_id=#{classId},
+                    </if>
+                    <if test="imgName!=null ">
+                        img_name=#{imgName},
+                    </if>
+                    <if test="imgType!=null ">
+                        img_type=#{imgType},
+                    </if>
+                    <if test="imgUrl!=null ">
+                        img_url=#{imgUrl},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="imgSort!=null ">
+                        img_sort=#{imgSort}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmClassPhoto" >
+        delete from dm_class_photo where id=#{id}
+    </delete>
+    <delete id="batchDeleteDmClassPhoto" >
+        delete from dm_class_photo where id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteDmClassPhotoByCondition" >
+        delete from dm_class_photo
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="classId!=null">
+                and class_id=#{classId}
+              </if>
+              <if test="imgName!=null">
+                and img_name=#{imgName}
+              </if>
+              <if test="imgType!=null">
+                and img_type=#{imgType}
+              </if>
+              <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="imgSort!=null">
+                and img_sort=#{imgSort}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveDmClassPhoto" parameterType="DmClassPhoto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO dm_class_photo (  id,  school_id,  class_id, img_name,  img_type,  img_url,  create_time,  img_sort )
+        VALUES
+        <foreach collection="list" item="dmClassPhoto" separator=",">
+            (  #{dmClassPhoto.id},  #{dmClassPhoto.schoolId},  #{dmClassPhoto.classId}, #{dmClassPhoto.imgName},  #{dmClassPhoto.imgType},  #{dmClassPhoto.imgUrl},  #{dmClassPhoto.createTime},  #{dmClassPhoto.imgSort}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

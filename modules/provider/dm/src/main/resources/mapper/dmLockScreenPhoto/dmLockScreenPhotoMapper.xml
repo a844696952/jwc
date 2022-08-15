@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.dmLockScreenPhoto.IDmLockScreenPhotoDao">
+    <!--########################################################################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('title')">
+                             T.title,
+                         </if>
+                         <if test="!pager.excludes.contains('content')">
+                             T.content,
+                         </if>
+                         <if test="!pager.excludes.contains('contentType')">
+                             T.content_type,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('uploadTime')">
+                             T.upload_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('isSystem')">
+                             T.is_system,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id in ('-1',#{schoolId})
+                         </when>
+                         <otherwise>
+                            and T.school_id in ('-1',#{schoolId})
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="title!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='title'">
+                            and T.title like concat('%',#{title},'%')
+                         </when>
+                         <otherwise>
+                            and T.title like concat('%',#{title},'%')
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="content!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='content'">
+                            and T.content like concat('%',#{content},'%')
+                         </when>
+                         <otherwise>
+                            and T.content=#{content}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="contentType!=null">
+                    and T.content_type=#{contentType}
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+              <if test="uploadTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='uploadTime'">
+                            and T.upload_time like concat('%',#{uploadTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.upload_time=#{uploadTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isSystem!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='isSystem'">
+                            and T.is_system like concat('%',#{isSystem},'%')
+                         </when>
+                         <otherwise>
+                            and T.is_system=#{isSystem}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmLockScreenPhotoListByCondition" parameterType="DmLockScreenPhoto" resultType="DmLockScreenPhoto">
+        select
+         <include refid="projection"/>
+         from dm_lock_screen_photo T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDmLockScreenPhotoCountByCondition" parameterType="DmLockScreenPhoto" resultType="long">
+        select count(*) from dm_lock_screen_photo T
+        <include refid="match"/>
+    </select>
+    <select id="findDmLockScreenPhotoById" resultType="DmLockScreenPhoto">
+        select * from dm_lock_screen_photo where id=#{id}
+    </select>
+    <select id="findOneDmLockScreenPhotoByCondition" parameterType="DmLockScreenPhoto" resultType="DmLockScreenPhoto">
+        select
+         <include refid="projection"/>
+         from dm_lock_screen_photo T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmLockScreenPhoto" parameterType="DmLockScreenPhoto">
+        insert into dm_lock_screen_photo
+         (
+            id,
+            school_id,
+            title,
+            content,
+            content_type,
+            status,
+            upload_time,
+            create_time,
+            update_time,
+            is_system
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{title}
+                ,
+                #{content}
+                ,
+                #{contentType}
+                ,
+                #{status}
+                ,
+                DATE_FORMAT(NOW(),'%Y-%m-%d')
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{isSystem}
+                
+         )
+    </insert>
+    <update id="updateDmLockScreenPhoto" parameterType="DmLockScreenPhoto">
+        update dm_lock_screen_photo
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="title!=null ">
+                        title=#{title},
+                    </if>
+                    <if test="content!=null ">
+                        content=#{content},
+                    </if>
+                    <if test="contentType!=null ">
+                        content_type=#{contentType},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="uploadTime!=null ">
+                        upload_time=#{uploadTime},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="isSystem!=null ">
+                        is_system=#{isSystem}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmLockScreenPhoto" >
+        delete from dm_lock_screen_photo where id=#{id}
+    </delete>
+    <delete id="deleteDmLockScreenPhotoByCondition" >
+        delete from dm_lock_screen_photo T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmLockScreenPhoto" parameterType="DmLockScreenPhoto">
+        INSERT INTO dm_lock_screen_photo (  id,  school_id,  title,  content,  content_type,  status,  upload_time,  create_time,  update_time,  is_system )
+        VALUES
+        <foreach collection="list" item="dmLockScreenPhoto" separator=",">
+            (  #{dmLockScreenPhoto.id},  #{dmLockScreenPhoto.schoolId},  #{dmLockScreenPhoto.title},  #{dmLockScreenPhoto.content},  #{dmLockScreenPhoto.contentType},  #{dmLockScreenPhoto.status},  #{dmLockScreenPhoto.uploadTime},  #{dmLockScreenPhoto.createTime},  #{dmLockScreenPhoto.updateTime},  #{dmLockScreenPhoto.isSystem}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <update id="updateStatus" >
+        update dm_lock_screen_photo set status = '0'
+    </update>
+    <update id="updateStatusById" >
+        update dm_lock_screen_photo set status = '1' where id=#{id}
+    </update>
+
+    <update id="cancelCurrentScreenPhoto" >
+        update dm_lock_screen_photo set status = '0' where id=#{id}
+    </update>
+
+    <delete id="batchdelete" >
+        delete from dm_lock_screen_photo where id in
+        <foreach item="item" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and status = #{status} and is_system = #{isSystem}
+    </delete>
+</mapper>

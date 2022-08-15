@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.department.IDepartmentTeacherDao">
+    <!--########################################################################################################################-->
+    <select id="findDepartmentTeacherListByCondition" parameterType="DepartmentTeacher" resultType="DepartmentTeacher">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('departmentId')">
+                             T.department_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_department_teacher T
+        <where>
+              <if test="departmentId!=null">
+                 T.department_id=#{departmentId}
+              </if>
+              <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findDepartmentTeacherCountByCondition" parameterType="DepartmentTeacher" resultType="long">
+        select count(*) from jw_department_teacher
+        <where>
+              <if test="departmentId!=null">
+                 department_id=#{departmentId}
+              </if>
+              <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+              </if>
+        </where>
+    </select>
+    <select id="findDepartmentTeacherById" resultType="DepartmentTeacher">
+        select * from jw_department_teacher where id=#{id}
+    </select>
+    <select id="findOneDepartmentTeacherByCondition" parameterType="DepartmentTeacher" resultType="DepartmentTeacher">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('departmentId')">
+                             T.department_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_department_teacher T
+        <where>
+              <if test="departmentId!=null">
+                 T.department_id=#{departmentId}
+              </if>
+              <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+              </if>
+        </where>
+    </select>
+    <insert id="saveDepartmentTeacher" parameterType="DepartmentTeacher">
+        insert into jw_department_teacher
+         (
+            id,
+            department_id,
+            teacher_id
+        ) values
+         (
+                #{id}
+                ,
+                #{departmentId}
+                ,
+                #{teacherId}
+                
+         )
+    </insert>
+    <update id="updateDepartmentTeacher" parameterType="DepartmentTeacher">
+        update jw_department_teacher
+        <set>
+                    <if test="departmentId!=null ">
+                        department_id=#{departmentId},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDepartmentTeacher" >
+        delete from jw_department_teacher where id=#{id}
+    </delete>
+    <delete id="deleteDepartmentTeacherByCondition" >
+        delete from jw_department_teacher
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="departmentId!=null">
+                and department_id=#{departmentId}
+              </if>
+              <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveDepartmentTeacher" parameterType="DepartmentTeacher">
+        INSERT INTO jw_department_teacher (  id,  department_id,  teacher_id )
+        VALUES
+        <foreach collection="list" item="departmentTeacher" separator=",">
+            (  #{departmentTeacher.id},  #{departmentTeacher.departmentId},  #{departmentTeacher.teacherId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

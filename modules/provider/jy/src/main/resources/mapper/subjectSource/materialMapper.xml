@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.subjectSource.IMaterialDao">
+    <!--########################################################################################################################-->
+    <select id="findMaterialListByCondition" parameterType="Material" resultType="Material">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('image')">
+                        T.image,
+                    </if>
+                    <if test="!pager.excludes.contains('subjectMaterialId')">
+                        T.subject_material_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createUserId')">
+                        T.create_user_id,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateUserId')">
+                        T.update_user_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from material T
+        <where>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="image!=null">
+                and T.image=#{image}
+            </if>
+            <if test="subjectMaterialId!=null">
+                and T.subject_material_id=#{subjectMaterialId}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="createUserId!=null">
+                and T.create_user_id=#{createUserId}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="updateUserId!=null">
+                and T.update_user_id=#{updateUserId}
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)}
+            ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findMaterialCountByCondition" parameterType="Material" resultType="long">
+        select count(*) from material
+        <where>
+            <if test="name!=null">
+                name=#{name}
+            </if>
+            <if test="image!=null">
+                and image=#{image}
+            </if>
+            <if test="subjectMaterialId!=null">
+                and subject_material_id=#{subjectMaterialId}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="createUserId!=null">
+                and create_user_id=#{createUserId}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="updateUserId!=null">
+                and update_user_id=#{updateUserId}
+            </if>
+        </where>
+    </select>
+    <select id="findMaterialById" resultType="Material">
+        select * from material where id=#{id}
+    </select>
+    <select id="findOneMaterialByCondition" parameterType="Material" resultType="Material">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('image')">
+                        T.image,
+                    </if>
+                    <if test="!pager.excludes.contains('subjectMaterialId')">
+                        T.subject_material_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createUserId')">
+                        T.create_user_id,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateUserId')">
+                        T.update_user_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from material T
+        <where>
+            <if test="name!=null">
+                T.name=#{name}
+            </if>
+            <if test="image!=null">
+                and T.image=#{image}
+            </if>
+            <if test="subjectMaterialId!=null">
+                and T.subject_material_id=#{subjectMaterialId}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="createUserId!=null">
+                and T.create_user_id=#{createUserId}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="updateUserId!=null">
+                and T.update_user_id=#{updateUserId}
+            </if>
+        </where>
+    </select>
+    <insert id="saveMaterial" parameterType="Material">
+        insert into material
+         (
+            id,
+            name,
+            image,
+            subject_material_id,
+            create_time,
+            create_user_id,
+            update_time,
+            update_user_id
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{image}
+                ,
+                #{subjectMaterialId}
+                ,
+                now()
+                ,
+                #{createUserId}
+                ,
+                #{updateTime}
+                ,
+                #{updateUserId}
+                
+         )
+    </insert>
+    <update id="updateMaterial" parameterType="Material">
+        update material
+        <set>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="image!=null ">
+                image=#{image},
+            </if>
+            <if test="subjectMaterialId!=null ">
+                subject_material_id=#{subjectMaterialId},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="createUserId!=null ">
+                create_user_id=#{createUserId},
+            </if>
+            update_time=now(),
+            <if test="updateUserId!=null ">
+                update_user_id=#{updateUserId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteMaterial">
+        delete from material where id=#{id}
+    </delete>
+    <delete id="deleteMaterialByCondition">
+        delete from material
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="name!=null">
+                and name=#{name}
+            </if>
+            <if test="image!=null">
+                and image=#{image}
+            </if>
+            <if test="subjectMaterialId!=null">
+                and subject_material_id=#{subjectMaterialId}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="createUserId!=null">
+                and create_user_id=#{createUserId}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="updateUserId!=null">
+                and update_user_id=#{updateUserId}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveMaterial" parameterType="Material">
+        INSERT INTO material ( id, name, image, subject_material_id, create_time, create_user_id, update_time,
+        update_user_id )
+        VALUES
+        <foreach collection="list" item="material" separator=",">
+            ( #{material.id}, #{material.name}, #{material.image}, #{material.subjectMaterialId},
+            #{material.createTime}, #{material.createUserId}, #{material.updateTime}, #{material.updateUserId} )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

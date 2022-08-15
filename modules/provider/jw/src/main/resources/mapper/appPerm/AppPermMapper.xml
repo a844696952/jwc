@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.appPerm.AppPermDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolPermId')">
+                        T.school_perm_id,
+                    </if>
+                    <if test="!pager.excludes.contains('sort')">
+                        T.sort,
+                    </if>
+                    <if test="!pager.excludes.contains('appName')">
+                        T.app_name,
+                    </if>
+                    <if test="!pager.excludes.contains('parentId')">
+                        T.parent_id,
+                    </if>
+                    <if test="!pager.excludes.contains('groupName')">
+                        T.group_name,
+                    </if>
+                    <if test="!pager.excludes.contains('whatApp')">
+                        T.what_app,
+                    </if>
+                    <if test="!pager.excludes.contains('appIcon')">
+                        T.app_icon,
+                    </if>
+                    <if test="!pager.excludes.contains('identify')">
+                        T.identify,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolPermId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolPermId'">
+                        and T.school_perm_id like concat('%',#{schoolPermId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_perm_id=#{schoolPermId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sort!=null">
+                and T.sort=#{sort}
+            </if>
+            <if test="appName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='appName'">
+                        and T.app_name like concat('%',#{appName},'%')
+                    </when>
+                    <otherwise>
+                        and T.app_name=#{appName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="parentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='parentId'">
+                        and T.parent_id like concat('%',#{parentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.parent_id=#{parentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="groupName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='groupName'">
+                        and T.group_name like concat('%',#{groupName},'%')
+                    </when>
+                    <otherwise>
+                        and T.group_name=#{groupName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="whatApp!=null">
+                and T.what_app=#{whatApp}
+            </if>
+            <if test="appIcon!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='appIcon'">
+                        and T.app_icon like concat('%',#{appIcon},'%')
+                    </when>
+                    <otherwise>
+                        and T.app_icon=#{appIcon}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="identify!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='identify'">
+                        and T.identify like concat('%',#{identify},'%')
+                    </when>
+                    <otherwise>
+                        and T.identify=#{identify}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findAppPermListByCondition" parameterType="AppPerm" resultType="AppPerm">
+        select
+        <include refid="projection"/>
+        from app_perm T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findAppPermCountByCondition" parameterType="AppPerm" resultType="long">
+        select count(*) from app_perm T
+        <include refid="match"/>
+    </select>
+    <select id="findAppPermById" resultType="AppPerm">
+        select * from app_perm where id=#{id}
+    </select>
+    <select id="findOneAppPermByCondition" parameterType="AppPerm" resultType="AppPerm">
+        select
+        <include refid="projection"/>
+        from app_perm T
+        <include refid="match"/>
+    </select>
+    <insert id="saveAppPerm" parameterType="AppPerm">
+        insert into app_perm
+         (
+            id,
+            school_perm_id,
+            sort,
+            app_name,
+            parent_id,
+            group_name,
+            what_app,
+            app_icon,
+            identify
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolPermId}
+                ,
+                #{sort}
+                ,
+                #{appName}
+                ,
+                #{parentId}
+                ,
+                #{groupName}
+                ,
+                #{whatApp}
+                ,
+                #{appIcon}
+                ,
+                #{identify}
+
+         )
+    </insert>
+    <update id="updateAppPerm" parameterType="AppPerm">
+        update app_perm
+        <set>
+            <if test="schoolPermId!=null ">
+                school_perm_id=#{schoolPermId},
+            </if>
+            <if test="sort!=null ">
+                sort=#{sort},
+            </if>
+            <if test="appName!=null ">
+                app_name=#{appName},
+            </if>
+            <if test="parentId!=null ">
+                parent_id=#{parentId},
+            </if>
+            <if test="groupName!=null ">
+                group_name=#{groupName},
+            </if>
+            <if test="whatApp!=null ">
+                what_app=#{whatApp},
+            </if>
+            <if test="appIcon!=null ">
+                app_icon=#{appIcon},
+            </if>
+            <if test="identify!=null ">
+                identify=#{identify}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteAppPerm" >
+        delete from app_perm where id=#{id}
+    </delete>
+    <delete id="deleteAppPermByCondition" >
+        delete T from app_perm T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveAppPerm" parameterType="AppPerm">
+        INSERT INTO app_perm (  id,  school_perm_id,  sort,  app_name,  parent_id,  group_name,  what_app,  app_icon,  identify )
+        VALUES
+        <foreach collection="list" item="appPerm" separator=",">
+            (  #{appPerm.id},  #{appPerm.schoolPermId},  #{appPerm.sort},  #{appPerm.appName},  #{appPerm.parentId},  #{appPerm.groupName},  #{appPerm.whatApp},  #{appPerm.appIcon},  #{appPerm.identify}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findTeacherTreeMenuByTId" resultType="Perm">
+        SELECT P.* from jw_teacher T inner join jw_teacher_jw_role TR on T.id=TR.teacher_id
+                            inner join jw_role R on TR.role_id=R.id
+                            inner join jw_role_jw_perm RP on R.id=RP.role_id
+                            inner join jw_perm P on RP.perm_id=P.id and RP.school_id=P.school_id
+                            where T.id=#{teacherId}
+                            group by P.id,P.school_id
+    </select>
+    <select id="findAppPermAndSchoolPermKong" parameterType="AppPerm" resultType="AppPerm">
+        select
+        <include refid="projection"/>
+        from app_perm T left join app_school_perm P
+        on T.id = P.id
+        <where>
+            <if test="whatApp!=null">
+                T.what_app = #{whatApp}
+            </if>
+            <if test="schoolId!=null">
+                and  P.school_id = #{schoolId}
+            </if>
+        </where>
+        order by P.school_sort,T.sort
+    </select>
+
+    <update id="moveAppPerm">
+        <foreach collection="list" item="appPerm" separator=";">
+            update app_perm set sort=#{appPerm.sort} where id=#{appPerm.id}
+        </foreach>
+    </update>
+
+    <select id="findSchoolAndAppPermRelation" resultType="AppPerm">
+        select * from app_perm T where  T.school_perm_id in (
+        <foreach collection="list" item="schoolPerm" separator=",">
+          #{schoolPerm.id}
+        </foreach>
+        )
+    </select>
+
+</mapper>

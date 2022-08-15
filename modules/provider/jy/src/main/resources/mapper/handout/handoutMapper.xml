@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.handout.IHandoutDao">
+    <!--########################################################################################################################-->
+    <select id="findHandoutListByCondition" parameterType="Handout" resultType="Handout">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('handoutName')">
+                             T.handout_name,
+                         </if>
+                         <if test="!pager.excludes.contains('course')">
+                             T.course,
+                         </if>
+                         <if test="!pager.excludes.contains('fileNumber')">
+                             T.file_number,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_handout T
+        <where>
+              <if test="teacherId!=null">
+                 T.teacher_id=#{teacherId}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="handoutName!=null">
+                and T.handout_name=#{handoutName}
+              </if>
+              <if test="course!=null">
+                and T.course=#{course}
+              </if>
+              <if test="fileNumber!=null">
+                and T.file_number=#{fileNumber}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findHandoutCountByCondition" parameterType="Handout" resultType="long">
+        select count(*) from jy_handout
+        <where>
+              <if test="teacherId!=null">
+                 teacher_id=#{teacherId}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="handoutName!=null">
+                and handout_name=#{handoutName}
+              </if>
+              <if test="course!=null">
+                and course=#{course}
+              </if>
+              <if test="fileNumber!=null">
+                and file_number=#{fileNumber}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+        </where>
+    </select>
+    <select id="findHandoutById" resultType="Handout">
+        select * from jy_handout where id=#{id}
+    </select>
+    <select id="findOneHandoutByCondition" parameterType="Handout" resultType="Handout">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('handoutName')">
+                             T.handout_name,
+                         </if>
+                         <if test="!pager.excludes.contains('course')">
+                             T.course,
+                         </if>
+                         <if test="!pager.excludes.contains('fileNumber')">
+                             T.file_number,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_handout T
+        <where>
+              <if test="teacherId!=null">
+                 T.teacher_id=#{teacherId}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="handoutName!=null">
+                and T.handout_name=#{handoutName}
+              </if>
+              <if test="course!=null">
+                and T.course=#{course}
+              </if>
+              <if test="fileNumber!=null">
+                and T.file_number=#{fileNumber}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveHandout" parameterType="Handout">
+        insert into jy_handout
+         (
+            id,
+            teacher_id,
+            create_time,
+            handout_name,
+            course,
+            file_number,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{teacherId}
+                ,
+                now()
+                ,
+                #{handoutName}
+                ,
+                #{course}
+                ,
+                #{fileNumber}
+                ,
+                #{updateTime}
+                
+         )
+    </insert>
+    <update id="updateHandout" parameterType="Handout">
+        update jy_handout
+        <set>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="handoutName!=null ">
+                        handout_name=#{handoutName},
+                    </if>
+                    <if test="course!=null ">
+                        course=#{course},
+                    </if>
+                    <if test="fileNumber!=null ">
+                        file_number=#{fileNumber},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteHandout" >
+        delete from jy_handout where id=#{id}
+    </delete>
+    <delete id="deleteHandoutByCondition" >
+        delete from jy_handout
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="handoutName!=null">
+                and handout_name=#{handoutName}
+              </if>
+              <if test="course!=null">
+                and course=#{course}
+              </if>
+              <if test="fileNumber!=null">
+                and file_number=#{fileNumber}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveHandout" parameterType="Handout">
+        INSERT INTO jy_handout (  id,  teacher_id,  create_time,  handout_name,  course,  file_number,  update_time )
+        VALUES
+        <foreach collection="list" item="handout" separator=",">
+            (  #{handout.id},  #{handout.teacherId},  #{handout.createTime},  #{handout.handoutName},  #{handout.course},  #{handout.fileNumber},  #{handout.updateTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findHandoutsByCondition2" parameterType="Handout" resultType="Handout">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('handoutName')">
+                        T.handout_name,
+                    </if>
+                    <if test="!pager.excludes.contains('course')">
+                        T.course,
+                    </if>
+                    <if test="!pager.excludes.contains('fileNumber')">
+                        T.file_number,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_handout T
+        <where>
+            <if test="searchStearTime!=null">
+                and  T.create_time &gt;= #{searchStearTime}
+            </if>
+            <if test="searchEndTime!=null">
+                and  T.create_time &lt;= #{searchEndTime}
+            </if>
+            <if test="handoutName!=null">
+                and T.handout_name like CONCAT(CONCAT('%',#{handoutName},'%'))
+            </if>
+            <if test="teacherId!=null">
+               and T.teacher_id=#{teacherId}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="course!=null">
+                and T.course=#{course}
+            </if>
+            <if test="fileNumber!=null">
+                and T.file_number=#{fileNumber}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+        </where>
+        <if test="pager==null or (pager!=null and pager.sortField==null and pager.sortOrder==null)">
+            order by  update_time desc
+        </if>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by  T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findHandoutCountByCondition2" parameterType="Handout" resultType="long">
+        select count(*) from jy_handout
+        <where>
+
+            <if test="teacherId!=null">
+                teacher_id=#{teacherId}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="handoutName!=null">
+                and handout_name like CONCAT(CONCAT('%',#{handoutName},'%'))
+            </if>
+            <if test="course!=null">
+                and course=#{course}
+            </if>
+            <if test="fileNumber!=null">
+                and file_number=#{fileNumber}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+        </where>
+    </select>
+</mapper>

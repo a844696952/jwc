@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.dmMobileRedBanner.IDmMobileRedBannerDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classIds')">
+                             T.class_ids,
+                         </if>
+                         <if test="!pager.excludes.contains('classNames')">
+                             T.class_names,
+                         </if>
+                         <if test="!pager.excludes.contains('honourName')">
+                             T.honour_name,
+                         </if>
+                         <if test="!pager.excludes.contains('honourTime')">
+                             T.honour_time,
+                         </if>
+                         <if test="!pager.excludes.contains('awardTime')">
+                             T.award_time,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classIds!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classIds'">
+                            and T.class_ids like concat('%',#{classIds},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_ids like concat('%',#{classIds},'%')
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classNames!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classNames'">
+                            and T.class_names like concat('%',#{classNames},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_names like concat('%',#{classNames},'%')
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="honourName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='honourName'">
+                            and T.honour_name like concat('%',#{honourName},'%')
+                         </when>
+                         <otherwise>
+                            and T.honour_name like concat('%',#{honourName},'%')
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="honourTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='honourTime'">
+                            and T.honour_time like concat('%',#{honourTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.honour_time=#{honourTime}
+                         </otherwise>
+                      </choose>
+              </if>
+                <if test="awardTime!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='awardTime'">
+                            and T.award_time like concat('%',#{awardTime},'%')
+                        </when>
+                        <otherwise>
+                            and T.award_time=#{awardTime}
+                        </otherwise>
+                    </choose>
+                </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmMobileRedBannerListByCondition" parameterType="DmMobileRedBanner" resultType="DmMobileRedBanner">
+        select
+         <include refid="projection"/>
+         from dm_mobile_red_banner T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDmMobileRedBannerCountByCondition" parameterType="DmMobileRedBanner" resultType="long">
+        select count(*) from dm_mobile_red_banner T
+        <include refid="match"/>
+    </select>
+    <select id="findDmMobileRedBannerById" resultType="DmMobileRedBanner">
+        select * from dm_mobile_red_banner where id=#{id}
+    </select>
+    <select id="findOneDmMobileRedBannerByCondition" parameterType="DmMobileRedBanner" resultType="DmMobileRedBanner">
+        select
+         <include refid="projection"/>
+         from dm_mobile_red_banner T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmMobileRedBanner" parameterType="DmMobileRedBanner">
+        insert into dm_mobile_red_banner
+         (
+            id,
+            school_id,
+            class_ids,
+            class_names,
+            honour_name,
+            honour_time,
+            award_time,
+            status,
+            create_time,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{classIds}
+                ,
+                #{classNames}
+                ,
+                #{honourName}
+                ,
+                #{honourTime}
+                ,
+                #{awardTime}
+                ,
+                #{status}
+                ,
+                now()
+                ,
+                #{updateTime}
+                
+         )
+    </insert>
+    <update id="updateDmMobileRedBanner" parameterType="DmMobileRedBanner">
+        update dm_mobile_red_banner
+        <set>
+                    school_id=#{schoolId},
+                    class_ids=#{classIds},
+                    class_names=#{classNames},
+                    honour_name=#{honourName},
+                    honour_time=#{honourTime},
+                    award_time=#{awardTime},
+                    status=#{status},
+                    create_time=#{createTime},
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateDmMobileRedBannerForNotNull" parameterType="DmMobileRedBanner">
+        update dm_mobile_red_banner
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="classIds!=null ">
+                        class_ids=#{classIds},
+                    </if>
+                    <if test="classNames!=null ">
+                        class_names=#{classNames},
+                    </if>
+                    <if test="honourName!=null ">
+                        honour_name=#{honourName},
+                    </if>
+                    <if test="honourTime!=null ">
+                        honour_time=#{honourTime},
+                    </if>
+                    <if test="awardTime!=null ">
+                        award_time=#{awardTime},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmMobileRedBanner" >
+        delete from dm_mobile_red_banner where id=#{id}
+    </delete>
+    <delete id="deleteDmMobileRedBannerByCondition" >
+        delete T from dm_mobile_red_banner T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmMobileRedBanner" parameterType="DmMobileRedBanner">
+        INSERT INTO dm_mobile_red_banner (  id,  school_id,  class_ids,  class_names,  honour_name,  honour_time,honour_time,  status,  create_time,  update_time )
+        VALUES
+        <foreach collection="list" item="dmMobileRedBanner" separator=",">
+            (  #{dmMobileRedBanner.id},  #{dmMobileRedBanner.schoolId},  #{dmMobileRedBanner.classIds},  #{dmMobileRedBanner.classNames},  #{dmMobileRedBanner.honourName},  #{dmMobileRedBanner.honourTime},#{dmMobileRedBanner.awardTime},  #{dmMobileRedBanner.status},  #{dmMobileRedBanner.createTime},  #{dmMobileRedBanner.updateTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <update id="updateStatus">
+        update dm_mobile_red_banner set status = '2' where `status` = 1
+    </update>
+
+    <select id="getClassNames" resultType="String">
+        select GROUP_CONCAT(CONCAT(grade_name,'(',number,")班")) as 'name' from jw_classes where id IN
+        <foreach collection="ids" item="item" index="index" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="findDmMobileRedBannerByClassId" resultType="DmMobileRedBanner">
+        select * from dm_mobile_red_banner where FIND_IN_SET(#{classId},class_ids) and `status` = 1
+    </select>
+
+    <select id="findTodayAwardRedBanner" resultType="DmMobileRedBanner">
+        select * from dm_mobile_red_banner where TIMESTAMPDIFF(DAY,CURRENT_DATE(),award_time)=0 and status=0;
+    </select>
+
+    <update id="updateStatusShowById">
+        update dm_mobile_red_banner set status = '1' where id = #{id}
+    </update>
+
+
+    <select id="findToBeIssuedDmMobileRedBannerByAwardTime" resultType="DmMobileRedBanner">
+        select * from dm_mobile_red_banner where award_time = #{awardTime} AND status = '0'
+    </select>
+
+    <select id="findDmMobileRedBannersByClassId" resultType="DmMobileRedBanner">
+        select * from dm_mobile_red_banner where FIND_IN_SET(#{classId},class_ids)
+    </select>
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.cms.IXwCmsHomeLayoutDao">
+    <select id="findAllCmsHomeLayout" parameterType="String" resultType="XwCmsHomeLayout">
+        SELECT
+        hl.id AS id,hl.column_id AS column_id,hl.school_id AS school_id,hl.sort_number AS sort_number,c.position AS position,
+         c.column_name AS column_name,c.column_type AS column_type,t.id AS contentId,t.url AS url,t.font_cover_url AS file_path,t.is_show AS isShow
+        FROM
+        xw_cms_home_layout AS hl
+        LEFT JOIN xw_cms_column AS c ON hl.column_id = c.id AND hl.school_id = c.school_id
+        LEFT JOIN xw_cms_content AS t ON hl.column_id = t.column_id AND hl.school_id = t.school_id AND t.type = 1
+        WHERE hl.school_id = #{schoolId}
+    </select>
+    <select id="findCmsHomeLayoutByCid" parameterType="String" resultType="XwCmsHomeLayout">
+        select * from xw_cms_home_layout where column_id = #{columnId}
+    </select>
+    <update id="updateXwCmsHomeLayout" parameterType="XwCmsHomeLayout">
+        update xw_cms_home_layout
+        <set>
+            <if test="columnId!=null">
+                column_id = #{columnId},
+            </if>
+            <if test="schoolId!=null">
+                school_id = #{schoolId},
+            </if>
+            <if test="sortNumber!=null">
+                sort_number = #{sortNumber},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <insert id="saveXwCmsHomeLayout" parameterType="XwCmsHomeLayout">
+        insert into xw_cms_home_layout(id,column_id,school_id,sort_number,create_time) values(#{id},#{columnId},#{schoolId},#{sortNumber},#{createTime})
+    </insert>
+    <delete id="deleteXwCmsHomeLayoutByCid" parameterType="String">
+        delete from xw_cms_home_layout where column_id = #{columnId}
+    </delete>
+    <select id="findAllColumnIds" resultType="String">
+        select column_id from xw_cms_home_layout
+    </select>
+    <delete id="deleteXwCmsHomeLayoutBySid" parameterType="String">
+        delete from xw_cms_home_layout where school_id = #{schoolId}
+    </delete>
+    <insert id="saveBatchXwCmsHomeLayout" parameterType="XwCmsHomeLayout">
+        insert into xw_cms_home_layout(id,column_id,school_id,sort_number,create_time)
+        values
+        <foreach collection="list" item="XwCmsHomeLayout" separator=",">
+            (#{XwCmsHomeLayout.id},#{XwCmsHomeLayout.columnId},#{XwCmsHomeLayout.schoolId},#{XwCmsHomeLayout.sortNumber},#{XwCmsHomeLayout.createTime})
+        </foreach>
+    </insert>
+    <update id="updateXwCmsHomeLayoutSort">
+        update xw_cms_home_layout set sort_number = sort_number + #{num} where sort_number > #{sortNumber} and school_id = #{schoolId}
+    </update>
+    <delete id="deleteXwCmsHomeLayoutBySortNumber">
+        delete from xw_cms_home_layout where sort_number = #{sortNumber} and school_id = #{schoolId}
+    </delete>
+    <select id="findCmsHomeLayouTopRowCids" parameterType="String" resultType="String">
+        SELECT
+        hl.column_id AS column_id
+        FROM
+        xw_cms_home_layout AS hl
+        LEFT JOIN xw_cms_column AS c ON hl.column_id = c.id AND hl.school_id = c.school_id
+        LEFT JOIN xw_cms_content AS t ON hl.column_id = t.column_id AND hl.school_id = t.school_id AND t.type = 1
+        WHERE hl.school_id = #{schoolId} AND t.type IS NULL ORDER BY hl.sort_number ASC limit 2
+    </select>
+</mapper>

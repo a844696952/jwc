@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.schoolActive.IDmActivityInfoDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('activityId')">
+                             T.activity_id,
+                         </if>
+                         <if test="!pager.excludes.contains('activityName')">
+                             T.activity_name,
+                         </if>
+                         <if test="!pager.excludes.contains('activityContent')">
+                             T.activity_content,
+                         </if>
+                         <if test="!pager.excludes.contains('notifyObj')">
+                             T.notify_obj,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('isSignUp')">
+                             T.is_sign_up,
+                         </if>
+                         <if test="!pager.excludes.contains('isCustomize')">
+                             T.is_customize,
+                         </if>
+                         <if test="!pager.excludes.contains('endDate')">
+                             T.end_date,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityId'">
+                            and T.activity_id like concat('%',#{activityId},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_id=#{activityId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityName'">
+                            and T.activity_name like concat('%',#{activityName},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_name=#{activityName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityContent!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityContent'">
+                            and T.activity_content like concat('%',#{activityContent},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_content=#{activityContent}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="notifyObj!=null">
+                    and T.notify_obj=#{notifyObj}
+              </if>
+              <if test="gradeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeId'">
+                            and T.grade_id like concat('%',#{gradeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_id=#{gradeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isSignUp!=null">
+                    and T.is_sign_up=#{isSignUp}
+              </if>
+              <if test="isCustomize!=null">
+                    and T.is_customize=#{isCustomize}
+              </if>
+              <if test="endDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='endDate'">
+                            and T.end_date like concat('%',#{endDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.end_date=#{endDate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmActivityInfoListByCondition" parameterType="DmActivityInfo" resultType="DmActivityInfo">
+        select
+         <include refid="projection"/>,
+         D.name as gradeName
+         from dm_activity_info T
+         left join ad_dd D
+         on T.grade_id =D.id and D.type_id=4
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+    </select>
+    <select id="findDmActivityInfoCountByCondition" parameterType="DmActivityInfo" resultType="long">
+        select count(*) from (
+        select count(*) from dm_activity_info T
+        <include refid="match"/>
+        GROUP BY T.activity_id
+        ) a
+    </select>
+    <select id="findDmActivityInfoById" resultType="DmActivityInfo">
+        select * from dm_activity_info where id=#{id}
+    </select>
+
+    <select id="findDmActivityInfoByActivityId" resultType="DmActivityInfo" parameterType="DmActivityInfo">
+      SELECT T.id,T.activity_id,T.activity_name,T.activity_content,T.grade_id,T.is_sign_up,T.is_customize,
+        T.end_date,T.create_time,P.id as itemId, P.project_name as projectName,
+        J.name as studentName,J.classes_id,CONCAT(C.grade_name,'(',C.number,')','班') as className,C.number,C.grade_id as realGradeId
+        from dm_activity_info T
+        left join dm_activity_item P
+        on T.activity_id = P.activity_id
+        left join dm_activity_sigin_up S
+        on S.item_id=P.id
+        left join jw_student J
+        on J.id=S.student_id and S.classes_id=J.classes_id
+        left join jw_classes C
+        on C.id=S.classes_id
+        <where>
+            <if test="schoolId!=null">
+              T.school_id=#{schoolId}
+            </if>
+         <if test="activityId !=null">
+             and T.activity_id =#{activityId}
+         </if>
+        </where>
+          order by C.grade_id,C.number asc
+    </select>
+    <select id="findOneDmActivityInfoByCondition" parameterType="DmActivityInfo" resultType="DmActivityInfo">
+        select
+         <include refid="projection"/>
+         from dm_activity_info T
+        <include refid="match"/>
+    </select>
+
+    <select id="findActiveListById" parameterType="DmActivityInfo" resultType="DmActivityInfo">
+        select T.* from dm_activity_info T where T.activity_id=#{activityId} and T.school_id=#{schoolId}
+    </select>
+
+
+
+
+    <select id="findHeadTeacherListByGradeId" parameterType="DmActivityInfo" resultType="string">
+        SELECT * from jw_teacher_post T  where
+         T.grade_id in
+        <foreach collection="gradeIds" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+        and T.sort = 5 and T.school_id=#{schoolId}
+    </select>
+
+    <select id="findParentByGradeId" parameterType="DmActivityInfo" resultType="string">
+        SELECT T.id from jw_student T
+        left join jw_classes C
+        on C.id=T.classes_id
+        inner join jw_parent_jw_student PS
+        on PS.student_id= T.id
+        where C.grade_id in
+         <foreach collection="gradeIds" item="item" open="(" close=")" separator=",">
+             #{item}
+         </foreach>
+         and T.school_id=#{schoolId}
+    </select>
+
+    <select id="findClassInfoByGradeId" parameterType="jwClasses" resultType="jwClasses">
+      select  * from jw_classes where grade_id=#{gradeId} and school_id=#{schoolId} order by number asc
+    </select>
+
+
+    <insert id="saveDmActivityInfo" parameterType="DmActivityInfo">
+        insert into dm_activity_info
+         (
+            id,
+            activity_id,
+            activity_name,
+            activity_content,
+            notify_obj,
+            grade_id,
+            is_sign_up,
+            is_customize,
+            end_date,
+            create_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{activityId}
+                ,
+                #{activityName}
+                ,
+                #{activityContent}
+                ,
+                #{notifyObj}
+                ,
+                #{gradeId}
+                ,
+                #{isSignUp}
+                ,
+                #{isCustomize}
+                ,
+                #{endDate}
+                ,
+                now()
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updateDmActivityInfo" parameterType="DmActivityInfo">
+        update dm_activity_info
+        <set>
+                    <if test="activityId!=null ">
+                        activity_id=#{activityId},
+                    </if>
+                    <if test="activityName!=null ">
+                        activity_name=#{activityName},
+                    </if>
+                    <if test="activityContent!=null ">
+                        activity_content=#{activityContent},
+                    </if>
+                    <if test="notifyObj!=null ">
+                        notify_obj=#{notifyObj},
+                    </if>
+                    <if test="gradeId!=null ">
+                        grade_id=#{gradeId},
+                    </if>
+                    <if test="isSignUp!=null ">
+                        is_sign_up=#{isSignUp},
+                    </if>
+                    <if test="isCustomize!=null ">
+                        is_customize=#{isCustomize},
+                    </if>
+                    <if test="endDate!=null ">
+                        end_date=#{endDate},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmActivityInfo" >
+        delete from dm_activity_info where id=#{id}
+    </delete>
+    <delete id="deleteDmActivityInfoByCondition" >
+        delete T from dm_activity_info T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmActivityInfo" parameterType="DmActivityInfo">
+        INSERT INTO dm_activity_info (  id,  activity_id,  activity_name,  activity_content,  notify_obj,  grade_id,  is_sign_up,  is_customize,  end_date,  create_time,  school_id )
+        VALUES
+        <foreach collection="list" item="dmActivityInfo" separator=",">
+            (  #{dmActivityInfo.id},  #{dmActivityInfo.activityId},  #{dmActivityInfo.activityName},  #{dmActivityInfo.activityContent},  #{dmActivityInfo.notifyObj},  #{dmActivityInfo.gradeId},  #{dmActivityInfo.isSignUp},  #{dmActivityInfo.isCustomize},  #{dmActivityInfo.endDate},  #{dmActivityInfo.createTime},  #{dmActivityInfo.schoolId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findGradesByGradeIds" resultType="com.yice.edu.cn.common.pojo.general.dd.Dd">
+        select * from ad_dd where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="findDmActivityInfosByCondition" resultType="com.yice.edu.cn.common.pojo.dm.schoolActive.DmActivityInfo">
+        select * from dm_activity_info where (grade_id=#{gradeId} and school_id=#{schoolId} and notify_obj=1)
+        or (grade_id=#{gradeId} and school_id=#{schoolId} and notify_obj=3)
+        order by create_time desc
+        <include refid="page"/>
+    </select>
+    <select id="findOneDmActivityInfoByActivityId" resultType="com.yice.edu.cn.common.pojo.dm.schoolActive.DmActivityInfo">
+        select * from dm_activity_info where activity_id=#{activityId} limit 1
+    </select>
+    <select id="findSiginUpGrade" resultType="com.yice.edu.cn.common.pojo.jw.classes.JwClasses">
+        select id,grade_id,grade_name from jw_classes where id in
+        <foreach collection="list" item="classesId" open="(" separator="," close=")">
+            #{classesId}
+        </foreach>
+    </select>
+    <delete id="deleteDmActivityInfoByActivityId">
+        delete from dm_activity_info where activity_id=#{activityId}
+    </delete>
+    <select id="findOldDmActivityInfoDao" resultType="com.yice.edu.cn.common.pojo.dm.schoolActive.DmActivityInfo">
+        select * from dm_activity_info where activity_id=#{activityId} limit 1
+    </select>
+    <select id="findTeacherGradeIdsByTeacherId" resultType="java.lang.String">
+        SELECT b.grade_id from dm_class_card a LEFT JOIN jw_classes b on a.class_id=b.id where teacher_id=#{teacherId}
+    </select>
+    <select id="selectDmActivityInfosByGradeIdsAndSchoolId"
+            resultType="com.yice.edu.cn.common.pojo.dm.schoolActive.DmActivityInfo">
+        select * from dm_activity_info
+        where (school_id='1741058039675183104' and grade_id in
+        <foreach collection="gradeIds" item="gradeId" open="(" separator="," close=")">
+            #{gradeId}
+        </foreach>
+        and notify_obj=1)
+        or (school_id='1741058039675183104' and grade_id in
+        <foreach collection="gradeIds" item="gradeId" open="(" separator="," close=")">
+            #{gradeId}
+        </foreach>
+        and notify_obj=3)
+        order by create_time desc
+        <include refid="page"/>
+    </select>
+    <select id="findDmActivityInfoNoItemByActivityId"
+            resultType="com.yice.edu.cn.common.pojo.dm.schoolActive.DmActivityInfo">
+        select * from dm_activity_info where activity_id=#{activityId} limit 1
+    </select>
+    <select id="selectGradeIdsByActivityId" resultType="java.lang.String">
+        select grade_id from dm_activity_info where activity_id=#{activityId}
+    </select>
+    <select id="selectClassesIdsByGradeIds" resultType="java.lang.String">
+        select id from jw_classes where grade_id in
+        <foreach collection="gradeIds" open="(" item="gradeId" separator="," close=")">
+            #{gradeId}
+        </foreach>
+    </select>
+
+</mapper>

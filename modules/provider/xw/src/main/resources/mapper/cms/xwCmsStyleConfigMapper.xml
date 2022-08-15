@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.cms.IXwCmsStyleConfigDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('layoutMode')">
+                        T.layout_mode,
+                    </if>
+                    <if test="!pager.excludes.contains('skinId')">
+                        T.skin_id,
+                    </if>
+                    <if test="!pager.excludes.contains('isShowSchoolName')">
+                        T.is_show_school_name,
+                    </if>
+                    <if test="!pager.excludes.contains('isShowLogo')">
+                        T.is_show_logo,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('url')">
+                        T.url,
+                    </if>
+                    <if test="!pager.excludes.contains('path')">
+                        T.path,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="layoutMode!=null">
+                and T.layout_mode=#{layoutMode}
+            </if>
+            <if test="skinId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='skinId'">
+                        and T.skin_id like concat('%',#{skinId},'%')
+                    </when>
+                    <otherwise>
+                        and T.skin_id=#{skinId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="isShowSchoolName!=null">
+                and T.is_show_school_name=#{isShowSchoolName}
+            </if>
+            <if test="isShowLogo!=null">
+                and T.is_show_logo=#{isShowLogo}
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="url!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='url'">
+                        and T.url like concat('%',#{url},'%')
+                    </when>
+                    <otherwise>
+                        and T.url=#{url}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="path!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='path'">
+                        and T.path like concat('%',#{path},'%')
+                    </when>
+                    <otherwise>
+                        and T.path=#{path}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwCmsStyleConfigListByCondition" parameterType="XwCmsStyleConfig" resultType="XwCmsStyleConfig">
+        select
+         *
+         from xw_cms_style_config T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findXwCmsStyleConfigCountByCondition" parameterType="XwCmsStyleConfig" resultType="long">
+        select count(*) from xw_cms_style_config T
+        <include refid="match"/>
+    </select>
+    <select id="findXwCmsStyleConfigById" resultType="XwCmsStyleConfig">
+        select * from xw_cms_style_config where id=#{id}
+    </select>
+    <select id="findOneXwCmsStyleConfigByCondition" parameterType="XwCmsStyleConfig" resultType="XwCmsStyleConfig">
+        select
+         *
+         from xw_cms_style_config T
+        <include refid="match"/>
+        limit 1
+    </select>
+    <insert id="saveXwCmsStyleConfig" parameterType="XwCmsStyleConfig">
+        insert into xw_cms_style_config
+         (
+            id,
+            layout_mode,
+            skin_id,
+            is_show_school_name,
+            is_show_logo,
+            school_id,
+            url,
+            path,
+            image_name,
+            create_time
+        ) values
+         (
+            #{id},
+            #{layoutMode},
+            #{skinId},
+            #{isShowSchoolName},
+            #{isShowLogo},
+            #{schoolId},
+            #{url},
+            #{path},
+            #{imageName},
+            #{createTime}
+         )
+    </insert>
+    <update id="updateXwCmsStyleConfig" parameterType="XwCmsStyleConfig">
+        update xw_cms_style_config
+        <set>
+                    <if test="layoutMode!=null">
+                        layout_mode=#{layoutMode},
+                    </if>
+                    <if test="skinId!=null">
+                        skin_id=#{skinId},
+                    </if>
+                    <if test="isShowSchoolName!=null">
+                        is_show_school_name=#{isShowSchoolName},
+                    </if>
+                    <if test="isShowLogo!=null">
+                        is_show_logo=#{isShowLogo},
+                    </if>
+                    <if test="schoolId!=null">
+                        school_id=#{schoolId},
+                    </if>
+                        url=#{url},
+                        path=#{path},
+                        image_name=#{imageName}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwCmsStyleConfig" >
+        delete from xw_cms_style_config where id=#{id}
+    </delete>
+    <delete id="deleteXwCmsStyleConfigByCondition" >
+        delete T from xw_cms_style_config T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwCmsStyleConfig" parameterType="XwCmsStyleConfig">
+        INSERT INTO xw_cms_style_config (id,layout_mode,skin_id,is_show_school_name,is_show_logo,school_id,url,path,image_name,create_time)
+        VALUES
+        <foreach collection="list" item="xwCmsStyleConfig" separator=",">
+            (#{xwCmsStyleConfig.id},#{xwCmsStyleConfig.layoutMode},#{xwCmsStyleConfig.skinId},#{xwCmsStyleConfig.isShowSchoolName},#{xwCmsStyleConfig.isShowLogo},#{xwCmsStyleConfig.schoolId},#{xwCmsStyleConfig.url},#{xwCmsStyleConfig.path},#{xwCmsStyleConfig.imageName},#{xwCmsStyleConfig.createTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

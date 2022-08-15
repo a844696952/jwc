@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.institution.IMesTimeStatusDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('endTime')">
+                             T.end_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status!=null">
+                and T.status=#{status}
+            </if>
+            <if test="endTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='endTime'">
+                        and T.end_time like concat('%',#{endTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.end_time=#{endTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item" index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesTimeStatusListByCondition" parameterType="MesTimeStatus" resultType="MesTimeStatus">
+        select
+        <include refid="projection"/>
+        from mes_time_status T
+        <include refid="match"/>
+         <if test="beginTime != null and beginTime != ''" >
+             and T.create_time &lt; #{beginTime}
+         </if>
+        <include refid="sort"/>
+    </select>
+    <select id="findMesTimeStatusCountByCondition" parameterType="MesTimeStatus" resultType="long">
+        select count(*) from mes_time_status T
+        <include refid="match"/>
+    </select>
+    <select id="findMesTimeStatusById" resultType="MesTimeStatus">
+        select * from mes_time_status where id=#{id}
+    </select>
+    <select id="findOneMesTimeStatusByCondition" parameterType="MesTimeStatus" resultType="MesTimeStatus">
+        select
+        <include refid="projection"/>
+        from mes_time_status T
+        <include refid="match"/>
+    </select>
+    <insert id="saveMesTimeStatus" parameterType="MesTimeStatus">
+        insert into mes_time_status
+         (
+            id,
+            status,
+            end_time,
+            create_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{status}
+                ,
+                #{endTime}
+                ,
+                now()
+                ,
+                #{schoolId}
+
+         )
+    </insert>
+    <update id="updateMesTimeStatus" parameterType="MesTimeStatus">
+        update mes_time_status
+        <set>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="endTime!=null ">
+                end_time=#{endTime},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteMesTimeStatus">
+        delete from mes_time_status where id=#{id}
+    </delete>
+    <delete id="deleteMesTimeStatusByCondition">
+        delete T from mes_time_status T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesTimeStatus" parameterType="MesTimeStatus">
+        INSERT INTO mes_time_status ( id, status, end_time, create_time, school_id )
+        VALUES
+        <foreach collection="list" item="mesTimeStatus" separator=",">
+            ( #{mesTimeStatus.id}, #{mesTimeStatus.status}, #{mesTimeStatus.endTime}, #{mesTimeStatus.createTime},
+            #{mesTimeStatus.schoolId} )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findMesTimeStatusListWhereCreateTimeMax" parameterType="MesTimeStatus" resultType="MesTimeStatus">
+        select * from mes_time_status
+        where create_time=(SELECT MAX(create_time) from mes_time_status T1
+                            where T1.school_id = #{schoolId}
+                            and T1.create_time &lt; #{endTime}) LIMIT 1
+    </select>
+    <select id="selectLatestBySchoolId" resultType="MesTimeStatus">
+        select * from mes_time_status where status=1 and school_id=#{schoolId}
+    </select>
+    <select id="selectMesTimeStatusByCondition" resultType="MesTimeStatus">
+        select * from mes_time_status where school_id=#{schoolId} and status=0 and <![CDATA[create_time<=#{endTime} ]]> and <![CDATA[end_time>=#{beginTime} ]]> order by end_time desc
+    </select>
+    <select id="findAllUsingMesTimeStatus" resultType="MesTimeStatus">
+        select * from mes_time_status T where
+        school_id in (select school_id from mes_time_status T where
+        school_id in (select school_id from mes_time_status where
+        status=1) and create_time &lt; #{beginTime}  GROUP BY school_id) and status=1
+    </select>
+    <select id="findMesTimeStatusBySchoolId" resultType="MesTimeStatus">
+        select * from mes_time_status T where status =1 and school_id=#{schoolId}
+    </select>
+</mapper>

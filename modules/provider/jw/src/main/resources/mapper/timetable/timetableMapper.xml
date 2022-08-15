@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.timetable.ITimetableDao">
+    <!--########################################################################################################################-->
+    <select id="findTimetableListByCondition" parameterType="Timetable" resultType="Timetable">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('jobId')">
+                             T.job_id,
+                         </if>
+                         <if test="!pager.excludes.contains('weekdays')">
+                             T.weekdays,
+                         </if>
+                         <if test="!pager.excludes.contains('timeSlot')">
+                             T.time_slot,
+                         </if>
+                         <if test="!pager.excludes.contains('slot')">
+                             T.slot,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('className')">
+                             T.class_name,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherName')">
+                             T.teacher_name,
+                         </if>
+                         <if test="!pager.excludes.contains('courseId')">
+                             T.course_id,
+                         </if>
+                         <if test="!pager.excludes.contains('courseName')">
+                             T.course_name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_timetable T
+        <where>
+              <if test="jobId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='jobId'">
+                             T.job_id like concat('%',#{jobId},'%')
+                         </when>
+                         <otherwise>
+                             T.job_id=#{jobId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="weekdays!=null">
+                    and T.weekdays=#{weekdays}
+              </if>
+              <if test="timeSlot!=null">
+                    and T.time_slot=#{timeSlot}
+              </if>
+              <if test="slot!=null">
+                    and T.slot=#{slot}
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="gradeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeId'">
+                            and T.grade_id like concat('%',#{gradeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_id=#{gradeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classId'">
+                            and T.class_id like concat('%',#{classId},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_id=#{classId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="className!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='className'">
+                            and T.class_name like concat('%',#{className},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_name=#{className}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherName'">
+                            and T.teacher_name like concat('%',#{teacherName},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_name=#{teacherName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="courseId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseId'">
+                            and T.course_id like concat('%',#{courseId},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_id=#{courseId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="courseName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseName'">
+                            and T.course_name like concat('%',#{courseName},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_name=#{courseName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findTimetableCountByCondition" parameterType="Timetable" resultType="long">
+        select count(*) from jw_timetable T
+        <where>
+              <if test="jobId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='jobId'">
+                             T.job_id like concat('%',#{jobId},'%')
+                         </when>
+                         <otherwise>
+                             T.job_id=#{jobId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="weekdays!=null">
+                    and T.weekdays=#{weekdays}
+            </if>
+              <if test="timeSlot!=null">
+                    and T.time_slot=#{timeSlot}
+            </if>
+              <if test="slot!=null">
+                    and T.slot=#{slot}
+            </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="gradeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeId'">
+                            and T.grade_id like concat('%',#{gradeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_id=#{gradeId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="classId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classId'">
+                            and T.class_id like concat('%',#{classId},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_id=#{classId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="className!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='className'">
+                            and T.class_name like concat('%',#{className},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_name=#{className}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teacherName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherName'">
+                            and T.teacher_name like concat('%',#{teacherName},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_name=#{teacherName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="courseId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseId'">
+                            and T.course_id like concat('%',#{courseId},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_id=#{courseId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="courseName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseName'">
+                            and T.course_name like concat('%',#{courseName},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_name=#{courseName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findTimetableById" resultType="Timetable">
+        select * from jw_timetable where id=#{id}
+    </select>
+    <select id="findOneTimetableByCondition" parameterType="Timetable" resultType="Timetable">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('jobId')">
+                             T.job_id,
+                         </if>
+                         <if test="!pager.excludes.contains('weekdays')">
+                             T.weekdays,
+                         </if>
+                         <if test="!pager.excludes.contains('timeSlot')">
+                             T.time_slot,
+                         </if>
+                         <if test="!pager.excludes.contains('slot')">
+                             T.slot,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('className')">
+                             T.class_name,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherName')">
+                             T.teacher_name,
+                         </if>
+                         <if test="!pager.excludes.contains('courseId')">
+                             T.course_id,
+                         </if>
+                         <if test="!pager.excludes.contains('courseName')">
+                             T.course_name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_timetable T
+        <where>
+              <if test="jobId!=null">
+                 T.job_id=#{jobId}
+              </if>
+              <if test="weekdays!=null">
+                and T.weekdays=#{weekdays}
+              </if>
+              <if test="timeSlot!=null">
+                and T.time_slot=#{timeSlot}
+              </if>
+              <if test="slot!=null">
+                and T.slot=#{slot}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+              </if>
+              <if test="classId!=null">
+                and T.class_id=#{classId}
+              </if>
+              <if test="className!=null">
+                and T.class_name=#{className}
+              </if>
+              <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+              </if>
+              <if test="teacherName!=null">
+                and T.teacher_name=#{teacherName}
+              </if>
+              <if test="courseId!=null">
+                and T.course_id=#{courseId}
+              </if>
+              <if test="courseName!=null">
+                and T.course_name=#{courseName}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveTimetable" parameterType="Timetable">
+        insert into jw_timetable
+         (
+            id,
+            job_id,
+            weekdays,
+            time_slot,
+            slot,
+            school_id,
+            grade_id,
+            class_id,
+            class_name,
+            teacher_id,
+            teacher_name,
+            course_id,
+            course_name,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{jobId}
+                ,
+                #{weekdays}
+                ,
+                #{timeSlot}
+                ,
+                #{slot}
+                ,
+                #{schoolId}
+                ,
+                #{gradeId}
+                ,
+                #{classId}
+                ,
+                #{className}
+                ,
+                #{teacherId}
+                ,
+                #{teacherName}
+                ,
+                #{courseId}
+                ,
+                #{courseName}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateTimetable" parameterType="Timetable">
+        update jw_timetable
+        <set>
+                    <if test="jobId!=null ">
+                        job_id=#{jobId},
+                    </if>
+                    <if test="weekdays!=null ">
+                        weekdays=#{weekdays},
+                    </if>
+                    <if test="timeSlot!=null ">
+                        time_slot=#{timeSlot},
+                    </if>
+                    <if test="slot!=null ">
+                        slot=#{slot},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="gradeId!=null ">
+                        grade_id=#{gradeId},
+                    </if>
+                    <if test="classId!=null ">
+                        class_id=#{classId},
+                    </if>
+                    <if test="className!=null ">
+                        class_name=#{className},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="teacherName!=null ">
+                        teacher_name=#{teacherName},
+                    </if>
+                    <if test="courseId!=null ">
+                        course_id=#{courseId},
+                    </if>
+                    <if test="courseName!=null ">
+                        course_name=#{courseName},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteTimetable" >
+        delete from jw_timetable where id=#{id}
+    </delete>
+    <delete id="deleteTimetableByCondition" >
+        delete from jw_timetable
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="jobId!=null">
+                and job_id=#{jobId}
+              </if>
+              <if test="weekdays!=null">
+                and weekdays=#{weekdays}
+              </if>
+              <if test="timeSlot!=null">
+                and time_slot=#{timeSlot}
+              </if>
+              <if test="slot!=null">
+                and slot=#{slot}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+              </if>
+              <if test="classId!=null">
+                and class_id=#{classId}
+              </if>
+              <if test="className!=null">
+                and class_name=#{className}
+              </if>
+              <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+              </if>
+              <if test="teacherName!=null">
+                and teacher_name=#{teacherName}
+              </if>
+              <if test="courseId!=null">
+                and course_id=#{courseId}
+              </if>
+              <if test="courseName!=null">
+                and course_name=#{courseName}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveTimetable" parameterType="Timetable">
+        INSERT INTO jw_timetable (  id,  job_id,  weekdays,  time_slot,  slot,  school_id,  grade_id,  class_id,  class_name,  teacher_id,  teacher_name,  course_id,  course_name,  create_time )
+        VALUES
+        <foreach collection="list" item="timetable" separator=",">
+            (  #{timetable.id},  #{timetable.jobId},  #{timetable.weekdays},  #{timetable.timeSlot},  #{timetable.slot},  #{timetable.schoolId},  #{timetable.gradeId},  #{timetable.classId},  #{timetable.className},  #{timetable.teacherId},  #{timetable.teacherName},  #{timetable.courseId},  #{timetable.courseName},  #{timetable.createTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+   
+    
+</mapper>

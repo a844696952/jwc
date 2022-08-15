@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.auth.ISchoolPermDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('title')">
+                        T.title,
+                    </if>
+                    <if test="!pager.excludes.contains('identify')">
+                        T.identify,
+                    </if>
+                    <if test="!pager.excludes.contains('icon')">
+                        T.icon,
+                    </if>
+                    <if test="!pager.excludes.contains('parentId')">
+                        T.parent_id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('routeName')">
+                        T.routeName,
+                    </if>
+                    <if test="!pager.excludes.contains('urlPath')">
+                        T.url_path,
+                    </if>
+                    <if test="!pager.excludes.contains('appIcon')">
+                        T.app_icon,
+                    </if>
+                    <if test="!pager.excludes.contains('finished')">
+                        T.finished,
+                    </if>
+                    <if test="!pager.excludes.contains('sortNum')">
+                        T.sort_num,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="title!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('title')">
+                        and T.title like concat('%',#{title},'%')
+                    </when>
+                    <otherwise>
+                        and T.title=#{title}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="identify!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('identify')">
+                        and T.identify like concat('%',#{identify},'%')
+                    </when>
+                    <otherwise>
+                        and T.identify=#{identify}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="icon!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('icon')">
+                        and T.icon like concat('%',#{icon},'%')
+                    </when>
+                    <otherwise>
+                        and T.icon=#{icon}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="parentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('parentId')">
+                        and T.parent_id like concat('%',#{parentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.parent_id=#{parentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="routeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('routeName')">
+                        and T.routeName like concat('%',#{routeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.routeName=#{routeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="urlPath!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('urlPath')">
+                        and T.url_path like concat('%',#{urlPath},'%')
+                    </when>
+                    <otherwise>
+                        and T.url_path=#{urlPath}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="appIcon!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('appIcon')">
+                        and T.app_icon like concat('%',#{appIcon},'%')
+                    </when>
+                    <otherwise>
+                        and T.app_icon=#{appIcon}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="finished!=null">
+                and T.finished=#{finished}
+            </if>
+            <if test="sortNum!=null">
+                and T.sort_num=#{sortNum}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findSchoolPermListByCondition" parameterType="SchoolPerm" resultType="SchoolPerm">
+        select
+        <include refid="projection"/>
+        from school_perm T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findSchoolPermCountByCondition" parameterType="SchoolPerm" resultType="long">
+        select count(*) from school_perm T
+        <include refid="match"/>
+    </select>
+    <select id="findSchoolPermById" resultType="SchoolPerm">
+        select * from school_perm where id=#{id}
+    </select>
+    <select id="findOneSchoolPermByCondition" parameterType="SchoolPerm" resultType="SchoolPerm">
+        select
+        <include refid="projection"/>
+        from school_perm T
+        <include refid="match"/>
+    </select>
+    <insert id="saveSchoolPerm" parameterType="SchoolPerm">
+        INSERT INTO school_perm (  id,  title,  identify,  icon,  parent_id,  type,  routeName,  url_path,  app_icon,  finished,  sort_num )
+         values
+         (   #{id}  ,   #{title}  ,   #{identify}  ,   #{icon}  ,   #{parentId}  ,   #{type}  ,   #{routeName}  ,   #{urlPath}  ,   #{appIcon}  ,   #{finished}  ,   #{sortNum}    )
+    </insert>
+    <update id="updateSchoolPerm" parameterType="SchoolPerm">
+        update school_perm
+        <set>
+            <if test="title!=null ">
+                title=#{title},
+            </if>
+            <if test="identify!=null ">
+                identify=#{identify},
+            </if>
+            <if test="icon!=null ">
+                icon=#{icon},
+            </if>
+            <if test="parentId!=null ">
+                parent_id=#{parentId},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="routeName!=null ">
+                routeName=#{routeName},
+            </if>
+            <if test="urlPath!=null ">
+                url_path=#{urlPath},
+            </if>
+            <if test="appIcon!=null ">
+                app_icon=#{appIcon},
+            </if>
+            <if test="finished!=null ">
+                finished=#{finished},
+            </if>
+            <if test="sortNum!=null ">
+                sort_num=#{sortNum}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateSchoolPermForAll" parameterType="SchoolPerm">
+        update school_perm
+        <set>
+            title=#{title},
+            identify=#{identify},
+            icon=#{icon},
+            parent_id=#{parentId},
+            type=#{type},
+            routeName=#{routeName},
+            url_path=#{urlPath},
+            app_icon=#{appIcon},
+            finished=#{finished},
+            sort_num=#{sortNum}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteSchoolPerm" >
+        delete from school_perm where id=#{id}
+    </delete>
+    <delete id="deleteSchoolPermByCondition" >
+        delete T from school_perm T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveSchoolPerm" parameterType="SchoolPerm">
+        INSERT INTO school_perm (  id,  title,  identify,  icon,  parent_id,  type,  routeName,  url_path,  app_icon,  finished,  sort_num )
+        VALUES
+        <foreach collection="list" item="schoolPerm" separator=",">
+            (   #{schoolPerm.id}  ,   #{schoolPerm.title}  ,   #{schoolPerm.identify}  ,   #{schoolPerm.icon}  ,   #{schoolPerm.parentId}  ,   #{schoolPerm.type}  ,   #{schoolPerm.routeName}  ,   #{schoolPerm.urlPath}  ,   #{schoolPerm.appIcon}  ,   #{schoolPerm.finished}  ,   #{schoolPerm.sortNum}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findSysPermsByPId" resultType="com.yice.edu.cn.common.pojo.yedAdmin.SysPerm">
+        select * from school_perm where parent_id=#{pId}
+    </select>
+    <select id="findSchoolPermByPId" resultType="com.yice.edu.cn.common.pojo.jw.auth.SchoolPerm">
+        select * from school_perm where parent_id=#{0}
+    </select>
+    <select id="findSchoolPermByIds" resultType="com.yice.edu.cn.common.pojo.jw.auth.SchoolPerm">
+        select * from school_perm where id in (
+        <foreach collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </select>
+    <select id="findAllSchoolPerms" resultType="com.yice.edu.cn.common.pojo.jw.auth.SchoolPerm">
+        select * from school_perm
+    </select>
+    <select id="findNotExistsJwPermIds" resultType="java.lang.String">
+        select distinct o.id from jw_perm o where not exists  (select * from school_perm i where o.id=i.id)
+    </select>
+    <delete id="deleteSchoolPermByPid">
+        delete from school_perm where parent_id=#{0}
+    </delete>
+    
+	<update id="syncSchoolPermByPro" statementType="CALLABLE">
+		{call sync_perm_pro()}
+	</update>
+    <update id="batchUpdateSortNum">
+        <foreach collection="list" separator=";" item="perm">
+            update school_perm set
+            sort_num = #{perm.sortNum}
+            where id = #{perm.id}
+        </foreach>
+    </update>
+
+</mapper>

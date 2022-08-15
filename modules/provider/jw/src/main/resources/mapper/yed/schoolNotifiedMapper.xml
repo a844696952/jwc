@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.yed.ISchoolNotifiedDao">
+    <!--########################################################################################################################-->
+    <select id="findSchoolNotifiedListByCondition" parameterType="SchoolNotified" resultType="SchoolNotified">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('content')">
+                             T.content,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from school_notified T
+        <where>
+              <if test="updateTime!=null">
+                 T.update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="content!=null">
+                and T.content=#{content}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findSchoolNotifiedCountByCondition" parameterType="SchoolNotified" resultType="long">
+        select count(*) from school_notified
+        <where>
+              <if test="updateTime!=null">
+                 update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="content!=null">
+                and content=#{content}
+              </if>
+        </where>
+    </select>
+    <select id="findSchoolNotifiedById" resultType="SchoolNotified">
+        select * from school_notified where id=#{id}
+    </select>
+    <select id="findOneSchoolNotifiedByCondition" parameterType="SchoolNotified" resultType="SchoolNotified">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('content')">
+                             T.content,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from school_notified T
+        <where>
+              <if test="updateTime!=null">
+                 T.update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="content!=null">
+                and T.content=#{content}
+              </if>
+        </where>
+    </select>
+    <insert id="saveSchoolNotified" parameterType="SchoolNotified">
+        insert into school_notified
+         (
+            id,
+            update_time,
+            create_time,
+            del,
+            content
+        ) values
+         (
+                #{id}
+                ,
+                #{updateTime}
+                ,
+                now()
+                ,
+                #{del}
+                ,
+                #{content}
+                
+         )
+    </insert>
+    <update id="updateSchoolNotified" parameterType="SchoolNotified">
+        update school_notified
+        <set>
+                    update_time=now(),
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="content!=null ">
+                        content=#{content}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteSchoolNotified" >
+        delete from school_notified where id=#{id}
+    </delete>
+    <delete id="deleteSchoolNotifiedByCondition" >
+        delete from school_notified
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="content!=null">
+                and content=#{content}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveSchoolNotified" parameterType="SchoolNotified">
+        INSERT INTO school_notified (  id,  update_time,  create_time,  del,  content )
+        VALUES
+        <foreach collection="list" item="schoolNotified" separator=",">
+            (  #{schoolNotified.id},  #{schoolNotified.updateTime},  #{schoolNotified.createTime},  #{schoolNotified.del},  #{schoolNotified.content}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

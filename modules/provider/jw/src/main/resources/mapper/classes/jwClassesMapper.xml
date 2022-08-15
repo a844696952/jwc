@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.classes.IJwClassesDao">
+    <!--########################################################################################################################-->
+    <select id="findJwClassesListByCondition" parameterType="JwClasses" resultType="JwClasses">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('number')">
+                             T.number,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeName')">
+                             T.grade_name,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('enrollYear')">
+                             T.enroll_year,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_classes T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="number!=null">
+                and T.number=#{number}
+              </if>
+              <if test="remarks!=null">
+                and T.remarks=#{remarks}
+              </if>
+              <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+              </if>
+              <if test="gradeName!=null">
+                and T.grade_name=#{gradeName}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="enrollYear!=null">
+                and T.enroll_year=#{enrollYear}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findJwClassesCountByCondition" parameterType="JwClasses" resultType="long">
+        select count(*) from jw_classes
+        <where>
+              <if test="createTime!=null">
+                 create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="number!=null">
+                and number=#{number}
+              </if>
+              <if test="remarks!=null">
+                and remarks=#{remarks}
+              </if>
+              <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+              </if>
+              <if test="gradeName!=null">
+                and grade_name=#{gradeName}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="enrollYear!=null">
+                and enroll_year=#{enrollYear}
+              </if>
+        </where>
+    </select>
+    <select id="findJwClassesById" resultType="JwClasses">
+        select T.*
+		from jw_classes T
+		where T.id=#{arg0}
+    </select>
+    <select id="findOneJwClassesByCondition" parameterType="JwClasses" resultType="JwClasses">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('number')">
+                             T.number,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeName')">
+                             T.grade_name,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('enrollYear')">
+                             T.enroll_year,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_classes T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="number!=null">
+                and T.number=#{number}
+              </if>
+              <if test="remarks!=null">
+                and T.remarks=#{remarks}
+              </if>
+              <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+              </if>
+              <if test="gradeName!=null">
+                and T.grade_name=#{gradeName}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="enrollYear!=null">
+                and T.enroll_year=#{enrollYear}
+              </if>
+        </where>
+    </select>
+    <insert id="saveJwClasses" parameterType="JwClasses" useGeneratedKeys="true" keyProperty="id">
+        insert into jw_classes
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            number,
+            remarks,
+            grade_id,
+            grade_name,
+            school_id,
+            enroll_year
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{number}
+                ,
+                #{remarks}
+                ,
+                #{gradeId}
+                ,
+                #{gradeName}
+                ,
+                #{schoolId}
+                ,
+                #{enrollYear}
+                
+         )
+    </insert>
+    <update id="updateJwClasses" parameterType="JwClasses">
+        update jw_classes
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="number!=null ">
+                        number=#{number},
+                    </if>
+                    <if test="remarks!=null ">
+                        remarks=#{remarks},
+                    </if>
+                    <if test="gradeId!=null ">
+                        grade_id=#{gradeId},
+                    </if>
+                    <if test="gradeName!=null ">
+                        grade_name=#{gradeName},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="enrollYear!=null ">
+                        enroll_year=#{enrollYear},
+                    </if>
+                    <if test="equipmentIp!=null ">
+                        equipment_ip=#{equipmentIp}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteJwClasses" >
+        delete from jw_classes where id=#{arg0}
+    </delete>
+    <delete id="deleteJwClassesByCondition" >
+        delete from jw_classes
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="number!=null">
+                and number=#{number}
+              </if>
+              <if test="remarks!=null">
+                and remarks=#{remarks}
+              </if>
+              <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+              </if>
+              <if test="gradeName!=null">
+                and grade_name=#{gradeName}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="enrollYear!=null">
+                and enroll_year=#{enrollYear}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveJwClasses" parameterType="JwClasses" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO jw_classes (  id,  create_time,  update_time,  del,  number,  remarks,  grade_id,  grade_name,  school_id,  enroll_year )
+        VALUES
+        <foreach collection="list" item="jwClasses" separator=",">
+            (  #{jwClasses.id}, now(),  #{jwClasses.updateTime},  #{jwClasses.del},  #{jwClasses.number},  #{jwClasses.remarks},  #{jwClasses.gradeId},  #{jwClasses.gradeName},   #{jwClasses.schoolId},  #{jwClasses.enrollYear}  )
+        </foreach>
+    </insert>
+<!--######################################################################################################################## -->
+	<select id="findMaxClassesNoByCondition"
+		parameterType="JwClasses" resultType="Integer">
+		select max(number)
+		from jw_classes
+		T
+		where del=1 and T.grade_id=#{gradeId}
+		and T.school_id=#{schoolId}
+	</select>
+
+<!-- 	<insert id="batchSaveJwClasses" parameterType="JwClasses"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO jw_classes (
+		id,
+		create_time,
+		number,
+		remarks,
+		grade_id,
+		grade_name,
+		school_id
+		)
+		VALUES
+		<foreach collection="list" item="jwClasses" separator=",">
+			(
+			#{jwClasses.id},
+			now(),
+			#{jwClasses.number},
+			#{jwClasses.remarks},
+			#{jwClasses.gradeId},
+			#{jwClasses.gradeName},
+			#{jwClasses.schoolId}
+			)
+		</foreach>
+	</insert> -->
+
+	<select id="findJwClassesListByConditionAndRelate"
+		parameterType="JwClasses" resultType="JwClasses">
+		select
+		<choose>
+			<when test="pager!=null and pager.includes!=null">
+				<foreach collection="includes" item="field" separator=",">
+					T.${field}
+				</foreach>
+			</when>
+			<when test="pager!=null and pager.excludes!=null">
+				<trim suffixOverrides=",">
+					<if test="!excludes.contains('id')">
+						T.id,
+					</if>
+					<if test="!excludes.contains('createTime')">
+						T.create_time,
+					</if>
+					<if test="!excludes.contains('number')">
+						T.number,
+					</if>
+					<if test="!excludes.contains('remarks')">
+						T.remarks,
+					</if>
+					<if test="!excludes.contains('gradeId')">
+						T.grade_id,
+					</if>
+					<if test="!excludes.contains('gradeName')">
+						T.grade_name,
+					</if>
+					<if test="!excludes.contains('schoolId')">
+						T.school_id,
+					</if>
+				</trim>
+			</when>
+			<otherwise>
+				T.*
+			</otherwise>
+		</choose>
+		from jw_classes T
+		<where>
+			<if test="id!=null">
+				T.id=#{id}
+			</if>
+			<if test="createTime!=null">
+				T.create_time=#{createTime}
+			</if>
+			<if test="updateTime!=null">
+				and T.update_time=#{updateTime}
+			</if>
+			<if test="del!=null">
+				and T.del=#{del}
+			</if>
+			<if test="number!=null">
+				and T.number=#{number}
+			</if>
+			<if test="remarks!=null">
+				and T.remarks=#{remarks}
+			</if>
+			<if test="gradeId!=null">
+				and T.grade_id=#{gradeId}
+			</if>
+			<if test="gradeName!=null">
+				and T.grade_name=#{gradeName}
+			</if>
+			<if test="schoolId!=null">
+				and T.school_id=#{schoolId}
+			</if>
+
+		</where>
+	</select>
+
+	<update id="updateJwClassesNo">
+		update jw_classes set number = number-1 where
+		number>1 and number>#{param1} and grade_id=#{param2} and school_id=#{param3}
+	</update>
+	<update id="updateJwClassesEnrollYear">
+		update jw_classes set enroll_year = enroll_year+1 where id=#{param1}
+	</update>
+    <select id="getClassTree" resultType="JwClasses">
+        select c.* from
+            jw_classes  c right join dm_class_card d on c.id =d.class_id
+             and d.class_id is not null
+             and  find_in_set(#{teacherId},d.teacher_id)
+	     where c.school_id = #{schoolId}
+             order by `grade_id`,`number` asc
+    </select>
+
+    <select id="getClassesNumber" resultType="JwClasses">
+        select a.name gradeName ,count(c.id) number
+        from
+         (select * from ad_dd where level_type = #{levelType} and type_id = 4) a
+        left join jw_classes c on a.id = c.grade_id and c.school_id = #{schoolId}
+        group by a.id
+        order by a.id
+    </select>
+    <!-- 顶级班级毕业 -->
+    <delete id="deleteJTopClazz" parameterType="List">
+     delete from jw_classes where id in (
+    		<foreach collection="clazzIdList" item="item" separator=",">
+               #{item}
+	    	</foreach>
+		)
+    </delete>
+    <!-- 普通班级升班 -->
+    <update id="riseGenerateClazz" parameterType="JwClasses">
+        update jw_classes set grade_id = CAST( grade_id AS SIGNED)+1 where
+        school_id = #{schoolId}
+    </update>
+    <update id="updateByGradeIdAndSchoolId" parameterType="JwClasses">
+        update jw_classes set grade_name = #{gradeName} where
+        school_id = #{schoolId} and grade_id=#{gradeId}
+    </update>
+
+
+    <select id="findJwClassessByConditionForExam" parameterType="JwClasses" resultType="JwClasses">
+        SELECT
+	d.*,
+	c.student_count
+FROM
+	jw_classes d
+	INNER JOIN (
+            SELECT
+                a.id,
+                count( b.id ) student_count
+            FROM
+                jw_classes a
+                LEFT JOIN jw_student b ON a.id = b.classes_id
+            WHERE
+                a.school_id = #{schoolId}
+                AND a.grade_id =#{gradeId}
+            GROUP BY
+                a.id
+            ORDER BY
+                a.number
+	) c ON d.id = c.id
+
+    </select>
+    <select id="findTeacherClassesByTeacherId" resultType="com.yice.edu.cn.common.pojo.jw.classes.JwClasses">
+        select b.id,b.grade_id,b.grade_name,b.number from dm_class_card a RIGHT JOIN jw_classes b on a.class_id=b.id
+        where teacher_id=#{teacherId}  and b.grade_id in (select grade_id from dm_activity_info where activity_id=#{activityId}  )
+        ORDER BY grade_id asc,number asc
+    </select>
+
+    <!--新版模板-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('number')">
+                        T.number,
+                    </if>
+                    <if test="!pager.excludes.contains('remarks')">
+                        T.remarks,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeName')">
+                        T.grade_name,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('enrollYear')">
+                        T.enroll_year,
+                    </if>
+                    <if test="!pager.excludes.contains('equipmentIp')">
+                        T.equipment_ip,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                    and T.create_time like concat('%',#{createTime},'%')
+                </when>
+                <otherwise>
+                    and T.create_time=#{createTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="updateTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                    and T.update_time like concat('%',#{updateTime},'%')
+                </when>
+                <otherwise>
+                    and T.update_time=#{updateTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="del!=null">
+            and T.del=#{del}
+        </if>
+        <if test="number!=null">
+            and T.number=#{number}
+        </if>
+        <if test="remarks!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('remarks')">
+                    and T.remarks like concat('%',#{remarks},'%')
+                </when>
+                <otherwise>
+                    and T.remarks=#{remarks}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="gradeId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('gradeId')">
+                    and T.grade_id like concat('%',#{gradeId},'%')
+                </when>
+                <otherwise>
+                    and T.grade_id=#{gradeId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="gradeName!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('gradeName')">
+                    and T.grade_name like concat('%',#{gradeName},'%')
+                </when>
+                <otherwise>
+                    and T.grade_name=#{gradeName}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                    and T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                    and T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="enrollYear!=null">
+            and T.enroll_year=#{enrollYear}
+        </if>
+        <if test="equipmentIp!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('equipmentIp')">
+                    and T.equipment_ip like concat('%',#{equipmentIp},'%')
+                </when>
+                <otherwise>
+                    and T.equipment_ip=#{equipmentIp}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+    <!--到此结束-->
+    <select id="findClassListByJwClassesKong" parameterType="JwClasses" resultType="JwClasses">
+            select
+            <include refid="projection"/>
+            from jw_classes T
+            <where>
+                <include refid="match"/>
+            </where>
+            <include refid="sort"/>
+            <include refid="page"/>
+    </select>
+
+</mapper>

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.institution.IMesInstitutionDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('level')">
+                             T.level,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_Id,
+                         </if>
+                         <if test="!pager.excludes.contains('score')">
+                             T.score,
+                         </if>
+                         <if test="!pager.excludes.contains('sortNumber')">
+                             T.sort_number,
+                         </if>
+                         <if test="!pager.excludes.contains('timeStatusId')">
+                             T.time_status_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolRange')">
+                             T.school_range,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                            and T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                            and T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="level!=null">
+                    and T.level=#{level}
+              </if>
+              <if test="parentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='parentId'">
+                            and T.parent_Id like concat('%',#{parentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.parent_Id=#{parentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="score!=null">
+                    and T.score=#{score}
+              </if>
+              <if test="sortNumber!=null">
+                    and T.sort_number=#{sortNumber}
+              </if>
+              <if test="timeStatusId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='timeStatusId'">
+                            and T.time_status_id like concat('%',#{timeStatusId},'%')
+                         </when>
+                         <otherwise>
+                            and T.time_status_id=#{timeStatusId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolRange!=null">
+                    and T.school_range=#{schoolRange}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesInstitutionListByCondition" parameterType="MesInstitution" resultType="MesInstitution">
+        select
+         <include refid="projection"/>
+         from mes_institution T
+         <include refid="match"/>
+         and T.time_status_id='-1' order by sort_number;
+    </select>
+    <select id="findMesInstitutionsByCondition" parameterType="MesInstitution" resultType="MesInstitution">
+        select
+        <include refid="projection"/>
+        from mes_institution T left join mes_time_status T1 on T1.id=T.time_status_id
+        <include refid="match"/>
+        and T1.status=1
+        order by sort_number
+    </select>
+    <select id="findMesInstitutionCountByCondition" parameterType="MesInstitution" resultType="long">
+        select count(*) from mes_institution T
+        <include refid="match"/>
+    </select>
+    <select id="findMesInstitutionById" resultType="MesInstitution">
+        select * from mes_institution where id=#{id}
+    </select>
+    <select id="findOneMesInstitutionByCondition" parameterType="MesInstitution" resultType="MesInstitution">
+        select
+         <include refid="projection"/>
+         from mes_institution T
+        <include refid="match"/>
+    </select>
+    <select id="findOneSortMesInstitutionByCondition" parameterType="MesInstitution" resultType="MesInstitution">
+          SELECT * from mes_institution where school_id= #{schoolId} AND parent_id=#{parentId} AND time_status_id='-1' AND sort_number= #{sortNumber};
+    </select>
+    <insert id="saveMesInstitution" parameterType="MesInstitution">
+        insert ignore into mes_institution
+         (
+            id,
+            school_id,
+            name,
+            level,
+            parent_Id,
+            score,
+            sort_number,
+            time_status_id,
+            school_range,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{name}
+                ,
+                #{level}
+                ,
+                #{parentId}
+                ,
+                #{score}
+                ,
+                #{sortNumber}
+                ,
+                '-1'
+                ,
+                0
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateMesInstitution" parameterType="MesInstitution">
+        update mes_institution
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="level!=null ">
+                        level=#{level},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_Id=#{parentId},
+                    </if>
+                    <if test="score!=null ">
+                        score=#{score},
+                    </if>
+                    <if test="sortNumber!=null ">
+                        sort_number=#{sortNumber},
+                    </if>
+                    <if test="timeStatusId!=null ">
+                        time_status_id=#{timeStatusId},
+                    </if>
+                    <if test="schoolRange!=null ">
+                        school_range=#{schoolRange},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateMesInstitutionTimeStatusId" parameterType="MesInstitution">
+        update mes_institution
+        <set>
+            time_status_id=#{timeStatusId},
+        </set>
+        where school_id=#{schoolId} and time_status_id='-1';
+    </update>
+    <delete id="deleteMesInstitution" >
+        delete from mes_institution where id=#{id}
+    </delete>
+    <delete id="deleteMesInstitutionWhereTimeStatusIdIsNull" >
+        delete from mes_institution where school_id=#{id} and time_status_id='-1'
+    </delete>
+    <delete id="deleteMesInstitutionByCondition" >
+        delete T from mes_institution T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesInstitution" parameterType="MesInstitution">
+        INSERT INTO mes_institution (  id,  school_id,  name,  level,  parent_Id,  score,  sort_number,  time_status_id,  school_range,  create_time )
+        VALUES
+        <foreach collection="list" item="mesInstitution" separator=",">
+            (  #{mesInstitution.id},  #{mesInstitution.schoolId},  #{mesInstitution.name},  #{mesInstitution.level},  #{mesInstitution.parentId},  #{mesInstitution.score},  #{mesInstitution.sortNumber},  #{mesInstitution.timeStatusId},  #{mesInstitution.schoolRange},  #{mesInstitution.createTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findAllJwClassesAndStudents" parameterType="String" resultType="MesInstitutionStudent">
+        SELECT id,grade_name,grade_id,number FROM jw_classes where school_id = #{schoolId} order by grade_id,number
+    </select>
+    <select id="findAllJwClassesBySchoolId" parameterType="String" resultType="MesInstitutionStudent">
+        SELECT id,grade_name,grade_id,number FROM jw_classes where school_id = #{schoolId} GROUP BY grade_id order by grade_id,number;
+    </select>
+    <select id="findAllJwClassesByGradeId" parameterType="MesCommonConfig" resultType="MesInstitutionStudent">
+        SELECT *
+           FROM jw_classes
+        WHERE school_id = #{schoolId} and grade_id=#{gradeId} and del=1 order by number
+    </select>
+
+    <select id="findStudentsByClassId" parameterType="String" resultType="Student">
+        select id,name,1 as type from jw_student where classes_id = #{classId}
+    </select>
+
+    <select id="findSchoolYearsBySchoolId" parameterType="String" resultType="SchoolYear">
+        select * from school_year where school_id = #{schoolId}
+    </select>
+    <select id="findSchoolYearById" parameterType="String" resultType="SchoolYear">
+        select * from school_year where id = #{id}
+    </select>
+    <insert id="saveSchoolWeek" parameterType="SchoolWeek">
+        insert into school_week
+         (
+            id,
+            school_id,
+            create_time,
+            start_time,
+            school_year_id,
+            term_type
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                now()
+                ,
+                #{startTime}
+                ,
+                #{schoolYearId}
+                ,
+                #{termType}
+         )
+    </insert>
+    <delete id="deleteSchoolWeekBySchoolYearId">
+        delete from school_week where school_year_id=#{id}
+    </delete>
+    <select id="findMesInstitutionListByTimeStatusId" resultType="MesInstitution">
+        select * from mes_institution where time_status_id=#{timeStatusId} and parent_Id='-1' order by sort_number
+    </select>
+    <select id="findMesInstitutionsByTimeStatusId" resultType="MesInstitution">
+        select * from mes_institution where time_status_id=#{timeStatusId} order by sort_number
+    </select>
+    <select id="selectSchoolNameBySchoolId" resultType="java.lang.String">
+        select name from school where id=#{schoolId}
+    </select>
+    <select id="findStudentsBySchoolId" resultType="com.yice.edu.cn.common.pojo.jw.student.Student">
+        select id,name from jw_student where school_id = #{schoolId}
+    </select>
+    <select id="findSchoolWeekBySchoolYearId" resultType="com.yice.edu.cn.common.pojo.jw.schoolWeek.SchoolWeek">
+        select * from school_week where school_year_id=#{schoolYearId} order by start_time asc
+    </select>
+</mapper>

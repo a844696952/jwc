@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.timetable.ITimetableArrangeTimeDao">
+    <!--########################################################################################################################-->
+    <select id="findTimetableArrangeTimeListByCondition" parameterType="TimetableArrangeTime" resultType="TimetableArrangeTime">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('jobId')">
+                             T.job_id,
+                         </if>
+                         <if test="!pager.excludes.contains('timeSlotPos')">
+                             T.time_slot_pos,
+                         </if>
+                         <if test="!pager.excludes.contains('associationId')">
+                             T.association_id,
+                         </if>
+                         <if test="!pager.excludes.contains('associationName')">
+                             T.association_name,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_timetable_arrange_time T
+        <where>
+              <if test="jobId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='jobId'">
+                             T.job_id like concat('%',#{jobId},'%')
+                         </when>
+                         <otherwise>
+                             T.job_id=#{jobId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="timeSlotPos!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='timeSlotPos'">
+                            and T.time_slot_pos like concat('%',#{timeSlotPos},'%')
+                         </when>
+                         <otherwise>
+                            and T.time_slot_pos=#{timeSlotPos}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="associationId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='associationId'">
+                            and T.association_id like concat('%',#{associationId},'%')
+                         </when>
+                         <otherwise>
+                            and T.association_id=#{associationId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="associationName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='associationName'">
+                            and T.association_name like concat('%',#{associationName},'%')
+                         </when>
+                         <otherwise>
+                            and T.association_name=#{associationName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="type!=null">
+                    and T.type=#{type}
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findTimetableArrangeTimeCountByCondition" parameterType="TimetableArrangeTime" resultType="long">
+        select count(*) from jw_timetable_arrange_time T
+        <where>
+              <if test="jobId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='jobId'">
+                             T.job_id like concat('%',#{jobId},'%')
+                         </when>
+                         <otherwise>
+                             T.job_id=#{jobId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="timeSlotPos!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='timeSlotPos'">
+                            and T.time_slot_pos like concat('%',#{timeSlotPos},'%')
+                         </when>
+                         <otherwise>
+                            and T.time_slot_pos=#{timeSlotPos}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="associationId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='associationId'">
+                            and T.association_id like concat('%',#{associationId},'%')
+                         </when>
+                         <otherwise>
+                            and T.association_id=#{associationId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="associationName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='associationName'">
+                            and T.association_name like concat('%',#{associationName},'%')
+                         </when>
+                         <otherwise>
+                            and T.association_name=#{associationName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="type!=null">
+                    and T.type=#{type}
+            </if>
+        </where>
+    </select>
+    <select id="findTimetableArrangeTimeById" resultType="TimetableArrangeTime">
+        select * from jw_timetable_arrange_time where id=#{id}
+    </select>
+    <select id="findOneTimetableArrangeTimeByCondition" parameterType="TimetableArrangeTime" resultType="TimetableArrangeTime">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('jobId')">
+                             T.job_id,
+                         </if>
+                         <if test="!pager.excludes.contains('timeSlotPos')">
+                             T.time_slot_pos,
+                         </if>
+                         <if test="!pager.excludes.contains('associationId')">
+                             T.association_id,
+                         </if>
+                         <if test="!pager.excludes.contains('associationName')">
+                             T.association_name,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_timetable_arrange_time T
+        <where>
+              <if test="jobId!=null">
+                 T.job_id=#{jobId}
+              </if>
+              <if test="timeSlotPos!=null">
+                and T.time_slot_pos=#{timeSlotPos}
+              </if>
+              <if test="associationId!=null">
+                and T.association_id=#{associationId}
+              </if>
+              <if test="associationName!=null">
+                and T.association_name=#{associationName}
+              </if>
+              <if test="type!=null">
+                and T.type=#{type}
+              </if>
+        </where>
+    </select>
+    <insert id="saveTimetableArrangeTime" parameterType="TimetableArrangeTime">
+        insert into jw_timetable_arrange_time
+         (
+            id,
+            job_id,
+            time_slot_pos,
+            association_id,
+            association_name,
+            type
+        ) values
+         (
+                #{id}
+                ,
+                #{jobId}
+                ,
+                #{timeSlotPos}
+                ,
+                #{associationId}
+                ,
+                #{associationName}
+                ,
+                #{type}
+                
+         )
+    </insert>
+    <update id="updateTimetableArrangeTime" parameterType="TimetableArrangeTime">
+        update jw_timetable_arrange_time
+        <set>
+                    <if test="jobId!=null ">
+                        job_id=#{jobId},
+                    </if>
+                    <if test="timeSlotPos!=null ">
+                        time_slot_pos=#{timeSlotPos},
+                    </if>
+                    <if test="associationId!=null ">
+                        association_id=#{associationId},
+                    </if>
+                    <if test="associationName!=null ">
+                        association_name=#{associationName},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteTimetableArrangeTime" >
+        delete from jw_timetable_arrange_time where id=#{id}
+    </delete>
+    <delete id="deleteTimetableArrangeTimeByCondition" >
+        delete from jw_timetable_arrange_time
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="jobId!=null">
+                and job_id=#{jobId}
+              </if>
+              <if test="timeSlotPos!=null">
+                and time_slot_pos=#{timeSlotPos}
+              </if>
+              <if test="associationId!=null">
+                and association_id=#{associationId}
+              </if>
+              <if test="associationName!=null">
+                and association_name=#{associationName}
+              </if>
+              <if test="type!=null">
+                and type=#{type}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveTimetableArrangeTime" parameterType="TimetableArrangeTime">
+        INSERT INTO jw_timetable_arrange_time (  id,  job_id,  time_slot_pos,  association_id,  association_name,  type )
+        VALUES
+        <foreach collection="list" item="timetableArrangeTime" separator=",">
+            (  #{timetableArrangeTime.id},  #{timetableArrangeTime.jobId},  #{timetableArrangeTime.timeSlotPos},  #{timetableArrangeTime.associationId},  #{timetableArrangeTime.associationName},  #{timetableArrangeTime.type}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

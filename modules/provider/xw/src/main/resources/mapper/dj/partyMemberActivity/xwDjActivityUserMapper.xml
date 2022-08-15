@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.partyMemberActivity.IXwDjActivityUserDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('activityId')">
+                             T.activity_id,
+                         </if>
+                         <if test="!pager.excludes.contains('activityUserId')">
+                             T.activity_user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('isSignInLeader')">
+                             T.is_sign_in_leader,
+                         </if>
+                         <if test="!pager.excludes.contains('isSignUp')">
+                             T.is_sign_up,
+                         </if>
+                         <if test="!pager.excludes.contains('isVacate')">
+                             T.is_vacate,
+                         </if>
+                         <if test="!pager.excludes.contains('isSignIn')">
+                             T.is_sign_in,
+                         </if>
+                         <if test="!pager.excludes.contains('vacateReason')">
+                             T.vacate_reason,
+                         </if>
+                         <if test="!pager.excludes.contains('signInDate')">
+                             T.sign_in_date,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityId'">
+                            and T.activity_id like concat('%',#{activityId},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_id=#{activityId}
+                         </otherwise>
+                      </choose>
+              </if>
+
+            <if test="activityTitle!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='activityTitle'">
+                        and ac.activity_title like concat('%',#{activityTitle},'%')
+                    </when>
+                    <otherwise>
+                        and ac.activity_title=#{activityTitle}
+                    </otherwise>
+                </choose>
+            </if>
+
+
+              <if test="activityUserId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityUserId'">
+                            and T.activity_user_id like concat('%',#{activityUserId},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_user_id=#{activityUserId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isSignInLeader!=null">
+                    and T.is_sign_in_leader=#{isSignInLeader}
+              </if>
+              <if test="isSignUp!=null">
+                    and T.is_sign_up=#{isSignUp}
+              </if>
+              <if test="isVacate!=null">
+                    and T.is_vacate=#{isVacate}
+              </if>
+              <if test="isSignIn!=null">
+                    and T.is_sign_in=#{isSignIn}
+              </if>
+              <if test="vacateReason!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='vacateReason'">
+                            and T.vacate_reason like concat('%',#{vacateReason},'%')
+                         </when>
+                         <otherwise>
+                            and T.vacate_reason=#{vacateReason}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="signInDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='signInDate'">
+                            and T.sign_in_date like concat('%',#{signInDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.sign_in_date=#{signInDate}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+            </if>
+            <if test="schoolId!=null">
+                and cls.school_id=#{schoolId}
+            </if>
+            <if test="columnId!=null">
+                and cls.id=#{columnId}
+            </if>
+            <if test="activityCreatorId!=null">
+                and T.activity_user_id=#{activityUserId}
+            </if>
+
+
+            <if test="activityState!=null">
+                <choose>
+                <!--未开始的活动-->
+                <when test="activityState == 2 ">
+                  AND (SELECT NOW())  <![CDATA[ <= ]]> ac.activity_start_time AND ac.activity_state=1
+                </when>
+                    <!--查询已关闭的活动-->
+                <when test="activityState == 3 ">
+                    AND  ac.activity_state=#{activityState}
+                </when>
+                <when test="activityState==4">
+                    <!--进行中-->
+                    AND   ac.activity_start_time <![CDATA[ <= ]]> (SELECT NOW()) AND (SELECT NOW())  <![CDATA[ <= ]]> ac.activity_end_time AND ac.activity_state=1
+                </when>
+                <when test="activityState==5">
+                    <!--已结束-->
+                    AND (SELECT NOW())  <![CDATA[ > ]]> ac.activity_end_time AND ac.activity_state=1
+                </when>
+
+                </choose>
+            </if>
+                AND ac.activity_state !=0
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                ac.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+    <select id="findXwDjActivityUserListCondition" parameterType="XwDjActivityUser" resultType="XwDjActivityUser">
+        select
+        *
+        from xw_dj_activity_user T
+        <where>
+            <if test="id!=null">
+               T.id=#{id}
+            </if>
+            <if test="activityId!=null">
+                and T.activity_id=#{activityId}
+            </if>
+
+            <if test="activityUserId!=null">
+                and T.activity_user_id=#{activityUserId}
+            </if>
+            <if test="isSignInLeader!=null">
+                and T.is_sign_in_leader=#{isSignInLeader}
+            </if>
+            <if test="isSignUp!=null">
+                and T.is_sign_up=#{isSignUp}
+            </if>
+            <if test="isVacate!=null">
+                and T.is_vacate=#{isVacate}
+            </if>
+            <if test="isSignIn!=null">
+                and T.is_sign_in=#{isSignIn}
+            </if>
+            <if test="activityCreatorId!=null">
+                and T.activity_user_id=#{activityUserId}
+            </if>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findXwDjActivityUserListByCondition" parameterType="XwDjActivityUser" resultType="XwDjActivityAndUserVo">
+        select T.id,T.activity_id,ac.activity_title,concat(ac.activity_start_time,' - ',ac.activity_end_time) as activityDate,T.is_sign_in,T.is_sign_up,
+        cls.classify_name,ac.activity_start_time,ac.activity_end_time,ac.apply_stop_time,T.is_vacate,T.is_sign_in_leader,
+        ac.activity_state,#{activityState} as tempState
+        from xw_dj_activity_user T
+        inner join xw_dj_activity ac on T.activity_id=ac.id
+        inner join xw_dj_classify cls on cls.id=ac.column_id
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+    </select>
+
+    <select id="findXwDjActivityUserCountByCondition" parameterType="XwDjActivityUser" resultType="long">
+        select count(*)
+        from xw_dj_activity_user T
+        inner join xw_dj_activity ac on T.activity_id=ac.id
+        inner join xw_dj_classify cls on cls.id=ac.column_id
+        <include refid="match"/>
+    </select>
+    <select id="findXwDjActivityUserById" resultType="XwDjActivityUser">
+        select * from xw_dj_activity_user where id=#{id}
+    </select>
+    <select id="findXwDjActivityUserCountByActivityUserId" resultType="long" parameterType="String">
+        select count(1) from xw_dj_activity_user where activity_user_id=#{id}
+    </select>
+    <select id="findOneXwDjActivityUserByCondition" parameterType="XwDjActivityUser" resultType="XwDjActivityUser">
+        select
+         *
+         from xw_dj_activity_user T
+        where T.activity_id=#{activityId} and T.activity_user_id=#{activityUserId};
+    </select>
+
+    <insert id="saveXwDjActivityUser" parameterType="XwDjActivityUser">
+        insert ignore into xw_dj_activity_user
+         (
+            id,
+            activity_id,
+            activity_user_id,
+        <if test="isSignInLeader!=null">
+            is_sign_in_leader,
+        </if>
+        <if test="isSignUp!=null">
+            is_sign_up,
+        </if>
+        <if test="isVacate!=null">
+            is_vacate,
+        </if>
+        <if test="isSignIn!=null">
+            is_sign_in,
+        </if>
+            vacate_reason,
+            sign_in_date,
+            school_id,
+            create_time
+        ) values
+         (
+            #{id}
+            ,
+            #{activityId}
+            ,
+            #{activityUserId},
+        <if test="isSignInLeader!=null">
+            #{isSignInLeader},
+        </if>
+        <if test="isSignUp!=null">
+            #{isSignUp},
+        </if>
+        <if test="isVacate!=null">
+            #{isVacate},
+        </if>
+        <if test="isSignIn!=null">
+            #{isSignIn},
+        </if>
+            #{vacateReason}
+            ,
+            #{signInDate}
+            ,
+            #{schoolId}
+            ,
+            #{createTime}
+         )
+    </insert>
+
+
+    <update id="updateXwDjActivityUser" parameterType="XwDjActivityUser">
+        update xw_dj_activity_user
+        <set>
+                    <if test="activityId!=null ">
+                        activity_id=#{activityId},
+                    </if>
+                    <if test="activityUserId!=null ">
+                        activity_user_id=#{activityUserId},
+                    </if>
+                    <if test="isSignInLeader!=null ">
+                        is_sign_in_leader=#{isSignInLeader},
+                    </if>
+                    <if test="isSignUp!=null ">
+                        is_sign_up=#{isSignUp},
+                    </if>
+                    <if test="isVacate!=null ">
+                        is_vacate=#{isVacate},
+                    </if>
+                    <if test="isSignIn!=null ">
+                        is_sign_in=#{isSignIn},
+                    </if>
+                    <if test="vacateReason!=null ">
+                        vacate_reason=#{vacateReason},
+                    </if>
+                    <if test="signInDate!=null ">
+                        sign_in_date=#{signInDate}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwDjActivityUser" >
+        delete from xw_dj_activity_user where id=#{id}
+    </delete>
+    <delete id="deleteXwDjActivityUserByCondition" >
+        delete T from xw_dj_activity_user T
+        <include refid="match"/>
+    </delete>
+    <delete id="deleteXwDjActivityUserByActivityId" parameterType="String">
+        delete T from xw_dj_activity_user T
+        where T.activity_id=#{activityId} and is_sign_in_leader=1
+    </delete>
+    <insert id="saveBatchXwDjActivityUser" parameterType="XwDjActivityUser">
+        INSERT IGNORE INTO xw_dj_activity_user (  id,  activity_id,  activity_user_id,  is_sign_in_leader,  is_sign_up,  is_vacate,  is_sign_in,  vacate_reason,  sign_in_date ,school_id ,create_time)
+        VALUES
+        <foreach collection="list" item="xwDjActivityUser" separator=",">
+            (  #{xwDjActivityUser.id},  #{xwDjActivityUser.activityId},  #{xwDjActivityUser.activityUserId},  #{xwDjActivityUser.isSignInLeader},  #{xwDjActivityUser.isSignUp},  #{xwDjActivityUser.isVacate},  #{xwDjActivityUser.isSignIn},  #{xwDjActivityUser.vacateReason},  #{xwDjActivityUser.signInDate},#{xwDjActivityUser.schoolId}, #{xwDjActivityUser.createTime}   )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findUserListByCondition" parameterType="XwDjActivityUser" resultType="XwDjActivityUser">
+        select
+        T.*,A.name as name,A.img_url as imgUrl,ac.activity_start_time,ac.apply_stop_time,ac.activity_end_time,ac.activity_state
+        from xw_dj_activity_user T left join jw_teacher A on T.activity_user_id=A.id
+        LEFT join xw_dj_activity ac on T.activity_id=ac.id
+        <where>
+            <if test="id!=null">
+                T.id=#{id}
+            </if>
+            <if test="activityId!=null">
+                and T.activity_id=#{activityId}
+            </if>
+            <if test="isSignInLeader!=null">
+                and T.is_sign_in_leader=#{isSignInLeader}
+            </if>
+            <if test="isSignUp!=null">
+                and T.is_sign_up=#{isSignUp}
+            </if>
+            <if test="isVacate!=null">
+                and T.is_vacate=#{isVacate}
+            </if>
+            <if test="isSignIn!=null">
+                and T.is_sign_in=#{isSignIn}
+            </if>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+    <select id="findIsAbsenceList" parameterType="XwDjActivityUser" resultType="XwDjActivityUser">
+        select
+        T.*,A.name as name,A.img_url as imgUrl,ac.activity_start_time,ac.apply_stop_time,ac.activity_end_time,ac.activity_state
+        from xw_dj_activity_user T left join jw_teacher A on T.activity_user_id=A.id
+        LEFT join xw_dj_activity ac on T.activity_id=ac.id where T.activity_id=#{activityId} and T.is_sign_up=1 and T.is_vacate=0 and T.is_sign_in=0
+        and NOW() >(select activity_end_time from xw_dj_activity where id=#{activityId})
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+    <select id="findIsAbsenceCount" parameterType="XwDjActivityUser" resultType="long">
+        select
+        count(1)
+        from xw_dj_activity_user T left join jw_teacher A on T.activity_user_id=A.id
+        LEFT join xw_dj_activity ac on T.activity_id=ac.id where T.activity_id=#{activityId} and T.is_sign_up=1 and T.is_vacate=0 and T.is_sign_in=0
+        and NOW() >(select activity_end_time from xw_dj_activity where id=#{activityId})
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+    <select id="findUserListCountByCondition" parameterType="XwDjActivityUser" resultType="long">
+        select count(*) from xw_dj_activity_user T
+        <where>
+            <if test="id!=null">
+                T.id=#{id}
+            </if>
+            <if test="activityId!=null">
+                and T.activity_id=#{activityId}
+            </if>
+
+            <if test="activityUserId!=null">
+                and T.activity_user_id=#{activityUserId}
+            </if>
+            <if test="isSignInLeader!=null">
+                and T.is_sign_in_leader=#{isSignInLeader}
+            </if>
+            <if test="isSignUp!=null">
+                and T.is_sign_up=#{isSignUp}
+            </if>
+            <if test="isVacate!=null">
+                and T.is_vacate=#{isVacate}
+            </if>
+            <if test="isSignIn!=null">
+                and T.is_sign_in=#{isSignIn}
+            </if>
+            <if test="activityCreatorId!=null">
+                and T.activity_user_id=#{activityUserId}
+            </if>
+        </where>
+    </select>
+    <update id="askForLeave" parameterType="XwDjActivityUser">
+        update xw_dj_activity_user set is_vacate=1 ,vacate_reason=#{vacateReason},is_sign_in=0 where activity_user_id=#{activityUserId} and activity_id=#{activityId}
+    </update>
+    <update id="signIn" parameterType="XwDjActivityUser">
+        update xw_dj_activity_user set  is_sign_in=1 ,sign_in_date=#{signInDate}
+        where activity_user_id=#{activityUserId} and activity_id=#{activityId}
+    </update>
+    <update id="signUp" parameterType="XwDjActivityUser">
+        update xw_dj_activity_user SET is_sign_up=1
+        where activity_user_id=#{activityUserId} and activity_id=#{activityId}
+    </update>
+    <update id="autoSignIn" parameterType="XwDjActivityUser">
+        update xw_dj_activity_user SET is_sign_in=1,sign_in_date=#{signInDate}
+        where activity_id=#{activityId} and is_vacate=0 and is_sign_up=1
+    </update>
+    <select id="findXwDjActivityUserListIsSignUpLeader" parameterType="XwDjActivityUser" resultType="XwDjActivityUser">
+        select T.*,A.name as name,A.img_url as imgUrl,M.id as treeId
+        from xw_dj_activity_user T
+        LEFT join jw_teacher A on T.activity_user_id=A.id
+        LEFT join xw_party_member M on T.activity_user_id=M.teacher_id
+        <where>
+            <if test="id!=null">
+               T.id=#{id}
+            </if>
+            <if test="activityId!=null">
+             and T.activity_id=#{activityId}
+            </if>
+            <if test="activityUserId!=null">
+              and T.activity_user_id=#{activityUserId}
+            </if>
+            <if test="isSignInLeader!=null">
+                and T.is_sign_in_leader=#{isSignInLeader}
+            </if>
+            <if test="isSignUp!=null">
+                and T.is_sign_up=#{isSignUp}
+            </if>
+            <if test="isVacate!=null">
+                and T.is_vacate=#{isVacate}
+            </if>
+            <if test="isSignIn!=null">
+                and T.is_sign_in=#{isSignIn}
+            </if>
+            <if test="activityCreatorId!=null">
+                and T.activity_user_id=#{activityUserId}
+            </if>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+</mapper>

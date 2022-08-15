@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.auth.IPermDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('title')">
+                        T.title,
+                    </if>
+                    <if test="!pager.excludes.contains('identify')">
+                        T.identify,
+                    </if>
+                    <if test="!pager.excludes.contains('icon')">
+                        T.icon,
+                    </if>
+                    <if test="!pager.excludes.contains('parentId')">
+                        T.parent_id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('routeName')">
+                        T.routeName,
+                    </if>
+                    <if test="!pager.excludes.contains('urlPath')">
+                        T.url_path,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('appIcon')">
+                        T.app_icon,
+                    </if>
+                    <if test="!pager.excludes.contains('sortNum')">
+                        T.sort_num,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="title!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('title')">
+                        and T.title like concat('%',#{title},'%')
+                    </when>
+                    <otherwise>
+                        and T.title=#{title}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="identify!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('identify')">
+                        and T.identify like concat('%',#{identify},'%')
+                    </when>
+                    <otherwise>
+                        and T.identify=#{identify}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="icon!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('icon')">
+                        and T.icon like concat('%',#{icon},'%')
+                    </when>
+                    <otherwise>
+                        and T.icon=#{icon}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="parentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('parentId')">
+                        and T.parent_id like concat('%',#{parentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.parent_id=#{parentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="routeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('routeName')">
+                        and T.routeName like concat('%',#{routeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.routeName=#{routeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="urlPath!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('urlPath')">
+                        and T.url_path like concat('%',#{urlPath},'%')
+                    </when>
+                    <otherwise>
+                        and T.url_path=#{urlPath}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="appIcon!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('appIcon')">
+                        and T.app_icon like concat('%',#{appIcon},'%')
+                    </when>
+                    <otherwise>
+                        and T.app_icon=#{appIcon}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sortNum!=null">
+                and T.sort_num=#{sortNum}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findPermListByCondition" parameterType="Perm" resultType="Perm">
+        select
+        <include refid="projection"/>
+        from jw_perm T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findPermCountByCondition" parameterType="Perm" resultType="long">
+        select count(*) from jw_perm T
+        <include refid="match"/>
+    </select>
+    <select id="findPermById" resultType="Perm">
+        select * from jw_perm where id=#{id}
+    </select>
+    <select id="findOnePermByCondition" parameterType="Perm" resultType="Perm">
+        select
+        <include refid="projection"/>
+        from jw_perm T
+        <include refid="match"/>
+    </select>
+    <insert id="savePerm" parameterType="Perm">
+        INSERT INTO jw_perm (  id,  title,  identify,  icon,  parent_id,  type,  routeName,  url_path,  school_id,  app_icon,  sort_num )
+         values
+         (   #{id}  ,   #{title}  ,   #{identify}  ,   #{icon}  ,   #{parentId}  ,   #{type}  ,   #{routeName}  ,   #{urlPath}  ,   #{schoolId}  ,   #{appIcon}  ,   #{sortNum}    )
+    </insert>
+    <update id="updatePerm" parameterType="Perm">
+        update jw_perm
+        <set>
+            <if test="title!=null ">
+                title=#{title},
+            </if>
+            <if test="identify!=null ">
+                identify=#{identify},
+            </if>
+            <if test="icon!=null ">
+                icon=#{icon},
+            </if>
+            <if test="parentId!=null ">
+                parent_id=#{parentId},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="routeName!=null ">
+                routeName=#{routeName},
+            </if>
+            <if test="urlPath!=null ">
+                url_path=#{urlPath},
+            </if>
+            <if test="appIcon!=null ">
+                app_icon=#{appIcon},
+            </if>
+            <if test="sortNum!=null ">
+                sort_num=#{sortNum}
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updatePermForAll" parameterType="Perm">
+        update jw_perm
+        <set>
+            title=#{title},
+            identify=#{identify},
+            icon=#{icon},
+            parent_id=#{parentId},
+            type=#{type},
+            routeName=#{routeName},
+            url_path=#{urlPath},
+            app_icon=#{appIcon},
+            school_id=#{schoolId},
+            sort_num=#{sortNum}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deletePerm" >
+        delete from jw_perm where id=#{id}
+    </delete>
+    <delete id="deletePermByCondition" >
+        delete T from jw_perm T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSavePerm" parameterType="Perm">
+        INSERT INTO jw_perm (  id,  title,  identify,  icon,  parent_id,  type,  routeName,  url_path,  school_id,  app_icon,  sort_num )
+        VALUES
+        <foreach collection="list" item="perm" separator=",">
+            (   #{perm.id}  ,   #{perm.title}  ,   #{perm.identify}  ,   #{perm.icon}  ,   #{perm.parentId}  ,   #{perm.type}  ,   #{perm.routeName}  ,   #{perm.urlPath}  ,   #{perm.schoolId}  ,   #{perm.appIcon}  ,   #{perm.sortNum}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+
+    <delete id="deletePermByPId">
+        delete from jw_perm where parent_id=#{pId}
+    </delete>
+    <select id="findAllPermTreeByPIdAndSchoolId" resultType="com.yice.edu.cn.common.pojo.jw.auth.Perm">
+        SELECT P1.*,IF(P2.id is null,0,1) hasChild FROM jw_perm P1 left join jw_perm P2 on P1.id=P2.parent_id
+                     where P1.school_id=#{schoolId} and P1.parent_id=#{pId}
+										 group by P1.id
+    </select>
+    <select id="findCheckedPermIdsByRoleId" resultType="java.lang.String">
+        select P.id from jw_role R inner join jw_role_jw_perm RP on R.id=RP.role_id
+                        inner join jw_perm P on RP.perm_id=P.id and RP.school_id=P.school_id
+                        LEFT JOIN jw_perm P2 ON P.id=P2.parent_id
+                         where R.id=#{id} and P2.id is null
+    </select>
+    <select id="findTeacherTreeMenuByTId" resultType="com.yice.edu.cn.common.pojo.jw.auth.Perm">
+        SELECT P.* from jw_teacher T inner join jw_teacher_jw_role TR on T.id=TR.teacher_id
+                            inner join jw_role R on TR.role_id=R.id
+                            inner join jw_role_jw_perm RP on R.id=RP.role_id
+                            inner join jw_perm P on RP.perm_id=P.id and RP.school_id=P.school_id
+                            where T.id=#{teacherId}
+                            group by P.id,P.school_id
+                            order by P.sort_num asc
+    </select>
+    <delete id="deletePermBySchoolId">
+        delete from jw_perm where school_id=#{schoolId}
+    </delete>
+    <delete id="deletePermByIds">
+        delete from jw_perm where id in
+        (
+        <foreach collection="list" separator="," item="id">
+            #{id}
+        </foreach>
+
+        )
+    </delete>
+    <update id="batchUpdate">
+        <foreach collection="list" separator=";" item="perm">
+            update jw_perm set
+            title = #{perm.title},
+            identify = #{perm.identify},
+            icon = #{perm.icon},
+            parent_id = #{perm.parentId},
+            type = #{perm.type},
+            routeName = #{perm.routeName},
+            url_path = #{perm.urlPath},
+            app_icon = #{perm.appIcon},
+            sort_num = #{perm.sortNum}
+            where id = #{perm.id}
+        </foreach>
+
+
+    </update>
+    <update id="batchUpdateSortNum">
+        <foreach collection="list" separator=";" item="perm">
+            update jw_perm set
+            sort_num = #{perm.sortNum}
+            where id = #{perm.id}
+        </foreach>
+    </update>
+    <select id="findTeacherAdminTreeMenu" resultType="com.yice.edu.cn.common.pojo.jw.auth.Perm">
+    select * from (select * from admin_perm  where school_perm_id is null
+    union all
+    select
+     ap.id id,
+     IFNULL(jp.title,ap.title) title,
+     IFNULL(jp.identify,ap.identify) identify,
+     IFNULL(jp.icon,ap.icon) icon,
+     ap.parent_id parent_id,
+     IFNULL(jp.type,ap.type) type,
+     IFNULL(jp.routeName,ap.routeName) routeName,
+     IFNULL(jp.url_path,ap.url_path) url_path,
+     ap.sort_num sort_num,
+     ap.school_perm_id school_perm_id
+     from admin_perm ap inner join jw_perm jp on ap.school_perm_id=jp.id and jp.school_id=#{schoolId}) A
+		 order by sort_num asc
+    </select>
+    <select id="findCheckedPermsByRoleId" resultType="com.yice.edu.cn.common.pojo.jw.auth.Perm">
+        select P.id,P.parent_id from jw_role R inner join jw_role_jw_perm RP on R.id=RP.role_id
+                        inner join jw_perm P on RP.perm_id=P.id and RP.school_id=P.school_id
+                        where R.id=#{id}
+    </select>
+    <select id="findPermsForH5BySchoolId" resultType="com.yice.edu.cn.common.pojo.jw.auth.Perm">
+        SELECT * FROM jw_perm where school_id=#{schoolId} and id in ('1854228194541789184','2344180162245779456')
+    </select>
+
+</mapper>

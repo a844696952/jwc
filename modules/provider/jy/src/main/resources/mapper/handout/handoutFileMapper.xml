@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.handout.IHandoutFileDao">
+    <!--########################################################################################################################-->
+    <select id="findHandoutFileListByCondition" parameterType="HandoutFile" resultType="HandoutFile">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('handoutId')">
+                        T.handout_id,
+                    </if>
+                    <if test="!pager.excludes.contains('fileUrl')">
+                        T.file_url,
+                    </if>
+                    <if test="!pager.excludes.contains('filename')">
+                        T.filename,
+                    </if>
+                    <if test="!pager.excludes.contains('fileOrder')">
+                        T.file_order,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_handout_file T
+        <where>
+            <if test="handoutId!=null">
+                T.handout_id=#{handoutId}
+            </if>
+            <if test="fileUrl!=null">
+                and T.file_url=#{fileUrl}
+            </if>
+            <if test="filename!=null">
+                and T.filename=#{filename}
+            </if>
+            <if test="fileOrder!=null">
+                and T.file_order=#{fileOrder}
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findHandoutFileCountByCondition" parameterType="HandoutFile" resultType="long">
+        select count(*) from jy_handout_file
+        <where>
+            <if test="handoutId!=null">
+                handout_id=#{handoutId}
+            </if>
+            <if test="fileUrl!=null">
+                and file_url=#{fileUrl}
+            </if>
+            <if test="filename!=null">
+                and filename=#{filename}
+            </if>
+            <if test="fileOrder!=null">
+                and file_order=#{fileOrder}
+            </if>
+        </where>
+    </select>
+    <select id="findHandoutFileById" resultType="HandoutFile">
+        select * from jy_handout_file where id=#{id}
+    </select>
+    <select id="findOneHandoutFileByCondition" parameterType="HandoutFile" resultType="HandoutFile">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('handoutId')">
+                        T.handout_id,
+                    </if>
+                    <if test="!pager.excludes.contains('fileUrl')">
+                        T.file_url,
+                    </if>
+                    <if test="!pager.excludes.contains('filename')">
+                        T.filename,
+                    </if>
+                    <if test="!pager.excludes.contains('fileOrder')">
+                        T.file_order,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from jy_handout_file T
+        <where>
+            <if test="handoutId!=null">
+                T.handout_id=#{handoutId}
+            </if>
+            <if test="fileUrl!=null">
+                and T.file_url=#{fileUrl}
+            </if>
+            <if test="filename!=null">
+                and T.filename=#{filename}
+            </if>
+            <if test="fileOrder!=null">
+                and T.file_order=#{fileOrder}
+            </if>
+        </where>
+    </select>
+    <insert id="saveHandoutFile" parameterType="HandoutFile">
+        insert into jy_handout_file
+         (
+            id,
+            handout_id,
+            file_url,
+            filename,
+            file_order
+        ) values
+         (
+                #{id}
+                ,
+                #{handoutId}
+                ,
+                #{fileUrl}
+                ,
+                #{filename}
+                ,
+                #{fileOrder}
+
+         )
+    </insert>
+    <update id="updateHandoutFile" parameterType="HandoutFile">
+        update jy_handout_file
+        <set>
+            <if test="handoutId!=null ">
+                handout_id=#{handoutId},
+            </if>
+            <if test="fileUrl!=null ">
+                file_url=#{fileUrl},
+            </if>
+            <if test="filename!=null ">
+                filename=#{filename},
+            </if>
+            <if test="fileOrder!=null ">
+                file_order=#{fileOrder}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteHandoutFile" >
+        delete from jy_handout_file where id=#{id}
+    </delete>
+    <delete id="deleteHandoutFileByCondition" >
+        delete from jy_handout_file
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="handoutId!=null">
+                and handout_id=#{handoutId}
+            </if>
+            <if test="fileUrl!=null">
+                and file_url=#{fileUrl}
+            </if>
+            <if test="filename!=null">
+                and filename=#{filename}
+            </if>
+            <if test="fileOrder!=null">
+                and file_order=#{fileOrder}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveHandoutFile" parameterType="HandoutFile">
+        INSERT INTO jy_handout_file (  id,  handout_id,  file_url,  filename,  file_order )
+        VALUES
+        <foreach collection="list" item="handoutFile" separator=",">
+            (  #{handoutFile.id},  #{handoutFile.handoutId},  #{handoutFile.fileUrl},  #{handoutFile.filename},  #{handoutFile.fileOrder}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+
+
+</mapper>

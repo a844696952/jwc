@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.honourRoll.DmHonourRollStudentDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('studentId')">
+                        T.student_id,
+                    </if>
+                    <if test="!pager.excludes.contains('honourId')">
+                        T.honour_id,
+                    </if>
+                    <if test="!pager.excludes.contains('classId')">
+                        T.class_id,
+                    </if>
+                    <if test="!pager.excludes.contains('honourTime')">
+                        T.honour_time,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('typeName')">
+                        T.type_name,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studentId'">
+                        and T.student_id like concat('%',#{studentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_id=#{studentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="honourId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='honourId'">
+                        and T.honour_id like concat('%',#{honourId},'%')
+                    </when>
+                    <otherwise>
+                        and T.honour_id=#{honourId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classId'">
+                        and T.class_id like concat('%',#{classId},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_id=#{classId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="honourTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='honourTime'">
+                        and T.honour_time like concat('%',#{honourTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.honour_time=#{honourTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='type'">
+                        and T.type like concat('%',#{type},'%')
+                    </when>
+                    <otherwise>
+                        and T.type=#{type}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="typeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='typeName'">
+                        and T.type_name like concat('%',#{typeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.type_name=#{typeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmHonourRollStudentListByCondition" parameterType="DmHonourRollStudent" resultType="DmHonourRollStudent">
+        select
+        <include refid="projection"/>
+        from dm_honour_roll_student T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findDmHonourRollStudentCountByCondition" parameterType="DmHonourRollStudent" resultType="long">
+        select count(*) from dm_honour_roll_student T
+        <include refid="match"/>
+    </select>
+    <select id="findDmHonourRollStudentById" resultType="DmHonourRollStudent">
+        select * from dm_honour_roll_student where id=#{id}
+    </select>
+    <select id="findOneDmHonourRollStudentByCondition" parameterType="DmHonourRollStudent" resultType="DmHonourRollStudent">
+        select
+        <include refid="projection"/>
+        from dm_honour_roll_student T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmHonourRollStudent" parameterType="DmHonourRollStudent">
+        insert into dm_honour_roll_student
+        (
+        id,
+        student_id,
+        honour_id,
+        class_id,
+        honour_time,
+        type,
+        type_name,
+        update_time,
+        create_time
+        ) values
+        (
+        #{id}
+        ,
+        #{studentId}
+        ,
+        #{honourId}
+        ,
+        #{classId}
+        ,
+        #{honourTime}
+        ,
+        #{type}
+        ,
+        #{typeName}
+        ,
+        #{updateTime}
+        ,
+        now()
+
+        )
+    </insert>
+    <update id="updateDmHonourRollStudent" parameterType="DmHonourRollStudent">
+        update dm_honour_roll_student
+        <set>
+            <if test="studentId!=null ">
+                student_id=#{studentId},
+            </if>
+            <if test="honourId!=null ">
+                honour_id=#{honourId},
+            </if>
+            <if test="classId!=null ">
+                class_id=#{classId},
+            </if>
+            <if test="honourTime!=null ">
+                honour_time=#{honourTime},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="typeName!=null ">
+                type_name=#{typeName},
+            </if>
+            update_time=now(),
+            <if test="createTime!=null ">
+                create_time=#{createTime}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteDmHonourRollStudent" >
+        delete from dm_honour_roll_student where id=#{id}
+    </delete>
+    <delete id="deleteDmHonourRollStudentByCondition" >
+        delete T from dm_honour_roll_student T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmHonourRollStudent" parameterType="DmHonourRollStudent">
+        INSERT INTO dm_honour_roll_student (  id,  student_id,  honour_id,  class_id,  honour_time,  type,  type_name,  update_time,  create_time )
+        VALUES
+        <foreach collection="list" item="dmHonourRollStudent" separator=",">
+            (  #{dmHonourRollStudent.id},  #{dmHonourRollStudent.studentId},  #{dmHonourRollStudent.honourId},  #{dmHonourRollStudent.classId},  #{dmHonourRollStudent.honourTime},  #{dmHonourRollStudent.type},  #{dmHonourRollStudent.typeName},  #{dmHonourRollStudent.updateTime},  #{dmHonourRollStudent.createTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <sql id="projections">
+        <where>
+            <if test="startTime!=null and endTime!=null">
+                T.honour_time BETWEEN #{startTime} and #{endTime}
+            </if>
+            <if test="classId!=null">
+                and T.class_id = #{classId}
+            </if>
+            <if test="type!=null">
+                and T.type = #{type}
+            </if>
+        </where>
+    </sql>
+    <select id="findDmHonourRollStudentListByConditions" resultType="DmHonourRollStudent">
+        select s.name as 'studentName',GROUP_CONCAT(T.honour_time) as 'honourTime',count(T.id) as 'count' from dm_honour_roll_student T  left join jw_student s on T.student_id = s.id
+        <include refid="projections"/>
+        group by T.student_id
+        <include refid="sort"/>
+        <include refid="page"/>
+
+    </select>
+    <select id="findDmHonourRollStudentCountByConditions" resultType="long">
+        select count(*) from (select count(T.id) from dm_honour_roll_student T  left join jw_student s on T.student_id = s.id
+        <include refid="projections"/>
+        group by T.student_id) f
+
+    </select>
+    <select id="getHonourRollList" parameterType="DmHonourRollStudent" resultType="EccHonourRoll">
+            select 	s.NAME,
+                s.img_url,
+                s.id,
+                T.honour_time
+            from dm_honour_roll_student T left join jw_student s on T.student_id = s.id
+                where
+                T.honour_id = #{honourId}
+                and T.class_id = #{classId}
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+    <delete id="deleteDmHonourRollStudentByClassId">
+        delete from dm_honour_roll_student where class_id in
+        <foreach collection="classIdList" item="classIdList" open="(" separator="," close=")">
+            #{classIdList}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.classManage.mesAppletsTeacher.IMesAppletsTeacherDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('objectId')">
+                        T.object_id,
+                    </if>
+                    <if test="!pager.excludes.contains('openId')">
+                        T.open_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="objectId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='objectId'">
+                        and T.object_id like concat('%',#{objectId},'%')
+                    </when>
+                    <otherwise>
+                        and T.object_id=#{objectId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="openId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='openId'">
+                        and T.open_id like concat('%',#{openId},'%')
+                    </when>
+                    <otherwise>
+                        and T.open_id=#{openId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesAppletsTeacherListByCondition" parameterType="MesAppletsTeacher" resultType="MesAppletsTeacher">
+        select
+        <include refid="projection"/>
+        from mes_applets_teacher T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findMesAppletsTeacherCountByCondition" parameterType="MesAppletsTeacher" resultType="long">
+        select count(*) from mes_applets_teacher T
+        <include refid="match"/>
+    </select>
+    <select id="findMesAppletsTeacherById" resultType="MesAppletsTeacher">
+        select * from mes_applets_teacher where id=#{id}
+    </select>
+    <select id="findOneMesAppletsTeacherByCondition" parameterType="MesAppletsTeacher" resultType="MesAppletsTeacher">
+        select
+        <include refid="projection"/>
+        from mes_applets_teacher T
+        <include refid="match"/>
+    </select>
+    <insert id="saveMesAppletsTeacher" parameterType="MesAppletsTeacher">
+        insert into mes_applets_teacher
+         (
+            id,
+            object_id,
+            open_id,
+            school_id,
+            create_time,
+            type
+        ) values
+         (
+                #{id}
+                ,
+                #{objectId}
+                ,
+                #{openId}
+                ,
+                #{schoolId}
+                ,
+                now()
+                ,
+                #{type}
+
+         )
+    </insert>
+    <update id="updateMesAppletsTeacher" parameterType="MesAppletsTeacher">
+        update mes_applets_teacher
+        <set>
+            <if test="objectId!=null ">
+                object_id=#{objectId},
+            </if>
+            <if test="openId!=null ">
+                open_id=#{openId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="type!=null ">
+                type=#{type}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteMesAppletsTeacher" >
+        delete from mes_applets_teacher where id=#{id}
+    </delete>
+    <delete id="deleteMesAppletsTeacherByCondition" >
+        delete T from mes_applets_teacher T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesAppletsTeacher" parameterType="MesAppletsTeacher">
+        INSERT INTO mes_applets_teacher ( id,object_id, open_id, school_id, create_time, type )
+        VALUES
+        <foreach collection="list" item="mesAppletsTeacher" separator=",">
+            ( #{mesAppletsTeacher.id},( #{mesAppletsTeacher.objectId} , #{mesAppletsTeacher.openId}, #{mesAppletsTeacher.schoolId},
+            #{mesAppletsTeacher.createTime}, #{mesAppletsTeacher.type} )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

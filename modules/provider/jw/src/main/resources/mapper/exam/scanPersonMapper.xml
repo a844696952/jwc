@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.exam.examManage.IScanPersonDao">
+    <!--########################################################################################################################-->
+    <select id="findScanPersonListByCondition" parameterType="ScanPerson" resultType="ScanPerson">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherName')">
+                             T.teacher_name,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherTel')">
+                             T.teacher_tel,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherClassesId')">
+                             T.teacher_classes_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeName')">
+                             T.grade_name,
+                         </if>
+                         <if test="!pager.excludes.contains('classesName')">
+                             T.classes_name,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherClassesCourseId')">
+                             T.teacher_classes_course_id,
+                         </if>
+                         <if test="!pager.excludes.contains('courseName')">
+                             T.course_name,
+                         </if>
+                         <if test="!pager.excludes.contains('person')">
+                             T.person,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from scan_person T
+        <where>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                             T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                             T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="del!=null">
+                    and T.del=#{del}
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherName'">
+                            and T.teacher_name like concat('%',#{teacherName},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_name=#{teacherName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherTel!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherTel'">
+                            and T.teacher_tel like concat('%',#{teacherTel},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_tel=#{teacherTel}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherClassesId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherClassesId'">
+                            and T.teacher_classes_id like concat('%',#{teacherClassesId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_classes_id=#{teacherClassesId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="gradeName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeName'">
+                            and T.grade_name like concat('%',#{gradeName},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_name=#{gradeName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classesName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classesName'">
+                            and T.classes_name like concat('%',#{classesName},'%')
+                         </when>
+                         <otherwise>
+                            and T.classes_name=#{classesName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherClassesCourseId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherClassesCourseId'">
+                            and T.teacher_classes_course_id like concat('%',#{teacherClassesCourseId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_classes_course_id=#{teacherClassesCourseId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="courseName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseName'">
+                            and T.course_name like concat('%',#{courseName},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_name=#{courseName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="person!=null">
+                    and T.person= #{person}
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findScanPersonCountByCondition" parameterType="ScanPerson" resultType="long">
+        select count(*) from scan_person T
+        <where>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                             T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                             T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="del!=null">
+                    and T.del=#{del}
+            </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teacherName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherName'">
+                            and T.teacher_name like concat('%',#{teacherName},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_name=#{teacherName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teacherTel!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherTel'">
+                            and T.teacher_tel like concat('%',#{teacherTel},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_tel=#{teacherTel}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teacherClassesId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherClassesId'">
+                            and T.teacher_classes_id like concat('%',#{teacherClassesId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_classes_id=#{teacherClassesId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="gradeName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeName'">
+                            and T.grade_name like concat('%',#{gradeName},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_name=#{gradeName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="classesName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classesName'">
+                            and T.classes_name like concat('%',#{classesName},'%')
+                         </when>
+                         <otherwise>
+                            and T.classes_name=#{classesName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teacherClassesCourseId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherClassesCourseId'">
+                            and T.teacher_classes_course_id like concat('%',#{teacherClassesCourseId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_classes_course_id=#{teacherClassesCourseId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="courseName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='courseName'">
+                            and T.course_name like concat('%',#{courseName},'%')
+                         </when>
+                         <otherwise>
+                            and T.course_name=#{courseName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="person!=null">
+                    and T.person=#{person}
+            </if>
+        </where>
+    </select>
+    <select id="findScanPersonById" resultType="ScanPerson">
+        select * from scan_person where id=#{id}
+    </select>
+    <select id="findOneScanPersonByCondition" parameterType="ScanPerson" resultType="ScanPerson">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherName')">
+                             T.teacher_name,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherTel')">
+                             T.teacher_tel,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherClassesId')">
+                             T.teacher_classes_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeName')">
+                             T.grade_name,
+                         </if>
+                         <if test="!pager.excludes.contains('classesName')">
+                             T.classes_name,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherClassesCourseId')">
+                             T.teacher_classes_course_id,
+                         </if>
+                         <if test="!pager.excludes.contains('courseName')">
+                             T.course_name,
+                         </if>
+                         <if test="!pager.excludes.contains('person')">
+                             T.person,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from scan_person T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+              </if>
+              <if test="teacherName!=null">
+                and T.teacher_name=#{teacherName}
+              </if>
+              <if test="teacherTel!=null">
+                and T.teacher_tel=#{teacherTel}
+              </if>
+              <if test="teacherClassesId!=null">
+                and T.teacher_classes_id=#{teacherClassesId}
+              </if>
+              <if test="gradeName!=null">
+                and T.grade_name=#{gradeName}
+              </if>
+              <if test="classesName!=null">
+                and T.classes_name=#{classesName}
+              </if>
+              <if test="teacherClassesCourseId!=null">
+                and T.teacher_classes_course_id=#{teacherClassesCourseId}
+              </if>
+              <if test="courseName!=null">
+                and T.course_name=#{courseName}
+              </if>
+              <if test="person!=null">
+                and T.person=#{person}
+              </if>
+        </where>
+    </select>
+    <insert id="saveScanPerson" parameterType="ScanPerson">
+        insert into scan_person
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            school_id,
+            teacher_id,
+            teacher_name,
+            teacher_tel,
+            teacher_classes_id,
+            grade_name,
+            classes_name,
+            teacher_classes_course_id,
+            course_name,
+            person
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{schoolId}
+                ,
+                #{teacherId}
+                ,
+                #{teacherName}
+                ,
+                #{teacherTel}
+                ,
+                #{teacherClassesId}
+                ,
+                #{gradeName}
+                ,
+                #{classesName}
+                ,
+                #{teacherClassesCourseId}
+                ,
+                #{courseName}
+                ,
+                #{person}
+                
+         )
+    </insert>
+    <update id="updateScanPerson" parameterType="ScanPerson">
+        update scan_person
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="teacherName!=null ">
+                        teacher_name=#{teacherName},
+                    </if>
+                    <if test="teacherTel!=null ">
+                        teacher_tel=#{teacherTel},
+                    </if>
+                    <if test="teacherClassesId!=null ">
+                        teacher_classes_id=#{teacherClassesId},
+                    </if>
+                    <if test="gradeName!=null ">
+                        grade_name=#{gradeName},
+                    </if>
+                    <if test="classesName!=null ">
+                        classes_name=#{classesName},
+                    </if>
+                    <if test="teacherClassesCourseId!=null ">
+                        teacher_classes_course_id=#{teacherClassesCourseId},
+                    </if>
+                    <if test="courseName!=null ">
+                        course_name=#{courseName},
+                    </if>
+                    <if test="person!=null ">
+                        person=#{person}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteScanPerson"   parameterType="ScanPerson">
+        delete from scan_person where id=#{id}
+    </delete>
+    <delete id="deleteScanPersonByCondition" >
+        delete from scan_person
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+              </if>
+              <if test="teacherName!=null">
+                and teacher_name=#{teacherName}
+              </if>
+              <if test="teacherTel!=null">
+                and teacher_tel=#{teacherTel}
+              </if>
+              <if test="teacherClassesId!=null">
+                and teacher_classes_id=#{teacherClassesId}
+              </if>
+              <if test="gradeName!=null">
+                and grade_name=#{gradeName}
+              </if>
+              <if test="classesName!=null">
+                and classes_name=#{classesName}
+              </if>
+              <if test="teacherClassesCourseId!=null">
+                and teacher_classes_course_id=#{teacherClassesCourseId}
+              </if>
+              <if test="courseName!=null">
+                and course_name=#{courseName}
+              </if>
+              <if test="person!=null">
+                and person=#{person}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveScanPerson" parameterType="ScanPerson">
+        INSERT INTO scan_person (  id,  create_time,  update_time,  del,  school_id,  teacher_id,  teacher_name,  teacher_tel,  teacher_classes_id,  grade_name,  classes_name,  teacher_classes_course_id,  course_name,  person )
+        VALUES
+        <foreach collection="list" item="scanPerson" separator=",">
+            (  #{scanPerson.id},  now(),  #{scanPerson.updateTime},  #{scanPerson.del},  #{scanPerson.schoolId},  #{scanPerson.teacherId},  #{scanPerson.teacherName},  #{scanPerson.teacherTel},  #{scanPerson.teacherClassesId},  #{scanPerson.gradeName},  #{scanPerson.classesName},  #{scanPerson.teacherClassesCourseId},  #{scanPerson.courseName},  #{scanPerson.person}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+
+    <select id="findAllScanPerson" parameterType="ScanPerson" resultType="ScanPerson">
+
+        /*select b.name ,b.tel , b.id teacher_id  from jw_teacher b
+        where b.school_id=1741058039675183104 and b.`status`=40 and b.id not in (
+        select a.teacher_id from scan_person a where a.school_id = 1741058039675183104
+        )*/
+	SELECT
+	a.id as teacher_id ,
+	 a.name as teacher_name,
+	 a.tel as  teacher_tel
+	from jw_teacher a
+    <where>
+        a.status = 40
+        and a.school_id = #{schoolId}
+        <if test="teacherName!=null">
+            <choose>
+                <when test="pager!=null and pager.like=='teacherName'">
+                    and a.name  like concat('%',#{teacherName},'%')
+                </when>
+                <otherwise>
+                    and a.name  = #{teacherName}
+                </otherwise>
+            </choose>
+        </if>
+        and a.id not in (
+          select b.teacher_id from scan_person b where b.school_id = #{schoolId}
+        )
+    </where>
+    </select>
+
+
+    <!--<select id="findTeacherByIds" parameterType="ScanPerson" resultType="ScanPerson">
+      SELECT * FROM scan_person
+        <where>
+            <if test="teacherId!=null">
+                teacher_id in(
+                <foreach collection="teachers" item="ScanPerson" separator=",">
+                    #{ScanPerson.teacherId}
+                </foreach>)
+            </if>
+        </where>
+    </select>-->
+
+
+
+</mapper>

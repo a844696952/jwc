@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.schoolYear.ISchoolYearDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('fromYear')">
+                        T.from_year,
+                    </if>
+                    <if test="!pager.excludes.contains('toYear')">
+                        T.to_year,
+                    </if>
+                    <if test="!pager.excludes.contains('fromTo')">
+                        T.from_to,
+                    </if>
+                    <if test="!pager.excludes.contains('createId')">
+                        T.create_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createName')">
+                        T.create_name,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('lastTermBegin')">
+                        T.last_term_begin,
+                    </if>
+                    <if test="!pager.excludes.contains('nextTermBegin')">
+                        T.next_term_begin,
+                    </if>
+                    <if test="!pager.excludes.contains('nextTermEnd')">
+                        T.next_term_end,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                    and T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                    and T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="fromYear!=null">
+            and T.from_year=#{fromYear}
+        </if>
+        <if test="toYear!=null">
+            and T.to_year=#{toYear}
+        </if>
+        <if test="fromTo!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('fromTo')">
+                    and T.from_to like concat('%',#{fromTo},'%')
+                </when>
+                <otherwise>
+                    and T.from_to=#{fromTo}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createId')">
+                    and T.create_id like concat('%',#{createId},'%')
+                </when>
+                <otherwise>
+                    and T.create_id=#{createId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createName!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createName')">
+                    and T.create_name like concat('%',#{createName},'%')
+                </when>
+                <otherwise>
+                    and T.create_name=#{createName}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                    and T.create_time like concat('%',#{createTime},'%')
+                </when>
+                <otherwise>
+                    and T.create_time=#{createTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="lastTermBegin!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('lastTermBegin')">
+                    and T.last_term_begin like concat('%',#{lastTermBegin},'%')
+                </when>
+                <otherwise>
+                    and T.last_term_begin=#{lastTermBegin}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="nextTermBegin!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('nextTermBegin')">
+                    and T.next_term_begin like concat('%',#{nextTermBegin},'%')
+                </when>
+                <otherwise>
+                    and T.next_term_begin=#{nextTermBegin}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="nextTermEnd!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('nextTermEnd')">
+                    and T.next_term_end like concat('%',#{nextTermEnd},'%')
+                </when>
+                <otherwise>
+                    and T.next_term_end=#{nextTermEnd}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findSchoolYearListByCondition" parameterType="SchoolYear" resultType="SchoolYear">
+        select
+        <include refid="projection"/>
+        from school_year T
+        <where>
+            <include refid="match"/>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findSchoolYearCountByCondition" parameterType="SchoolYear" resultType="long">
+        select count(*) from school_year T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <select id="findSchoolYearById" resultType="SchoolYear">
+        select * from school_year where id=#{id}
+    </select>
+
+    <select id="findMaxSchoolYear" parameterType="String" resultType="SchoolYear">
+        SELECT * from school_year where school_id=#{schoolId} ORDER BY to_year DESC limit 1
+    </select>
+
+    <select id="findOneSchoolYearByCondition" parameterType="SchoolYear" resultType="SchoolYear">
+        select
+        <include refid="projection"/>
+        from school_year T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <insert id="saveSchoolYear" parameterType="SchoolYear">
+        INSERT INTO school_year (  id,  school_id,  from_year,  to_year,  from_to,  create_id,  create_name,  create_time,  last_term_begin,  next_term_begin,  next_term_end )
+         values
+         (   #{id}  ,   #{schoolId}  ,   #{fromYear}  ,   #{toYear}  ,   #{fromTo}  ,   #{createId}  ,   #{createName}  ,   now()  ,   #{lastTermBegin}  ,   #{nextTermBegin}  ,   #{nextTermEnd}    )
+    </insert>
+    <update id="updateSchoolYear" parameterType="SchoolYear">
+        update school_year
+        <set>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="fromYear!=null ">
+                from_year=#{fromYear},
+            </if>
+            <if test="toYear!=null ">
+                to_year=#{toYear},
+            </if>
+            <if test="fromTo!=null ">
+                from_to=#{fromTo},
+            </if>
+            <if test="createId!=null ">
+                create_id=#{createId},
+            </if>
+            <if test="createName!=null ">
+                create_name=#{createName},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="lastTermBegin!=null ">
+                last_term_begin=#{lastTermBegin},
+            </if>
+            <if test="nextTermBegin!=null ">
+                next_term_begin=#{nextTermBegin},
+            </if>
+            <if test="nextTermEnd!=null ">
+                next_term_end=#{nextTermEnd}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateSchoolYearForAll" parameterType="SchoolYear">
+        update school_year
+        <set>
+            school_id=#{schoolId},
+            from_year=#{fromYear},
+            to_year=#{toYear},
+            from_to=#{fromTo},
+            create_id=#{createId},
+            create_name=#{createName},
+            create_time=#{createTime},
+            last_term_begin=#{lastTermBegin},
+            next_term_begin=#{nextTermBegin},
+            next_term_end=#{nextTermEnd}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteSchoolYear" >
+        delete from school_year where id=#{id}
+    </delete>
+    <delete id="deleteSchoolYearByCondition" >
+        delete T from school_year T
+        <where>
+            <include refid="match"/>
+        </where>
+    </delete>
+    <insert id="batchSaveSchoolYear" parameterType="SchoolYear">
+        INSERT INTO school_year (  id,  school_id,  from_year,  to_year,  from_to,  create_id,  create_name,  create_time,  last_term_begin,  next_term_begin,  next_term_end )
+        VALUES
+        <foreach collection="list" item="schoolYear" separator=",">
+            (   #{schoolYear.id}  ,   #{schoolYear.schoolId}  ,   #{schoolYear.fromYear}  ,   #{schoolYear.toYear}  ,   #{schoolYear.fromTo}  ,   #{schoolYear.createId}  ,   #{schoolYear.createName}  ,   now()  ,   #{schoolYear.lastTermBegin}  ,   #{schoolYear.nextTermBegin}  ,   #{schoolYear.nextTermEnd}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

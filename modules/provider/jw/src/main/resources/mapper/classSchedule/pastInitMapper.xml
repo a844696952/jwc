@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.classSchedule.PastInitDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('count')">
+                             T.count,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('scheduleId')">
+                             T.schedule_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="count!=null">
+                and T.count=#{count}
+          </if>
+          <if test="schoolId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                     </when>
+                     <otherwise>
+                        and T.school_id=#{schoolId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="scheduleId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('scheduleId')">
+                        and T.schedule_id like concat('%',#{scheduleId},'%')
+                     </when>
+                     <otherwise>
+                        and T.schedule_id=#{scheduleId}
+                     </otherwise>
+                  </choose>
+          </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findPastInitListByCondition" parameterType="PastInit" resultType="PastInit">
+        select
+         <include refid="projection"/>
+         from jw_past_Init T
+         <where>
+            <include refid="match"/>
+         </where>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findPastInitCountByCondition" parameterType="PastInit" resultType="long">
+        select count(*) from jw_past_Init T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <select id="findPastInitById" resultType="PastInit">
+        select * from jw_past_Init where id=#{id}
+    </select>
+    <select id="findOnePastInitByCondition" parameterType="PastInit" resultType="PastInit">
+        select
+         <include refid="projection"/>
+         from jw_past_Init T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="savePastInit" parameterType="PastInit">
+        INSERT INTO jw_past_Init (  id,  create_time,  count,  school_id,  schedule_id )
+         values
+         (   #{id}  ,   now()  ,   #{count}  ,   #{schoolId}  ,   #{scheduleId}    )
+    </insert>
+    <update id="updatePastInit" parameterType="PastInit">
+        update jw_past_Init
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="count!=null ">
+                        count=#{count},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="scheduleId!=null ">
+                        schedule_id=#{scheduleId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updatePastInitForAll" parameterType="PastInit">
+        update jw_past_Init
+        <set>
+                    create_time=#{createTime},
+                    count=#{count},
+                    school_id=#{schoolId},
+                    schedule_id=#{scheduleId}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deletePastInit" >
+        delete from jw_past_Init where id=#{id}
+    </delete>
+    <delete id="deletePastInitByCondition" >
+        delete T from jw_past_Init T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSavePastInit" parameterType="PastInit">
+        INSERT INTO jw_past_Init (  id,  create_time,  count,  school_id,  schedule_id )
+        VALUES
+        <foreach collection="list" item="pastInit" separator=",">
+            (   #{pastInit.id}  ,   now()  ,   #{pastInit.count}  ,   #{pastInit.schoolId}  ,   #{pastInit.scheduleId}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.prepareLessons.ITextbookSettingDao">
+    
+    <select id="findTextbookSettingByTeacherId" resultType="TextbookSetting">
+        select * from jy_textbook_setting where teacher_id=#{teachId}
+    </select>
+    
+    <insert id="saveTextbookSetting" parameterType="TextbookSetting" >
+        insert into jy_textbook_setting
+         (
+            id,
+            textbook_id,
+            teacher_id,
+            icon_path,
+            textbook_name,
+            school_id,
+            create_time,
+            subject_material_id,
+            subject_name
+        ) values
+         (
+                #{id}
+                ,
+                #{textbookId}
+                ,
+                #{teacherId}
+                ,
+                #{iconPath}
+                ,
+                #{textbookName}
+                ,
+                #{schoolId}
+                ,
+                now()
+                ,
+            	#{subjectMaterialId}
+            	,
+            	#{subjectName}
+         )
+    </insert>
+    
+    <delete id="deleteTextbookSetting" >
+        delete from jy_textbook_setting where id=#{id}
+    </delete>
+    
+    <select id="findLastSettingbyTeacherId" resultType ="TextbookSetting">
+            select * from jy_textbook_setting where teacher_id=#{teacherId} order by create_time desc limit 1
+    </select>
+    
+    <select id="findSettingCountbyTextbookId" resultType="long">
+    	select count(*) from jy_textbook_setting where textbook_id=#{textbookId} and teacher_id=#{teacherId} 
+    </select>
+    
+    <update id="updateTextbookSetting" parameterType="TextbookSetting">
+    
+    		update jy_textbook_setting
+        <set>
+                    <if test="textbookId!=null ">
+                        textbook_id=#{textbookId},
+                    </if>
+                    <if test="iconPath!=null ">
+                        icon_path=#{iconPath},
+                    </if>
+                    <if test="textbookName!=null ">
+                        textbook_name=#{textbookName},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if> 
+                    create_time=now()
+          </set>
+         where textbook_id=#{textbookId} and teacher_id=#{teacherId}
+    		
+    		
+    </update>
+</mapper>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.prepLessonResource.ICollectorFileDao">
+    <!--########################################################################################################################-->
+    <select id="findCollectorFileListByCondition" parameterType="CollectorFile" resultType="CollectorFile">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('collectorId')">
+                             T.collector_id,
+                         </if>
+                         <if test="!pager.excludes.contains('fileId')">
+                             T.file_id,
+                         </if>
+                     <if test="!pager.excludes.contains('boundId')">
+                         T.bound_id,
+                     </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_collector_file T
+        <where>
+              <if test="collectorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='collectorId'">
+                             T.collector_id like concat('%',#{collectorId},'%')
+                         </when>
+                         <otherwise>
+                             T.collector_id=#{collectorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fileId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fileId'">
+                            and T.file_id like concat('%',#{fileId},'%')
+                         </when>
+                         <otherwise>
+                            and T.file_id=#{fileId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="boundId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='boundId'">
+                        and T.bound_id like concat('%',#{boundId},'%')
+                    </when>
+                    <otherwise>
+                        and T.bound_id=#{boundId}
+                    </otherwise>
+                </choose>
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findCollectorFileCountByCondition" parameterType="CollectorFile" resultType="long">
+        select count(*) from jy_collector_file T
+        <where>
+              <if test="collectorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='collectorId'">
+                             T.collector_id like concat('%',#{collectorId},'%')
+                         </when>
+                         <otherwise>
+                             T.collector_id=#{collectorId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="fileId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fileId'">
+                            and T.file_id like concat('%',#{fileId},'%')
+                         </when>
+                         <otherwise>
+                            and T.file_id=#{fileId}
+                         </otherwise>
+                      </choose>
+            </if>
+            <if test="boundId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='boundId'">
+                        and T.bound_id like concat('%',#{boundId},'%')
+                    </when>
+                    <otherwise>
+                        and T.bound_id=#{boundId}
+                    </otherwise>
+                </choose>
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+
+    <select id="findCollectorFileById" resultType="CollectorFile">
+        select * from jy_collector_file where id=#{id}
+    </select>
+    <select id="findOneCollectorFileByCondition" parameterType="CollectorFile" resultType="CollectorFile">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('collectorId')">
+                             T.collector_id,
+                         </if>
+                         <if test="!pager.excludes.contains('fileId')">
+                             T.file_id,
+                         </if>
+                         <if test="!pager.excludes.contains('boundId')">
+                             T.bound_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_collector_file T
+        <where>
+              <if test="collectorId!=null">
+                 T.collector_id=#{collectorId}
+              </if>
+              <if test="fileId!=null">
+                and T.file_id=#{fileId}
+              </if>
+            <if test="boundId!=null">
+                and bound_id=#{boundId}
+            </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveCollectorFile" parameterType="CollectorFile">
+        insert into jy_collector_file
+         (
+            id,
+            collector_id,
+            file_id,
+            bound_id,
+            create_time,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{collectorId}
+                ,
+                #{fileId}
+                ,
+                #{boundId}
+                ,
+                now()
+                ,
+                #{updateTime}
+                
+         )
+    </insert>
+    <update id="updateCollectorFile" parameterType="CollectorFile">
+        update jy_collector_file
+        <set>
+                    <if test="collectorId!=null ">
+                        collector_id=#{collectorId},
+                    </if>
+                    <if test="fileId!=null ">
+                        file_id=#{fileId},
+                    </if>
+                    <if test="boundId!=null">
+                        and bound_id=#{boundId}
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteCollectorFile" >
+        delete from jy_collector_file where id=#{id}
+    </delete>
+    <delete id="deleteCollectorFileByCondition" >
+        delete from jy_collector_file
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="collectorId!=null">
+                and collector_id=#{collectorId}
+              </if>
+              <if test="fileId!=null">
+                and file_id=#{fileId}
+              </if>
+            <if test="boundId!=null">
+                and bound_id=#{boundId}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveCollectorFile" parameterType="CollectorFile">
+        INSERT INTO jy_collector_file (  id,  collector_id,  file_id,  create_time,  update_time )
+        VALUES
+        <foreach collection="list" item="collectorFile" separator=",">
+            (  #{collectorFile.id},  #{collectorFile.collectorId},  #{collectorFile.fileId},  #{collectorFile.createTime},  #{collectorFile.updateTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+
+
+    <select id="findCollectorFilesByConditionToApp"  parameterType="CollectorFile"  resultType="PrepLessonResourceFile">
+        select * from ( select
+
+        T.id id,
+        P.id bound_id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.speaker speaker,
+        T.cover cover,
+        T.num_look num_look,
+        P.id Lesson_res_file_meterial_item_id,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+
+        from jy_prep_lesson_resource_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+
+        <where>
+            <if test="collectorId!=null">
+                P.id  in (
+                SELECT R.bound_id FROM jy_collector_file R WHERE R.collector_id = #{collectorId}
+                )
+            </if>
+            <if test="filename!=null">
+                and  T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+
+
+        </where>
+        Union
+
+        select
+
+        T.id id,
+        P.id bound_id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.speaker speaker,
+        T.cover cover,
+        T.num_look num_look,
+        P.id Lesson_res_file_meterial_item_id,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+
+        from jy_lesson_res_media_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="collectorId!=null">
+                P.id  in (
+                SELECT R.bound_id FROM jy_collector_file R WHERE R.collector_id = #{collectorId}
+                )
+            </if>
+            <if test="filename!=null">
+                and  T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+
+        </where>
+        ) Q
+
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by Q.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+    <select id="findCollectorFileCountByConditionToApp" parameterType="PrepLessonResourceFile"  resultType="long">
+
+        select count(*) from (
+        select
+        T.id id,
+        P.id bound_id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.num_look num_look,
+        P.id Lesson_res_file_meterial_item_id,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+        from
+        jy_prep_lesson_resource_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="collectorId!=null">
+                P.id  in (
+                SELECT R.bound_id FROM jy_collector_file R WHERE R.collector_id = #{collectorId}
+                )
+            </if>
+            <if test="filename!=null">
+                and  T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+
+        </where>
+
+        union
+        select
+        T.id id,
+        P.id bound_id,
+        T.filename filename,
+        T.file_url file_url,
+        T.file_type file_type,
+        T.admin_name admin_name,
+        T.size size,
+        T.download_count download_count,
+        T.create_time create_time,
+        T.update_time update_time,
+        T.num_look num_look,
+        P.id lesson_res_file_meterial_item_id,
+        P.annual_period_id annual_period_id,
+        P.course_id course_id,
+        P.grade_id grade_id,
+        P.grade_name grade_name,
+        P.course_name course_name,
+        P.meterial_id meterial_id,
+        P.meterial_item_id meterial_item_id,
+        P.role role
+
+        from
+        jy_lesson_res_media_file T INNER JOIN jy_lesson_res_file_jy_meterial_item P on T.id = P.resource_file_id
+        <where>
+            <if test="collectorId!=null">
+                P.id  in (
+                SELECT R.bound_id FROM jy_collector_file R WHERE R.collector_id = #{collectorId}
+                )
+            </if>
+            <if test="filename!=null">
+                and  T.filename like CONCAT(CONCAT('%',#{filename},'%'))
+            </if>
+
+        </where>
+        ) Q
+
+    </select>
+
+
+
+
+</mapper>

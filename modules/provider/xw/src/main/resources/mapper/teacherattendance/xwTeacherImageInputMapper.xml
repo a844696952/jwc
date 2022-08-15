@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.teacherattendance.IXwTeacherImageInputDao">
+    <!--########################################################################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('status')">
+                        T.status,
+                    </if>
+                    <if test="!pager.excludes.contains('img')">
+                        T.img,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='status'">
+                        and T.status like concat('%',#{status},'%')
+                    </when>
+                    <otherwise>
+                        and T.status=#{status}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="img!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='img'">
+                        and T.img like concat('%',#{img},'%')
+                    </when>
+                    <otherwise>
+                        and T.img=#{img}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item" index="i">
+                    <if test="i==0">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)}
+            ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwTeacherImageInputListByCondition" parameterType="XwTeacherImageInput"
+            resultType="XwTeacherImageInput">
+        select
+        <include refid="projection"/>
+        from xw_teacher_image_input T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findXwTeacherImageInputCountByCondition" parameterType="XwTeacherImageInput" resultType="long">
+        select count(*) from xw_teacher_image_input T
+        <include refid="match"/>
+    </select>
+    <select id="findXwTeacherImageInputById" resultType="XwTeacherImageInput">
+        select * from xw_teacher_image_input where id=#{id}
+    </select>
+    <select id="findOneXwTeacherImageInputByCondition" parameterType="XwTeacherImageInput"
+            resultType="XwTeacherImageInput">
+        select
+        <include refid="projection"/>
+        from xw_teacher_image_input T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwTeacherImageInput" parameterType="XwTeacherImageInput">
+        insert into xw_teacher_image_input
+         (
+            id,
+            status,
+            img,
+            teacher_id,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{status}
+                ,
+                #{img}
+                ,
+                #{teacherId}
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updateXwTeacherImageInput" parameterType="XwTeacherImageInput">
+        update xw_teacher_image_input
+        <set>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="img!=null ">
+                img=#{img},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteXwTeacherImageInput">
+        delete from xw_teacher_image_input where id=#{id}
+    </delete>
+    <delete id="deleteXwTeacherImageInputByCondition">
+        delete from xw_teacher_image_input T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwTeacherImageInput" parameterType="XwTeacherImageInput">
+        INSERT INTO xw_teacher_image_input ( id, status, img, teacher_id, school_id )
+        VALUES
+        <foreach collection="list" item="xwTeacherImageInput" separator=",">
+            ( #{xwTeacherImageInput.id}, #{xwTeacherImageInput.status}, #{xwTeacherImageInput.img},
+            #{xwTeacherImageInput.teacherId}, #{xwTeacherImageInput.schoolId} )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <resultMap id="myXwTeacherImageInput" type="com.yice.edu.cn.common.pojo.xw.teacherattendance.XwTeacherImageInput">
+        <!--<id column="id" property="id"/>-->
+        <result column="img" property="img"/>
+        <result column="status" property="status"/>
+        <result column="id" property="teacherId"/>
+        <result column="school_id" property="schoolId"/>
+        <result column="work_number" property="workers"/>
+        <result column="name" property="teacherName"/>
+    </resultMap>
+
+    <select id="findXwTeacherImageInputListAlls" parameterType="XwTeacherImageInput" resultMap="myXwTeacherImageInput">
+        select a.id,a.school_id,a.name,a.work_number,b.img,b.status from jw_teacher as a left join
+        xw_teacher_image_input as b on a.id = b.teacher_id where a.school_id = #{schoolId}
+        <include refid="page"/>
+    </select>
+
+    <select id="findXwTeacherleft" resultType="String">
+        select a.id from xw_teacher_image_input as a left join
+        jw_teacher as b on a.teacher_id = b.id where b.id is null and a.school_id = #{schoolId}
+    </select>
+
+    <select id="findXwTeacherImageInputListAllCount" resultType="long">
+        select count(*) from jw_teacher as a left join
+        xw_teacher_image_input as b on a.id = b.teacher_id where a.school_id = #{schoolId} and b.status is null or b.status = #{status}
+    </select>
+
+    <select id="findXwTeacherImageInputByTeacherName" resultMap="myXwTeacherImageInput">
+        select a.id,a.school_id,a.name,a.work_number,b.img,b.status from jw_teacher as a left join
+        xw_teacher_image_input as b on a.id = b.teacher_id where a.school_id = #{schoolId} and a.name like concat(concat('%',#{teacherName}),'%')
+    </select>
+
+    <select id="findXwTeacherImageInputByTeacherNameCount" resultType="long">
+        select count(*) from jw_teacher as a left join
+        xw_teacher_image_input as b on a.id = b.teacher_id where a.school_id = #{schoolId} and a.name like concat(concat('%',#{teacherName}),'%')
+    </select>
+
+    <select id="findXwTeacherImageInputByTeacherId" resultMap="myXwTeacherImageInput">
+        select a.school_id,a.name,a.work_number,b.img,b.status from jw_teacher as a left join
+        xw_teacher_image_input as b on a.id = b.teacher_id where a.id = #{teacherId} and a.school_id = #{schoolId}
+    </select>
+
+    <update id="updateXwTeacherImageInputTeahcer" parameterType="XwTeacherImageInput">
+        update xw_teacher_image_input
+        <set>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="img!=null ">
+                img=#{img},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where teacher_id=#{teacherId}
+    </update>
+</mapper>

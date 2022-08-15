@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.resourceCenter.IResourceCenterDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('fileName')">
+                        T.file_name,
+                    </if>
+                    <if test="!pager.excludes.contains('uploadTime')">
+                        T.upload_time,
+                    </if>
+                    <if test="!pager.excludes.contains('url')">
+                        T.url,
+                    </if>
+                    <if test="!pager.excludes.contains('source')">
+                        T.source,
+                    </if>
+                    <if test="!pager.excludes.contains('releaseStatus')">
+                        T.release_status,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('classTime')">
+                        T.class_time,
+                    </if>
+                    <if test="!pager.excludes.contains('courseIntroduction')">
+                        T.course_introduction,
+                    </if>
+                    <if test="!pager.excludes.contains('courseDetail')">
+                        T.course_detail,
+                    </if>
+                    <if test="!pager.excludes.contains('coursewareDetail')">
+                        T.courseware_detail,
+                    </if>
+                    <if test="!pager.excludes.contains('coursewareUrl')">
+                        T.courseware_url,
+                    </if>
+                    <if test="!pager.excludes.contains('coverUrl')">
+                        T.cover_url,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherName')">
+                        T.teacher_name,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherImgUrl')">
+                        T.teacher_img_url,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherCourse')">
+                        T.teacher_course,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fileName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='fileName'">
+                        and T.file_name like concat('%',#{fileName},'%')
+                    </when>
+                    <otherwise>
+                        and T.file_name=#{fileName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="uploadTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='uploadTime'">
+                        and T.upload_time like concat('%',#{uploadTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.upload_time=#{uploadTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="url!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='url'">
+                        and T.url like concat('%',#{url},'%')
+                    </when>
+                    <otherwise>
+                        and T.url=#{url}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="source!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='source'">
+                        and T.source like concat('%',#{source},'%')
+                    </when>
+                    <otherwise>
+                        and T.source=#{source}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="releaseStatus!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='releaseStatus'">
+                        and T.release_status like concat('%',#{releaseStatus},'%')
+                    </when>
+                    <otherwise>
+                        and T.release_status=#{releaseStatus}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="classTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classTime'">
+                        and T.class_time like concat('%',#{classTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_time=#{classTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="courseIntroduction!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='courseIntroduction'">
+                        and T.course_introduction like concat('%',#{courseIntroduction},'%')
+                    </when>
+                    <otherwise>
+                        and T.course_introduction=#{courseIntroduction}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="courseDetail!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='courseDetail'">
+                        and T.course_detail like concat('%',#{courseDetail},'%')
+                    </when>
+                    <otherwise>
+                        and T.course_detail=#{courseDetail}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="coursewareDetail!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='coursewareDetail'">
+                        and T.courseware_detail like concat('%',#{coursewareDetail},'%')
+                    </when>
+                    <otherwise>
+                        and T.courseware_detail=#{coursewareDetail}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="coursewareUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='coursewareUrl'">
+                        and T.courseware_url like concat('%',#{coursewareUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.courseware_url=#{coursewareUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="coverUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='coverUrl'">
+                        and T.cover_url like concat('%',#{coverUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.cover_url=#{coverUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and T.teacher_name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherImgUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherImgUrl'">
+                        and T.teacher_img_url like concat('%',#{teacherImgUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_img_url=#{teacherImgUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherCourse!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherCourse'">
+                        and T.teacher_course like concat('%',#{teacherCourse},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_course=#{teacherCourse}
+                    </otherwise>
+                </choose>
+            </if>
+
+
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="conditionIdList!=null and conditionIdList.size()>0">
+                and b.condition_id in
+                <foreach collection="conditionIdList" index="index" item="item" open="(" separator="," close=")">
+                                    #{item}
+               </foreach>
+            </if>
+
+
+
+
+
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+
+
+
+
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findResourceCenterListByCondition" parameterType="ResourceCenter" resultType="ResourceCenter">
+        select
+        <include refid="projection"/>
+        from jy_resource_center T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findResourceCenterCountByCondition" parameterType="ResourceCenter" resultType="long">
+        select count(*) from jy_resource_center T
+        <include refid="match"/>
+    </select>
+    <select id="findResourceCenterById" resultType="ResourceCenter">
+        select * from jy_resource_center where id=#{id}
+    </select>
+    <select id="findOneResourceCenterByCondition" parameterType="ResourceCenter" resultType="ResourceCenter">
+        select
+        <include refid="projection"/>
+        from jy_resource_center T
+        <include refid="match"/>
+    </select>
+    <insert id="saveResourceCenter" parameterType="ResourceCenter">
+        insert into jy_resource_center
+         (
+            id,
+            file_name,
+            upload_time,
+            url,
+            source,
+            release_status,
+            name,
+            teacher_id,
+            class_time,
+            course_introduction,
+            course_detail,
+            courseware_detail,
+            courseware_url,
+            cover_url,
+            teacher_name,
+            create_time,
+            teacher_img_url,
+            teacher_course,
+            school_id,
+            courseware_name
+        ) values
+         (
+                #{id}
+                ,
+                #{fileName}
+                ,
+                #{uploadTime}
+                ,
+                #{url}
+                ,
+                #{source}
+                ,
+                #{releaseStatus}
+                ,
+                #{name}
+                ,
+                #{teacherId}
+                ,
+                #{classTime}
+                ,
+                #{courseIntroduction}
+                ,
+                #{courseDetail}
+                ,
+                #{coursewareDetail}
+                ,
+                #{coursewareUrl}
+                ,
+                #{coverUrl}
+                ,
+                #{teacherName}
+                ,
+                now()
+                ,
+                #{teacherImgUrl}
+                ,
+                #{teacherCourse}
+                ,
+                #{schoolId},
+                #{coursewareName}
+
+         )
+    </insert>
+    <update id="updateResourceCenter" parameterType="ResourceCenter">
+        update jy_resource_center
+        <set>
+            <if test="fileName!=null ">
+                file_name=#{fileName},
+            </if>
+            <if test="uploadTime!=null ">
+                upload_time=#{uploadTime},
+            </if>
+            <if test="url!=null ">
+                url=#{url},
+            </if>
+            <if test="source!=null ">
+                source=#{source},
+            </if>
+            <if test="releaseStatus!=null ">
+                release_status=#{releaseStatus},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="classTime!=null ">
+                class_time=#{classTime},
+            </if>
+            <if test="courseIntroduction!=null ">
+                course_introduction=#{courseIntroduction},
+            </if>
+            <if test="courseDetail!=null ">
+                course_detail=#{courseDetail},
+            </if>
+            <if test="coursewareDetail!=null ">
+                courseware_detail=#{coursewareDetail},
+            </if>
+                courseware_url=#{coursewareUrl},
+
+            <if test="coverUrl!=null ">
+                cover_url=#{coverUrl},
+            </if>
+            <if test="teacherName!=null ">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="teacherImgUrl!=null ">
+                teacher_img_url=#{teacherImgUrl},
+            </if>
+            <if test="teacherCourse!=null ">
+                teacher_course=#{teacherCourse},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+                courseware_name=#{coursewareName}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteResourceCenter" >
+        delete from jy_resource_center where id=#{id}
+    </delete>
+    <delete id="deleteResourceCenterByCondition" >
+        delete T from jy_resource_center T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveResourceCenter" parameterType="ResourceCenter">
+        INSERT INTO jy_resource_center (  id,  file_name,  upload_time,  url,  source,  release_status,  name,  teacher_id,  class_time,  course_introduction,  course_detail,  courseware_detail,  courseware_url,  cover_url,  teacher_name,  create_time,  teacher_img_url,  teacher_course,  school_id )
+        VALUES
+        <foreach collection="list" item="resourceCenter" separator=",">
+            (  #{resourceCenter.id},  #{resourceCenter.fileName},  #{resourceCenter.uploadTime},  #{resourceCenter.url},  #{resourceCenter.source},  #{resourceCenter.releaseStatus},  #{resourceCenter.name},  #{resourceCenter.teacherId},  #{resourceCenter.classTime},  #{resourceCenter.courseIntroduction},  #{resourceCenter.courseDetail},  #{resourceCenter.coursewareDetail},  #{resourceCenter.coursewareUrl},  #{resourceCenter.coverUrl},  #{resourceCenter.teacherName},  #{resourceCenter.createTime},  #{resourceCenter.teacherImgUrl},  #{resourceCenter.teacherCourse},  #{resourceCenter.schoolId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findTeacherCourseListBySchoolId" parameterType="TeacherCourse" resultType="TeacherCourse">
+        select a.id,a.name,a.img_url,a.tel, group_concat(c.alias) as course_name
+        from jw_teacher a
+        inner join jw_teacher_classes b on a.id=b.teacher_id
+        inner join jw_course c on c.id=b.course_id AND b.`school_id`=c.`school_id`
+        <where>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and a.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and a.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                and a.school_id=#{schoolId}
+            </if>
+
+        </where>
+        group by  a.id
+
+        <include refid="page"/>
+    </select>
+
+
+    <select id="findTeacherCourseCountBySchoolId" parameterType="TeacherCourse" resultType="long">
+       select count(*) from  (select a.id
+        from jw_teacher a
+        inner join jw_teacher_classes b on a.id=b.teacher_id
+        inner join jw_course c on c.id=b.course_id AND b.`school_id`=c.`school_id`
+        <where>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        and a.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and a.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                and a.school_id=#{schoolId}
+            </if>
+
+        </where>
+        group by  a.id) p
+    </select>
+
+
+
+    <select id="findResourceCentersForH5ByCondition" parameterType="ResourceCenter" resultType="ResourceCenter">
+        select
+        <include refid="projection"/>
+        from jy_resource_center T
+        inner join jy_resource_center_type_condition b
+        on T.id=b.resource_center_id
+        <include refid="match"/>
+        group by T.id
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findResourceCenterCountForH5ByCondition" parameterType="ResourceCenter" resultType="long">
+        select count(*) from (
+            select count(*) from jy_resource_center T
+            inner join jy_resource_center_type_condition b
+            on T.id=b.resource_center_id
+            <include refid="match"/>
+            group by T.id
+        ) a
+    </select>
+
+
+</mapper>

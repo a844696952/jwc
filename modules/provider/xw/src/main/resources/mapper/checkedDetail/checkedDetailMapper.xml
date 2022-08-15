@@ -1,0 +1,1896 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.checkedDetail.ICheckedDetailDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyArrmentId')">
+                        T.duty_arrment_id,
+                    </if>
+                    <if test="!pager.excludes.contains('spaceId')">
+                        T.spaceId,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyArrmentSpace')">
+                        T.duty_arrment_space,
+                    </if>
+                    <if test="!pager.excludes.contains('rdutyStartDate')">
+                        T.rduty_start_date,
+                    </if>
+                    <if test="!pager.excludes.contains('rdutyEndDate')">
+                        T.rduty_end_date,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyTimeStart')">
+                        T.duty_time_start,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyTimeEnd')">
+                        T.duty_time_end,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyDayId')">
+                        T.duty_day_id,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyDay')">
+                        T.duty_day,
+                    </if>
+                    <if test="!pager.excludes.contains('attendTeacherId')">
+                        T.attend_teacherId,
+                    </if>
+                    <if test="!pager.excludes.contains('attendTeacher')">
+                        T.attend_teacher,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyOfficerId')">
+                        T.dutyOfficer_id,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyOfficer')">
+                        T.dutyOfficer,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherName')">
+                        T.teacher_name,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherImgul')">
+                        T.teacher_imgul,
+                    </if>
+                    <if test="!pager.excludes.contains('tel')">
+                        T.tel,
+                    </if>
+                    <if test="!pager.excludes.contains('lon')">
+                        T.lon,
+                    </if>
+                    <if test="!pager.excludes.contains('lat')">
+                        T.lat,
+                    </if>
+                    <if test="!pager.excludes.contains('signInPlace')">
+                        T.sign_in_place,
+                    </if>
+                    <if test="!pager.excludes.contains('signIn')">
+                        T.sign_in,
+                    </if>
+                    <if test="!pager.excludes.contains('checkType')">
+                        T.check_type,
+                    </if>
+                    <if test="!pager.excludes.contains('signInPicture')">
+                        T.sign_in_picture,
+                    </if>
+                    <if test="!pager.excludes.contains('dateCheckIn')">
+                        T.date_check_in,
+                    </if>
+                    <if test="!pager.excludes.contains('timeCheckIn')">
+                        T.time_check_in,
+                    </if>
+                    <if test="!pager.excludes.contains('dateTimeChecked')">
+                        T.date_time_checked,
+                    </if>
+                    <if test="!pager.excludes.contains('checkInRemarks')">
+                        T.check_in_remarks,
+                    </if>
+                    <if test="!pager.excludes.contains('recordDate')">
+                        T.record_date,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyType')">
+                        T.duty_type,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('punchTime')">
+                        T.punch_time,
+                    </if>
+                    <if test="!pager.excludes.contains('punchTimeLater')">
+                        T.punch_time_later,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyAfterSyn')">
+                        T.duty_after_syn,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolYearId')">
+                        T.school_year_id,
+                    </if>
+                    <if test="!pager.excludes.contains('fromTo')">
+                        T.from_to,
+                    </if>
+                    <if test="!pager.excludes.contains('term')">
+                        T.term,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyArrmentId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyArrmentId')">
+                    and T.duty_arrment_id like concat('%',#{dutyArrmentId},'%')
+                </when>
+                <otherwise>
+                    and T.duty_arrment_id=#{dutyArrmentId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="spaceId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('spaceId')">
+                    and T.spaceId like concat('%',#{spaceId},'%')
+                </when>
+                <otherwise>
+                    and T.spaceId=#{spaceId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyArrmentSpace!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyArrmentSpace')">
+                    and T.duty_arrment_space like concat('%',#{dutyArrmentSpace},'%')
+                </when>
+                <otherwise>
+                    and T.duty_arrment_space=#{dutyArrmentSpace}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="rdutyStartDate!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('rdutyStartDate')">
+                    and T.rduty_start_date like concat('%',#{rdutyStartDate},'%')
+                </when>
+                <otherwise>
+                    and T.rduty_start_date=#{rdutyStartDate}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="rdutyEndDate!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('rdutyEndDate')">
+                    and T.rduty_end_date like concat('%',#{rdutyEndDate},'%')
+                </when>
+                <otherwise>
+                    and T.rduty_end_date=#{rdutyEndDate}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyTimeStart!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyTimeStart')">
+                    and T.duty_time_start like concat('%',#{dutyTimeStart},'%')
+                </when>
+                <otherwise>
+                    and T.duty_time_start=#{dutyTimeStart}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyTimeEnd!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyTimeEnd')">
+                    and T.duty_time_end like concat('%',#{dutyTimeEnd},'%')
+                </when>
+                <otherwise>
+                    and T.duty_time_end=#{dutyTimeEnd}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyDayId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyDayId')">
+                    and T.duty_day_id like concat('%',#{dutyDayId},'%')
+                </when>
+                <otherwise>
+                    and T.duty_day_id=#{dutyDayId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyDay!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyDay')">
+                    and T.duty_day like concat('%',#{dutyDay},'%')
+                </when>
+                <otherwise>
+                    and T.duty_day=#{dutyDay}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="attendTeacherId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('attendTeacherId')">
+                    and T.attend_teacherId like concat('%',#{attendTeacherId},'%')
+                </when>
+                <otherwise>
+                    and T.attend_teacherId=#{attendTeacherId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="attendTeacher!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('attendTeacher')">
+                    and T.attend_teacher like concat('%',#{attendTeacher},'%')
+                </when>
+                <otherwise>
+                    and T.attend_teacher=#{attendTeacher}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyOfficerId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyOfficerId')">
+                    and T.dutyOfficer_id like concat('%',#{dutyOfficerId},'%')
+                </when>
+                <otherwise>
+                    and T.dutyOfficer_id=#{dutyOfficerId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyOfficer!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyOfficer')">
+                    and T.dutyOfficer like concat('%',#{dutyOfficer},'%')
+                </when>
+                <otherwise>
+                    and T.dutyOfficer=#{dutyOfficer}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="teacherId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('teacherId')">
+                    and T.teacher_id like concat('%',#{teacherId},'%')
+                </when>
+                <otherwise>
+                    and T.teacher_id=#{teacherId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="teacherName!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('teacherName')">
+                    and T.teacher_name like concat('%',#{teacherName},'%')
+                </when>
+                <otherwise>
+                    and T.teacher_name=#{teacherName}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="teacherImgul!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('teacherImgul')">
+                    and T.teacher_imgul like concat('%',#{teacherImgul},'%')
+                </when>
+                <otherwise>
+                    and T.teacher_imgul=#{teacherImgul}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="tel!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('tel')">
+                    and T.tel like concat('%',#{tel},'%')
+                </when>
+                <otherwise>
+                    and T.tel=#{tel}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="lon!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('lon')">
+                    and T.lon like concat('%',#{lon},'%')
+                </when>
+                <otherwise>
+                    and T.lon=#{lon}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="lat!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('lat')">
+                    and T.lat like concat('%',#{lat},'%')
+                </when>
+                <otherwise>
+                    and T.lat=#{lat}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="signInPlace!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('signInPlace')">
+                    and T.sign_in_place like concat('%',#{signInPlace},'%')
+                </when>
+                <otherwise>
+                    and T.sign_in_place=#{signInPlace}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="signIn!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('signIn')">
+                    and T.sign_in like concat('%',#{signIn},'%')
+                </when>
+                <otherwise>
+                    and T.sign_in=#{signIn}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="checkType!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('checkType')">
+                    and T.check_type like concat('%',#{checkType},'%')
+                </when>
+                <otherwise>
+                    and T.check_type=#{checkType}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="signInPicture!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('signInPicture')">
+                    and T.sign_in_picture like concat('%',#{signInPicture},'%')
+                </when>
+                <otherwise>
+                    and T.sign_in_picture=#{signInPicture}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dateCheckIn!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dateCheckIn')">
+                    and T.date_check_in like concat('%',#{dateCheckIn},'%')
+                </when>
+                <otherwise>
+                    and T.date_check_in=#{dateCheckIn}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="timeCheckIn!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('timeCheckIn')">
+                    and T.time_check_in like concat('%',#{timeCheckIn},'%')
+                </when>
+                <otherwise>
+                    and T.time_check_in=#{timeCheckIn}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dateTimeChecked!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dateTimeChecked')">
+                    and T.date_time_checked like concat('%',#{dateTimeChecked},'%')
+                </when>
+                <otherwise>
+                    and T.date_time_checked=#{dateTimeChecked}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="checkInRemarks!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('checkInRemarks')">
+                    and T.check_in_remarks like concat('%',#{checkInRemarks},'%')
+                </when>
+                <otherwise>
+                    and T.check_in_remarks=#{checkInRemarks}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="recordDate!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('recordDate')">
+                    and T.record_date like concat('%',#{recordDate},'%')
+                </when>
+                <otherwise>
+                    and T.record_date=#{recordDate}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyType!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyType')">
+                    and T.duty_type like concat('%',#{dutyType},'%')
+                </when>
+                <otherwise>
+                    and T.duty_type=#{dutyType}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                    and T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                    and T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                    and T.create_time like concat('%',#{createTime},'%')
+                </when>
+                <otherwise>
+                    and T.create_time=#{createTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="updateTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                    and T.update_time like concat('%',#{updateTime},'%')
+                </when>
+                <otherwise>
+                    and T.update_time=#{updateTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="punchTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('punchTime')">
+                    and T.punch_time like concat('%',#{punchTime},'%')
+                </when>
+                <otherwise>
+                    and T.punch_time=#{punchTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="punchTimeLater!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('punchTimeLater')">
+                    and T.punch_time_later like concat('%',#{punchTimeLater},'%')
+                </when>
+                <otherwise>
+                    and T.punch_time_later=#{punchTimeLater}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="dutyAfterSyn!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('dutyAfterSyn')">
+                    and T.duty_after_syn like concat('%',#{dutyAfterSyn},'%')
+                </when>
+                <otherwise>
+                    and T.duty_after_syn=#{dutyAfterSyn}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolYearId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolYearId')">
+                    and T.school_year_id like concat('%',#{schoolYearId},'%')
+                </when>
+                <otherwise>
+                    and T.school_year_id=#{schoolYearId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="fromTo!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('fromTo')">
+                    and T.from_to like concat('%',#{fromTo},'%')
+                </when>
+                <otherwise>
+                    and T.from_to=#{fromTo}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="term!=null">
+            and T.term=#{term}
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findCheckedDetailListByCondition" parameterType="CheckedDetail" resultType="CheckedDetail">
+        select
+        <include refid="projection"/>
+        from xw_checked_detail T
+        <where>
+            <include refid="match"/>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findCheckedDetailCountByCondition" parameterType="CheckedDetail" resultType="long">
+        select count(*) from xw_checked_detail T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <select id="findCheckedDetailById" resultType="CheckedDetail">
+        select * from xw_checked_detail where id=#{id}
+    </select>
+    <select id="findOneCheckedDetailByCondition" parameterType="CheckedDetail" resultType="CheckedDetail">
+        select
+        <include refid="projection"/>
+        from xw_checked_detail T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <insert id="saveCheckedDetail" parameterType="CheckedDetail">
+        INSERT INTO xw_checked_detail (  id,  duty_arrment_id,  spaceId,  duty_arrment_space,  rduty_start_date,  rduty_end_date,  duty_time_start,  duty_time_end,  duty_day_id,  duty_day,  attend_teacherId,  attend_teacher,  dutyOfficer_id,  dutyOfficer,  teacher_id,  teacher_name,  teacher_imgul,  tel,  lon,  lat,  sign_in_place,  sign_in,  check_type,  sign_in_picture,  date_check_in,  time_check_in,  date_time_checked,  check_in_remarks,  record_date,  duty_type,  school_id,  create_time,  update_time,  punch_time,  punch_time_later,  duty_after_syn,  school_year_id,  from_to,  term )
+         values
+         (   #{id}  ,   #{dutyArrmentId}  ,   #{spaceId}  ,   #{dutyArrmentSpace}  ,   #{rdutyStartDate}  ,   #{rdutyEndDate}  ,   #{dutyTimeStart}  ,   #{dutyTimeEnd}  ,   #{dutyDayId}  ,   #{dutyDay}  ,   #{attendTeacherId}  ,   #{attendTeacher}  ,   #{dutyOfficerId}  ,   #{dutyOfficer}  ,   #{teacherId}  ,   #{teacherName}  ,   #{teacherImgul}  ,   #{tel}  ,   #{lon}  ,   #{lat}  ,   #{signInPlace}  ,   #{signIn}  ,   #{checkType}  ,   #{signInPicture}  ,   #{dateCheckIn}  ,   #{timeCheckIn}  ,   #{dateTimeChecked}  ,   #{checkInRemarks}  ,   #{recordDate}  ,   #{dutyType}  ,   #{schoolId}  ,   now()  ,   #{updateTime}  ,   #{punchTime}  ,   #{punchTimeLater}  ,   #{dutyAfterSyn}  ,   #{schoolYearId}  ,   #{fromTo}  ,   #{term}    )
+    </insert>
+    <update id="updateCheckedDetail" parameterType="CheckedDetail">
+        update xw_checked_detail
+        <set>
+            <if test="dutyArrmentId!=null ">
+                duty_arrment_id=#{dutyArrmentId},
+            </if>
+            <if test="spaceId!=null ">
+                spaceId=#{spaceId},
+            </if>
+            <if test="dutyArrmentSpace!=null ">
+                duty_arrment_space=#{dutyArrmentSpace},
+            </if>
+            <if test="rdutyStartDate!=null ">
+                rduty_start_date=#{rdutyStartDate},
+            </if>
+            <if test="rdutyEndDate!=null ">
+                rduty_end_date=#{rdutyEndDate},
+            </if>
+            <if test="dutyTimeStart!=null ">
+                duty_time_start=#{dutyTimeStart},
+            </if>
+            <if test="dutyTimeEnd!=null ">
+                duty_time_end=#{dutyTimeEnd},
+            </if>
+            <if test="dutyDayId!=null ">
+                duty_day_id=#{dutyDayId},
+            </if>
+            <if test="dutyDay!=null ">
+                duty_day=#{dutyDay},
+            </if>
+            <if test="attendTeacherId!=null ">
+                attend_teacherId=#{attendTeacherId},
+            </if>
+            <if test="attendTeacher!=null ">
+                attend_teacher=#{attendTeacher},
+            </if>
+            <if test="dutyOfficerId!=null ">
+                dutyOfficer_id=#{dutyOfficerId},
+            </if>
+            <if test="dutyOfficer!=null ">
+                dutyOfficer=#{dutyOfficer},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="teacherName!=null ">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="teacherImgul!=null ">
+                teacher_imgul=#{teacherImgul},
+            </if>
+            <if test="tel!=null ">
+                tel=#{tel},
+            </if>
+            <if test="lon!=null ">
+                lon=#{lon},
+            </if>
+            <if test="lat!=null ">
+                lat=#{lat},
+            </if>
+            <if test="signInPlace!=null ">
+                sign_in_place=#{signInPlace},
+            </if>
+            <if test="signIn!=null ">
+                sign_in=#{signIn},
+            </if>
+            <if test="checkType!=null ">
+                check_type=#{checkType},
+            </if>
+            <if test="signInPicture!=null ">
+                sign_in_picture=#{signInPicture},
+            </if>
+            <if test="dateCheckIn!=null ">
+                date_check_in=#{dateCheckIn},
+            </if>
+            <if test="timeCheckIn!=null ">
+                time_check_in=#{timeCheckIn},
+            </if>
+            <if test="dateTimeChecked!=null ">
+                date_time_checked=#{dateTimeChecked},
+            </if>
+            <if test="checkInRemarks!=null ">
+                check_in_remarks=#{checkInRemarks},
+            </if>
+            <if test="recordDate!=null ">
+                record_date=#{recordDate},
+            </if>
+            <if test="dutyType!=null ">
+                duty_type=#{dutyType},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="punchTime!=null ">
+                punch_time=#{punchTime},
+            </if>
+            <if test="punchTimeLater!=null ">
+                punch_time_later=#{punchTimeLater},
+            </if>
+            <if test="dutyAfterSyn!=null ">
+                duty_after_syn=#{dutyAfterSyn},
+            </if>
+            <if test="schoolYearId!=null ">
+                school_year_id=#{schoolYearId},
+            </if>
+            <if test="fromTo!=null ">
+                from_to=#{fromTo},
+            </if>
+            <if test="term!=null ">
+                term=#{term}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateCheckedDetailForAll" parameterType="CheckedDetail">
+        update xw_checked_detail
+        <set>
+            duty_arrment_id=#{dutyArrmentId},
+            spaceId=#{spaceId},
+            duty_arrment_space=#{dutyArrmentSpace},
+            rduty_start_date=#{rdutyStartDate},
+            rduty_end_date=#{rdutyEndDate},
+            duty_time_start=#{dutyTimeStart},
+            duty_time_end=#{dutyTimeEnd},
+            duty_day_id=#{dutyDayId},
+            duty_day=#{dutyDay},
+            attend_teacherId=#{attendTeacherId},
+            attend_teacher=#{attendTeacher},
+            dutyOfficer_id=#{dutyOfficerId},
+            dutyOfficer=#{dutyOfficer},
+            teacher_id=#{teacherId},
+            teacher_name=#{teacherName},
+            teacher_imgul=#{teacherImgul},
+            tel=#{tel},
+            lon=#{lon},
+            lat=#{lat},
+            sign_in_place=#{signInPlace},
+            sign_in=#{signIn},
+            check_type=#{checkType},
+            sign_in_picture=#{signInPicture},
+            date_check_in=#{dateCheckIn},
+            time_check_in=#{timeCheckIn},
+            date_time_checked=#{dateTimeChecked},
+            check_in_remarks=#{checkInRemarks},
+            record_date=#{recordDate},
+            duty_type=#{dutyType},
+            school_id=#{schoolId},
+            create_time=#{createTime},
+            update_time=now(),
+            punch_time=#{punchTime},
+            punch_time_later=#{punchTimeLater},
+            duty_after_syn=#{dutyAfterSyn},
+            school_year_id=#{schoolYearId},
+            from_to=#{fromTo},
+            term=#{term}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteCheckedDetail" >
+        delete from xw_checked_detail where id=#{id}
+    </delete>
+    <delete id="deleteCheckedDetailByCondition" >
+        delete T from xw_checked_detail T
+        <where>
+            <include refid="match"/>
+        </where>
+    </delete>
+    <insert id="batchSaveCheckedDetail" parameterType="CheckedDetail">
+        INSERT INTO xw_checked_detail (  id,  duty_arrment_id,  spaceId,  duty_arrment_space,  rduty_start_date,  rduty_end_date,  duty_time_start,  duty_time_end,  duty_day_id,  duty_day,  attend_teacherId,  attend_teacher,  dutyOfficer_id,  dutyOfficer,  teacher_id,  teacher_name,  teacher_imgul,  tel,  lon,  lat,  sign_in_place,  sign_in,  check_type,  sign_in_picture,  date_check_in,  time_check_in,  date_time_checked,  check_in_remarks,  record_date,  duty_type,  school_id,  create_time,  update_time,  punch_time,  punch_time_later,  duty_after_syn,  school_year_id,  from_to,  term )
+        VALUES
+        <foreach collection="list" item="checkedDetail" separator=",">
+            (   #{checkedDetail.id}  ,   #{checkedDetail.dutyArrmentId}  ,   #{checkedDetail.spaceId}  ,   #{checkedDetail.dutyArrmentSpace}  ,   #{checkedDetail.rdutyStartDate}  ,   #{checkedDetail.rdutyEndDate}  ,   #{checkedDetail.dutyTimeStart}  ,   #{checkedDetail.dutyTimeEnd}  ,   #{checkedDetail.dutyDayId}  ,   #{checkedDetail.dutyDay}  ,   #{checkedDetail.attendTeacherId}  ,   #{checkedDetail.attendTeacher}  ,   #{checkedDetail.dutyOfficerId}  ,   #{checkedDetail.dutyOfficer}  ,   #{checkedDetail.teacherId}  ,   #{checkedDetail.teacherName}  ,   #{checkedDetail.teacherImgul}  ,   #{checkedDetail.tel}  ,   #{checkedDetail.lon}  ,   #{checkedDetail.lat}  ,   #{checkedDetail.signInPlace}  ,   #{checkedDetail.signIn}  ,   #{checkedDetail.checkType}  ,   #{checkedDetail.signInPicture}  ,   #{checkedDetail.dateCheckIn}  ,   #{checkedDetail.timeCheckIn}  ,   #{checkedDetail.dateTimeChecked}  ,   #{checkedDetail.checkInRemarks}  ,   #{checkedDetail.recordDate}  ,   #{checkedDetail.dutyType}  ,   #{checkedDetail.schoolId}  ,   now()  ,   #{checkedDetail.updateTime}  ,   #{checkedDetail.punchTime}  ,   #{checkedDetail.punchTimeLater}  ,   #{checkedDetail.dutyAfterSyn}  ,   #{checkedDetail.schoolYearId}  ,   #{checkedDetail.fromTo}  ,   #{checkedDetail.term}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findDutyArrmentListByConditionForLike" parameterType="CheckedDetail" resultType="CheckedDetail">
+        SELECT
+            a.id as dutyArrmentId,
+            a.space as dutyArrmentSpace,
+            a.duty_time_start  as dutyTimeStart,
+            a.duty_time_end as dutyTimeEnd,
+            a.duty_day_id as dutyDayId,
+            a.duty_day as dutyDay,
+            a.attend_teacherId as attendTeacherId,
+            a.attend_teacher as attendTeacher,
+            a.teacher_id  as dutyOfficerId,
+            a.teacher_name as dutyOfficer,
+            a.school_id as schoolId,
+            a.spaceId,
+            b.teacher_name as teacherName,
+            b.teacher_id  as teacherId,
+            b.tel,
+            a.punch_time as punchTime,
+            b.teacher_imurl as teacherImgul,
+            a.duty_type as dutyType,
+            a.rduty_start_date as rdutyStartDate,
+            a.rduty_end_date as rdutyEndDate
+        from xw_duty_arrment a
+        left join xw_dutyteachers_dutyarrment b
+        on a.id=b.duty_arrment_id
+        where
+           a.id=#{dutyArrmentId} and b.duty_arrment_id=#{dutyArrmentId}
+    </select>
+    <!--tap查询-->
+    <select id="findCheckedDetailListForAppTapByCondition" parameterType="CheckedDetail" resultType="CheckedDetail">
+        select
+        T.*
+        from xw_checked_detail T
+        <where>
+            <if test="dutyArrmentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentId'">
+                        T.duty_arrment_id like concat('%',#{dutyArrmentId},'%')
+                    </when>
+                    <otherwise>
+                        T.duty_arrment_id=#{dutyArrmentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyArrmentSpace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentSpace'">
+                        and T.duty_arrment_space like concat('%',#{dutyArrmentSpace},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_arrment_space=#{dutyArrmentSpace}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyDay!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyDay'">
+                        and T.duty_day like concat('%',#{dutyDay},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_day=#{dutyDay}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyTimeStart!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyTimeStart'">
+                        and T.duty_time_start like concat('%',#{dutyTimeStart},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_time_start=#{dutyTimeStart}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyTimeEnd!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyTimeEnd'">
+                        and T.duty_time_end like concat('%',#{dutyTimeEnd},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_time_end=#{dutyTimeEnd}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="attendTeacher!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='attendTeacher'">
+                        and T.attend_teacher like concat('%',#{attendTeacher},'%')
+                    </when>
+                    <otherwise>
+                        and T.attend_teacher=#{attendTeacher}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and T.teacher_name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lon!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='lon'">
+                        and T.lon like concat('%',#{lon},'%')
+                    </when>
+                    <otherwise>
+                        and T.lon=#{lon}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lat!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='lat'">
+                        and T.lat like concat('%',#{lat},'%')
+                    </when>
+                    <otherwise>
+                        and T.lat=#{lat}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="signInPlace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='signInPlace'">
+                        and T.sign_in_place like concat('%',#{signInPlace},'%')
+                    </when>
+                    <otherwise>
+                        and T.sign_in_place=#{signInPlace}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="signIn!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='signIn'">
+                        and T.sign_in like concat('%',#{signIn},'%')
+                    </when>
+                    <otherwise>
+                        and T.sign_in=#{signIn}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="checkType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='checkType'">
+                        and T.check_type like concat('%',#{checkType},'%')
+                    </when>
+                    <otherwise>
+                        and T.check_type=#{checkType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="signInPicture!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='signInPicture'">
+                        and T.sign_in_picture like concat('%',#{signInPicture},'%')
+                    </when>
+                    <otherwise>
+                        and T.sign_in_picture=#{signInPicture}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dateCheckIn!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dateCheckIn'">
+                        and T.date_check_in like concat('%',#{dateCheckIn},'%')
+                    </when>
+                    <otherwise>
+                        and T.date_check_in=#{dateCheckIn}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="timeCheckIn!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='timeCheckIn'">
+                        and T.time_check_in like concat('%',#{timeCheckIn},'%')
+                    </when>
+                    <otherwise>
+                        and T.time_check_in=#{timeCheckIn}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dateTimeChecked!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dateTimeChecked'">
+                        and T.date_time_checked like concat('%',#{dateTimeChecked},'%')
+                    </when>
+                    <otherwise>
+                        and T.date_time_checked=#{dateTimeChecked}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="checkInRemarks!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='checkInRemarks'">
+                        and T.check_in_remarks like concat('%',#{checkInRemarks},'%')
+                    </when>
+                    <otherwise>
+                        and T.check_in_remarks=#{checkInRemarks}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and T.tel=#{tel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordDate'">
+                        and T.record_date like concat('%',#{recordDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_date=#{recordDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="findStartTime!=null and findEndTime !=null">
+                and T.record_date between #{findStartTime}  and  #{findEndTime}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <!--校长查询值班统计，教师名字和手机号查询-->
+    <select id="findCheckedDetailsForAppTapNameOrTelByConditionNewPrincipal" parameterType="checkedDetail" resultType="checkedDetail">
+        select
+
+        T.*
+        from xw_checked_detail T
+        <where>
+            <if test="dutyArrmentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentId'">
+                        T.duty_arrment_id like concat('%',#{dutyArrmentId},'%')
+                    </when>
+                    <otherwise>
+                        T.duty_arrment_id=#{dutyArrmentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyArrmentSpace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentSpace'">
+                        and T.duty_arrment_space like concat('%',#{dutyArrmentSpace},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_arrment_space=#{dutyArrmentSpace}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyTimeStart!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyTimeStart'">
+                        and T.duty_time_start like concat('%',#{dutyTimeStart},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_time_start=#{dutyTimeStart}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyDayId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyDayId'">
+                        and T.duty_day_id like concat('%',#{dutyDayId},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_day_id=#{dutyDayId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyDay!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyDay'">
+                        and T.duty_day like concat('%',#{dutyDay},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_day=#{dutyDay}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyTimeEnd!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyTimeEnd'">
+                        and T.duty_time_end like concat('%',#{dutyTimeEnd},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_time_end=#{dutyTimeEnd}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="attendTeacher!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='attendTeacher'">
+                        and T.attend_teacher like concat('%',#{attendTeacher},'%')
+                    </when>
+                    <otherwise>
+                        and T.attend_teacher=#{attendTeacher}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and ( T.teacher_name like concat('%',#{teacherName},'%')  or  T.tel like concat('%',#{teacherName},'%')  )
+                    </when>
+                    <otherwise>
+                        and ( T.teacher_name like concat('%',#{teacherName},'%')  or  T.tel like concat('%',#{teacherName},'%')  )
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lon!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='lon'">
+                        and T.lon like concat('%',#{lon},'%')
+                    </when>
+                    <otherwise>
+                        and T.lon=#{lon}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lat!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='lat'">
+                        and T.lat like concat('%',#{lat},'%')
+                    </when>
+                    <otherwise>
+                        and T.lat=#{lat}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="signInPlace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='signInPlace'">
+                        and T.sign_in_place like concat('%',#{signInPlace},'%')
+                    </when>
+                    <otherwise>
+                        and T.sign_in_place=#{signInPlace}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="signIn!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='signIn'">
+                        and T.sign_in like concat('%',#{signIn},'%')
+                    </when>
+                    <otherwise>
+                        and T.sign_in=#{signIn}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="checkType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='checkType'">
+                        and T.check_type like concat('%',#{checkType},'%')
+                    </when>
+                    <otherwise>
+                        and T.check_type=#{checkType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="signInPicture!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='signInPicture'">
+                        and T.sign_in_picture like concat('%',#{signInPicture},'%')
+                    </when>
+                    <otherwise>
+                        and T.sign_in_picture=#{signInPicture}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dateCheckIn!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dateCheckIn'">
+                        and T.date_check_in like concat('%',#{dateCheckIn},'%')
+                    </when>
+                    <otherwise>
+                        and T.date_check_in=#{dateCheckIn}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="timeCheckIn!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='timeCheckIn'">
+                        and T.time_check_in like concat('%',#{timeCheckIn},'%')
+                    </when>
+                    <otherwise>
+                        and T.time_check_in=#{timeCheckIn}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dateTimeChecked!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dateTimeChecked'">
+                        and T.date_time_checked like concat('%',#{dateTimeChecked},'%')
+                    </when>
+                    <otherwise>
+                        and T.date_time_checked=#{dateTimeChecked}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="checkInRemarks!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='checkInRemarks'">
+                        and T.check_in_remarks like concat('%',#{checkInRemarks},'%')
+                    </when>
+                    <otherwise>
+                        and T.check_in_remarks=#{checkInRemarks}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and T.tel=#{tel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordDate'">
+                        and T.record_date like concat('%',#{recordDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_date=#{recordDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="findStartTime!=null and findEndTime !=null">
+                and T.record_date between #{findStartTime}  and  #{findEndTime}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <!--校长查询当天值班-->
+    <select id="findCheckedDetailsForAppTapByConditionNewPrincipal" parameterType="checkedDetail" resultType="checkedDetail">
+        select
+
+        T.*
+        from xw_checked_detail T
+        <where>
+            <if test="dutyArrmentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentId'">
+                        T.duty_arrment_id like concat('%',#{dutyArrmentId},'%')
+                    </when>
+                    <otherwise>
+                        T.duty_arrment_id=#{dutyArrmentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyArrmentSpace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentSpace'">
+                        and T.duty_arrment_space like concat('%',#{dutyArrmentSpace},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_arrment_space=#{dutyArrmentSpace}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyTimeStart!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyTimeStart'">
+                        and T.duty_time_start like concat('%',#{dutyTimeStart},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_time_start=#{dutyTimeStart}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyDayId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyDayId'">
+                        and T.duty_day_id like concat('%',#{dutyDayId},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_day_id=#{dutyDayId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyDay!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyDay'">
+                        and T.duty_day like concat('%',#{dutyDay},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_day=#{dutyDay}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyTimeEnd!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyTimeEnd'">
+                        and T.duty_time_end like concat('%',#{dutyTimeEnd},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_time_end=#{dutyTimeEnd}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="attendTeacher!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='attendTeacher'">
+                        and T.attend_teacher like concat('%',#{attendTeacher},'%')
+                    </when>
+                    <otherwise>
+                        and T.attend_teacher=#{attendTeacher}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and T.teacher_name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lon!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='lon'">
+                        and T.lon like concat('%',#{lon},'%')
+                    </when>
+                    <otherwise>
+                        and T.lon=#{lon}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lat!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='lat'">
+                        and T.lat like concat('%',#{lat},'%')
+                    </when>
+                    <otherwise>
+                        and T.lat=#{lat}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="signInPlace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='signInPlace'">
+                        and T.sign_in_place like concat('%',#{signInPlace},'%')
+                    </when>
+                    <otherwise>
+                        and T.sign_in_place=#{signInPlace}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="signIn!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='signIn'">
+                        and T.sign_in like concat('%',#{signIn},'%')
+                    </when>
+                    <otherwise>
+                        and T.sign_in=#{signIn}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="checkType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='checkType'">
+                        and T.check_type like concat('%',#{checkType},'%')
+                    </when>
+                    <otherwise>
+                        and T.check_type=#{checkType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="signInPicture!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='signInPicture'">
+                        and T.sign_in_picture like concat('%',#{signInPicture},'%')
+                    </when>
+                    <otherwise>
+                        and T.sign_in_picture=#{signInPicture}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dateCheckIn!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dateCheckIn'">
+                        and T.date_check_in like concat('%',#{dateCheckIn},'%')
+                    </when>
+                    <otherwise>
+                        and T.date_check_in=#{dateCheckIn}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="timeCheckIn!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='timeCheckIn'">
+                        and T.time_check_in like concat('%',#{timeCheckIn},'%')
+                    </when>
+                    <otherwise>
+                        and T.time_check_in=#{timeCheckIn}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dateTimeChecked!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dateTimeChecked'">
+                        and T.date_time_checked like concat('%',#{dateTimeChecked},'%')
+                    </when>
+                    <otherwise>
+                        and T.date_time_checked=#{dateTimeChecked}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="checkInRemarks!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='checkInRemarks'">
+                        and T.check_in_remarks like concat('%',#{checkInRemarks},'%')
+                    </when>
+                    <otherwise>
+                        and T.check_in_remarks=#{checkInRemarks}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and T.tel=#{tel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordDate'">
+                        and T.record_date like concat('%',#{recordDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_date=#{recordDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        group by duty_arrment_id
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <delete id="deleteCheckedDetailByConditionForLike" >
+        delete from xw_checked_detail
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="dutyArrmentId!=null">
+                and duty_arrment_id=#{dutyArrmentId}
+            </if>
+            <if test="dutyArrmentSpace!=null">
+                and duty_arrment_space=#{dutyArrmentSpace}
+            </if>
+            <if test="dutyTimeStart!=null">
+                and duty_time_start=#{dutyTimeStart}
+            </if>
+            <if test="dutyTimeEnd!=null">
+                and duty_time_end=#{dutyTimeEnd}
+            </if>
+            <if test="dutyDayId!=null">
+                and duty_day_id=#{dutyDayId}
+            </if>
+            <if test="dutyDay!=null">
+                and duty_day=#{dutyDay}
+            </if>
+            <if test="attendTeacher!=null">
+                and attend_teacher=#{attendTeacher}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+            <if test="teacherName!=null">
+                and teacher_name=#{teacherName}
+            </if>
+            <if test="dutyOfficer!=null">
+                and dutyOfficer=#{dutyOfficer}
+            </if>
+            <if test="dutyOfficerId!=null">
+                and dutyOfficer_id=#{dutyOfficerId}
+            </if>
+            <if test="lon!=null">
+                and lon=#{lon}
+            </if>
+            <if test="lat!=null">
+                and lat=#{lat}
+            </if>
+            <if test="signInPlace!=null">
+                and sign_in_place=#{signInPlace}
+            </if>
+            <if test="signIn!=null">
+                and sign_in=#{signIn}
+            </if>
+            <if test="checkType!=null">
+                and check_type=#{checkType}
+            </if>
+            <if test="signInPicture!=null">
+                and sign_in_picture=#{signInPicture}
+            </if>
+            <if test="dateCheckIn!=null">
+                and date_check_in=#{dateCheckIn}
+            </if>
+            <if test="timeCheckIn!=null">
+                and time_check_in=#{timeCheckIn}
+            </if>
+            <if test="dateTimeChecked!=null">
+                and date_time_checked=#{dateTimeChecked}
+            </if>
+            <if test="checkInRemarks!=null">
+                and check_in_remarks=#{checkInRemarks}
+            </if>
+            <if test="tel!=null">
+                and tel=#{tel}
+            </if>
+            <if test="recordDate!=null">
+                and record_date=#{recordDate}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+        </where>
+    </delete>
+
+    <!--签到-->
+    <update id="updateCheckedDetailForTapNewTeacher" parameterType="CheckedDetail">
+        update xw_checked_detail
+        <set>
+            <if test="dutyArrmentId!=null ">
+                duty_arrment_id=#{dutyArrmentId},
+            </if>
+            <if test="dutyArrmentSpace!=null ">
+                duty_arrment_space=#{dutyArrmentSpace},
+            </if>
+            <if test="dutyTimeStart!=null ">
+                duty_time_start=#{dutyTimeStart},
+            </if>
+            <if test="dutyTimeEnd!=null ">
+                duty_time_end=#{dutyTimeEnd},
+            </if>
+            <if test="dutyDayId!=null ">
+                duty_day_id=#{dutyDayId},
+            </if>
+            <if test="dutyDay!=null ">
+                duty_day=#{dutyDay},
+            </if>
+            <if test="attendTeacher!=null ">
+                attend_teacher=#{attendTeacher},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="teacherName!=null ">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="dutyOfficer!=null ">
+                dutyOfficer=#{dutyOfficer},
+            </if>
+            <if test="dutyOfficerId!=null ">
+                dutyOfficer_id=#{dutyOfficerId},
+            </if>
+            <if test="lon!=null ">
+                lon=#{lon},
+            </if>
+            <if test="lat!=null ">
+                lat=#{lat},
+            </if>
+            <if test="signInPlace!=null ">
+                sign_in_place=#{signInPlace},
+            </if>
+            <if test="signIn!=null ">
+                sign_in=#{signIn},
+            </if>
+            <if test="checkType!=null ">
+                check_type=#{checkType},
+            </if>
+            <if test="signInPicture!=null ">
+                sign_in_picture=#{signInPicture},
+            </if>
+            <if test="dateCheckIn!=null ">
+                date_check_in=#{dateCheckIn},
+            </if>
+            <if test="timeCheckIn!=null ">
+                time_check_in=#{timeCheckIn},
+            </if>
+            <if test="dateTimeChecked!=null ">
+                date_time_checked=#{dateTimeChecked},
+            </if>
+            <if test="checkInRemarks!=null ">
+                check_in_remarks=#{checkInRemarks},
+            </if>
+            <if test="tel!=null ">
+                tel=#{tel},
+            </if>
+            <if test="recordDate!=null ">
+                record_date=#{recordDate},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+    <!--同个值班模板同天-->
+    <select id="findCheckedDetailListByCondition4like" parameterType="CheckedDetail" resultType="CheckedDetail">
+        select
+        <include refid="projection"/>
+        from xw_checked_detail T
+        <where>
+            <include refid="match"/>
+        </where>
+        GROUP BY T.duty_arrment_id,T.record_date
+    </select>
+    <!--值班明细更新-->
+    <update id="updateCheckedDetail4Like" parameterType="CheckedDetail">
+        update xw_checked_detail
+        <set>
+            <if test="dutyArrmentId!=null ">
+                duty_arrment_id=#{dutyArrmentId},
+            </if>
+            <if test="dutyArrmentSpace!=null ">
+                duty_arrment_space=#{dutyArrmentSpace},
+            </if>
+            <if test="dutyTimeStart!=null ">
+                duty_time_start=#{dutyTimeStart},
+            </if>
+            <if test="dutyTimeEnd!=null ">
+                duty_time_end=#{dutyTimeEnd},
+            </if>
+            <if test="dutyDayId!=null ">
+                duty_day_id=#{dutyDayId},
+            </if>
+            <if test="dutyDay!=null ">
+                duty_day=#{dutyDay},
+            </if>
+            <if test="attendTeacher!=null ">
+                attend_teacher=#{attendTeacher},
+            </if>
+            <if test="dutyOfficerId!=null ">
+                dutyOfficer_id=#{dutyOfficerId},
+            </if>
+            <if test="dutyOfficer!=null ">
+                dutyOfficer=#{dutyOfficer},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="teacherName!=null ">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="teacherImgul!=null ">
+                teacher_imgul=#{teacherImgul},
+            </if>
+            <if test="tel!=null ">
+                tel=#{tel},
+            </if>
+            <if test="lon!=null ">
+                lon=#{lon},
+            </if>
+            <if test="lat!=null ">
+                lat=#{lat},
+            </if>
+            <if test="signInPlace!=null ">
+                sign_in_place=#{signInPlace},
+            </if>
+            <if test="signIn!=null ">
+                sign_in=#{signIn},
+            </if>
+            <if test="checkType!=null ">
+                check_type=#{checkType},
+            </if>
+            <if test="signInPicture!=null ">
+                sign_in_picture=#{signInPicture},
+            </if>
+            <if test="dateCheckIn!=null ">
+                date_check_in=#{dateCheckIn},
+            </if>
+            <if test="timeCheckIn!=null ">
+                time_check_in=#{timeCheckIn},
+            </if>
+            <if test="dateTimeChecked!=null ">
+                date_time_checked=#{dateTimeChecked},
+            </if>
+            <if test="checkInRemarks!=null ">
+                check_in_remarks=#{checkInRemarks},
+            </if>
+            <if test="recordDate!=null ">
+                record_date=#{recordDate},
+            </if>
+            <if test="dutyType!=null ">
+                duty_type=#{dutyType},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="punchTime!=null ">
+                punch_time=#{punchTime},
+            </if>
+            <if test="punchTimeLater!=null ">
+                punch_time_later=#{punchTimeLater},
+            </if>
+            <if test="del!=null ">
+                del=#{del}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--批量修改值班明细-->
+    <update id="updateCheckedDetailBatch" parameterType="CheckedDetail">
+        update xw_checked_detail
+        set
+        attend_teacher=#{attendTeacher},
+        attend_teacherId=#{attendTeacherId},
+        dutyOfficer_id=#{dutyOfficerId},
+        dutyOfficer=#{dutyOfficer},
+        update_time=now(),
+        from_to=#{fromTo},
+        term=#{term},
+        school_year_id=#{schoolYearId}
+        where id in
+        <foreach collection="delIds" item="arr" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </update>
+
+    <!--批量修改值班明细更改日期-->
+    <update id="updateCheckedDetailBatch4Like" parameterType="CheckedDetail">
+        update xw_checked_detail
+        set
+        punch_time_later=#{puchTimeLaterNew},
+        duty_day_id=#{dutyDayIdNew},
+        duty_day=#{dutyDayNew},
+        record_date=#{recordDate},
+        update_time=now()
+        where id in
+        <foreach collection="delIds" item="arr" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </update>
+    <!--批量删除值班明细-->
+    <delete id="deleteCheckedDetail4Like" parameterType="string">
+        delete from xw_checked_detail where id in
+        <foreach collection="list" item="arr" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </delete>
+    <!--删除明细-->
+    <delete id="deleteCheckedDetail4"  parameterType="CheckedDetail">
+        delete from xw_checked_detail  where
+        duty_arrment_id=#{dutyArrmentId}
+        and  punch_time_later>#{punTime}
+    </delete>
+    <!--满足条件的模板计划明细-->
+    <select id="findListConditionByTime" parameterType="CheckedDetail" resultType="CheckedDetail">
+        select
+        <include refid="projection"/>
+        from xw_checked_detail T
+        where
+        T.duty_arrment_id=#{dutyArrmentId}
+        and
+        T.punch_time_later>#{punTime}
+    </select>
+    <!--删除满足条件-->
+    <delete id="deleteCheckedDetail4LikeF" >
+    delete from xw_checked_detail
+    where  duty_arrment_id=#{dutyArrmentId}
+          and record_date=#{recordDate}
+    </delete>
+</mapper>

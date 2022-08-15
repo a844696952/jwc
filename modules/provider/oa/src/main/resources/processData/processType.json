@@ -1,0 +1,1464 @@
+[
+  {
+    "id": "20181027163655001",
+    "rev": 73,
+    "type": "请假申请",
+    "imageIcon": "/processData/web_qinjia.png",
+    "appIcon": "/processData/apply_qingjia_icon_66.png",
+    "clearLeave": true,
+    "defaultGroupName":"考勤休假",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "beginTime",
+        "label": "开始时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "请输入开始时间",
+        "dataType": "String"
+      },
+      {
+        "name": "endTime",
+        "label": "结束时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "请输入结束时间",
+        "dataType": "String"
+      },
+      {
+        "name": "leaveType",
+        "label": "请假类型",
+        "defaultValue": "0",
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "localDatasource": [
+          {
+            "id": "0",
+            "name": "事假"
+          },
+          {
+            "id": "1",
+            "name": "年假"
+          },
+          {
+            "id": "2",
+            "name": "病假"
+          },
+          {
+            "id": "3",
+            "name": "婚假"
+          },
+          {
+            "id": "4",
+            "name": "生育假"
+          },
+          {
+            "id": "5",
+            "name": "陪产假"
+          },
+          {
+            "id": "6",
+            "name": "丧假"
+          },
+          {
+            "id": "7",
+            "name": "会议请假"
+          },
+          {
+            "id": "8",
+            "name": "其他"
+          },
+          {
+            "id": "9",
+            "name": "调休"
+          }
+        ],
+        "dataType": "String"
+      },
+      {
+        "name": "duration",
+        "label": "请假时长",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "小时",
+        "regexp": "^(([1-9]{1}[0-9]*)|([1-9]{1}[0-9]*.[0-9]{1,2})|(0.[0-9]{1,2}))$",
+        "regexpTip": "请输入正确的数字,单位小时",
+        "dataType": "Double",
+        "unit":"小时"
+      },
+      {
+        "name": "sections",
+        "label": "请假节数",
+        "required": false,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "节",
+        "min":1,
+        "regexp": "^[1-999]\\d{0,2}$",
+        "regexpTip": "请输入1-999的数字,单位节",
+        "dataType": "Number",
+        "unit":"节"
+      },
+      {
+        "name": "attachment",
+        "label": "上传图片",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "limit":3,
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array"
+      },
+      {
+        "name": "remark",
+        "label": "备注",
+        "len": 500,
+        "required": false,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入备注",
+        "dataType": "String"
+      }
+    ]
+  },
+  {
+    "id": "20181027163655002",
+    "rev": 71,
+    "type": "出差申请",
+    "defaultGroupName":"考勤休假",
+    "imageIcon": "/processData/web_chuchai.png",
+    "appIcon": "/processData/apply_chuchai_icon_66.png",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "beginTime",
+        "label": "启程时间",
+        "len": 32,
+        "required": true,
+        "formType": "date",
+        "timeFormat": "yyyy-MM-dd",
+        "readonly": false,
+        "placeholder": "请输入启程时间",
+        "dataType": "String"
+      },
+      {
+        "name": "endTime",
+        "label": "回程时间",
+        "len": 32,
+        "required": true,
+        "formType": "date",
+        "timeFormat": "yyyy-MM-dd",
+        "readonly": false,
+        "placeholder": "请输入回程时间",
+        "dataType": "String"
+      },
+      {
+        "name": "duration",
+        "label": "出差时长",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "len": 5,
+        "placeholder": "天",
+        "regexp": "^(([1-9]{1}[0-9]*)|([1-9]{1}[0-9]*.[0-9]{1,2})|(0.[0-9]{1,2}))$",
+        "regexpTip": "请输入正确的数字,单位天",
+        "dataType": "Double",
+        "unit":"天"
+      },
+      {
+        "name": "travelAddress",
+        "label": "出差地点",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "len": 255,
+        "placeholder": "请输入具体地点",
+        "dataType": "String"
+      },
+      {
+        "name": "attachment",
+        "label": "上传图片",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "limit":5,
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array"
+      },
+      {
+        "name": "reason",
+        "label": "出差事由",
+        "len": 500,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入出差事由",
+        "dataType": "String"
+      }
+    ]
+  },
+  {
+    "id": "20181027163655003",
+    "rev": 71,
+    "type": "加班申请",
+    "imageIcon": "/processData/web_jiaban.png",
+    "appIcon": "/processData/apply_jiaban_icon_66.png",
+    "defaultGroupName":"考勤休假",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "beginTime",
+        "label": "开始时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "请输入开始时间",
+        "dataType": "String"
+      },
+      {
+        "name": "endTime",
+        "label": "结束时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "结束时间",
+        "dataType": "String"
+      },
+      {
+        "name": "duration",
+        "label": "加班时长",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "小时",
+        "regexp": "^(([1-9]{1}[0-9]*)|([1-9]{1}[0-9]*.[0-9]{1,2})|(0.[0-9]{1,2}))$",
+        "regexpTip": "请输入正确的数字,单位小时",
+        "dataType": "Double",
+        "unit":"小时"
+      },
+      {
+        "name": "attachment",
+        "label": "附件",
+        "required": false,
+        "formType": "attachment",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "请上传附件",
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array",
+        "limit":5
+      },
+      {
+        "name": "overtimeContent",
+        "label": "加班事由",
+        "len": 500,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入加班事由",
+        "dataType": "String"
+      }
+    ]
+  },
+  {
+    "id": "20181027163655004",
+    "rev": 71,
+    "type": "报销申请",
+    "imageIcon": "/processData/web_baoxiao.png",
+    "appIcon": "/processData/apply_baoxiao_icon_66.png",
+    "defaultGroupName":"行政管理",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "compensateType",
+        "label": "报销类别",
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "localDatasource": [
+          {
+            "id": "0",
+            "name": "办公费"
+          },
+          {
+            "id": "1",
+            "name": "印刷费"
+          },
+          {
+            "id": "2",
+            "name": "咨询费"
+          },
+          {
+            "id": "3",
+            "name": "手续费"
+          },
+          {
+            "id": "4",
+            "name": "水费"
+          },
+          {
+            "id": "5",
+            "name": "电费"
+          },
+          {
+            "id": "6",
+            "name": "邮电费"
+          },
+          {
+            "id": "7",
+            "name": "差旅费"
+          },
+          {
+            "id": "8",
+            "name": "维修费"
+          },
+          {
+            "id": "9",
+            "name": "租赁费"
+          },
+          {
+            "id": "10",
+            "name": "会议费"
+          },
+          {
+            "id": "11",
+            "name": "培训费"
+          },
+          {
+            "id": "12",
+            "name": "招待费"
+          },
+          {
+            "id": "13",
+            "name": "材料费"
+          },
+          {
+            "id": "14",
+            "name": "劳务费"
+          },
+          {
+            "id": "15",
+            "name": "助学金"
+          },
+          {
+            "id": "16",
+            "name": "其他"
+          }
+        ],
+        "dataType": "String"
+      },
+      {
+        "name": "compensateMoney",
+        "label": "报销金额",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "单位人民币",
+        "regexp": "(^[1-9]([0-9]{1,7})?(\\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\\.[0-9]([0-9])?$)",
+        "regexpTip": "请输入正确的金额",
+        "dataType": "Double",
+        "unit":"元"
+      },
+      {
+        "name": "attachment",
+        "label": "上传图片",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "limit":5,
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array"
+      },
+      {
+        "name": "remark",
+        "label": "备注",
+        "len": 500,
+        "required": false,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入备注",
+        "dataType": "String"
+      }
+    ]
+  },
+  {
+    "id": "20181027163655005",
+    "rev": 71,
+    "type": "车辆申请",
+    "imageIcon": "/processData/web_cheliang.png",
+    "appIcon": "/processData/apply_car_icon_66.png",
+    "defaultGroupName":"行政管理",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "beginTime",
+        "label": "出发时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "请输入开始时间",
+        "dataType": "String"
+      },
+      {
+        "name": "endTime",
+        "label": "回程时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "请输入结束时间",
+        "dataType": "String"
+      },
+      {
+        "name": "followPeople",
+        "label": "跟车人员",
+        "required": false,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "请输入跟车人员",
+        "len": 10,
+        "dataType": "String"
+      },
+      {
+        "name": "duration",
+        "label": "使用时长",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "小时",
+        "regexp": "^(([1-9]{1}[0-9]*)|([1-9]{1}[0-9]*.[0-9]{1,2})|(0.[0-9]{1,2}))$",
+        "regexpTip": "请输入正确的数字,单位小时",
+        "dataType": "Double",
+        "unit":"小时"
+      },
+      {
+        "name": "linkPeople",
+        "label": "联系人",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "请输入联系人",
+        "len": 10,
+        "dataType": "String"
+      },
+      {
+        "name": "linkNumber",
+        "label": "联系电话",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "请输入联系电话",
+        "len": 20,
+        "dataType": "String"
+      },
+      {
+        "name": "attachment",
+        "label": "上传图片",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "limit":5,
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array"
+      },
+      {
+        "name": "carReason",
+        "label": "用车事由",
+        "len": 500,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入用车事由",
+        "dataType": "String"
+      }
+    ]
+  },
+  {
+    "id": "20181027163655006",
+    "rev": 71,
+    "type": "会议室申请",
+    "imageIcon": "/processData/web_huiyishi.png",
+    "appIcon": "/processData/apply_huiyishi_icon_66.png",
+    "occupancy": true,
+    "defaultGroupName":"行政管理",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "beginTime",
+        "label": "开始时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "请输入开始时间",
+        "dataType": "String"
+      },
+      {
+        "name": "endTime",
+        "label": "结束时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "请输入结束时间",
+        "dataType": "String"
+      },
+      {
+        "name": "duration",
+        "label": "使用时长",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "小时",
+        "regexp": "^(([1-9]{1}[0-9]*)|([1-9]{1}[0-9]*.[0-9]{1,2})|(0.[0-9]{1,2}))$",
+        "regexpTip": "请输入正确的数字,单位小时",
+        "dataType": "Double",
+        "unit":"小时"
+      },
+      {
+        "name": "room",
+        "label": "会议室选择",
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getSchoolMeetingRooms",
+        "tip": "请在[教务]->[楼栋管理]里添加会议室",
+        "dataType": "String"
+      },
+      {
+        "name": "attachment",
+        "label": "上传图片",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "limit":5,
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array"
+      },
+      {
+        "name": "reason",
+        "label": "使用事由",
+        "len": 500,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入使用事由",
+        "dataType": "String"
+      }
+    ]
+  },
+  {
+    "id": "20181027163655007",
+    "rev": 71,
+    "type": "办公用品申请",
+    "imageIcon": "/processData/web_banggongyongping_68.png",
+    "appIcon": "/processData/apply_bangong_icon_68.png",
+    "defaultGroupName":"行政管理",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "attachment",
+        "label": "上传图片",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "limit":5,
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array"
+      },
+      {
+        "name": "officeItems",
+        "label": "申请物品明细",
+        "len": 10000,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "输入申请物品的内容，例如: 笔记本 3本",
+        "dataType": "String"
+      }
+    ]
+  },
+  {
+    "id": "20181027163655009",
+    "rev": 71,
+    "type": "专用教室申请",
+    "imageIcon": "/processData/web_zhuanyongjiaoshi.png",
+    "appIcon": "/processData/apply_jiaoshi_icon_66.png",
+    "occupancy": true,
+    "defaultGroupName":"行政管理",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "room",
+        "label": "专用教室",
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getSchoolNumberRooms",
+        "tip": "请在[教务]->[楼栋管理]里添加多媒体教室或者实验室",
+        "dataType": "String"
+      },
+      {
+        "name": "applyTime",
+        "label": "申请时间",
+        "len": 32,
+        "required": true,
+        "formType": "date",
+        "timeFormat": "yyyy-MM-dd",
+        "readonly": false,
+        "placeholder": "请输入申请时间",
+        "dataType": "String"
+      },
+      {
+        "name": "timeInterval",
+        "label": "时段",
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "localDatasource": [
+          {
+            "id": "0",
+            "name": "上午"
+          },
+          {
+            "id": "1",
+            "name": "下午"
+          }
+        ],
+        "dataType": "String"
+      },
+      {
+        "name": "classHour",
+        "label": "课时",
+        "required": true,
+        "formType": "multiSelect",
+        "readonly": false,
+        "localDatasource": [
+          {
+            "id": "0",
+            "name": "第一节"
+          },
+          {
+            "id": "1",
+            "name": "第二节"
+          },
+          {
+            "id": "2",
+            "name": "第三节"
+          },
+          {
+            "id": "3",
+            "name": "第四节"
+          }
+        ],
+        "dataType": "Array"
+      },
+      {
+        "name": "attachment",
+        "label": "上传图片",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "limit":5,
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array"
+      },
+      {
+        "name": "reason",
+        "label": "使用事由",
+        "len": 500,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入使用事由",
+        "dataType": "String"
+      }
+    ]
+  },
+  {
+    "id": "20181027163655010",
+    "rev": 71,
+    "type": "公出申请",
+    "imageIcon": "/processData/web_gongchu.png",
+    "appIcon": "/processData/apply_gongchu_icon_66.png",
+    "timeSpan": 2,
+    "clearLeave": true,
+    "defaultGroupName":"考勤休假",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "beginTime",
+        "label": "开始时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "请输入开始时间",
+        "dataType": "String"
+      },
+      {
+        "name": "endTime",
+        "label": "结束时间",
+        "len": 32,
+        "required": true,
+        "formType": "datetime",
+        "timeFormat": "yyyy-MM-dd HH:mm",
+        "readonly": false,
+        "placeholder": "请输入结束时间",
+        "dataType": "String",
+        "tip": "公出时间不能超出设定的时间"
+      },
+      {
+        "name": "duration",
+        "label": "公出时长",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "小时",
+        "regexp": "^(([1-9]{1}[0-9]*)|([1-9]{1}[0-9]*.[0-9]{1,2})|(0.[0-9]{1,2}))$",
+        "regexpTip": "请输入正确的数字,单位小时",
+        "dataType": "Double",
+        "unit":"小时"
+      },
+      {
+        "name": "attachment",
+        "label": "上传图片",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "limit":5,
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array"
+      },
+      {
+        "name": "reason",
+        "label": "公出事由",
+        "len": 500,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入公出事由",
+        "dataType": "String"
+      }
+    ]
+  },
+  {
+    "id": "1121702486948855808",
+    "rev": 71,
+    "type": "补卡申请",
+    "imageIcon": "/processData/web_banggongyongping.png",
+    "appIcon": "/processData/apply_buka_icon_66.png",
+    "clearLeave": false,
+    "defaultGroupName":"考勤休假",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "signInPoint",
+        "label": "补卡点",
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "localDatasource": [
+          {
+            "id": "0",
+            "name": "上班打卡1"
+          },
+          {
+            "id": "1",
+            "name": "下班打卡1"
+          },
+          {
+            "id": "2",
+            "name": "上班打卡2"
+          },
+          {
+            "id": "3",
+            "name": "下班打卡2"
+          }
+        ],
+        "dataType": "String"
+      },
+      {
+        "name": "signInTime",
+        "label": "补卡时间",
+        "len": 32,
+        "required": true,
+        "formType": "date",
+        "timeFormat": "yyyy-MM-dd",
+        "readonly": false,
+        "placeholder": "请输入补卡时间",
+        "dataType": "String"
+      },
+
+
+      {
+        "name": "reason",
+        "label": "原因",
+        "len": 500,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入原因",
+        "dataType": "String"
+      },
+      {
+        "name": "attachment",
+        "label": "附件",
+        "required": false,
+        "formType": "attachment",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "请上传附件",
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array",
+        "limit":5
+      }
+    ]
+  },
+  {
+    "id": "1121702486948855809",
+    "rev": 71,
+    "type": "采购申请",
+    "imageIcon": "/processData/web_caigou.png",
+    "appIcon": "/processData/apply_caigou_66.png",
+    "clearLeave": false,
+    "defaultGroupName":"行政管理",
+    "processForms": [
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 32,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "purchaseName",
+        "label": "采购项目名称",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "请输入采购项目名称",
+        "len": 20,
+        "dataType": "String"
+      },
+      {
+        "name": "purchaseMoney",
+        "label": "采购金额",
+        "required": true,
+        "formType": "text",
+        "readonly": false,
+        "placeholder": "单位人民币",
+        "regexp": "(^[1-9]([0-9]{1,7})?(\\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\\.[0-9]([0-9])?$)",
+        "regexpTip": "请输入正确的金额 单位:元",
+        "dataType": "Double",
+        "unit":"元"
+      },
+      {
+        "name": "reason",
+        "label": "申请原因",
+        "len": 100,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入申请原因",
+        "dataType": "String"
+      },
+      {
+        "name": "attachment",
+        "label": "附件",
+        "required": false,
+        "formType": "attachment",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "请上传附件",
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array",
+        "limit":5
+      }
+    ]
+  },
+  {
+    "id": "1121702486948855810",
+    "rev": 71,
+    "type": "调课申请",
+    "imageIcon": "/processData/web_tiaoke.png",
+    "appIcon": "/processData/apply_tiaoke_icon_66.png",
+    "clearLeave": false,
+    "defaultGroupName":"行政管理",
+    "processForms": [
+
+      {
+        "name": "teacherName",
+        "label": "申请人",
+        "defaultValue": "${teacherName}",
+        "len": 35,
+        "required": true,
+        "formType": "text",
+        "readonly": true,
+        "placeholder": "请输入用户名",
+        "dataType": "String"
+      },
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "adjustmentDate",
+        "label": "调课日期",
+        "len": 32,
+        "required": true,
+        "formType": "date",
+        "timeFormat": "yyyy-MM-dd",
+        "readonly": false,
+        "placeholder": "请输入调课日期",
+        "dataType": "String"
+      },
+      {
+        "name": "timeInterval",
+        "label": "时段",
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "localDatasource": [
+          {
+            "id": "0",
+            "name": "上午"
+          },
+          {
+            "id": "1",
+            "name": "下午"
+          }
+        ],
+        "dataType": "String"
+      },
+      {
+        "name": "classHour",
+        "label": "课时",
+        "required": true,
+        "formType": "multiSelect",
+        "readonly": false,
+        "localDatasource": [
+          {
+            "id": "0",
+            "name": "第一节"
+          },
+          {
+            "id": "1",
+            "name": "第二节"
+          },
+          {
+            "id": "2",
+            "name": "第三节"
+          },
+          {
+            "id": "3",
+            "name": "第四节"
+          }
+        ],
+        "dataType": "Array"
+      },
+      {
+        "name": "adjustmentTeacher",
+        "label": "被调课老师",
+        "required": true,
+        "formType": "selectTeacher",
+        "readonly": false,
+        "placeholder": "请输入调课老师",
+        "dataType": "Object"
+      },
+      {
+        "name": "reason",
+        "label": "调课原因",
+        "len": 100,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入调课原因",
+        "dataType": "String"
+      },
+
+      {
+        "name": "attachment",
+        "label": "附件",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "placeholder": "大小限制在5M内",
+        "dataType": "Array",
+        "limit":5
+      }
+    ]
+  },
+  {
+    "id": "1121702486948855811",
+    "rev": 71,
+    "type": "资产领用申请",
+    "imageIcon": "/processData/web_zclingyong.png",
+    "appIcon": "/processData/apply_zclingyong_66.png",
+    "defaultGroupName":"行政管理",
+    "processForms": [
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "assetFile",
+        "label": "资产信息",
+        "required": true,
+        "formType":"selectAssetFile",
+        "dataType": "Object"
+      },
+      {
+        "name": "useCount",
+        "label": "领用数量",
+        "required": true,
+        "formType": "number",
+        "placeholder": "请输入",
+        "min":1,
+        "max":9999999,
+        "dataType": "Number"
+      },
+      {
+        "name": "reason",
+        "label": "申请原因",
+        "len": 100,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入原因",
+        "dataType": "String"
+      },
+      {
+        "label": "图片上传",
+        "name":"imageUpload",
+        "required": false,
+        "formType": "imageUpload",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "支持扩展名：bmp,jpg,png,jpeg",
+        "placeholder": "图片大小限制在5M内",
+        "dataType": "Array",
+        "limit":5,
+        "boxWidth":100
+      }
+    ]
+  },
+  {
+    "id": "1121702486948855812",
+    "rev": 71,
+    "type": "维修费用申请",
+    "imageIcon": "/processData/web_weixiuyongping.png",
+    "appIcon": "/processData/apply_weixiu_icon_66.png",
+    "defaultGroupName":"行政管理",
+    "processForms": [
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "asset",
+        "label": "资产信息",
+        "required": true,
+        "formType":"selectAsset",
+        "dataType": "Object"
+      },
+      {
+        "name": "repairFee",
+        "label": "维修费用",
+        "required": true,
+        "formType": "number",
+        "placeholder": "请输入",
+        "unit":"元",
+        "min":0,
+        "dataType": "Number"
+      },
+      {
+        "name": "reason",
+        "label": "申请原因",
+        "len": 100,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入原因",
+        "dataType": "String"
+      },
+      {
+        "label": "附件上传",
+        "name":"attachment",
+        "required": false,
+        "formType": "attachment",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "请上传附件",
+        "placeholder": "附件大小限制在5M内",
+        "dataType": "Array",
+        "limit":5
+      }
+    ]
+  },
+  {
+    "id": "1121702486948855813",
+    "rev": 71,
+    "type": "资产报废申请",
+    "imageIcon": "/processData/web_zcbaofei.png",
+    "appIcon": "/processData/apply_zcbaofei_66.png",
+    "defaultGroupName":"行政管理",
+    "processForms": [
+      {
+        "name": "department",
+        "label": "申请部门",
+        "defaultValue": "${departmentName}",
+        "len": 128,
+        "required": true,
+        "formType": "select",
+        "readonly": false,
+        "remoteDatasource": "/datasource/getMyDepartments/{initiatorId}",
+        "dataType": "String"
+      },
+      {
+        "name": "asset",
+        "label": "资产信息",
+        "required": true,
+        "formType":"selectAsset",
+        "dataType": "Object"
+      },
+      {
+        "name": "reason",
+        "label": "申请原因",
+        "len": 100,
+        "required": true,
+        "formType": "textarea",
+        "readonly": false,
+        "placeholder": "请输入原因",
+        "dataType": "String"
+      },
+      {
+        "name": "audit",
+        "label": "教育局审批",
+        "required": true,
+        "formType": "radio",
+        "readonly": false,
+        "localDatasource":[
+          {
+            "id":"1",
+            "name":"是"
+          },
+          {
+            "id":"2",
+            "name":"否"
+          }
+        ],
+        "dataType": "String"
+      },
+      {
+        "label": "附件上传",
+        "name":"attachment",
+        "required": false,
+        "formType": "attachment",
+        "uploadUrl": "/upload/uploadOaAttachment",
+        "uploadSize": 5,
+        "readonly": false,
+        "tip": "请上传附件",
+        "placeholder": "附件大小限制在5M内",
+        "dataType": "Array",
+        "limit":5
+      }
+    ]
+  }
+]

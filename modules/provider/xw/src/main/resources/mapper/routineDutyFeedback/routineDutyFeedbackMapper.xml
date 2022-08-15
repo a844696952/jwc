@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.routineDutyFeedback.IRoutineDutyFeedbackDao">
+    <!--########################################################################################################################-->
+    <select id="findRoutineDutyFeedbackListByCondition" parameterType="RoutineDutyFeedback" resultType="RoutineDutyFeedback">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyArrmentId')">
+                        T.duty_arrment_id,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyArrmentStartTime')">
+                        T.duty_arrment_start_time,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyArrmentStartEnd')">
+                        T.duty_arrment_start_end,
+                    </if>
+                    <if test="!pager.excludes.contains('checkedDetailId')">
+                        T.checked_detail_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherName')">
+                        T.teacher_name,
+                    </if>
+                    <if test="!pager.excludes.contains('feedbackTime')">
+                        T.feedback_time,
+                    </if>
+                    <if test="!pager.excludes.contains('feedbackText')">
+                        T.feedback_text,
+                    </if>
+                    <if test="!pager.excludes.contains('feedbackPicture')">
+                        T.feedback_picture,
+                    </if>
+                    <if test="!pager.excludes.contains('recordDate')">
+                        T.record_date,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_routine_duty_feedback T
+        <where>
+            <if test="dutyArrmentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentId'">
+                        T.duty_arrment_id like concat('%',#{dutyArrmentId},'%')
+                    </when>
+                    <otherwise>
+                        T.duty_arrment_id=#{dutyArrmentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyArrmentStartTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentStartTime'">
+                        and T.duty_arrment_start_time like concat('%',#{dutyArrmentStartTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_arrment_start_time=#{dutyArrmentStartTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyArrmentStartEnd!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentStartEnd'">
+                        and T.duty_arrment_start_end like concat('%',#{dutyArrmentStartEnd},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_arrment_start_end=#{dutyArrmentStartEnd}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="checkedDetailId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='checkedDetailId'">
+                        and T.checked_detail_id like concat('%',#{checkedDetailId},'%')
+                    </when>
+                    <otherwise>
+                        and T.checked_detail_id=#{checkedDetailId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and T.teacher_name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="feedbackTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='feedbackTime'">
+                        and T.feedback_time like concat('%',#{feedbackTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.feedback_time=#{feedbackTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="feedbackText!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='feedbackText'">
+                        and T.feedback_text like concat('%',#{feedbackText},'%')
+                    </when>
+                    <otherwise>
+                        and T.feedback_text=#{feedbackText}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="feedbackPicture!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='feedbackPicture'">
+                        and T.feedback_picture like concat('%',#{feedbackPicture},'%')
+                    </when>
+                    <otherwise>
+                        and T.feedback_picture=#{feedbackPicture}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordDate'">
+                        and T.record_date like concat('%',#{recordDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_date=#{recordDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findRoutineDutyFeedbackCountByCondition" parameterType="RoutineDutyFeedback" resultType="long">
+        select count(*) from xw_routine_duty_feedback T
+        <where>
+            <if test="dutyArrmentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentId'">
+                        T.duty_arrment_id like concat('%',#{dutyArrmentId},'%')
+                    </when>
+                    <otherwise>
+                        T.duty_arrment_id=#{dutyArrmentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyArrmentStartTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentStartTime'">
+                        and T.duty_arrment_start_time like concat('%',#{dutyArrmentStartTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_arrment_start_time=#{dutyArrmentStartTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyArrmentStartEnd!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyArrmentStartEnd'">
+                        and T.duty_arrment_start_end like concat('%',#{dutyArrmentStartEnd},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_arrment_start_end=#{dutyArrmentStartEnd}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="checkedDetailId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='checkedDetailId'">
+                        and T.checked_detail_id like concat('%',#{checkedDetailId},'%')
+                    </when>
+                    <otherwise>
+                        and T.checked_detail_id=#{checkedDetailId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and T.teacher_name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="feedbackTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='feedbackTime'">
+                        and T.feedback_time like concat('%',#{feedbackTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.feedback_time=#{feedbackTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="feedbackText!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='feedbackText'">
+                        and T.feedback_text like concat('%',#{feedbackText},'%')
+                    </when>
+                    <otherwise>
+                        and T.feedback_text=#{feedbackText}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="feedbackPicture!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='feedbackPicture'">
+                        and T.feedback_picture like concat('%',#{feedbackPicture},'%')
+                    </when>
+                    <otherwise>
+                        and T.feedback_picture=#{feedbackPicture}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="recordDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='recordDate'">
+                        and T.record_date like concat('%',#{recordDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.record_date=#{recordDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findRoutineDutyFeedbackById" resultType="RoutineDutyFeedback">
+        select * from xw_routine_duty_feedback where id=#{id}
+    </select>
+    <select id="findOneRoutineDutyFeedbackByCondition" parameterType="RoutineDutyFeedback" resultType="RoutineDutyFeedback">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyArrmentId')">
+                        T.duty_arrment_id,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyArrmentStartTime')">
+                        T.duty_arrment_start_time,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyArrmentStartEnd')">
+                        T.duty_arrment_start_end,
+                    </if>
+                    <if test="!pager.excludes.contains('checkedDetailId')">
+                        T.checked_detail_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherName')">
+                        T.teacher_name,
+                    </if>
+                    <if test="!pager.excludes.contains('feedbackTime')">
+                        T.feedback_time,
+                    </if>
+                    <if test="!pager.excludes.contains('feedbackText')">
+                        T.feedback_text,
+                    </if>
+                    <if test="!pager.excludes.contains('feedbackPicture')">
+                        T.feedback_picture,
+                    </if>
+                    <if test="!pager.excludes.contains('recordDate')">
+                        T.record_date,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_routine_duty_feedback T
+        <where>
+            <if test="dutyArrmentId!=null">
+                T.duty_arrment_id=#{dutyArrmentId}
+            </if>
+            <if test="dutyArrmentStartTime!=null">
+                and T.duty_arrment_start_time=#{dutyArrmentStartTime}
+            </if>
+            <if test="dutyArrmentStartEnd!=null">
+                and T.duty_arrment_start_end=#{dutyArrmentStartEnd}
+            </if>
+            <if test="checkedDetailId!=null">
+                and T.checked_detail_id=#{checkedDetailId}
+            </if>
+            <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+            </if>
+            <if test="teacherName!=null">
+                and T.teacher_name=#{teacherName}
+            </if>
+            <if test="feedbackTime!=null">
+                and T.feedback_time=#{feedbackTime}
+            </if>
+            <if test="feedbackText!=null">
+                and T.feedback_text=#{feedbackText}
+            </if>
+            <if test="feedbackPicture!=null">
+                and T.feedback_picture=#{feedbackPicture}
+            </if>
+            <if test="recordDate!=null">
+                and T.record_date=#{recordDate}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+        </where>
+    </select>
+    <insert id="saveRoutineDutyFeedback" parameterType="RoutineDutyFeedback">
+        insert into xw_routine_duty_feedback
+         (
+            id,
+            duty_arrment_id,
+            duty_arrment_start_time,
+            duty_arrment_start_end,
+            checked_detail_id,
+            teacher_id,
+            teacher_name,
+            teacher_img_url,
+            feedback_time,
+            feedback_text,
+            feedback_picture,
+            record_date,
+            school_id,
+            update_time,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{dutyArrmentId}
+                ,
+                #{dutyArrmentStartTime}
+                ,
+                #{dutyArrmentStartEnd}
+                ,
+                #{checkedDetailId}
+                ,
+                #{teacherId}
+                ,
+                #{teacherName}
+                ,
+                #{teacherImgUrl}
+                ,
+                #{feedbackTime}
+                ,
+                #{feedbackText}
+                ,
+                #{feedbackPicture}
+                ,
+                #{recordDate}
+                ,
+                #{schoolId}
+                ,
+                #{updateTime}
+                ,
+                now()
+
+         )
+    </insert>
+    <update id="updateRoutineDutyFeedback" parameterType="RoutineDutyFeedback">
+        update xw_routine_duty_feedback
+        <set>
+            <if test="dutyArrmentId!=null ">
+                duty_arrment_id=#{dutyArrmentId},
+            </if>
+            <if test="dutyArrmentStartTime!=null ">
+                duty_arrment_start_time=#{dutyArrmentStartTime},
+            </if>
+            <if test="dutyArrmentStartEnd!=null ">
+                duty_arrment_start_end=#{dutyArrmentStartEnd},
+            </if>
+            <if test="checkedDetailId!=null ">
+                checked_detail_id=#{checkedDetailId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="teacherName!=null ">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="feedbackTime!=null ">
+                feedback_time=#{feedbackTime},
+            </if>
+            <if test="feedbackText!=null ">
+                feedback_text=#{feedbackText},
+            </if>
+            <if test="feedbackPicture!=null ">
+                feedback_picture=#{feedbackPicture},
+            </if>
+            <if test="recordDate!=null ">
+                record_date=#{recordDate},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            update_time=now(),
+            <if test="createTime!=null ">
+                create_time=#{createTime}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteRoutineDutyFeedback" >
+        delete from xw_routine_duty_feedback where id=#{id}
+    </delete>
+    <delete id="deleteRoutineDutyFeedbackByCondition" >
+        delete from xw_routine_duty_feedback
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="dutyArrmentId!=null">
+                and duty_arrment_id=#{dutyArrmentId}
+            </if>
+            <if test="dutyArrmentStartTime!=null">
+                and duty_arrment_start_time=#{dutyArrmentStartTime}
+            </if>
+            <if test="dutyArrmentStartEnd!=null">
+                and duty_arrment_start_end=#{dutyArrmentStartEnd}
+            </if>
+            <if test="checkedDetailId!=null">
+                and checked_detail_id=#{checkedDetailId}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+            <if test="teacherName!=null">
+                and teacher_name=#{teacherName}
+            </if>
+            <if test="feedbackTime!=null">
+                and feedback_time=#{feedbackTime}
+            </if>
+            <if test="feedbackText!=null">
+                and feedback_text=#{feedbackText}
+            </if>
+            <if test="feedbackPicture!=null">
+                and feedback_picture=#{feedbackPicture}
+            </if>
+            <if test="recordDate!=null">
+                and record_date=#{recordDate}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveRoutineDutyFeedback" parameterType="RoutineDutyFeedback">
+        INSERT INTO xw_routine_duty_feedback (  id,  duty_arrment_id,  duty_arrment_start_time,  duty_arrment_start_end,  checked_detail_id,  teacher_id,  teacher_name,  feedback_time,  feedback_text,  feedback_picture,  record_date,  school_id,  update_time,  create_time )
+        VALUES
+        <foreach collection="list" item="routineDutyFeedback" separator=",">
+            (  #{routineDutyFeedback.id},  #{routineDutyFeedback.dutyArrmentId},  #{routineDutyFeedback.dutyArrmentStartTime},  #{routineDutyFeedback.dutyArrmentStartEnd},  #{routineDutyFeedback.checkedDetailId},  #{routineDutyFeedback.teacherId},  #{routineDutyFeedback.teacherName},  #{routineDutyFeedback.feedbackTime},  #{routineDutyFeedback.feedbackText},  #{routineDutyFeedback.feedbackPicture},  #{routineDutyFeedback.recordDate},  #{routineDutyFeedback.schoolId},  #{routineDutyFeedback.updateTime},  #{routineDutyFeedback.createTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.dmMobileRedBanner.IDmCountDownManageDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('breakTime')">
+                        T.break_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('status')">
+                        T.status,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="breakTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('breakTime')">
+                        and T.break_time like concat('%',#{breakTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.break_time=#{breakTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status!=null">
+                and T.status=#{status}
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item" index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmCountDownManageListByCondition" parameterType="DmCountDownManage" resultType="DmCountDownManage">
+        select
+        <include refid="projection"/>
+        from dm_count_down_manage T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findDmCountDownManageCountByCondition" parameterType="DmCountDownManage" resultType="long">
+        select count(*) from dm_count_down_manage T
+        <include refid="match"/>
+    </select>
+    <select id="findDmCountDownManageById" resultType="DmCountDownManage">
+        select * from dm_count_down_manage where id=#{id}
+    </select>
+    <select id="findOneDmCountDownManageByCondition" parameterType="DmCountDownManage" resultType="DmCountDownManage">
+        select
+        <include refid="projection"/>
+        from dm_count_down_manage T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmCountDownManage" parameterType="DmCountDownManage">
+        INSERT INTO dm_count_down_manage (  id,  name,  break_time,  create_time,  update_time,  status,  school_id )
+         values
+         (   #{id}  ,   #{name}  ,   #{breakTime}  ,   DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')  ,   #{updateTime}  ,   #{status}  ,   #{schoolId}    )
+    </insert>
+    <update id="updateDmCountDownManage" parameterType="DmCountDownManage">
+        update dm_count_down_manage
+        <set>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="breakTime!=null ">
+                break_time=#{breakTime},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateDmCountDownManageForAll" parameterType="DmCountDownManage">
+        update dm_count_down_manage
+        <set>
+            name=#{name},
+            break_time=#{breakTime},
+            create_time=#{createTime},
+            update_time=DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),
+            status=#{status},
+            school_id=#{schoolId}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteDmCountDownManage">
+        delete from dm_count_down_manage where id=#{id}
+    </delete>
+    <delete id="deleteDmCountDownManageByCondition">
+        delete T from dm_count_down_manage T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmCountDownManage" parameterType="DmCountDownManage">
+        INSERT INTO dm_count_down_manage ( id, name, break_time, create_time, update_time, status, school_id )
+        VALUES
+        <foreach collection="list" item="dmCountDownManage" separator=",">
+            ( #{dmCountDownManage.id} , #{dmCountDownManage.name} , #{dmCountDownManage.breakTime} ,
+            DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') , #{dmCountDownManage.updateTime} , #{dmCountDownManage.status} ,
+            #{dmCountDownManage.schoolId} )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <update id="updateDmCountDownManageStatus" parameterType="DmCountDownManage">
+        update dm_count_down_manage set status=#{status},update_time=DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') where id=#{id} and school_id=#{schoolId}
+    </update>
+
+    <update id="updateDmCountDownManageStatusAll" parameterType="DmCountDownManage">
+        update dm_count_down_manage set status=#{status},update_time=DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s') where id!=#{id} and school_id=#{schoolId}
+    </update>
+</mapper>

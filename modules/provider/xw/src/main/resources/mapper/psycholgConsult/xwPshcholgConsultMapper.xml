@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.pshcholgConsult.IXwPshcholgConsultDao">
+    <!--########################################################################################################################-->
+    <select id="findXwPshcholgConsultListByCondition" parameterType="XwPshcholgConsult" resultType="XwPshcholgConsult">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('classId')">
+                        T.class_id,
+                    </if>
+                    <if test="!pager.excludes.contains('birthday')">
+                        T.birthday,
+                    </if>
+                    <if test="!pager.excludes.contains('tel')">
+                        T.tel,
+                    </if>
+                    <if test="!pager.excludes.contains('qq')">
+                        T.qq,
+                    </if>
+                    <if test="!pager.excludes.contains('reConsultTime')">
+                        T.re_consult_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('consultQuestion')">
+                        T.consult_question,
+                    </if>
+                    <if test="!pager.excludes.contains('consultRecord')">
+                        T.consult_record,
+                    </if>
+                    <if test="!pager.excludes.contains('consultDession')">
+                        T.consult_dession,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_pshcholg_consult T
+        <where>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        T.name=#{name}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='sex'">
+                        and T.sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and T.sex=#{sex}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="gradeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='gradeId'">
+                        and T.grade_id like concat('%',#{gradeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.grade_id=#{gradeId}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="classId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classId'">
+                        and T.class_id like concat('%',#{classId},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_id=#{classId}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="birthday!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='birthday'">
+                        and T.birthday like concat('%',#{birthday},'%')
+                    </when>
+                    <otherwise>
+                        and T.birthday=#{birthday}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and T.tel=#{tel}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="qq!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='qq'">
+                        and T.qq like concat('%',#{qq},'%')
+                    </when>
+                    <otherwise>
+                        and T.qq=#{qq}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="reConsultTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='reConsultTime'">
+                        and T.re_consult_time like concat('%',#{reConsultTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.re_consult_time=#{reConsultTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="consultQuestion!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='consultQuestion'">
+                        and T.consult_question like concat('%',#{consultQuestion},'%')
+                    </when>
+                    <otherwise>
+                        and T.consult_question=#{consultQuestion}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="consultRecord!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='consultRecord'">
+                        and T.consult_record like concat('%',#{consultRecord},'%')
+                    </when>
+                    <otherwise>
+                        and T.consult_record=#{consultRecord}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="consultDession!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='consultDession'">
+                        and T.consult_dession like concat('%',#{consultDession},'%')
+                    </when>
+                    <otherwise>
+                        and T.consult_dession=#{consultDession}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)}
+            ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findXwPshcholgConsultCountByCondition" parameterType="XwPshcholgConsult" resultType="long">
+        select count(*) from xw_pshcholg_consult
+        <where>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        name=#{name}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='sex'">
+                        and sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and sex=#{sex}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="gradeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='gradeId'">
+                        and grade_id like concat('%',#{gradeId},'%')
+                    </when>
+                    <otherwise>
+                        and grade_id=#{gradeId}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="classId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classId'">
+                        and class_id like concat('%',#{classId},'%')
+                    </when>
+                    <otherwise>
+                        and class_id=#{classId}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="birthday!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='birthday'">
+                        and birthday like concat('%',#{birthday},'%')
+                    </when>
+                    <otherwise>
+                        and birthday=#{birthday}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and tel=#{tel}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="qq!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='qq'">
+                        and qq like concat('%',#{qq},'%')
+                    </when>
+                    <otherwise>
+                        and qq=#{qq}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="reConsultTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='reConsultTime'">
+                        and re_consult_time like concat('%',#{reConsultTime},'%')
+                    </when>
+                    <otherwise>
+                        and re_consult_time=#{reConsultTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and create_time=#{createTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="consultQuestion!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='consultQuestion'">
+                        and consult_question like concat('%',#{consultQuestion},'%')
+                    </when>
+                    <otherwise>
+                        and consult_question=#{consultQuestion}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="consultRecord!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='consultRecord'">
+                        and consult_record like concat('%',#{consultRecord},'%')
+                    </when>
+                    <otherwise>
+                        and consult_record=#{consultRecord}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="consultDession!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='consultDession'">
+                        and consult_dession like concat('%',#{consultDession},'%')
+                    </when>
+                    <otherwise>
+                        and consult_dession=#{consultDession}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+
+            </if>
+        </where>
+    </select>
+    <select id="findXwPshcholgConsultById" resultType="XwPshcholgConsult">
+        select * from xw_pshcholg_consult where id=#{id}
+    </select>
+    <select id="findOneXwPshcholgConsultByCondition" parameterType="XwPshcholgConsult" resultType="XwPshcholgConsult">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('classId')">
+                        T.class_id,
+                    </if>
+                    <if test="!pager.excludes.contains('birthday')">
+                        T.birthday,
+                    </if>
+                    <if test="!pager.excludes.contains('tel')">
+                        T.tel,
+                    </if>
+                    <if test="!pager.excludes.contains('qq')">
+                        T.qq,
+                    </if>
+                    <if test="!pager.excludes.contains('reConsultTime')">
+                        T.re_consult_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('consultQuestion')">
+                        T.consult_question,
+                    </if>
+                    <if test="!pager.excludes.contains('consultRecord')">
+                        T.consult_record,
+                    </if>
+                    <if test="!pager.excludes.contains('consultDession')">
+                        T.consult_dession,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_pshcholg_consult T
+        <where>
+            <if test="name!=null">
+                T.name=#{name}
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and T.class_id=#{classId}
+            </if>
+            <if test="birthday!=null">
+                and T.birthday=#{birthday}
+            </if>
+            <if test="tel!=null">
+                and T.tel=#{tel}
+            </if>
+            <if test="qq!=null">
+                and T.qq=#{qq}
+            </if>
+            <if test="reConsultTime!=null">
+                and T.re_consult_time=#{reConsultTime}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="consultQuestion!=null">
+                and T.consult_question=#{consultQuestion}
+            </if>
+            <if test="consultRecord!=null">
+                and T.consult_record=#{consultRecord}
+            </if>
+            <if test="consultDession!=null">
+                and T.consult_dession=#{consultDession}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+            </if>
+        </where>
+    </select>
+    <insert id="saveXwPshcholgConsult" parameterType="XwPshcholgConsult">
+        insert into xw_pshcholg_consult
+         (
+            id,
+            name,
+            sex,
+            grade_id,
+            class_id,
+            birthday,
+            tel,
+            qq,
+            re_consult_time,
+            create_time,
+            update_time,
+            consult_question,
+            consult_record,
+            consult_dession,
+            school_id,
+            teacher_id
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{sex}
+                ,
+                #{gradeId}
+                ,
+                #{classId}
+                ,
+                #{birthday}
+                ,
+                #{tel}
+                ,
+                #{qq}
+                ,
+                #{reConsultTime}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{consultQuestion}
+                ,
+                #{consultRecord}
+                ,
+                #{consultDession}
+                ,
+                #{schoolId}
+                ,
+                #{teacherId}
+                
+         )
+    </insert>
+    <update id="updateXwPshcholgConsult" parameterType="XwPshcholgConsult">
+        update xw_pshcholg_consult
+        <set>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="sex!=null ">
+                sex=#{sex},
+            </if>
+            <if test="gradeId!=null ">
+                grade_id=#{gradeId},
+            </if>
+            <if test="classId!=null ">
+                class_id=#{classId},
+            </if>
+            <if test="birthday!=null ">
+                birthday=#{birthday},
+            </if>
+            <if test="tel!=null ">
+                tel=#{tel},
+            </if>
+            <if test="qq!=null ">
+                qq=#{qq},
+            </if>
+            <if test="reConsultTime!=null ">
+                re_consult_time=#{reConsultTime},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="consultQuestion!=null ">
+                consult_question=#{consultQuestion},
+            </if>
+            <if test="consultRecord!=null ">
+                consult_record=#{consultRecord},
+            </if>
+            <if test="consultDession!=null ">
+                consult_dession=#{consultDession},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteXwPshcholgConsult">
+        delete from xw_pshcholg_consult where id=#{id}
+    </delete>
+    <delete id="deleteXwPshcholgConsultByCondition">
+        delete from xw_pshcholg_consult
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="name!=null">
+                and name=#{name}
+            </if>
+            <if test="sex!=null">
+                and sex=#{sex}
+            </if>
+            <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and class_id=#{classId}
+            </if>
+            <if test="birthday!=null">
+                and birthday=#{birthday}
+            </if>
+            <if test="tel!=null">
+                and tel=#{tel}
+            </if>
+            <if test="qq!=null">
+                and qq=#{qq}
+            </if>
+            <if test="reConsultTime!=null">
+                and re_consult_time=#{reConsultTime}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="consultQuestion!=null">
+                and consult_question=#{consultQuestion}
+            </if>
+            <if test="consultRecord!=null">
+                and consult_record=#{consultRecord}
+            </if>
+            <if test="consultDession!=null">
+                and consult_dession=#{consultDession}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveXwPshcholgConsult" parameterType="XwPshcholgConsult">
+        INSERT INTO xw_pshcholg_consult ( id, name, sex, grade_id, class_id, birthday, tel, qq, re_consult_time,
+        create_time, update_time, consult_question, consult_record, consult_dession, school_id )
+        VALUES
+        <foreach collection="list" item="xwPshcholgConsult" separator=",">
+            ( #{xwPshcholgConsult.id}, #{xwPshcholgConsult.name}, #{xwPshcholgConsult.sex},
+            #{xwPshcholgConsult.gradeId}, #{xwPshcholgConsult.classId}, #{xwPshcholgConsult.birthday},
+            #{xwPshcholgConsult.tel}, #{xwPshcholgConsult.qq}, #{xwPshcholgConsult.reConsultTime},
+            #{xwPshcholgConsult.createTime}, #{xwPshcholgConsult.updateTime}, #{xwPshcholgConsult.consultQuestion},
+            #{xwPshcholgConsult.consultRecord}, #{xwPshcholgConsult.consultDession}, #{xwPshcholgConsult.schoolId} )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findXwPshcholgConsultByCondition2" parameterType="XwPshcholgConsult" resultType="XwPshcholgConsult">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('sex')">
+                        T.sex,
+                    </if>
+                    <if test="!pager.excludes.contains('gradeId')">
+                        T.grade_id,
+                    </if>
+                    <if test="!pager.excludes.contains('classId')">
+                        T.class_id,
+                    </if>
+                    <if test="!pager.excludes.contains('birthday')">
+                        T.birthday,
+                    </if>
+                    <if test="!pager.excludes.contains('tel')">
+                        T.tel,
+                    </if>
+                    <if test="!pager.excludes.contains('qq')">
+                        T.qq,
+                    </if>
+                    <if test="!pager.excludes.contains('reConsultTime')">
+                        T.re_consult_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('consultQuestion')">
+                        T.consult_question,
+                    </if>
+                    <if test="!pager.excludes.contains('consultRecord')">
+                        T.consult_record,
+                    </if>
+                    <if test="!pager.excludes.contains('consultDession')">
+                        T.consult_dession,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        ,j.grade_name,j.number,concat(j.grade_name,'(',j.number,')','班') gradeClassName
+        from xw_pshcholg_consult T left join jw_classes j on T.class_id=j.id
+        <where>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='name'">
+                        T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        T.name=#{name}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="sex!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='sex'">
+                        and T.sex like concat('%',#{sex},'%')
+                    </when>
+                    <otherwise>
+                        and T.sex=#{sex}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="gradeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='gradeId'">
+                        and T.grade_id like concat('%',#{gradeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.grade_id=#{gradeId}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="gradeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='gradeName'">
+                        and j.grade_name like concat('%',#{gradeName},'%')
+                    </when>
+                    <otherwise>
+                        and j.grade_name=#{gradeName}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="className!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='className'">
+                        and j.number like concat('%',#{className},'%')
+                    </when>
+                    <otherwise>
+                        and j.number=#{className}
+                    </otherwise>
+                </choose>
+
+            </if>
+
+            <if test="classId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='classId'">
+                        and T.class_id like concat('%',#{classId},'%')
+                    </when>
+                    <otherwise>
+                        and T.class_id=#{classId}
+                    </otherwise>
+                </choose>
+
+            </if>
+
+            <if test="birthday!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='birthday'">
+                        and T.birthday like concat('%',#{birthday},'%')
+                    </when>
+                    <otherwise>
+                        and T.birthday=#{birthday}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="tel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='tel'">
+                        and T.tel like concat('%',#{tel},'%')
+                    </when>
+                    <otherwise>
+                        and T.tel=#{tel}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="qq!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='qq'">
+                        and T.qq like concat('%',#{qq},'%')
+                    </when>
+                    <otherwise>
+                        and T.qq=#{qq}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="reConsultTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='reConsultTime'">
+                        and T.re_consult_time like concat('%',#{reConsultTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.re_consult_time=#{reConsultTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="searchStartTime!=null">
+                and T.create_time &gt;= #{searchStartTime}
+            </if>
+            <if test="searchEndTime!=null">
+                and T.create_time &lt;= #{searchEndTime}
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="consultQuestion!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='consultQuestion'">
+                        and T.consult_question like concat('%',#{consultQuestion},'%')
+                    </when>
+                    <otherwise>
+                        and T.consult_question=#{consultQuestion}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="consultRecord!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='consultRecord'">
+                        and T.consult_record like concat('%',#{consultRecord},'%')
+                    </when>
+                    <otherwise>
+                        and T.consult_record=#{consultRecord}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="consultDession!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='consultDession'">
+                        and T.consult_dession like concat('%',#{consultDession},'%')
+                    </when>
+                    <otherwise>
+                        and T.consult_dession=#{consultDession}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+
+        </where>
+
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)}
+            ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findXwPshcholgConsultCountByCondition2" parameterType="XwPshcholgConsult" resultType="long">
+        select count(*) from xw_pshcholg_consult
+        <where>
+            <if test="name!=null">
+                name like CONCAT(CONCAT('%',#{name},'%'))
+            </if>
+            <if test="sex!=null">
+                and sex=#{sex}
+            </if>
+            <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and class_id=#{classId}
+            </if>
+            <if test="birthday!=null">
+                and birthday=#{birthday}
+            </if>
+            <if test="tel!=null">
+                and tel=#{tel}
+            </if>
+            <if test="qq!=null">
+                and qq=#{qq}
+            </if>
+            <if test="reConsultTime!=null">
+                and re_consult_time=#{reConsultTime}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{create_time}
+            </if>
+            <if test="searchStartTime!=null">
+                and  create_time &gt;= #{searchStartTime}
+            </if>
+            <if test="searchEndTime!=null">
+                and  create_time &lt;= #{searchEndTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="consultQuestion!=null">
+                and consult_question=#{consultQuestion}
+            </if>
+            <if test="consultRecord!=null">
+                and consult_record=#{consultRecord}
+            </if>
+            <if test="consultDession!=null">
+                and consult_dession=#{consultDession}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

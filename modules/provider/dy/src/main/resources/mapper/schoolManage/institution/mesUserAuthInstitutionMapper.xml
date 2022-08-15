@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.institution.IMesUserAuthInstitutionDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('institutionId')">
+                             T.institution_id,
+                         </if>
+                         <if test="!pager.excludes.contains('userId')">
+                             T.user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('userType')">
+                             T.user_type,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('institutionParentId')">
+                             T.institution_parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('level')">
+                             T.level,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="institutionId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='institutionId'">
+                            and T.institution_id like concat('%',#{institutionId},'%')
+                         </when>
+                         <otherwise>
+                            and T.institution_id=#{institutionId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="userId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='userId'">
+                            and T.user_id like concat('%',#{userId},'%')
+                         </when>
+                         <otherwise>
+                            and T.user_id=#{userId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="userType!=null">
+                    and T.user_type=#{userType}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="institutionParentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='institutionParentId'">
+                            and T.institution_parent_id like concat('%',#{institutionParentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.institution_parent_id=#{institutionParentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="level!=null">
+                    and T.level=#{level}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesUserAuthInstitutionListStuByCondition" parameterType="MesUserAuthInstitution" resultType="MesUserAuthInstitution">
+        select
+        T.*,J.name name
+        from mes_user_auth_institution T left join jw_student J on J.id=T.user_id
+        <include refid="match"/>
+        <include refid="sort"/>
+    </select>
+
+    <select id="findMesUserAuthInstitutionListTeaByCondition" parameterType="MesUserAuthInstitution" resultType="MesUserAuthInstitution">
+        select
+        T.*,J.name name
+        from mes_user_auth_institution T left join jw_teacher J on J.id=T.user_id
+        <include refid="match"/>
+        <include refid="sort"/>
+    </select>
+
+    <select id="findMesUserAuthInstitutionListByCondition" parameterType="MesUserAuthInstitution" resultType="MesUserAuthInstitution">
+        select
+         <include refid="projection"/>
+         from mes_user_auth_institution T
+         <include refid="match"/>
+         <include refid="sort"/>
+    </select>
+    <select id="findMesUserAuthInstitutionCountByCondition" parameterType="MesUserAuthInstitution" resultType="long">
+        select count(*) from mes_user_auth_institution T
+        <include refid="match"/>
+    </select>
+    <select id="findMesUserAuthInstitutionById" resultType="MesUserAuthInstitution">
+        select * from mes_user_auth_institution where id=#{id}
+    </select>
+    <select id="findOneMesUserAuthInstitutionByCondition" parameterType="MesUserAuthInstitution" resultType="MesUserAuthInstitution">
+        select
+         <include refid="projection"/>
+         from mes_user_auth_institution T
+        <include refid="match"/>
+    </select>
+    <insert id="saveMesUserAuthInstitution" parameterType="MesUserAuthInstitution">
+        insert IGNORE into mes_user_auth_institution
+         (
+            id,
+            institution_id,
+            user_id,
+            user_type,
+            create_time,
+            school_id,
+            institution_parent_id,
+            level
+        ) values
+         (
+                #{id}
+                ,
+                #{institutionId}
+                ,
+                #{userId}
+                ,
+                #{userType}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                #{institutionParentId}
+                ,
+                #{level}
+                
+         )
+    </insert>
+    <update id="updateMesUserAuthInstitution" parameterType="MesUserAuthInstitution">
+        update mes_user_auth_institution
+        <set>
+                    <if test="institutionId!=null ">
+                        institution_id=#{institutionId},
+                    </if>
+                    <if test="userId!=null ">
+                        user_id=#{userId},
+                    </if>
+                    <if test="userType!=null ">
+                        user_type=#{userType},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="institutionParentId!=null ">
+                        institution_parent_id=#{institutionParentId},
+                    </if>
+                    <if test="level!=null ">
+                        level=#{level}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteMesUserAuthInstitution" >
+        delete from mes_user_auth_institution where id=#{id}
+    </delete>
+    <delete id="deleteMesUserAuthInstitutionByCondition" >
+        delete T from mes_user_auth_institution T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesUserAuthInstitution" parameterType="MesUserAuthInstitution">
+        INSERT INTO mes_user_auth_institution (  id,  institution_id,  user_id,  user_type,  create_time,  school_id,  institution_parent_id,  level )
+        VALUES
+        <foreach collection="list" item="mesUserAuthInstitution" separator=",">
+            (  #{mesUserAuthInstitution.id},  #{mesUserAuthInstitution.institutionId},  #{mesUserAuthInstitution.userId},  #{mesUserAuthInstitution.userType},  #{mesUserAuthInstitution.createTime},  #{mesUserAuthInstitution.schoolId},  #{mesUserAuthInstitution.institutionParentId},  #{mesUserAuthInstitution.level}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findDepartmentTreeBySchoolId" resultType="com.yice.edu.cn.common.pojo.jw.department.Department">
+        SELECT T.id id,D.id parent_id,T.name name,D.school_id school_id,1 type,T.img_url imgUrl,T.tel tel FROM jw_department D inner join jw_department_teacher DT on D.id=DT.department_id and D.school_id=#{schoolId} inner join jw_teacher T on DT.teacher_id=T.id
+        union all
+        select id,parent_id,name,school_id,0 type,null imgUrl,null tel from jw_department where school_id=#{schoolId}
+    </select>
+    <!--是否拥有检查权限 返回值大于0表示有权限-->
+    <select id="haveCheckPermission" parameterType="MesUserAuthInstitution" resultType="long">
+        SELECT count(*) FROM mes_user_auth_institution T INNER JOIN mes_institution i ON i.id = T.institution_id
+        INNER JOIN mes_time_status s ON s.id = i.time_status_id
+        WHERE
+        s.status = 1
+        <if test="userType != null ">
+            AND T.user_type = #{userType}
+        </if>
+        <if test="userId != null ">
+            AND T.user_id = #{userId}
+        </if>
+        <if test="schoolId != null ">
+            AND T.school_id = #{schoolId}
+        </if>
+    </select>
+
+</mapper>

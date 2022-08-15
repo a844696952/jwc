@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.assetsInNew.IAssetsInNewDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsFileId')">
+                             T.assets_file_id,
+                         </if>
+                         <if test="!pager.excludes.contains('inventoryCode')">
+                             T.inventory_code,
+                         </if>
+                         <if test="!pager.excludes.contains('putInQuantity')">
+                             T.put_in_quantity,
+                         </if>
+                         <if test="!pager.excludes.contains('putInWarehouse')">
+                             T.put_in_warehouse,
+                         </if>
+                         <if test="!pager.excludes.contains('putInWarehouseName')">
+                             T.put_in_warehouse_name,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsBuyer')">
+                             T.assets_buyer,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsBuyTime')">
+                             T.assets_buy_time,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsUseTimelimitNumber')">
+                             T.assets_use_timelimit_number,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsUseTimelimitUnit')">
+                             T.assets_use_timelimit_unit,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsUseTimelimitReal')">
+                             T.assets_use_timelimit_real,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsMaintenanceTimelimitUnit')">
+                             T.assets_maintenance_timelimit_unit,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsMaintenanceTimelimitNumber')">
+                             T.assets_maintenance_timelimit_number,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsMaintenanceTimelimitReal')">
+                             T.assets_maintenance_timelimit_real,
+                         </if>
+                         <if test="!pager.excludes.contains('validDate')">
+                             T.valid_date,
+                         </if>
+                         <if test="!pager.excludes.contains('maintenanceDate')">
+                             T.maintenance_date,
+                         </if>
+                         <if test="!pager.excludes.contains('price')">
+                             T.price,
+                         </if>
+                         <if test="!pager.excludes.contains('putInNo')">
+                             T.put_in_no,
+                         </if>
+                         <if test="!pager.excludes.contains('putInTime')">
+                             T.put_in_time,
+                         </if>
+                         <if test="!pager.excludes.contains('buyTime')">
+                             T.buy_time,
+                         </if>
+                         <if test="!pager.excludes.contains('unit')">
+                             T.unit,
+                         </if>
+                         <if test="!pager.excludes.contains('remark')">
+                             T.remark,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createUser')">
+                             T.create_user,
+                         </if>
+                         <if test="!pager.excludes.contains('createId')">
+                             T.create_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createUsername')">
+                             T.create_username,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsCategoryId')">
+                             T.assets_category_id,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsCategoryAncestorId')">
+                             T.assets_category_ancestor_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsFileId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsFileId')">
+                            and T.assets_file_id like concat('%',#{assetsFileId},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_file_id=#{assetsFileId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="inventoryCode!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('inventoryCode')">
+                            and T.inventory_code like concat('%',#{inventoryCode},'%')
+                         </when>
+                         <otherwise>
+                            and T.inventory_code=#{inventoryCode}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="putInQuantity!=null">
+                    and T.put_in_quantity=#{putInQuantity}
+              </if>
+              <if test="putInWarehouse!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('putInWarehouse')">
+                            and T.put_in_warehouse like concat('%',#{putInWarehouse},'%')
+                         </when>
+                         <otherwise>
+                            and T.put_in_warehouse=#{putInWarehouse}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="putInWarehouseName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('putInWarehouseName')">
+                            and T.put_in_warehouse_name like concat('%',#{putInWarehouseName},'%')
+                         </when>
+                         <otherwise>
+                            and T.put_in_warehouse_name=#{putInWarehouseName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsBuyer!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsBuyer')">
+                            and T.assets_buyer like concat('%',#{assetsBuyer},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_buyer=#{assetsBuyer}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsBuyTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsBuyTime')">
+                            and T.assets_buy_time like concat('%',#{assetsBuyTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_buy_time=#{assetsBuyTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsUseTimelimitNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsUseTimelimitNumber')">
+                            and T.assets_use_timelimit_number like concat('%',#{assetsUseTimelimitNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_use_timelimit_number=#{assetsUseTimelimitNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsUseTimelimitUnit!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsUseTimelimitUnit')">
+                            and T.assets_use_timelimit_unit like concat('%',#{assetsUseTimelimitUnit},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_use_timelimit_unit=#{assetsUseTimelimitUnit}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsUseTimelimitReal!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsUseTimelimitReal')">
+                            and T.assets_use_timelimit_real like concat('%',#{assetsUseTimelimitReal},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_use_timelimit_real=#{assetsUseTimelimitReal}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsMaintenanceTimelimitUnit!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsMaintenanceTimelimitUnit')">
+                            and T.assets_maintenance_timelimit_unit like concat('%',#{assetsMaintenanceTimelimitUnit},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_maintenance_timelimit_unit=#{assetsMaintenanceTimelimitUnit}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsMaintenanceTimelimitNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsMaintenanceTimelimitNumber')">
+                            and T.assets_maintenance_timelimit_number like concat('%',#{assetsMaintenanceTimelimitNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_maintenance_timelimit_number=#{assetsMaintenanceTimelimitNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsMaintenanceTimelimitReal!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsMaintenanceTimelimitReal')">
+                            and T.assets_maintenance_timelimit_real like concat('%',#{assetsMaintenanceTimelimitReal},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_maintenance_timelimit_real=#{assetsMaintenanceTimelimitReal}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="validDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('validDate')">
+                            and T.valid_date like concat('%',#{validDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.valid_date=#{validDate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="maintenanceDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('maintenanceDate')">
+                            and T.maintenance_date like concat('%',#{maintenanceDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.maintenance_date=#{maintenanceDate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="price!=null">
+                    and T.price=#{price}
+              </if>
+              <if test="putInNo!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('putInNo')">
+                            and T.put_in_no like concat('%',#{putInNo},'%')
+                         </when>
+                         <otherwise>
+                            and T.put_in_no=#{putInNo}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="putInTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('putInTime')">
+                            and T.put_in_time like concat('%',#{putInTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.put_in_time=#{putInTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="buyTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('buyTime')">
+                            and T.buy_time like concat('%',#{buyTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.buy_time=#{buyTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="unit!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('unit')">
+                            and T.unit like concat('%',#{unit},'%')
+                         </when>
+                         <otherwise>
+                            and T.unit=#{unit}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="remark!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('remark')">
+                            and T.remark like concat('%',#{remark},'%')
+                         </when>
+                         <otherwise>
+                            and T.remark=#{remark}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createUser!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('createUser')">
+                            and T.create_user like concat('%',#{createUser},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_user=#{createUser}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('createId')">
+                            and T.create_id like concat('%',#{createId},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_id=#{createId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createUsername!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('createUsername')">
+                            and T.create_username like concat('%',#{createUsername},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_username=#{createUsername}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsCategoryId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsCategoryId')">
+                            and T.assets_category_id like concat('%',#{assetsCategoryId},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_category_id=#{assetsCategoryId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsCategoryAncestorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsCategoryAncestorId')">
+                            and T.assets_category_ancestor_id like concat('%',#{assetsCategoryAncestorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_category_ancestor_id=#{assetsCategoryAncestorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findAssetsInNewListByCondition" parameterType="AssetsInNew" resultType="AssetsInNew">
+        select
+         <include refid="projection"/>
+         from xw_assets_in_new T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findAssetsInNewCountByCondition" parameterType="AssetsInNew" resultType="long">
+        select count(*) from xw_assets_in_new T
+        <include refid="match"/>
+    </select>
+    <select id="findAssetsInNewById" resultType="AssetsInNew">
+        select * from xw_assets_in_new where id=#{id}
+    </select>
+    <select id="findOneAssetsInNewByCondition" parameterType="AssetsInNew" resultType="AssetsInNew">
+        select
+         <include refid="projection"/>
+         from xw_assets_in_new T
+        <include refid="match"/>
+    </select>
+    <insert id="saveAssetsInNew" parameterType="AssetsInNew">
+        INSERT INTO xw_assets_in_new (  id,  assets_file_id,  inventory_code,  put_in_quantity,  put_in_warehouse,  put_in_warehouse_name,  assets_buyer,  assets_buy_time,  assets_use_timelimit_number,  assets_use_timelimit_unit,  assets_use_timelimit_real,  assets_maintenance_timelimit_unit,  assets_maintenance_timelimit_number,  assets_maintenance_timelimit_real,  valid_date,  maintenance_date,  price,  put_in_no,  put_in_time,  buy_time,  unit,  remark,  create_time,  create_user,  create_id,  create_username,  assets_category_id,  assets_category_ancestor_id,  school_id,  assets_price,  assets_name,  assets_property,  assets_model,  manufacturer,  assets_barcode,  assets_unit )
+         values
+         (   #{id}  ,   #{assetsFileId}  ,   #{inventoryCode}  ,   #{putInQuantity}  ,   #{putInWarehouse}  ,   #{putInWarehouseName}  ,   #{assetsBuyer}  ,   #{assetsBuyTime}  ,   #{assetsUseTimelimitNumber}  ,   #{assetsUseTimelimitUnit}  ,   #{assetsUseTimelimitReal}  ,   #{assetsMaintenanceTimelimitUnit}  ,   #{assetsMaintenanceTimelimitNumber}  ,   #{assetsMaintenanceTimelimitReal}  ,   #{validDate}  ,   #{maintenanceDate}  ,   #{price}  ,   #{putInNo}  ,   #{putInTime}  ,   #{buyTime}  ,   #{unit}  ,   #{remark}  ,   now()  ,   #{createUser}  ,   #{createId}  ,   #{createUsername}  ,   #{assetsCategoryId}  ,   #{assetsCategoryAncestorId}  ,   #{schoolId}  ,   #{assetsPrice}  ,   #{assetsName}  ,   #{assetsProperty}  ,   #{assetsModel}  ,   #{manufacturer}  ,   #{assetsBarcode}  ,   #{assetsUnit}    )
+    </insert>
+    <update id="updateAssetsInNew" parameterType="AssetsInNew">
+        update xw_assets_in_new
+        <set>
+                    assets_file_id=#{assetsFileId},
+                    inventory_code=#{inventoryCode},
+                    put_in_quantity=#{putInQuantity},
+                    put_in_warehouse=#{putInWarehouse},
+                    put_in_warehouse_name=#{putInWarehouseName},
+                    assets_buyer=#{assetsBuyer},
+                    assets_buy_time=#{assetsBuyTime},
+                    assets_use_timelimit_number=#{assetsUseTimelimitNumber},
+                    assets_use_timelimit_unit=#{assetsUseTimelimitUnit},
+                    assets_use_timelimit_real=#{assetsUseTimelimitReal},
+                    assets_maintenance_timelimit_unit=#{assetsMaintenanceTimelimitUnit},
+                    assets_maintenance_timelimit_number=#{assetsMaintenanceTimelimitNumber},
+                    assets_maintenance_timelimit_real=#{assetsMaintenanceTimelimitReal},
+                    valid_date=#{validDate},
+                    maintenance_date=#{maintenanceDate},
+                    price=#{price},
+                    put_in_no=#{putInNo},
+                    put_in_time=#{putInTime},
+                    buy_time=#{buyTime},
+                    unit=#{unit},
+                    remark=#{remark},
+                    create_time=#{createTime},
+                    create_user=#{createUser},
+                    create_id=#{createId},
+                    create_username=#{createUsername},
+                    assets_category_id=#{assetsCategoryId},
+                    assets_category_ancestor_id=#{assetsCategoryAncestorId},
+                    school_id=#{schoolId}
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateAssetsInNewForNotNull" parameterType="AssetsInNew">
+        update xw_assets_in_new
+        <set>
+                    <if test="assetsFileId!=null ">
+                        assets_file_id=#{assetsFileId},
+                    </if>
+                    <if test="inventoryCode!=null ">
+                        inventory_code=#{inventoryCode},
+                    </if>
+                    <if test="putInQuantity!=null ">
+                        put_in_quantity=#{putInQuantity},
+                    </if>
+                    <if test="putInWarehouse!=null ">
+                        put_in_warehouse=#{putInWarehouse},
+                    </if>
+                    <if test="putInWarehouseName!=null ">
+                        put_in_warehouse_name=#{putInWarehouseName},
+                    </if>
+                    <if test="assetsBuyer!=null ">
+                        assets_buyer=#{assetsBuyer},
+                    </if>
+                    <if test="assetsBuyTime!=null ">
+                        assets_buy_time=#{assetsBuyTime},
+                    </if>
+                    <if test="assetsUseTimelimitNumber!=null ">
+                        assets_use_timelimit_number=#{assetsUseTimelimitNumber},
+                    </if>
+                    <if test="assetsUseTimelimitUnit!=null ">
+                        assets_use_timelimit_unit=#{assetsUseTimelimitUnit},
+                    </if>
+                    <if test="assetsUseTimelimitReal!=null ">
+                        assets_use_timelimit_real=#{assetsUseTimelimitReal},
+                    </if>
+                    <if test="assetsMaintenanceTimelimitUnit!=null ">
+                        assets_maintenance_timelimit_unit=#{assetsMaintenanceTimelimitUnit},
+                    </if>
+                    <if test="assetsMaintenanceTimelimitNumber!=null ">
+                        assets_maintenance_timelimit_number=#{assetsMaintenanceTimelimitNumber},
+                    </if>
+                    <if test="assetsMaintenanceTimelimitReal!=null ">
+                        assets_maintenance_timelimit_real=#{assetsMaintenanceTimelimitReal},
+                    </if>
+                    <if test="validDate!=null ">
+                        valid_date=#{validDate},
+                    </if>
+                    <if test="maintenanceDate!=null ">
+                        maintenance_date=#{maintenanceDate},
+                    </if>
+                    <if test="price!=null ">
+                        price=#{price},
+                    </if>
+                    <if test="putInNo!=null ">
+                        put_in_no=#{putInNo},
+                    </if>
+                    <if test="putInTime!=null ">
+                        put_in_time=#{putInTime},
+                    </if>
+                    <if test="buyTime!=null ">
+                        buy_time=#{buyTime},
+                    </if>
+                    <if test="unit!=null ">
+                        unit=#{unit},
+                    </if>
+                    <if test="remark!=null ">
+                        remark=#{remark},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="createUser!=null ">
+                        create_user=#{createUser},
+                    </if>
+                    <if test="createId!=null ">
+                        create_id=#{createId},
+                    </if>
+                    <if test="createUsername!=null ">
+                        create_username=#{createUsername},
+                    </if>
+                    <if test="assetsCategoryId!=null ">
+                        assets_category_id=#{assetsCategoryId},
+                    </if>
+                    <if test="assetsCategoryAncestorId!=null ">
+                        assets_category_ancestor_id=#{assetsCategoryAncestorId},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteAssetsInNew" >
+        delete from xw_assets_in_new where id=#{id}
+    </delete>
+    <delete id="deleteAssetsInNewByCondition" >
+        delete T from xw_assets_in_new T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveAssetsInNew" parameterType="AssetsInNew">
+        INSERT INTO xw_assets_in_new (  id,  assets_file_id,  inventory_code,  put_in_quantity,  put_in_warehouse,  put_in_warehouse_name,  assets_buyer,  assets_buy_time,  assets_use_timelimit_number,  assets_use_timelimit_unit,  assets_use_timelimit_real,  assets_maintenance_timelimit_unit,  assets_maintenance_timelimit_number,  assets_maintenance_timelimit_real,  valid_date,  maintenance_date,  price,  put_in_no,  put_in_time,  buy_time,  unit,  remark,  create_time,  create_user,  create_id,  create_username,  assets_category_id,  assets_category_ancestor_id,  school_id )
+        VALUES
+        <foreach collection="list" item="assetsInNew" separator=",">
+            (  #{assetsInNew.id},  #{assetsInNew.assetsFileId},  #{assetsInNew.inventoryCode},  #{assetsInNew.putInQuantity},  #{assetsInNew.putInWarehouse},  #{assetsInNew.putInWarehouseName},  #{assetsInNew.assetsBuyer},  #{assetsInNew.assetsBuyTime},  #{assetsInNew.assetsUseTimelimitNumber},  #{assetsInNew.assetsUseTimelimitUnit},  #{assetsInNew.assetsUseTimelimitReal},  #{assetsInNew.assetsMaintenanceTimelimitUnit},  #{assetsInNew.assetsMaintenanceTimelimitNumber},  #{assetsInNew.assetsMaintenanceTimelimitReal},  #{assetsInNew.validDate},  #{assetsInNew.maintenanceDate},  #{assetsInNew.price},  #{assetsInNew.putInNo},  #{assetsInNew.putInTime},  #{assetsInNew.buyTime},  #{assetsInNew.unit},  #{assetsInNew.remark},  #{assetsInNew.createTime},  #{assetsInNew.createUser},  #{assetsInNew.createId},  #{assetsInNew.createUsername},  #{assetsInNew.assetsCategoryId},  #{assetsInNew.assetsCategoryAncestorId},  #{assetsInNew.schoolId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <resultMap type="com.yice.edu.cn.common.pojo.xw.zc.assetsInNew.AssetsInNew" id="assetsInNewMap">
+        <id column="id" property="id"/>
+        <result column="put_in_no" property="putInNo"/>
+        <result column="put_in_warehouse" property="putInWarehouse"/>
+        <result column="put_in_warehouse_name" property="putInWarehouseName"/>
+        <result column="valid_date" property="validDate"/>
+        <result column="maintenance_date" property="maintenanceDate"/>
+
+        <result column="put_in_quantity" property="putInQuantity"/>
+        <result column="assets_buyer" property="assetsBuyer"/>
+        <result column="assets_buy_time" property="assetsBuyTime"/>
+
+        <association property="assetsFile" javaType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile">
+            <id column="fid" property="id"/>
+            <result column="assets_id" property="id"/>
+            <result column="assets_name" property="assetsName"/>
+            <result column="assets_price" property="assetsPrice"/>
+            <result column="assets_property" property="assetsProperty"/>
+            <result column="assets_unit" property="assetsUnit"/>
+            <result column="inventory_code" property="inventoryCode"/>
+            <result column="assets_model" property="assetsModel"/>
+            <result column="manufacturer" property="manufacturer"/>
+            <result column="supplier" property="supplier"/>
+            <result column="assets_price" property="assetsPrice"/>
+            <result column="assets_barcode" property="assetsBarcode"/>
+        </association>
+    </resultMap>
+
+    <select id="findAssetsNoListByCondition" parameterType="AssetsInNew" resultType="AssetsInNew">
+        SELECT
+        ain.put_in_no as putInNo,
+        ain.create_username as create_username,
+        ain.put_in_time as putInTime,
+        ain.remark,
+        sum( ain.put_in_quantity ) as put_in_quantity,
+        ain.put_in_warehouse,
+        ain.school_id
+        FROM
+        xw_assets_in_new ain
+        GROUP BY
+        ain.put_in_no,
+        ain.create_username
+        having 1 = 1
+        <if test="putInNo!=null">
+            and putInNo like concat('%',#{putInNo},'%')
+        </if>
+        <if test="createUsername!=null">
+            and create_username like concat('%',#{createUsername},'%')
+        </if>
+        <if test="searchStartTime!=null">
+            <![CDATA[
+              AND STR_TO_DATE( putInTime, '%Y-%m-%d' ) >= STR_TO_DATE(#{searchStartTime}, '%Y-%m-%d' )
+            ]]>
+        </if>
+        <if test="searchEndTime!=null">
+            <![CDATA[
+              AND STR_TO_DATE( putInTime, '%Y-%m-%d' ) <= STR_TO_DATE(#{searchEndTime}, '%Y-%m-%d' )
+            ]]>
+        </if>
+
+         <if test="putInWarehouse!=null ">
+            and put_in_warehouse=#{putInWarehouse}
+        </if>
+        <if test="schoolId!=null">
+            and school_id = #{schoolId}
+        </if>
+        ORDER BY
+        ain.create_time DESC
+        <include refid="page"/>
+    </select>
+
+
+    <!--入库单首页，返回totalCount-->
+    <select id="findAssetsNoCountByCondition" parameterType="AssetsInNew" resultType="long">
+        select count(T.putInNo)
+        from
+        (
+        SELECT
+        ain.put_in_no as putInNo,
+        ain.create_username as create_username,
+        ain.put_in_time as putInTime,
+        ain.remark,
+        sum( ain.put_in_quantity ) as put_in_quantity,
+        ain.put_in_warehouse,
+        ain.school_id
+        FROM
+        xw_assets_in_new ain
+        GROUP BY
+        ain.put_in_no,
+        ain.create_username
+        having 1 = 1
+        <if test="putInNo!=null">
+            and putInNo like concat('%',#{putInNo},'%')
+        </if>
+        <if test="createUsername!=null">
+            and create_username like concat('%',#{createUsername},'%')
+        </if>
+        <if test="searchStartTime!=null">
+            <![CDATA[
+              AND STR_TO_DATE( putInTime, '%Y-%m-%d' ) >= STR_TO_DATE(#{searchStartTime}, '%Y-%m-%d' )
+            ]]>
+        </if>
+        <if test="searchEndTime!=null">
+            <![CDATA[
+              AND STR_TO_DATE( putInTime, '%Y-%m-%d' ) <= STR_TO_DATE(#{searchEndTime}, '%Y-%m-%d' )
+            ]]>
+        </if>
+
+        <if test="putInWarehouse!=null ">
+            and put_in_warehouse=#{putInWarehouse}
+        </if>
+        <if test="schoolId!=null">
+            and school_id = #{schoolId}
+        </if>
+        ) T
+    </select>
+
+    <!-- 入库单,详情，包括几个资产 findAssetsInNewListByNo-->
+    <select id="findAssetsInNewDetailByNo" parameterType="AssetsInNew" resultType="AssetsInNew">
+        SELECT
+        T.*
+        FROM
+        xw_assets_in_new T
+        <where>
+            <if test="putInNo!=null ">
+                T.put_in_no =  #{putInNo}
+            </if>
+            <if test="schoolId!=null ">
+                and T.school_id = #{schoolId}
+            </if>
+        </where>
+
+
+    </select>
+
+
+
+    <select id="findAssetsNoByToday" parameterType="java.lang.String" resultType="java.lang.String">
+        select
+            ain.put_in_no
+        from xw_assets_in_new ain
+         where ain.put_in_no like concat(#{today},'%')
+         order by ain.put_in_no DESC
+         limit 1
+    </select>
+
+    <select id="findAssetsInNewDetailCountByNo" parameterType="AssetsInNew" resultType="long">
+        SELECT
+        count(1)
+        FROM
+        xw_assets_in_new ain
+        LEFT JOIN xw_assets_file afi ON ain.assets_file_id = afi.id
+        <where>
+            <if test="putInNo!=null ">
+                ain.put_in_no =  #{putInNo}
+            </if>
+            <if test="schoolId!=null ">
+                and ain.school_id = #{schoolId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

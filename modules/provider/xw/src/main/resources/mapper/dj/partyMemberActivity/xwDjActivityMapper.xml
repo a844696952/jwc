@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.partyMemberActivity.IXwDjActivityDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('columnId')">
+                             T.column_id,
+                         </if>
+                         <if test="!pager.excludes.contains('activityTitle')">
+                             T.activity_title,
+                         </if>
+                         <if test="!pager.excludes.contains('activityContent')">
+                             T.activity_content,
+                         </if>
+                         <if test="!pager.excludes.contains('activityStartTime')">
+                             T.activity_start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('activityEndTime')">
+                             T.activity_end_time,
+                         </if>
+                         <if test="!pager.excludes.contains('applyStopTime')">
+                             T.apply_stop_time,
+                         </if>
+                         <if test="!pager.excludes.contains('isSiginIn')">
+                             T.is_sigin_in,
+                         </if>
+                         <if test="!pager.excludes.contains('activityState')">
+                             T.activity_state,
+                         </if>
+                         <if test="!pager.excludes.contains('activityPositionName')">
+                             T.activity_position_name,
+                         </if>
+                         <if test="!pager.excludes.contains('activityPositionCode')">
+                             T.activity_position_code,
+                         </if>
+                         <if test="!pager.excludes.contains('activityCreatorId')">
+                             T.activity_creator_id,
+                         </if>
+                         <if test="!pager.excludes.contains('activityCreateDate')">
+                             T.activity_create_date,
+                         </if>
+                         <if test="!pager.excludes.contains('activityQrCode')">
+                             T.activity_qr_code,
+                         </if>
+                     <if test="!pager.excludes.contains('operateId')">
+                         T.operate_id,
+                     </if>
+                     <if test="!pager.excludes.contains('operateDate')">
+                         T.operate_date,
+                     </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="columnId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='columnId'">
+                            and T.column_id like concat('%',#{columnId},'%')
+                         </when>
+                         <otherwise>
+                            and T.column_id=#{columnId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityTitle!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityTitle'">
+                            and T.activity_title like concat('%',#{activityTitle},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_title=#{activityTitle}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityContent!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityContent'">
+                            and T.activity_content like concat('%',#{activityContent},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_content=#{activityContent}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityStartTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityStartTime'">
+                            and T.activity_start_time like concat('%',#{activityStartTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_start_time=#{activityStartTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityEndTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityEndTime'">
+                            and T.activity_end_time like concat('%',#{activityEndTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_end_time=#{activityEndTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="applyStopTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='applyStopTime'">
+                            and T.apply_stop_time like concat('%',#{applyStopTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.apply_stop_time=#{applyStopTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isSiginIn!=null">
+                    and T.is_sigin_in=#{isSiginIn}
+              </if>
+
+              <if test="activityPositionName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityPositionName'">
+                            and T.activity_position_name like concat('%',#{activityPositionName},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_position_name=#{activityPositionName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityPositionCode!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityPositionCode'">
+                            and T.activity_position_code like concat('%',#{activityPositionCode},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_position_code=#{activityPositionCode}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityCreatorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityCreatorId'">
+                            and T.activity_creator_id like concat('%',#{activityCreatorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_creator_id=#{activityCreatorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityCreateDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityCreateDate'">
+                            and T.activity_create_date like concat('%',#{activityCreateDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_create_date=#{activityCreateDate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityQrCode!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityQrCode'">
+                            and T.activity_qr_code like concat('%',#{activityQrCode},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_qr_code=#{activityQrCode}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+            <if test="schoolId!=null">
+                 and xw_cl.school_id=#{schoolId}
+            </if>
+            <if test="activityState!=null">
+                <choose>
+                    <when test="activityState == 0 or activityState == 3 ">
+                      and  T.activity_state=#{activityState}
+                    </when>
+                    <when test="activityState==1">
+                            <!--报名中-->
+                        and  T.apply_stop_time <![CDATA[ >= ]]> (SELECT NOW()) AND T.activity_state=1
+                    </when>
+                    <when test="activityState==2">
+                        <!--未开始-->
+                        and T.apply_stop_time <![CDATA[ <= ]]> (SELECT NOW()) AND  (SELECT NOW())  <![CDATA[ <= ]]> T.activity_start_time AND T.activity_state=1
+                    </when>
+
+                    <when test="activityState==4">
+                        <!--进行中-->
+                        and   T.activity_start_time <![CDATA[ <= ]]> (SELECT NOW()) AND (SELECT NOW())  <![CDATA[ <= ]]> T.activity_end_time AND T.activity_state=1
+                    </when>
+
+                    <when test="activityState==5">
+                        <!--已结束-->
+                        and (SELECT NOW())  <![CDATA[ > ]]> T.activity_end_time AND T.activity_state=1
+                    </when>
+
+                </choose>
+
+
+            </if>
+        </where>
+
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwDjActivityListByCondition" parameterType="XwDjActivity" resultMap="organizationTree">
+        SELECT T.id,T.activity_title,T.activity_create_date as activityCreateDate,T.activity_state,xw_cl.classify_name,
+        T.activity_start_time,T.activity_end_time,T.apply_stop_time ,#{activityState} as tempState
+        from xw_dj_activity T
+        inner join xw_dj_classify xw_cl on T.column_id=xw_cl.id
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+    </select>
+
+    <resultMap id="organizationTree" type="XwDjActivity" autoMapping="true">
+        <id property="id" column="id"/>
+        <collection property="activityUserList" javaType="java.util.ArrayList" column="id"
+                    ofType="organizationTree" select="selectSubChildrenById" fetchType="eager">
+        </collection>
+    </resultMap>
+
+
+    <select id="selectSubChildrenById" resultMap="organizationTree" parameterType="String">
+        select * from xw_dj_activity_user where activity_id= #{id}
+    </select>
+
+    <select id="findXwDjActivityTeacherListByCondition" parameterType="XwDjActivity" resultType="XwDjActivity">
+        SELECT T.id,T.activity_title,T.activity_create_date as activityCreateDate,T.activity_state,xw_cl.classify_name,
+        T.activity_start_time,T.activity_end_time,T.apply_stop_time,T2.is_sign_in ,T2.is_vacate ,#{activityState} as tempState
+        from xw_dj_activity T
+        inner join xw_dj_classify xw_cl on T.column_id=xw_cl.id
+        left join xw_dj_activity_user T2 on T2.activity_id=T.id and T2.activity_user_id=#{activityUserId}
+            <where>
+                <if test="id!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='id'">
+                            T.id like concat('%',#{id},'%')
+                        </when>
+                        <otherwise>
+                            T.id=#{id}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="columnId!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='columnId'">
+                            and T.column_id like concat('%',#{columnId},'%')
+                        </when>
+                        <otherwise>
+                            and T.column_id=#{columnId}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="activityTitle!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='activityTitle'">
+                            and T.activity_title like concat('%',#{activityTitle},'%')
+                        </when>
+                        <otherwise>
+                            and T.activity_title=#{activityTitle}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="activityContent!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='activityContent'">
+                            and T.activity_content like concat('%',#{activityContent},'%')
+                        </when>
+                        <otherwise>
+                            and T.activity_content=#{activityContent}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="activityStartTime!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='activityStartTime'">
+                            and T.activity_start_time like concat('%',#{activityStartTime},'%')
+                        </when>
+                        <otherwise>
+                            and T.activity_start_time=#{activityStartTime}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="activityEndTime!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='activityEndTime'">
+                            and T.activity_end_time like concat('%',#{activityEndTime},'%')
+                        </when>
+                        <otherwise>
+                            and T.activity_end_time=#{activityEndTime}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="applyStopTime!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='applyStopTime'">
+                            and T.apply_stop_time like concat('%',#{applyStopTime},'%')
+                        </when>
+                        <otherwise>
+                            and T.apply_stop_time=#{applyStopTime}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="isSiginIn!=null">
+                    and T.is_sigin_in=#{isSiginIn}
+                </if>
+
+                <if test="activityPositionName!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='activityPositionName'">
+                            and T.activity_position_name like concat('%',#{activityPositionName},'%')
+                        </when>
+                        <otherwise>
+                            and T.activity_position_name=#{activityPositionName}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="activityPositionCode!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='activityPositionCode'">
+                            and T.activity_position_code like concat('%',#{activityPositionCode},'%')
+                        </when>
+                        <otherwise>
+                            and T.activity_position_code=#{activityPositionCode}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="activityCreatorId!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='activityCreatorId'">
+                            and T.activity_creator_id like concat('%',#{activityCreatorId},'%')
+                        </when>
+                        <otherwise>
+                            and T.activity_creator_id=#{activityCreatorId}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="activityCreateDate!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='activityCreateDate'">
+                            and T.activity_create_date like concat('%',#{activityCreateDate},'%')
+                        </when>
+                        <otherwise>
+                            and T.activity_create_date=#{activityCreateDate}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="activityQrCode!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='activityQrCode'">
+                            and T.activity_qr_code like concat('%',#{activityQrCode},'%')
+                        </when>
+                        <otherwise>
+                            and T.activity_qr_code=#{activityQrCode}
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                    <foreach collection="pager.rangeArray" item="item"  index="i">
+                        <if test="i==0 and item!=null">
+                            and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                        </if>
+                    </foreach>
+
+                </if>
+                <if test="schoolId!=null">
+                    and xw_cl.school_id=#{schoolId}
+                </if>
+                <if test="activityState!=null">
+                    <choose>
+                        <when test="activityState==1">
+                            <!--报名中-->
+                            and  T.apply_stop_time <![CDATA[ >= ]]> (SELECT NOW()) AND T.activity_state=1
+                        </when>
+                        <when test="activityState==2">
+                            <!--未开始-->
+                            and  (SELECT NOW()) AND  (SELECT NOW())  <![CDATA[ <= ]]> T.activity_start_time AND T.activity_state=1
+                        </when>
+
+                        <when test="activityState==4">
+                            <!--进行中-->
+                            and   T.activity_start_time <![CDATA[ <= ]]> (SELECT NOW()) AND (SELECT NOW())  <![CDATA[ <= ]]> T.activity_end_time AND T.activity_state=1
+                        </when>
+
+                        <when test="activityState==5">
+                            <!--已结束-->
+                            and (((SELECT NOW())  <![CDATA[ > ]]> T.activity_end_time AND T.activity_state=1) or  (T.activity_state=3 and is_sign_up=1))
+                        </when>
+
+                    </choose>
+
+
+                </if>
+            </where>
+
+         and T2.is_sign_up=#{isSignUp} and  T.activity_state!=0 and T2.activity_user_id=#{activityUserId}
+        <if test="isSignUp==0">
+            and  T.activity_state!=3
+        </if>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findXwDjActivityPartyMemberListByCondition" parameterType="XwDjActivity" resultType="XwDjActivity">
+        select T.id,xdc.classify_name,T.activity_title,T.activity_create_date,jt.name,T.activity_end_time from xw_dj_activity T
+        LEFT JOIN xw_dj_classify xdc ON xdc.id=T.column_id
+        LEFT JOIN jw_teacher jt ON jt.id=T.activity_creator_id
+        RIGHT JOIN xw_dj_activity_user xdu ON xdu.activity_id=T.id
+        where xdu.is_sign_up=1 and NOW() >T.activity_end_time and xdu.activity_user_id=#{activityUserId} and T.activity_state=1
+            <if test="activityTitle!=null">
+                AND T.activity_title like concat('%',#{activityTitle},'%')
+            </if>
+            <if test="columnId!=null">
+                and T.column_id=#{columnId}
+            </if>
+        <if test="searchStartTime!=null">
+            and T.activity_end_time &gt;= #{searchStartTime}
+        </if>
+        <if test="searchEndTime!=null">
+            and T.activity_end_time &lt;= #{searchEndTime}
+        </if>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+    <select id="findXwDjActivityPartyMemberCountByCondition" parameterType="XwDjActivity" resultType="long">
+        select count(1) from xw_dj_activity T
+        LEFT JOIN xw_dj_classify xdc ON xdc.id=T.column_id
+        LEFT JOIN jw_teacher jt ON jt.id=T.activity_creator_id
+        RIGHT JOIN xw_dj_activity_user xdu ON xdu.activity_id=T.id
+        where xdu.is_sign_up=1  and NOW() >T.activity_end_time and xdu.activity_user_id=#{activityUserId} and T.activity_state=1
+        <if test="activityTitle!=null">
+            AND T.activity_title like concat('%',#{activityTitle},'%')
+        </if>
+        <if test="columnId!=null">
+            and T.column_id=#{columnId}
+        </if>
+        <if test="searchStartTime!=null">
+            and T.activity_end_time &gt;= #{searchStartTime}
+        </if>
+        <if test="searchEndTime!=null">
+            and T.activity_end_time &lt;= #{searchEndTime}
+        </if>
+    </select>
+    <select id="findXwDjActivityCountByCondition" parameterType="XwDjActivity" resultType="long">
+        SELECT count(*)
+        from xw_dj_activity T
+        inner join xw_dj_classify xw_cl on T.column_id=xw_cl.id
+        <include refid="match"/>
+    </select>
+    <select id="findXwDjActivityTeacherCountByCondition" parameterType="XwDjActivity" resultType="long">
+        SELECT count(*)
+        from xw_dj_activity T
+        inner join xw_dj_classify xw_cl on T.column_id=xw_cl.id
+        left join xw_dj_activity_user T2 on T2.activity_id=T.id and T2.activity_user_id=#{activityUserId}
+        <include refid="match"/> and T2.is_sign_up=#{isSignUp}
+    </select>
+    <select id="findXwDjActivityById" resultType="XwDjActivity">
+        select T.*,J.name AS operateName from xw_dj_activity T left join jw_teacher J on T.operate_id=J.id  where T.id=#{id}
+    </select>
+    <select id="findXwDjActivityCountByColumnId" resultType="long">
+        SELECT count(*) from xw_dj_activity where column_id=#{id}
+    </select>
+    <select id="findXwDjActivityCountByActivityCreatorId" resultType="long">
+        SELECT count(1) from xw_dj_activity where activity_creator_id=#{id}
+    </select>
+    <select id="findOneXwDjActivityByCondition" parameterType="XwDjActivity" resultType="XwDjActivity">
+        select
+         <include refid="projection"/>
+         from xw_dj_activity T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwDjActivity" parameterType="XwDjActivity">
+        insert into xw_dj_activity
+         (
+            id,
+            column_id,
+            activity_title,
+            activity_content,
+            activity_start_time,
+            activity_end_time,
+            apply_stop_time,
+            is_sigin_in,
+            activity_state,
+            activity_position_name,
+            activity_position_code,
+            activity_creator_id,
+            activity_create_date,
+            activity_qr_code,
+            operate_id,
+            operate_date,
+            school_id,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{columnId}
+                ,
+                #{activityTitle}
+                ,
+                #{activityContent}
+                ,
+                #{activityStartTime}
+                ,
+                #{activityEndTime}
+                ,
+                #{applyStopTime}
+                ,
+                #{isSiginIn}
+                ,
+                #{activityState}
+                ,
+                #{activityPositionName}
+                ,
+                #{activityPositionCode}
+                ,
+                #{activityCreatorId}
+                ,
+                #{activityCreateDate}
+                ,
+                #{activityQrCode}
+                ,
+                #{operateId}
+                ,
+                #{operateDate}
+                ,
+                #{schoolId}
+                ,
+                #{createTime}
+                
+         )
+    </insert>
+    <update id="updateXwDjActivity" parameterType="XwDjActivity">
+        update xw_dj_activity
+        <set>
+                    <if test="columnId!=null ">
+                        column_id=#{columnId},
+                    </if>
+                    <if test="activityTitle!=null ">
+                        activity_title=#{activityTitle},
+                    </if>
+                    <if test="activityContent!=null ">
+                        activity_content=#{activityContent},
+                    </if>
+                    <if test="activityStartTime!=null ">
+                        activity_start_time=#{activityStartTime},
+                    </if>
+                    <if test="activityEndTime!=null ">
+                        activity_end_time=#{activityEndTime},
+                    </if>
+                    <if test="applyStopTime!=null ">
+                        apply_stop_time=#{applyStopTime},
+                    </if>
+                    <if test="isSiginIn!=null ">
+                        is_sigin_in=#{isSiginIn},
+                    </if>
+                    <if test="activityState!=null ">
+                        activity_state=#{activityState},
+                    </if>
+                    <if test="activityPositionName!=null ">
+                        activity_position_name=#{activityPositionName},
+                    </if>
+                    <if test="activityPositionCode!=null ">
+                        activity_position_code=#{activityPositionCode},
+                    </if>
+                    <if test="activityCreatorId!=null ">
+                        activity_creator_id=#{activityCreatorId},
+                    </if>
+                    <if test="activityCreateDate!=null ">
+                        activity_create_date=#{activityCreateDate},
+                    </if>
+                    <if test="activityQrCode!=null ">
+                        activity_qr_code=#{activityQrCode},
+                    </if>
+                <if test="operateId!=null ">
+                    operate_id=#{operateId},
+               </if>
+            <if test="operateDate!=null ">
+                operate_date=#{operateDate},
+            </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwDjActivity" >
+        delete from xw_dj_activity where id=#{id}
+    </delete>
+    <delete id="deleteXwDjActivityByCondition" >
+        delete T from xw_dj_activity T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwDjActivity" parameterType="XwDjActivity">
+        INSERT INTO xw_dj_activity (  id,  column_id,  activity_title,  activity_content,  activity_start_time,  activity_end_time,  apply_stop_time,  is_sigin_in,  activity_state,  activity_position_name,  activity_position_code,  activity_creator_id,  activity_create_date,  activity_qr_code )
+        VALUES
+        <foreach collection="list" item="xwDjActivity" separator=",">
+            (  #{xwDjActivity.id},  #{xwDjActivity.columnId},  #{xwDjActivity.activityTitle},  #{xwDjActivity.activityContent},  #{xwDjActivity.activityStartTime},  #{xwDjActivity.activityEndTime},  #{xwDjActivity.applyStopTime},  #{xwDjActivity.isSiginIn},  #{xwDjActivity.activityState},  #{xwDjActivity.activityPositionName},  #{xwDjActivity.activityPositionCode},  #{xwDjActivity.activityCreatorId},  #{xwDjActivity.activityCreateDate},  #{xwDjActivity.activityQrCode}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findTeacherXwDjActivityById" resultType="XwDjActivityAndUserVo">
+         select T1.*,
+             T2.id userId,
+             T2.activity_id,
+             T2.activity_user_id,
+             T2.is_sign_in_leader,
+             T2.is_sign_up,
+             T2.is_vacate,
+             T2.is_sign_in,
+             T2.vacate_reason,
+             T2.sign_in_date,
+             T3.name as operateName
+          from xw_dj_activity T1
+          left join xw_dj_activity_user T2 on T1.id=T2.activity_id
+          left join jw_teacher T3 on T3.id=T1.operate_id
+          where T1.id=#{id} and T2.activity_user_id=#{activityUserId}
+    </select>
+    <update id="closeXwDjActivity" parameterType="com.yice.edu.cn.common.pojo.xw.dj.partyMemberActivity.XwDjActivity">
+        update xw_dj_activity set activity_state='3',operate_id=#{operateId},operate_date=NOW() where id=#{id}
+    </update>
+    <update id="updateXwDjActivityStatus" parameterType="XwDjActivity">
+        update xw_dj_activity set activity_state=#{activityState} where id=#{id}
+    </update>
+
+</mapper>

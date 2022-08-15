@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.schoolActive.IDmActivitySiginUpDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('activityId')">
+                             T.activity_id,
+                         </if>
+                         <if test="!pager.excludes.contains('itemId')">
+                             T.item_id,
+                         </if>
+                         <if test="!pager.excludes.contains('studentId')">
+                             T.student_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="activityId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='activityId'">
+                            and T.activity_id like concat('%',#{activityId},'%')
+                         </when>
+                         <otherwise>
+                            and T.activity_id=#{activityId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="itemId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='itemId'">
+                            and T.item_id like concat('%',#{itemId},'%')
+                         </when>
+                         <otherwise>
+                            and T.item_id=#{itemId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="studentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='studentId'">
+                            and T.student_id like concat('%',#{studentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.student_id=#{studentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmActivitySiginUpListByCondition" parameterType="DmActivitySiginUp" resultType="DmActivitySiginUp">
+        select
+         <include refid="projection"/>
+         from dm_activity_sigin_up T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDmActivitySiginUpCountByCondition" parameterType="DmActivitySiginUp" resultType="long">
+        select count(*) from dm_activity_sigin_up T
+        <include refid="match"/>
+    </select>
+    <select id="findDmActivitySiginUpById" resultType="DmActivitySiginUp">
+        select * from dm_activity_sigin_up where id=#{id}
+    </select>
+    <select id="findOneDmActivitySiginUpByCondition" parameterType="DmActivitySiginUp" resultType="DmActivitySiginUp">
+        select
+         <include refid="projection"/>
+         from dm_activity_sigin_up T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmActivitySiginUp" parameterType="DmActivitySiginUp">
+        insert into dm_activity_sigin_up
+         (
+            id,
+            activity_id,
+            item_id,
+            student_id,
+            create_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{activityId}
+                ,
+                #{itemId}
+                ,
+                #{studentId}
+                ,
+                now()
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updateDmActivitySiginUp" parameterType="DmActivitySiginUp">
+        update dm_activity_sigin_up
+        <set>
+                    <if test="activityId!=null ">
+                        activity_id=#{activityId},
+                    </if>
+                    <if test="itemId!=null ">
+                        item_id=#{itemId},
+                    </if>
+                    <if test="studentId!=null ">
+                        student_id=#{studentId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmActivitySiginUp" >
+        delete from dm_activity_sigin_up where id=#{id}
+    </delete>
+    <delete id="deleteDmActivitySiginUpByCondition" >
+        delete T from dm_activity_sigin_up T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmActivitySiginUp" parameterType="DmActivitySiginUp">
+        INSERT INTO dm_activity_sigin_up (  id,  activity_id,  item_id,  student_id,  create_time,  school_id,  classes_id)
+        VALUES
+        <foreach collection="list" item="dmActivitySiginUp" separator=",">
+            (  #{dmActivitySiginUp.id},  #{dmActivitySiginUp.activityId},  #{dmActivitySiginUp.itemId},  #{dmActivitySiginUp.studentId},  #{dmActivitySiginUp.createTime},  #{dmActivitySiginUp.schoolId},  #{dmActivitySiginUp.classesId}  )
+        </foreach>
+    </insert>
+    <select id="checkGradeSingUp" resultType="int">
+        select count(*) from dm_activity_sigin_up dasu left join jw_classes jc on dasu.classes_id=jc.id where dasu.activity_id=#{activityId}  and jc.grade_id=#{gradeId}
+    </select>
+    <select id="checkItemSingUp" resultType="com.yice.edu.cn.common.pojo.dm.schoolActive.DmActivitySiginUp">
+        select * from dm_activity_sigin_up where item_id=#{itemId}
+    </select>
+    <select id="findDmActivitySiginUpListByItemId"
+            resultType="com.yice.edu.cn.common.pojo.dm.schoolActive.DmActivitySiginUp">
+            select a.*,b.name,b.img_url from dm_activity_sigin_up a left join jw_student b on a.student_id=b.id where a.item_id=#{itemId} and a.classes_id=#{classesId}
+    </select>
+    <delete id="deleteDmActivitySiginUpByItemId">
+            delete from dm_activity_sigin_up where item_id=#{itemId} and classes_id=#{classesId}
+    </delete>
+    <delete id="deleteNotExist">
+        delete from dm_activity_sigin_up where activity_id=#{activityId} and item_id not in
+        <foreach collection="itemIds" item="itemId" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+    <delete id="deleteDmActivitySiginUpByActivityId">
+        delete from dm_activity_sigin_up where activity_id=#{activityId}
+    </delete>
+    <delete id="deleteDmActivitySiginUpByActivityIdAndGradeId">
+        delete from dm_activity_sigin_up where activity_id=#{activityId} and classes_id not in
+        <foreach collection="classesIds" open="(" item="classesId" separator="," close=")">
+            #{classesId}
+        </foreach>
+    </delete>
+
+
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

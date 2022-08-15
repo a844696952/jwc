@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.apk.IApkDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('version')">
+                             T.version,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('apkSize')">
+                             T.apk_size,
+                         </if>
+                         <if test="!pager.excludes.contains('apkUrl')">
+                             T.apk_url,
+                         </if>
+                         <if test="!pager.excludes.contains('apkMsg')">
+                             T.apk_msg,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <!--<if test="schoolId!=null">-->
+                    <!--<choose>-->
+                         <!--<when test="pager!=null and pager.like=='schoolId'">-->
+                            <!--and T.school_id like concat('%',#{schoolId},'%')-->
+                         <!--</when>-->
+                         <!--<otherwise>-->
+                            <!--and T.school_id=#{schoolId}-->
+                         <!--</otherwise>-->
+                      <!--</choose>-->
+              <!--</if>-->
+              <if test="version!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='version'">
+                            and T.version like concat('%',#{version},'%')
+                         </when>
+                         <otherwise>
+                            and T.version=#{version}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="apkSize!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='apkSize'">
+                            and T.apk_size like concat('%',#{apkSize},'%')
+                         </when>
+                         <otherwise>
+                            and T.apk_size=#{apkSize}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="apkUrl!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='apkUrl'">
+                            and T.apk_url like concat('%',#{apkUrl},'%')
+                         </when>
+                         <otherwise>
+                            and T.apk_url=#{apkUrl}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="apkMsg!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='apkMsg'">
+                            and T.apk_msg like concat('%',#{apkMsg},'%')
+                         </when>
+                         <otherwise>
+                            and T.apk_msg=#{apkMsg}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findApkListByCondition" parameterType="Apk" resultType="Apk">
+        select * from dm_apk T
+        order by T.version desc
+    </select>
+    <select id="findApkCountByCondition" parameterType="Apk" resultType="long">
+        select count(*) from dm_apk T
+        <include refid="match"/>
+    </select>
+    <select id="findApkById" resultType="Apk">
+        select * from dm_apk where id=#{id}
+    </select>
+    <select id="findOneApkByCondition" parameterType="Apk" resultType="Apk">
+        select
+         <include refid="projection"/>
+         from dm_apk T
+        <include refid="match"/>
+    </select>
+    <insert id="saveApk" parameterType="Apk">
+        insert into dm_apk
+         (
+            id,
+            school_id,
+            version,
+            create_time,
+            apk_size,
+            apk_url,
+            apk_msg
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{version}
+                ,
+                now()
+                ,
+                #{apkSize}
+                ,
+                #{apkUrl}
+                ,
+                #{apkMsg}
+                
+         )
+    </insert>
+    <update id="updateApk" parameterType="Apk">
+        update dm_apk
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="version!=null ">
+                        version=#{version},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="apkSize!=null ">
+                        apk_size=#{apkSize},
+                    </if>
+                    <if test="apkUrl!=null ">
+                        apk_url=#{apkUrl},
+                    </if>
+                    <if test="apkMsg!=null ">
+                        apk_msg=#{apkMsg}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteApk" >
+        delete from dm_apk where id=#{id}
+    </delete>
+    <delete id="deleteApkByCondition" >
+        delete T from dm_apk T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveApk" parameterType="Apk">
+        INSERT INTO dm_apk (  id,  school_id,  version,  create_time,  apk_size,  apk_url,  apk_msg )
+        VALUES
+        <foreach collection="list" item="apk" separator=",">
+            (  #{apk.id},  #{apk.schoolId},  #{apk.version},  #{apk.createTime},  #{apk.apkSize},  #{apk.apkUrl},  #{apk.apkMsg}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

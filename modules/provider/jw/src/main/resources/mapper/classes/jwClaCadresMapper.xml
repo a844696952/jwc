@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.classes.IJwClaCadresDao">
+    <!--########################################################################################################################-->
+    <select id="findJwClaCadresListByCondition" parameterType="JwClaCadres" resultType="JwClaCadres">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('classesId')">
+                             T.classes_id,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_cla_cadres T 
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="name!=null">
+                and T.name=#{name}
+              </if>
+              <if test="classesId!=null">
+                and T.classes_id=#{classesId}
+              </if>
+              <if test="type!=null">
+                and T.type=#{type}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+       
+    </select>
+    <select id="findJwClaCadresCountByCondition" parameterType="JwClaCadres" resultType="long">
+        select count(*) from jw_cla_cadres
+        <where>
+              <if test="createTime!=null">
+                 create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="classesId!=null">
+                and classes_id=#{classesId}
+              </if>
+              <if test="type!=null">
+                and type=#{type}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+        </where>
+    </select>
+    <select id="findJwClaCadresById" resultType="JwClaCadres">
+        select * from jw_cla_cadres where id=#{0}
+    </select>
+    <insert id="saveJwClaCadres" parameterType="JwClaCadres" useGeneratedKeys="true" keyProperty="id">
+        insert into jw_cla_cadres
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            name,
+            classes_id,
+            type,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{name}
+                ,
+                #{classesId}
+                ,
+                #{type}
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updateJwClaCadres" parameterType="JwClaCadres">
+        update jw_cla_cadres
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="classesId!=null ">
+                        classes_id=#{classesId},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteJwClaCadres" >
+        delete from jw_cla_cadres where id=#{0}
+    </delete>
+    <delete id="deleteJwClaCadresByCondition" >
+        delete from jw_cla_cadres
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="classesId!=null">
+                and classes_id=#{classesId}
+              </if>
+              <if test="type!=null">
+                and type=#{type}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveJwClaCadres" parameterType="JwClaCadres" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO jw_cla_cadres (
+                id,
+                create_time,
+                update_time,
+                del,
+                name,
+                classes_id,
+                type,
+                school_id
+        )
+        VALUES
+        <foreach collection="list" item="jwClaCadres" separator=",">
+            (
+                #{jwClaCadres.id},
+                #{jwClaCadres.createTime},
+                #{jwClaCadres.updateTime},
+                #{jwClaCadres.del},
+                #{jwClaCadres.name},
+                #{jwClaCadres.classesId},
+                #{jwClaCadres.type},
+                #{jwClaCadres.schoolId}
+            )
+        </foreach>
+
+    </insert>
+    <!--########################################################################################################################-->
+    
+        <select id="findJwClaCadresListWithSName" parameterType="JwClaCadres" resultType="JwClaCadres">
+        select T.id,T.name,T.type
+         ,GROUP_CONCAT(S.student_name) student_name
+         from jw_cla_cadres T left join jw_cla_cadres_stu S on T.id = S.cla_cadres_id
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="name!=null">
+                and T.name=#{name}
+              </if>
+              <if test="classesId!=null">
+                and T.classes_id=#{classesId}
+              </if>
+              <if test="type!=null">
+                and T.type=#{type}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="name!=null">
+                and T.name=#{name}
+              </if>
+        </where>
+        group by T.id,T.name,T.type
+        order by T.type
+    </select>
+    
+     <update id="updateJwClaCadresByClassesId">
+         update jw_cla_cadres
+         set classes_id = #{param1}
+         where classes_id=#{param2}
+    </update>
+    
+    <delete id="deleteClaCadresByClazzIdList" parameterType="List">
+       delete from jw_cla_cadres where classes_id in (
+    		<foreach collection="clazzIdList" item="item" separator=",">
+               #{item}
+	    	</foreach>
+	    	)
+    </delete>
+</mapper>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.subjectSource.IExamPointKnowledgeDao">
+    <!--########################################################################################################################-->
+    <select id="findExamPointKnowledgeListByCondition" parameterType="ExamPointKnowledge" resultType="ExamPointKnowledge">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('examPointId')">
+                             T.exam_point_id,
+                         </if>
+                         <if test="!pager.excludes.contains('knowledgePointId')">
+                             T.knowledge_point_id,
+                         </if>
+                         <if test="!pager.excludes.contains('examPointPath')">
+                             T.exam_point_path,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from exam_point_knowledge T
+        <where>
+              <if test="examPointId!=null">
+                 T.exam_point_id=#{examPointId}
+              </if>
+              <if test="knowledgePointId!=null">
+                and T.knowledge_point_id=#{knowledgePointId}
+              </if>
+              <if test="examPointPath!=null">
+                and T.exam_point_path=#{examPointPath}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findExamPointKnowledgeCountByCondition" parameterType="ExamPointKnowledge" resultType="long">
+        select count(*) from exam_point_knowledge
+        <where>
+              <if test="examPointId!=null">
+                 exam_point_id=#{examPointId}
+              </if>
+              <if test="knowledgePointId!=null">
+                and knowledge_point_id=#{knowledgePointId}
+              </if>
+              <if test="examPointPath!=null">
+                and exam_point_path=#{examPointPath}
+              </if>
+        </where>
+    </select>
+    <select id="findExamPointKnowledgeById" resultType="ExamPointKnowledge">
+        select * from exam_point_knowledge where id=#{id}
+    </select>
+    <select id="findOneExamPointKnowledgeByCondition" parameterType="ExamPointKnowledge" resultType="ExamPointKnowledge">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('examPointId')">
+                             T.exam_point_id,
+                         </if>
+                         <if test="!pager.excludes.contains('knowledgePointId')">
+                             T.knowledge_point_id,
+                         </if>
+                         <if test="!pager.excludes.contains('examPointPath')">
+                             T.exam_point_path,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from exam_point_knowledge T
+        <where>
+              <if test="examPointId!=null">
+                 T.exam_point_id=#{examPointId}
+              </if>
+              <if test="knowledgePointId!=null">
+                and T.knowledge_point_id=#{knowledgePointId}
+              </if>
+              <if test="examPointPath!=null">
+                and T.exam_point_path=#{examPointPath}
+              </if>
+        </where>
+    </select>
+    <insert id="saveExamPointKnowledge" parameterType="ExamPointKnowledge">
+        insert into exam_point_knowledge
+         (
+            id,
+            exam_point_id,
+            knowledge_point_id,
+            exam_point_path
+        ) values
+         (
+                #{id}
+                ,
+                #{examPointId}
+                ,
+                #{knowledgePointId}
+                ,
+                #{examPointPath}
+                
+         )
+    </insert>
+    <update id="updateExamPointKnowledge" parameterType="ExamPointKnowledge">
+        update exam_point_knowledge
+        <set>
+                    <if test="examPointId!=null ">
+                        exam_point_id=#{examPointId},
+                    </if>
+                    <if test="knowledgePointId!=null ">
+                        knowledge_point_id=#{knowledgePointId},
+                    </if>
+                    <if test="examPointPath!=null ">
+                        exam_point_path=#{examPointPath}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteExamPointKnowledge" >
+        delete from exam_point_knowledge where id=#{id}
+    </delete>
+    <delete id="deleteExamPointKnowledgeByCondition" >
+        delete from exam_point_knowledge
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="examPointId!=null">
+                and exam_point_id=#{examPointId}
+              </if>
+              <if test="knowledgePointId!=null">
+                and knowledge_point_id=#{knowledgePointId}
+              </if>
+              <if test="examPointPath!=null">
+                and exam_point_path=#{examPointPath}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveExamPointKnowledge" parameterType="ExamPointKnowledge">
+        INSERT INTO exam_point_knowledge (  id,  exam_point_id,  knowledge_point_id,  exam_point_path )
+        VALUES
+        <foreach collection="list" item="examPointKnowledge" separator=",">
+            (  #{examPointKnowledge.id},  #{examPointKnowledge.examPointId},  #{examPointKnowledge.knowledgePointId},  #{examPointKnowledge.examPointPath}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

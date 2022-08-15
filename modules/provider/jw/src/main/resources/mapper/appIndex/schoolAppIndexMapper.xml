@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.appIndex.ISchoolAppIndexDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('appIndexId')">
+                             T.app_index_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('display')">
+                             T.display,
+                         </if>
+                         <if test="!pager.excludes.contains('row')">
+                             T.row,
+                         </if>
+                         <if test="!pager.excludes.contains('col')">
+                             T.col,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="appIndexId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='appIndexId'">
+                            and T.app_index_id like concat('%',#{appIndexId},'%')
+                         </when>
+                         <otherwise>
+                            and T.app_index_id=#{appIndexId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="display!=null">
+                    and T.display=#{display}
+              </if>
+              <if test="row!=null">
+                    and T.row=#{row}
+              </if>
+              <if test="col!=null">
+                    and T.col=#{col}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findSchoolAppIndexListByCondition" parameterType="SchoolAppIndex" resultType="SchoolAppIndex">
+        select
+         <include refid="projection"/>
+         from school_app_index T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findSchoolAppIndexCountByCondition" parameterType="SchoolAppIndex" resultType="long">
+        select count(*) from school_app_index T
+        <include refid="match"/>
+    </select>
+    <select id="findSchoolAppIndexById" resultType="SchoolAppIndex">
+        select * from school_app_index where id=#{id}
+    </select>
+    <select id="findOneSchoolAppIndexByCondition" parameterType="SchoolAppIndex" resultType="SchoolAppIndex">
+        select
+         <include refid="projection"/>
+         from school_app_index T
+        <include refid="match"/>
+    </select>
+    <insert id="saveSchoolAppIndex" parameterType="SchoolAppIndex">
+        insert into school_app_index
+         (
+            id,
+            app_index_id,
+            school_id,
+            display,
+            row,
+            col
+        ) values
+         (
+                #{id}
+                ,
+                #{appIndexId}
+                ,
+                #{schoolId}
+                ,
+                #{display}
+                ,
+                #{row}
+                ,
+                #{col}
+                
+         )
+    </insert>
+    <update id="updateSchoolAppIndex" parameterType="SchoolAppIndex">
+        update school_app_index
+        <set>
+                    <if test="appIndexId!=null ">
+                        app_index_id=#{appIndexId},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="display!=null ">
+                        display=#{display},
+                    </if>
+                    <if test="row!=null ">
+                        row=#{row},
+                    </if>
+                    <if test="col!=null ">
+                        col=#{col}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteSchoolAppIndex" >
+        delete from school_app_index where id=#{id}
+    </delete>
+    <delete id="deleteSchoolAppIndexByCondition" >
+        delete T from school_app_index T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveSchoolAppIndex" parameterType="SchoolAppIndex">
+        INSERT INTO school_app_index (  id,  app_index_id,  school_id,  display,  row,  col )
+        VALUES
+        <foreach collection="list" item="schoolAppIndex" separator=",">
+            (  #{schoolAppIndex.id},  #{schoolAppIndex.appIndexId},  #{schoolAppIndex.schoolId},  #{schoolAppIndex.display},  #{schoolAppIndex.row},  #{schoolAppIndex.col}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <update id="moveAppIndexes">
+        <foreach collection="list" item="schoolAppIndex" separator=";">
+            insert into school_app_index (id,app_index_id,school_id,display,row,col) values(#{schoolAppIndex.id},#{schoolAppIndex.appIndexId},#{schoolAppIndex.schoolId},#{schoolAppIndex.display},#{schoolAppIndex.row},#{schoolAppIndex.col})
+            on DUPLICATE KEY update row=#{schoolAppIndex.row},display=#{schoolAppIndex.display}
+        </foreach>
+    </update>
+    <update id="upsertSchoolAppIndex">
+        insert into school_app_index (id,app_index_id,school_id,display,row,col) values(#{id},#{appIndexId},#{schoolId},#{display},#{row},#{col})
+            on DUPLICATE KEY update row=#{row},display=#{display}
+    </update>
+
+</mapper>

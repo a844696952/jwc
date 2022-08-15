@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.student.IDmMeritStudentDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('studentId')">
+                             T.student_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="studentId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('studentId')">
+                        and T.student_id like concat('%',#{studentId},'%')
+                     </when>
+                     <otherwise>
+                        and T.student_id=#{studentId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="schoolId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                     </when>
+                     <otherwise>
+                        and T.school_id=#{schoolId}
+                     </otherwise>
+                  </choose>
+          </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+
+
+    <sql id="matchStudent">
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                     T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                     T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="name!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                    and js.`name` like concat('%',#{name},'%')
+                </when>
+                <otherwise>
+                    and js.`name` = #{name}
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
+
+
+
+    <select id="findDmMeritStudentListByCondition" parameterType="DmMeritStudent" resultType="DmMeritStudent">
+        SELECT T.id,T.student_id,T.create_time,T.school_id,js.`name`,js.img_url imgUrl,jc.grade_name gradeName,jc.number  FROM
+        dm_merit_student AS T inner JOIN jw_student AS js ON T.student_id = js.id
+        inner JOIN jw_classes AS jc ON js.classes_id = jc.id
+         <where>
+            <include refid="matchStudent"/>
+         </where>
+        ORDER BY jc.grade_id,jc.number
+        <include refid="page"/>
+    </select>
+
+
+
+    <select id="findDmMeritStudentCountByCondition" parameterType="DmMeritStudent" resultType="long">
+        SELECT count(*) FROM
+        dm_merit_student AS T inner JOIN jw_student AS js ON T.student_id = js.id
+        inner JOIN jw_classes AS jc ON js.classes_id = jc.id
+        <where>
+            <include refid="matchStudent"/>
+        </where>
+    </select>
+
+
+
+    <select id="findDmMeritStudentById" resultType="DmMeritStudent">
+
+        SELECT T.id,T.student_id,T.create_time,T.school_id,js.`name`,js.img_url imgUrl,jc.grade_name gradeName,jc.number  FROM
+        dm_merit_student AS T inner JOIN jw_student AS js ON T.student_id = js.id
+        inner JOIN jw_classes AS jc ON js.classes_id = jc.id where T.id=#{id}
+    </select>
+
+    <select id="findOneDmMeritStudentByCondition" parameterType="DmMeritStudent" resultType="DmMeritStudent">
+        select
+         <include refid="projection"/>
+         from dm_merit_student T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="saveDmMeritStudent" parameterType="DmMeritStudent">
+        INSERT INTO dm_merit_student (  id,  student_id,  create_time,  school_id )
+         values
+         (   #{id}  ,   #{studentId}  ,   now()  ,   #{schoolId}    )
+    </insert>
+    <update id="updateDmMeritStudent" parameterType="DmMeritStudent">
+        update dm_merit_student
+        <set>
+                    <if test="studentId!=null ">
+                        student_id=#{studentId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateDmMeritStudentForAll" parameterType="DmMeritStudent">
+        update dm_merit_student
+        <set>
+                    student_id=#{studentId},
+                    create_time=#{createTime},
+                    school_id=#{schoolId}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmMeritStudent" >
+        delete from dm_merit_student where id=#{id}
+    </delete>
+    <delete id="deleteDmMeritStudentByCondition" >
+        delete T from dm_merit_student T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSaveDmMeritStudent" parameterType="DmMeritStudent">
+        INSERT INTO dm_merit_student (  id,  student_id,  create_time,  school_id )
+        VALUES
+        <foreach collection="list" item="dmMeritStudent" separator=",">
+            (   #{dmMeritStudent.id}  ,   #{dmMeritStudent.studentId}  ,   now()  ,   #{dmMeritStudent.schoolId}    )
+        </foreach>
+    </insert>
+
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findAllJwClassesAndStudents" parameterType="String" resultType="AllStudent">
+        SELECT id,grade_name,grade_id,number FROM jw_classes where school_id = #{schoolId} order by grade_id,number
+    </select>
+
+    <select id="findStudentsByClassId" parameterType="String" resultType="Student">
+        select id,name,1 as type from jw_student where classes_id = #{classId}
+    </select>
+
+
+    <select id="findAll" parameterType="String" resultType="DmMeritStudent">
+        select * from dm_merit_student T where T.school_id = #{schoolId}
+    </select>
+</mapper>

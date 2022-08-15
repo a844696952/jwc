@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.3.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.yice.edu.cn</groupId>
+    <artifactId>yep</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <description>亿策教育平台</description>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <yep.version>1.0.0</yep.version>
+        <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+        <hutool.version>4.4.5</hutool.version>
+        <lombok.version>1.18.0</lombok.version>
+        <springfox.version>2.9.2</springfox.version>
+        <aliyun.sdk.core>4.0.8</aliyun.sdk.core>
+        <aliyun.sdk.dysmsapi>1.1.0</aliyun.sdk.dysmsapi>
+        <jpush.client>3.3.7</jpush.client>
+        <spring-boot-admin.version>2.0.1</spring-boot-admin.version>
+        <zipkin-server.version>2.11.4</zipkin-server.version>
+        <beetl.version>1.2.6.RELEASE</beetl.version>
+        <code.version>3.2.1</code.version>
+        <mybatis.version>1.3.2</mybatis.version>
+    </properties>
+    <modules>
+        <module>eureka</module>
+        <module>modules</module>
+        <module>monitors</module>
+        <module>common</module>
+        <module>config-server</module>
+        <module>gateway</module>
+    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>yice</id>
+            <name>yice Repository</name>
+            <url>http://218.6.69.201:22200/repository/maven-public/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

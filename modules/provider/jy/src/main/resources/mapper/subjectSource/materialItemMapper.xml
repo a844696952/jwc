@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.subjectSource.IMaterialItemDao">
+    <!--########################################################################################################################-->
+    <select id="findMaterialItemListByCondition" parameterType="MaterialItem" resultType="MaterialItem">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('materialId')">
+                             T.material_id,
+                         </if>
+                         <if test="!pager.excludes.contains('leaf')">
+                             T.leaf,
+                         </if>
+                         <if test="!pager.excludes.contains('level')">
+                             T.level,
+                         </if>
+                         <if test="!pager.excludes.contains('path')">
+                             T.path,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createUserId')">
+                             T.create_user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateUserId')">
+                             T.update_user_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from material_item T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="parentId!=null">
+                and T.parent_id=#{parentId}
+              </if>
+              <if test="materialId!=null">
+                and T.material_id=#{materialId}
+              </if>
+              <if test="leaf!=null">
+                and T.leaf=#{leaf}
+              </if>
+              <if test="level!=null">
+                and T.level=#{level}
+              </if>
+              <if test="path!=null">
+                and T.path=#{path}
+              </if>
+              <if test="sort!=null">
+                and T.sort=#{sort}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="createUserId!=null">
+                and T.create_user_id=#{createUserId}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="updateUserId!=null">
+                and T.update_user_id=#{updateUserId}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findMaterialItemCountByCondition" parameterType="MaterialItem" resultType="long">
+        select count(*) from material_item
+        <where>
+              <if test="name!=null">
+                 name=#{name}
+              </if>
+              <if test="parentId!=null">
+                and parent_id=#{parentId}
+              </if>
+              <if test="materialId!=null">
+                and material_id=#{materialId}
+              </if>
+              <if test="leaf!=null">
+                and leaf=#{leaf}
+              </if>
+              <if test="level!=null">
+                and level=#{level}
+              </if>
+              <if test="path!=null">
+                and path=#{path}
+              </if>
+              <if test="sort!=null">
+                and sort=#{sort}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="createUserId!=null">
+                and create_user_id=#{createUserId}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="updateUserId!=null">
+                and update_user_id=#{updateUserId}
+              </if>
+        </where>
+    </select>
+    <select id="findMaterialItemById" resultType="MaterialItem">
+        select * from material_item where id=#{id}
+    </select>
+    <select id="findOneMaterialItemByCondition" parameterType="MaterialItem" resultType="MaterialItem">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('materialId')">
+                             T.material_id,
+                         </if>
+                         <if test="!pager.excludes.contains('leaf')">
+                             T.leaf,
+                         </if>
+                         <if test="!pager.excludes.contains('level')">
+                             T.level,
+                         </if>
+                         <if test="!pager.excludes.contains('path')">
+                             T.path,
+                         </if>
+                         <if test="!pager.excludes.contains('sort')">
+                             T.sort,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createUserId')">
+                             T.create_user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateUserId')">
+                             T.update_user_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from material_item T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="parentId!=null">
+                and T.parent_id=#{parentId}
+              </if>
+              <if test="materialId!=null">
+                and T.material_id=#{materialId}
+              </if>
+              <if test="leaf!=null">
+                and T.leaf=#{leaf}
+              </if>
+              <if test="level!=null">
+                and T.level=#{level}
+              </if>
+              <if test="path!=null">
+                and T.path=#{path}
+              </if>
+              <if test="sort!=null">
+                and T.sort=#{sort}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="createUserId!=null">
+                and T.create_user_id=#{createUserId}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="updateUserId!=null">
+                and T.update_user_id=#{updateUserId}
+              </if>
+        </where>
+    </select>
+    <insert id="saveMaterialItem" parameterType="MaterialItem">
+        insert into material_item
+         (
+            id,
+            name,
+            parent_id,
+            material_id,
+            leaf,
+            level,
+            path,
+            sort,
+            create_time,
+            create_user_id,
+            update_time,
+            update_user_id
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{parentId}
+                ,
+                #{materialId}
+                ,
+                #{leaf}
+                ,
+                #{level}
+                ,
+                #{path}
+                ,
+                #{sort}
+                ,
+                now()
+                ,
+                #{createUserId}
+                ,
+                #{updateTime}
+                ,
+                #{updateUserId}
+                
+         )
+    </insert>
+    <update id="updateMaterialItem" parameterType="MaterialItem">
+        update material_item
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_id=#{parentId},
+                    </if>
+                    <if test="materialId!=null ">
+                        material_id=#{materialId},
+                    </if>
+                    <if test="leaf!=null ">
+                        leaf=#{leaf},
+                    </if>
+                    <if test="level!=null ">
+                        level=#{level},
+                    </if>
+                    <if test="path!=null ">
+                        path=#{path},
+                    </if>
+                    <if test="sort!=null ">
+                        sort=#{sort},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="createUserId!=null ">
+                        create_user_id=#{createUserId},
+                    </if>
+                    update_time=now(),
+                    <if test="updateUserId!=null ">
+                        update_user_id=#{updateUserId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteMaterialItem" >
+        delete from material_item where id=#{id}
+    </delete>
+    <delete id="deleteMaterialItemByCondition" >
+        delete from material_item
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="parentId!=null">
+                and parent_id=#{parentId}
+              </if>
+              <if test="materialId!=null">
+                and material_id=#{materialId}
+              </if>
+              <if test="leaf!=null">
+                and leaf=#{leaf}
+              </if>
+              <if test="level!=null">
+                and level=#{level}
+              </if>
+              <if test="path!=null">
+                and path=#{path}
+              </if>
+              <if test="sort!=null">
+                and sort=#{sort}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="createUserId!=null">
+                and create_user_id=#{createUserId}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="updateUserId!=null">
+                and update_user_id=#{updateUserId}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveMaterialItem" parameterType="MaterialItem">
+        INSERT INTO material_item (  id,  name,  parent_id,  material_id,  leaf,  level,  path,  sort,  create_time,  create_user_id,  update_time,  update_user_id )
+        VALUES
+        <foreach collection="list" item="materialItem" separator=",">
+            (  #{materialItem.id},  #{materialItem.name},  #{materialItem.parentId},  #{materialItem.materialId},  #{materialItem.leaf},  #{materialItem.level},  #{materialItem.path},  #{materialItem.sort},  #{materialItem.createTime},  #{materialItem.createUserId},  #{materialItem.updateTime},  #{materialItem.updateUserId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    
+    
+    <select id="findKnowledgePointListByItem" parameterType="MaterialItemKnowledge" resultType="KnowledgePoint">
+        select T.*
+         from material_item_knowledge M inner join knowledge_point T on M.knowledge_point_id = T.id
+        <where>
+             <if test="materialItemId!=null">
+               M.material_item_id=#{materialItemId}
+            </if>
+              <if test="knowledgeName!=null">
+                and T.name like "%"#{knowledgeName}"%"
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    
+    <select id="findKnowledgePointCountByItem" parameterType="MaterialItemKnowledge" resultType="long">
+        select count(*) 
+         from material_item_knowledge M left join knowledge_point T on M.knowledge_point_id = T.id
+        <where>
+             <if test="materialItemId!=null">
+               M.material_item_id=#{materialItemId}
+            </if>
+              <if test="knowledgeName!=null">
+                and T.name like "%"#{knowledgeName}"%"
+              </if>
+        </where>
+    </select>
+
+    <select id="findMaterialItemTree" parameterType="MaterialItem" resultType="MaterialItem">
+             SELECT
+                t1.id,
+                t1.NAME,
+                t1.level,
+                t1.annual_period_id,
+                t1.parent_id AS parentId
+            FROM
+                subject_material t1
+            WHERE
+                t1.annual_period_id IN (#{id})
+    </select>
+
+    <select id="checkMaterialItemIsNull" parameterType="String" resultType="Integer">
+        select count(*) from material_item where material_id = #{materialId}
+    </select>
+    
+</mapper>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.electiveCourse.IElectiveSetDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('minNum')">
+                             T.min_num,
+                         </if>
+                         <if test="!pager.excludes.contains('maxNum')">
+                             T.max_num,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolYearId')">
+                             T.school_year_id,
+                         </if>
+                         <if test="!pager.excludes.contains('fromTo')">
+                             T.from_to,
+                         </if>
+                         <if test="!pager.excludes.contains('term')">
+                             T.term,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="gradeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeId'">
+                            and T.grade_id like concat('%',#{gradeId},'%')
+                         </when>
+                         <otherwise>
+                            and T.grade_id=#{gradeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="minNum!=null">
+                    and T.min_num=#{minNum}
+              </if>
+              <if test="maxNum!=null">
+                    and T.max_num=#{maxNum}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolYearId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolYearId'">
+                            and T.school_year_id like concat('%',#{schoolYearId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_year_id=#{schoolYearId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="fromTo!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='fromTo'">
+                            and T.from_to like concat('%',#{fromTo},'%')
+                         </when>
+                         <otherwise>
+                            and T.from_to=#{fromTo}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="term!=null">
+                    and T.term=#{term}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findElectiveSetListByCondition" parameterType="ElectiveSet" resultType="ElectiveSet">
+        select
+         <include refid="projection"/>
+         from jw_elective_set T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findElectiveSetCountByCondition" parameterType="ElectiveSet" resultType="long">
+        select count(*) from jw_elective_set T
+        <include refid="match"/>
+    </select>
+    <select id="findElectiveSetById" resultType="ElectiveSet">
+        select * from jw_elective_set where =#{id}
+    </select>
+    <select id="findOneElectiveSetByCondition" parameterType="ElectiveSet" resultType="ElectiveSet">
+        select
+         <include refid="projection"/>
+         from jw_elective_set T
+        <include refid="match"/>
+    </select>
+    <insert id="saveElectiveSet" parameterType="ElectiveSet">
+        insert into jw_elective_set
+         (
+            id,
+            grade_id,
+            min_num,
+            max_num,
+            create_time,
+            school_id,
+            school_year_id,
+            from_to,
+            term
+        ) values
+         (
+                #{id}
+                ,
+                #{gradeId}
+                ,
+                #{minNum}
+                ,
+                #{maxNum}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                #{schoolYearId}
+                ,
+                #{fromTo}
+                ,
+                #{term}
+                
+         )
+    </insert>
+    <update id="updateElectiveSet" parameterType="ElectiveSet">
+        update jw_elective_set
+        <set>
+          </set>
+         where =#{}
+    </update>
+    <delete id="deleteElectiveSet" >
+        delete from jw_elective_set where id=#{id}
+    </delete>
+    <delete id="deleteElectiveSetByCondition" >
+        delete T from jw_elective_set T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveElectiveSet" parameterType="ElectiveSet">
+        INSERT INTO jw_elective_set (  id,  grade_id,  min_num,  max_num,  create_time,  school_id,  school_year_id,  from_to,  term )
+        VALUES
+        <foreach collection="list" item="electiveSet" separator=",">
+            (  #{electiveSet.id},  #{electiveSet.gradeId},  #{electiveSet.minNum},  #{electiveSet.maxNum},  #{electiveSet.createTime},  #{electiveSet.schoolId},  #{electiveSet.schoolYearId},  #{electiveSet.fromTo},  #{electiveSet.term}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

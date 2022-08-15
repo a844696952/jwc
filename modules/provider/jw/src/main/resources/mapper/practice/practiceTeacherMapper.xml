@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.practice.IPracticeTeacherDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('practiceId')">
+                             T.practice_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="practiceId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='practiceId'">
+                            and T.practice_id like concat('%',#{practiceId},'%')
+                         </when>
+                         <otherwise>
+                            and T.practice_id=#{practiceId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                            and T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                            and T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findPracticeTeacherListByCondition" parameterType="PracticeTeacher" resultType="PracticeTeacher">
+        select
+         <include refid="projection"/>
+         from jw_practice_jw_teacher T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findPracticeTeacherCountByCondition" parameterType="PracticeTeacher" resultType="long">
+        select count(*) from jw_practice_jw_teacher T
+        <include refid="match"/>
+    </select>
+    <select id="findPracticeTeacherById" resultType="PracticeTeacher">
+        select * from jw_practice_jw_teacher where id=#{id}
+    </select>
+    <select id="findOnePracticeTeacherByCondition" parameterType="PracticeTeacher" resultType="PracticeTeacher">
+        select
+         <include refid="projection"/>
+         from jw_practice_jw_teacher T
+        <include refid="match"/>
+    </select>
+    <insert id="savePracticeTeacher" parameterType="PracticeTeacher">
+        insert into jw_practice_jw_teacher
+         (
+            id,
+            practice_id,
+            teacher_id,
+            name,
+            create_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{practiceId}
+                ,
+                #{teacherId}
+                ,
+                #{name}
+                ,
+                now()
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updatePracticeTeacher" parameterType="PracticeTeacher">
+        update jw_practice_jw_teacher
+        <set>
+                    <if test="practiceId!=null ">
+                        practice_id=#{practiceId},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deletePracticeTeacher" >
+        delete from jw_practice_jw_teacher where id=#{id}
+    </delete>
+    <delete id="deletePracticeTeacherByCondition" >
+        delete T from jw_practice_jw_teacher T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSavePracticeTeacher" parameterType="PracticeTeacher">
+        INSERT INTO jw_practice_jw_teacher (  id,  practice_id,  teacher_id,  name,  create_time,  school_id )
+        VALUES
+        <foreach collection="list" item="practiceTeacher" separator=",">
+            (  #{practiceTeacher.id},  #{practiceTeacher.practiceId},  #{practiceTeacher.teacherId},  #{practiceTeacher.name},  #{practiceTeacher.createTime},  #{practiceTeacher.schoolId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findPracticeTeacherListById" resultType="PracticeTeacher">
+        select * from jw_practice_jw_teacher left join jw_teacher on  jw_practice_jw_teacher.teacher_id=jw_teacher.id  where jw_practice_jw_teacher.practice_id=#{id}
+    </select>
+
+    <select id="findPracticeTeacherNameById" resultType="PracticeTeacher">
+        select T.id,T.practice_id,A.id as teacher_id,T.`name`,B.id as quitteacher_id from jw_practice_jw_teacher T left join jw_teacher A on  T.teacher_id=A.id left join jw_teacher_quit B on T.teacher_id=B.id  where T.practice_id=#{id}
+    </select>
+</mapper>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.knowledgePoint.IKnowledgePointDao">
+    <!--########################################################################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('subjectId')">
+                        T.subject_id,
+                    </if>
+                    <if test="!pager.excludes.contains('subjectName')">
+                        T.subject_name,
+                    </if>
+                    <if test="!pager.excludes.contains('typeId')">
+                        T.type_id,
+                    </if>
+                    <if test="!pager.excludes.contains('typeName')">
+                        T.type_name,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('topicCount')">
+                        T.topic_count,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('parentId')">
+                        T.parent_id,
+                    </if>
+                    <if test="!pager.excludes.contains('childNum')">
+                        T.child_num,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="subjectId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('subjectId')">
+                        and T.subject_id like concat('%',#{subjectId},'%')
+                    </when>
+                    <otherwise>
+                        and T.subject_id=#{subjectId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="subjectName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('subjectName')">
+                        and T.subject_name like concat('%',#{subjectName},'%')
+                    </when>
+                    <otherwise>
+                        and T.subject_name=#{subjectName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="typeId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('typeId')">
+                        and T.type_id like concat('%',#{typeId},'%')
+                    </when>
+                    <otherwise>
+                        and T.type_id=#{typeId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="typeName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('typeName')">
+                        and T.type_name like concat('%',#{typeName},'%')
+                    </when>
+                    <otherwise>
+                        and T.type_name=#{typeName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="name!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('name')">
+                        and T.name like concat('%',#{name},'%')
+                    </when>
+                    <otherwise>
+                        and T.name=#{name}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="topicCount!=null">
+                and T.topic_count=#{topicCount}
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="parentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('parentId')">
+                        and T.parent_id like concat('%',#{parentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.parent_id=#{parentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="childNum!=null">
+                and T.child_num=#{childNum}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findKnowledgePointListByCondition" parameterType="KnowledgePoint" resultType="KnowledgePoint">
+        select
+        <include refid="projection"/>
+        from knowledge_point T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findKnowledgePointCountByCondition" parameterType="KnowledgePoint" resultType="long">
+        select count(*) from knowledge_point T
+        <include refid="match"/>
+    </select>
+    <select id="findKnowledgePointById" resultType="KnowledgePoint">
+        select * from knowledge_point where id=#{id}
+    </select>
+    <select id="findOneKnowledgePointByCondition" parameterType="KnowledgePoint" resultType="KnowledgePoint">
+        select
+        <include refid="projection"/>
+        from knowledge_point T
+        <include refid="match"/>
+    </select>
+    <insert id="saveKnowledgePoint" parameterType="KnowledgePoint">
+        INSERT INTO knowledge_point (  id,  subject_id,  subject_name,  type_id,  type_name,  name,  topic_count,  create_time,  parent_id,  child_num )
+         values
+         (   #{id}  ,   #{subjectId}  ,   #{subjectName}  ,   #{typeId}  ,   #{typeName}  ,   #{name}  ,   #{topicCount}  ,   now()  ,   #{parentId}  ,   #{childNum}    )
+    </insert>
+    <update id="updateKnowledgePoint" parameterType="KnowledgePoint">
+        update knowledge_point
+        <set>
+            <if test="subjectId!=null ">
+                subject_id=#{subjectId},
+            </if>
+            <if test="subjectName!=null ">
+                subject_name=#{subjectName},
+            </if>
+            <if test="typeId!=null ">
+                type_id=#{typeId},
+            </if>
+            <if test="typeName!=null ">
+                type_name=#{typeName},
+            </if>
+            <if test="name!=null ">
+                name=#{name},
+            </if>
+            <if test="topicCount!=null ">
+                topic_count=#{topicCount},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="parentId!=null ">
+                parent_id=#{parentId},
+            </if>
+            <if test="childNum!=null ">
+                child_num=#{childNum}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateKnowledgePointForAll" parameterType="KnowledgePoint">
+        update knowledge_point
+        <set>
+            subject_id=#{subjectId},
+            subject_name=#{subjectName},
+            type_id=#{typeId},
+            type_name=#{typeName},
+            name=#{name},
+            topic_count=#{topicCount},
+            create_time=#{createTime},
+            parent_id=#{parentId},
+            child_num=#{childNum}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteKnowledgePoint" >
+        delete from knowledge_point where id=#{id}
+    </delete>
+    <delete id="deleteKnowledgePointByCondition" >
+        delete T from knowledge_point T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveKnowledgePoint" parameterType="KnowledgePoint">
+        INSERT INTO knowledge_point (  id,  subject_id,  subject_name,  type_id,  type_name,  name,  topic_count,  create_time,  parent_id,  child_num )
+        VALUES
+        <foreach collection="list" item="knowledgePoint" separator=",">
+            (   #{knowledgePoint.id}  ,   #{knowledgePoint.subjectId}  ,   #{knowledgePoint.subjectName}  ,   #{knowledgePoint.typeId}  ,   #{knowledgePoint.typeName}  ,   #{knowledgePoint.name}  ,   #{knowledgePoint.topicCount}  ,   now()  ,   #{knowledgePoint.parentId}  ,   #{knowledgePoint.childNum}    )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <update id="batchSetKnowledgeTopicsCount">
+        UPDATE knowledge_point SET topic_count = topic_count + #{count}
+        WHERE id IN
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    
+    <select id="findKnowledgePointIdByChapterId" resultType="String">
+    
+    	select knowledge_point_id from material_item_knowledge where material_item_id=#{chapterId}
+    
+    </select>
+    <select id="batchDeleteKnowledgePoint" resultType="String">
+        DELETE FROM knowledge_point WHERE id IN
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <update id="updateKnowledgePointChildNum">
+        UPDATE knowledge_point SET child_num = child_num + #{num} WHERE id = #{id}
+    </update>
+</mapper>

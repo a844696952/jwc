@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dormManage.houseApplican.IHouseApplicanDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('applicanType')">
+                        T.applican_type,
+                    </if>
+                    <if test="!pager.excludes.contains('startTime')">
+                        T.start_time,
+                    </if>
+                    <if test="!pager.excludes.contains('endTime')">
+                        T.end_time,
+                    </if>
+                    <if test="!pager.excludes.contains('remark')">
+                        T.remark,
+                    </if>
+                    <if test="!pager.excludes.contains('initiateId')">
+                        T.initiate_id,
+                    </if>
+                    <if test="!pager.excludes.contains('initiateName')">
+                        T.initiate_name,
+                    </if>
+                    <if test="!pager.excludes.contains('initiateTel')">
+                        T.initiate_tel,
+                    </if>
+                    <if test="!pager.excludes.contains('initiatePort')">
+                        T.initiate_port,
+                    </if>
+                    <if test="!pager.excludes.contains('status')">
+                        T.status,
+                    </if>
+                    <if test="!pager.excludes.contains('progress')">
+                        T.progress,
+                    </if>
+                    <if test="!pager.excludes.contains('headTeacherId')">
+                        T.head_teacher_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="applicanType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='applicanType'">
+                        and T.applican_type like concat('%',#{applicanType},'%')
+                    </when>
+                    <otherwise>
+                        and T.applican_type=#{applicanType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="startTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='startTime'">
+                        and T.start_time like concat('%',#{startTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.start_time=#{startTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="endTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='endTime'">
+                        and T.end_time like concat('%',#{endTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.end_time=#{endTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="remark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='remark'">
+                        and T.remark like concat('%',#{remark},'%')
+                    </when>
+                    <otherwise>
+                        and T.remark=#{remark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="initiateId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='initiateId'">
+                        and T.initiate_id like concat('%',#{initiateId},'%')
+                    </when>
+                    <otherwise>
+                        and T.initiate_id=#{initiateId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="initiateName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='initiateName'">
+                        and T.initiate_name like concat('%',#{initiateName},'%')
+                    </when>
+                    <otherwise>
+                        and T.initiate_name=#{initiateName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="initiateTel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='initiateTel'">
+                        and T.initiate_tel like concat('%',#{initiateTel},'%')
+                    </when>
+                    <otherwise>
+                        and T.initiate_tel=#{initiateTel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="initiatePort!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='initiatePort'">
+                        and T.initiate_port like concat('%',#{initiatePort},'%')
+                    </when>
+                    <otherwise>
+                        and T.initiate_port=#{initiatePort}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='status'">
+                        and T.status like concat('%',#{status},'%')
+                    </when>
+                    <otherwise>
+                        and T.status=#{status}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="progress!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='progress'">
+                        and T.progress like concat('%',#{progress},'%')
+                    </when>
+                    <otherwise>
+                        and T.progress=#{progress}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="headTeacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='headTeacherId'">
+                        and T.head_teacher_id like concat('%',#{headTeacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.head_teacher_id=#{headTeacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="stuId!=null">
+                        and T.stu_id=#{stuId}
+            </if>
+            <if test="searchStearTime!=null">
+                and  T.create_time &gt;= #{searchStearTime}
+            </if>
+            <if test="searchEndTime!=null">
+                and  T.create_time &lt;= #{searchEndTime}
+            </if>
+
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+    <select id="findHouseApplicanListByCondition" parameterType="HouseApplican" resultType="HouseApplican">
+        select
+        <include refid="projection"/>
+        from xw_house_applican T
+        <include refid="match"/>
+        order by  T.create_time desc
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findHouseApplicanCountByCondition" parameterType="HouseApplican" resultType="long">
+        select count(*) from xw_house_applican T
+        <include refid="match"/>
+    </select>
+    <select id="findHouseApplicanById" resultType="HouseApplican">
+        select * from xw_house_applican where id=#{id}
+    </select>
+    <select id="findOneHouseApplicanByCondition" parameterType="HouseApplican" resultType="HouseApplican">
+        select
+        <include refid="projection"/>
+        from xw_house_applican T
+        <include refid="match"/>
+    </select>
+    <insert id="saveHouseApplican" parameterType="HouseApplican">
+        insert into xw_house_applican
+         (
+            id,
+            school_id,
+            create_time,
+            applican_type,
+            start_time,
+            end_time,
+            remark,
+            initiate_id,
+            initiate_name,
+            initiate_tel,
+            initiate_port,
+            status,
+            progress,
+            head_teacher_id,
+            stu_id
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                now()
+                ,
+                #{applicanType}
+                ,
+                #{startTime}
+                ,
+                #{endTime}
+                ,
+                #{remark}
+                ,
+                #{initiateId}
+                ,
+                #{initiateName}
+                ,
+                #{initiateTel}
+                ,
+                #{initiatePort}
+                ,
+                #{status}
+                ,
+                #{progress}
+                ,
+                #{headTeacherId}
+                ,
+                #{stuId}
+
+         )
+    </insert>
+    <update id="updateHouseApplican" parameterType="HouseApplican">
+        update xw_house_applican
+        <set>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="applicanType!=null ">
+                applican_type=#{applicanType},
+            </if>
+            <if test="startTime!=null ">
+                start_time=#{startTime},
+            </if>
+            <if test="endTime!=null ">
+                end_time=#{endTime},
+            </if>
+            <if test="remark!=null ">
+                remark=#{remark},
+            </if>
+            <if test="initiateId!=null ">
+                initiate_id=#{initiateId},
+            </if>
+            <if test="initiateName!=null ">
+                initiate_name=#{initiateName},
+            </if>
+            <if test="initiateTel!=null ">
+                initiate_tel=#{initiateTel},
+            </if>
+            <if test="initiatePort!=null ">
+                initiate_port=#{initiatePort},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="progress!=null ">
+                progress=#{progress},
+            </if>
+            <if test="headTeacherId!=null ">
+                head_teacher_id=#{headTeacherId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteHouseApplican" >
+        delete from xw_house_applican where id=#{id}
+    </delete>
+    <delete id="deleteHouseApplicanByCondition" >
+        delete T from xw_house_applican T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveHouseApplican" parameterType="HouseApplican">
+        INSERT INTO xw_house_applican (  id,  school_id,  create_time,  applican_type,  start_time,  end_time,  remark,  initiate_id,  initiate_name,  initiate_tel,  initiate_port,  status,  progress,  head_teacher_id )
+        VALUES
+        <foreach collection="list" item="houseApplican" separator=",">
+            (  #{houseApplican.id},  #{houseApplican.schoolId},  #{houseApplican.createTime},  #{houseApplican.applicanType},  #{houseApplican.startTime},  #{houseApplican.endTime},  #{houseApplican.remark},  #{houseApplican.initiateId},  #{houseApplican.initiateName},  #{houseApplican.initiateTel},  #{houseApplican.initiatePort},  #{houseApplican.status},  #{houseApplican.progress},  #{houseApplican.headTeacherId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findApprovalPending" parameterType="HouseApplican" resultType="HouseApplican">
+        SELECT c.* from (
+    SELECT
+        a.*
+    FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+    WHERE
+        a.school_id =b.school_id and
+        a.id = b.house_applican_id and
+        b.teacher_id = a.head_teacher_id and
+        b.status = "0" and
+        a.status = "0" and
+        a.initiate_port = "1" and
+        b.teacher_id = #{nowTeacherId} and
+        a.school_id = #{schoolId}
+        <if test="applicanType!=null ">
+            and a.applican_type like concat('%',#{applicanType},'%')
+        </if>
+        <if test="searchStearTime!=null">
+            and  a.create_time &gt;= #{searchStearTime}
+        </if>
+        <if test="searchEndTime!=null">
+            and  a.create_time &lt;= #{searchEndTime}
+        </if>
+    union
+    SELECT
+	    a.*
+    FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+    WHERE
+        a.school_id =b.school_id and
+        a.id = b.house_applican_id and
+        a.progress = b.sort and
+        b.status = "0" and
+        a.status = "0" and
+
+        b.teacher_id = #{nowTeacherId} and
+        a.school_id = #{schoolId}
+        <if test="applicanType!=null ">
+            and a.applican_type like concat('%',#{applicanType},'%')
+        </if>
+        <if test="searchStearTime!=null">
+            and  a.create_time &gt;= #{searchStearTime}
+        </if>
+        <if test="searchEndTime!=null">
+            and  a.create_time &lt;= #{searchEndTime}
+        </if>
+        ) c ORDER BY c.create_time desc
+        <include refid="page"/>
+    </select>
+
+    <select id="findApprovalPendingCount" parameterType="HouseApplican" resultType="long">
+        select count(*) from
+            (
+        SELECT
+        a.*
+        FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+        WHERE
+        a.school_id =b.school_id and
+        a.id = b.house_applican_id and
+        b.teacher_id = a.head_teacher_id and
+        b.status = "0" and
+        a.status = "0" and
+        a.initiate_port = "1" and
+        b.teacher_id = #{nowTeacherId} and
+        a.school_id = #{schoolId}
+        <if test="applicanType!=null ">
+            and a.applican_type like concat('%',#{applicanType},'%')
+        </if>
+        <if test="searchStearTime!=null">
+            and  a.create_time &gt;= #{searchStearTime}
+        </if>
+        <if test="searchEndTime!=null">
+            and  a.create_time &lt;= #{searchEndTime}
+        </if>
+        union
+        SELECT
+        a.*
+        FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+        WHERE
+        a.school_id =b.school_id and
+        a.id = b.house_applican_id and
+        a.progress = b.sort and
+        b.status = "0" and
+        a.status = "0" and
+
+        b.teacher_id = #{nowTeacherId} and
+        a.school_id = #{schoolId}
+        <if test="applicanType!=null ">
+            and a.applican_type like concat('%',#{applicanType},'%')
+        </if>
+        <if test="searchStearTime!=null">
+            and  a.create_time &gt;= #{searchStearTime}
+        </if>
+        <if test="searchEndTime!=null">
+            and  a.create_time &lt;= #{searchEndTime}
+        </if>
+            ) c
+
+    </select>
+
+    <select id="findPassPending" parameterType="HouseApplican" resultType="HouseApplican">
+        SELECT c.* from (
+        SELECT
+          a.*, b.status as teacherStatus
+        FROM
+            xw_house_applican a,
+            xw_house_applican_teachers b
+        <where>
+            a.id = b.house_applican_id
+            and a.school_id =b.school_id
+            AND a.school_id = #{schoolId}
+            and b.sort &lt; a.progress
+            and b.teacher_id = #{nowTeacherId}
+            <if test="applicanType!=null ">
+                and a.applican_type like concat('%',#{applicanType},'%')
+            </if>
+            <if test="searchStearTime!=null">
+                and  a.create_time &gt;= #{searchStearTime}
+            </if>
+            <if test="searchEndTime!=null">
+                and  a.create_time &lt;= #{searchEndTime}
+            </if>
+        </where>
+        ) c ORDER BY c.create_time desc
+        <include refid="page"/>
+    </select>
+    <select id="findPassPendingCount" parameterType="HouseApplican" resultType="long">
+        select count(*) from
+            (
+                SELECT
+                a.*
+                FROM
+                xw_house_applican a,
+                xw_house_applican_teachers b
+                <where>
+                    a.id = b.house_applican_id
+                    and a.school_id =b.school_id
+                    AND a.school_id = #{schoolId}
+                    and b.sort &lt; a.progress
+                    and b.teacher_id = #{nowTeacherId}
+                    <if test="applicanType!=null ">
+                        and a.applican_type like concat('%',#{applicanType},'%')
+                    </if>
+                    <if test="searchStearTime!=null">
+                        and  a.create_time &gt;= #{searchStearTime}
+                    </if>
+                    <if test="searchEndTime!=null">
+                        and  a.create_time &lt;= #{searchEndTime}
+                    </if>
+                </where>
+            ) c
+    </select>
+
+    <!--教师端 我的审批-->
+    <select id="findMyApproval" parameterType="HouseApplican" resultType="HouseApplican">
+
+    select * from(
+        SELECT
+        a.* , b.status as teacherStatus
+        FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+        WHERE
+        a.school_id =b.school_id and
+        a.id = b.house_applican_id and
+        b.teacher_id = a.head_teacher_id and
+        b.status = "0" and
+        a.status = "0" and
+        a.initiate_port = "1" and
+        b.teacher_id = #{nowTeacherId} and
+        a.school_id = #{schoolId}
+        union
+        SELECT
+        a.*, b.status as teacherStatus
+        FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+        WHERE
+        a.school_id =b.school_id and
+        a.id = b.house_applican_id and
+        a.progress = b.sort and
+        b.status = "0" and
+        a.status = "0" and
+        b.teacher_id = #{nowTeacherId} and
+        a.school_id = #{schoolId}
+        union
+        SELECT
+        a.*, b.status as teacherStatus
+        FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+        WHERE
+        a.id = b.house_applican_id
+        and a.school_id =b.school_id
+        AND a.school_id = #{schoolId}
+        and b.sort &lt; a.progress
+        and b.teacher_id = #{nowTeacherId}
+    ) c order by c.teacherStatus ,c.create_time desc
+        <include refid="page"/>
+    </select>
+
+    <select id="findMyApprovalCount" parameterType="HouseApplican" resultType="long">
+    select count(1) from(
+     SELECT
+        a.*
+        FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+        WHERE
+        a.school_id =b.school_id and
+        a.id = b.house_applican_id and
+        b.teacher_id = a.head_teacher_id and
+        b.status = "0" and
+        a.status = "0" and
+        a.initiate_port = "1" and
+        b.teacher_id = #{nowTeacherId} and
+        a.school_id = #{schoolId}
+    union
+        SELECT
+        a.*
+        FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+        WHERE
+        a.school_id =b.school_id and
+        a.id = b.house_applican_id and
+        a.progress = b.sort and
+        b.status = "0" and
+        a.status = "0" and
+        b.teacher_id = #{nowTeacherId} and
+        a.school_id = #{schoolId}
+    union
+        SELECT
+        a.*
+        FROM
+        xw_house_applican a,
+        xw_house_applican_teachers b
+        WHERE
+        a.id = b.house_applican_id
+        and a.school_id =b.school_id
+        AND a.school_id = #{schoolId}
+        and b.sort &lt; a.progress
+        and b.teacher_id = #{nowTeacherId}
+
+    )c
+    </select>
+</mapper>

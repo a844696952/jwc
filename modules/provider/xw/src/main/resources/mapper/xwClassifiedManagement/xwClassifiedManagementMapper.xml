@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.xwClassifiedManagement.IXwClassifiedManagementDao">
+    <!--########################################################################################################################-->
+    <select id="findXwClassifiedManagementListByCondition" parameterType="XwClassifiedManagement" resultType="XwClassifiedManagement">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('cname')">
+                             T.cname,
+                         </if>
+                         <if test="!pager.excludes.contains('remark')">
+                             T.remark,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from xw_classified_management T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del = #{del}
+              </if>
+              <if test="cname!=null">
+                and T.cname=#{cname}
+              </if>
+              <if test="remark!=null">
+                and T.remark=#{remark}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findXwClassifiedManagementCountByCondition" parameterType="XwClassifiedManagement" resultType="long">
+        select count(*) from xw_classified_management
+        <where>
+              <if test="createTime!=null">
+                 create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del = #{del}
+              </if>
+              <if test="cname!=null">
+                and cname=#{cname}
+              </if>
+              <if test="remark!=null">
+                and remark=#{remark}
+              </if>
+        </where>
+    </select>
+    <select id="findXwClassifiedManagementById" resultType="XwClassifiedManagement">
+        select * from xw_classified_management where id=#{id}
+    </select>
+    <select id="findOneXwClassifiedManagementByCondition" parameterType="XwClassifiedManagement" resultType="XwClassifiedManagement">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('cname')">
+                             T.cname,
+                         </if>
+                         <if test="!pager.excludes.contains('remark')">
+                             T.remark,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from xw_classified_management T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="cname!=null">
+                and T.cname=#{cname}
+              </if>
+              <if test="remark!=null">
+                and T.remark=#{remark}
+              </if>
+        </where>
+    </select>
+    <insert id="saveXwClassifiedManagement" parameterType="XwClassifiedManagement">
+        insert into xw_classified_management
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            cname,
+            remark,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{cname}
+                ,
+                #{remark}
+                ,
+                #{schoolId}
+
+         )
+    </insert>
+    <update id="updateXwClassifiedManagement" parameterType="XwClassifiedManagement">
+        update xw_classified_management
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="cname!=null ">
+                        cname=#{cname},
+                    </if>
+                    <if test="remark!=null ">
+                        remark=#{remark}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwClassifiedManagement" >
+        delete from xw_classified_management where id=#{id}
+    </delete>
+
+    <delete id="deleteXwClassifiedManagementByCondition" >
+        delete from xw_classified_management
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="cname!=null">
+                and cname=#{cname}
+              </if>
+              <if test="remark!=null">
+                and remark=#{remark}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveXwClassifiedManagement" parameterType="XwClassifiedManagement">
+        INSERT INTO xw_classified_management (  id,  create_time,  update_time,  del,  cname,  remark )
+        VALUES
+        <foreach collection="list" item="xwClassifiedManagement" separator=",">
+            (  #{xwClassifiedManagement.id},  #{xwClassifiedManagement.createTime},  #{xwClassifiedManagement.updateTime},  #{xwClassifiedManagement.del},  #{xwClassifiedManagement.cname},  #{xwClassifiedManagement.remark}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findXwClassifiedManagementListByCondition2" parameterType="XwClassifiedManagement" resultType="XwClassifiedManagement">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('cname')">
+                        T.cname,
+                    </if>
+                    <if test="!pager.excludes.contains('remark')">
+                        T.remark,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_classified_management T
+        <where>
+            <if test="cname!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='cname'">
+                        and T.cname like concat('%',#{cname},'%')
+                    </when>
+                    <otherwise>
+                        and T.cname=#{cname}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+
+                        and T.school_id=#{schoolId}
+
+            </if>
+        </where>
+            order by T.create_time DESC
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findXwClassifiedManagementCountByCondition2" parameterType="XwClassifiedManagement" resultType="long">
+        select count(*) from xw_classified_management T
+        <where>
+            <if test="createTime!=null">
+                create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and del = #{del}
+            </if>
+            <if test="cname!=null">
+                and T.cname  LIKE  '%${cname}%'
+            </if>
+            <if test="remark!=null">
+                and remark=#{remark}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

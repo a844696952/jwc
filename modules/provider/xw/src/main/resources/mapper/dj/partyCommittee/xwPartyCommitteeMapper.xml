@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.partyCommittee.XwPartyCommitteeDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('parentId')">
+                             T.parent_id,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                            and T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                            and T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="parentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='parentId'">
+                            and T.parent_id like concat('%',#{parentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.parent_id=#{parentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwPartyCommitteeListByCondition" parameterType="XwPartyCommittee" resultType="XwPartyCommittee">
+        select
+         <include refid="projection"/>
+         from xw_party_committee T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findXwPartyCommitteeCountByCondition" parameterType="XwPartyCommittee" resultType="long">
+        select count(*) from xw_party_committee T
+        <include refid="match"/>
+    </select>
+    <select id="findXwPartyCommitteeById" resultType="XwPartyCommittee">
+        select * from xw_party_committee where id=#{id}
+    </select>
+    <select id="findOneXwPartyCommitteeByCondition" parameterType="XwPartyCommittee" resultType="XwPartyCommittee">
+        select
+         <include refid="projection"/>
+         from xw_party_committee T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwPartyCommittee" parameterType="XwPartyCommittee">
+        insert into xw_party_committee
+         (
+            id,
+            school_id,
+            name,
+            parent_id,
+            update_time,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{name}
+                ,
+                #{parentId}
+                ,
+                #{updateTime}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateXwPartyCommittee" parameterType="XwPartyCommittee">
+        update xw_party_committee
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="parentId!=null ">
+                        parent_id=#{parentId},
+                    </if>
+                    update_time=now(),
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwPartyCommittee" >
+        delete from xw_party_committee where id=#{id} or parent_id=#{id}
+    </delete>
+    <delete id="deleteXwPartyCommitteeByCondition" >
+        delete T from xw_party_committee T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwPartyCommittee" parameterType="XwPartyCommittee">
+        INSERT INTO xw_party_committee (  id,  school_id,  name,  parent_id,  update_time,  create_time )
+        VALUES
+        <foreach collection="list" item="xwPartyCommittee" separator=",">
+            (  #{xwPartyCommittee.id},  #{xwPartyCommittee.schoolId},  #{xwPartyCommittee.name},  #{xwPartyCommittee.parentId},  #{xwPartyCommittee.updateTime},  #{xwPartyCommittee.createTime}  )
+        </foreach>
+    </insert>
+    
+
+    <!---查询党组织机构树-->
+    <select id="getPartyCommitteeTree" resultType="XwPartyCommittee">
+        SELECT xm.id,t.img_url,xm.party_branch_id parent_id,t.name,xm.teacher_id,2 type from xw_party_committee C
+        inner join xw_party_member xm on xm.party_committee_id=C.id and xm.school_id=#{schoolId}
+        inner join jw_teacher t on t.id =xm.teacher_id
+        union all
+        SELECT C.id,null,C.parent_id,C.name,null teacher_id,1 type from xw_party_committee C
+        where C.school_id=#{schoolId}
+    </select>
+
+
+
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findCommitteeWithParentName" parameterType="com.yice.edu.cn.common.pojo.xw.dj.partyCommittee.XwPartyCommittee"
+            resultType="com.yice.edu.cn.common.pojo.xw.dj.partyCommittee.XwPartyCommittee">
+        SELECT
+        T.*,
+        t2.name parent_name
+         FROM xw_party_committee T left join xw_party_committee t2
+        on T.parent_id = t2.id
+
+        <include refid="match"/>
+    </select>
+
+</mapper>

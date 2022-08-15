@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.adminPerm.IAdminPermDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('title')">
+                        T.title,
+                    </if>
+                    <if test="!pager.excludes.contains('identify')">
+                        T.identify,
+                    </if>
+                    <if test="!pager.excludes.contains('icon')">
+                        T.icon,
+                    </if>
+                    <if test="!pager.excludes.contains('parentId')">
+                        T.parent_id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('routeName')">
+                        T.routeName,
+                    </if>
+                    <if test="!pager.excludes.contains('urlPath')">
+                        T.url_path,
+                    </if>
+                    <if test="!pager.excludes.contains('sortNum')">
+                        T.sort_num,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolPermId')">
+                        T.school_perm_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="title!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('title')">
+                    and T.title like concat('%',#{title},'%')
+                </when>
+                <otherwise>
+                    and T.title=#{title}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="identify!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('identify')">
+                    and T.identify like concat('%',#{identify},'%')
+                </when>
+                <otherwise>
+                    and T.identify=#{identify}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="icon!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('icon')">
+                    and T.icon like concat('%',#{icon},'%')
+                </when>
+                <otherwise>
+                    and T.icon=#{icon}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="parentId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('parentId')">
+                    and T.parent_id like concat('%',#{parentId},'%')
+                </when>
+                <otherwise>
+                    and T.parent_id=#{parentId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="type!=null">
+            and T.type=#{type}
+        </if>
+        <if test="routeName!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('routeName')">
+                    and T.routeName like concat('%',#{routeName},'%')
+                </when>
+                <otherwise>
+                    and T.routeName=#{routeName}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="urlPath!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('urlPath')">
+                    and T.url_path like concat('%',#{urlPath},'%')
+                </when>
+                <otherwise>
+                    and T.url_path=#{urlPath}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="sortNum!=null">
+            and T.sort_num=#{sortNum}
+        </if>
+        <if test="schoolPermId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolPermId')">
+                    and T.school_perm_id like concat('%',#{schoolPermId},'%')
+                </when>
+                <otherwise>
+                    and T.school_perm_id=#{schoolPermId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findAdminPermListByCondition" parameterType="AdminPerm" resultType="AdminPerm">
+        select
+        <include refid="projection"/>
+        from admin_perm T
+        <where>
+            <include refid="match"/>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findAdminPermCountByCondition" parameterType="AdminPerm" resultType="long">
+        select count(*) from admin_perm T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <select id="findAdminPermById" resultType="AdminPerm">
+        select * from admin_perm where id=#{id}
+    </select>
+    <select id="findOneAdminPermByCondition" parameterType="AdminPerm" resultType="AdminPerm">
+        select
+        <include refid="projection"/>
+        from admin_perm T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <insert id="saveAdminPerm" parameterType="AdminPerm">
+        INSERT INTO admin_perm (  id,  title,  identify,  icon,  parent_id,  type,  routeName,  url_path,  sort_num,  school_perm_id )
+         values
+         (   #{id}  ,   #{title}  ,   #{identify}  ,   #{icon}  ,   #{parentId}  ,   #{type}  ,   #{routeName}  ,   #{urlPath}  ,   #{sortNum}  ,   #{schoolPermId}    )
+    </insert>
+    <update id="updateAdminPerm" parameterType="AdminPerm">
+        update admin_perm
+        <set>
+            <if test="title!=null ">
+                title=#{title},
+            </if>
+            <if test="identify!=null ">
+                identify=#{identify},
+            </if>
+            <if test="icon!=null ">
+                icon=#{icon},
+            </if>
+            <if test="parentId!=null ">
+                parent_id=#{parentId},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="routeName!=null ">
+                routeName=#{routeName},
+            </if>
+            <if test="urlPath!=null ">
+                url_path=#{urlPath},
+            </if>
+            <if test="sortNum!=null ">
+                sort_num=#{sortNum},
+            </if>
+            <if test="schoolPermId!=null ">
+                school_perm_id=#{schoolPermId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateAdminPermForAll" parameterType="AdminPerm">
+        update admin_perm
+        <set>
+            title=#{title},
+            identify=#{identify},
+            icon=#{icon},
+            parent_id=#{parentId},
+            type=#{type},
+            routeName=#{routeName},
+            url_path=#{urlPath},
+            sort_num=#{sortNum},
+            school_perm_id=#{schoolPermId}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteAdminPerm" >
+        delete from admin_perm where id=#{id}
+    </delete>
+    <delete id="deleteAdminPermByCondition" >
+        delete T from admin_perm T
+        <where>
+            <include refid="match"/>
+        </where>
+    </delete>
+    <insert id="batchSaveAdminPerm" parameterType="AdminPerm">
+        INSERT INTO admin_perm (  id,  title,  identify,  icon,  parent_id,  type,  routeName,  url_path,  sort_num,  school_perm_id )
+        VALUES
+        <foreach collection="list" item="adminPerm" separator=",">
+            (   #{adminPerm.id}  ,   #{adminPerm.title}  ,   #{adminPerm.identify}  ,   #{adminPerm.icon}  ,   #{adminPerm.parentId}  ,   #{adminPerm.type}  ,   #{adminPerm.routeName}  ,   #{adminPerm.urlPath}  ,   #{adminPerm.sortNum}  ,   #{adminPerm.schoolPermId}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <update id="batchUpdateSortNum">
+        <foreach collection="list" separator=";" item="perm">
+            update admin_perm set
+            sort_num = #{perm.sortNum}
+            where id = #{perm.id}
+        </foreach>
+    </update>
+</mapper>

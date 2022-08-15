@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: eureka
+  security:
+    user:
+      name: admin
+      password: pwd9527
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+    preferIpAddress: false
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+#这个配置取消了eureka服务注册中心的自我保护机制(spring cloud微服务实战一书第74页)
+  server:
+    enable-self-preservation: false

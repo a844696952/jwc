@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.institution.IMesCommonConfigDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('isByWeek')">
+                             T.is_by_week,
+                         </if>
+                         <if test="!pager.excludes.contains('weekValue')">
+                             T.week_value,
+                         </if>
+                         <if test="!pager.excludes.contains('isByMonth')">
+                             T.is_by_month,
+                         </if>
+                         <if test="!pager.excludes.contains('monthValue')">
+                             T.month_value,
+                         </if>
+                         <if test="!pager.excludes.contains('isBySemester')">
+                             T.is_by_semester,
+                         </if>
+                         <if test="!pager.excludes.contains('semesterValue')">
+                             T.semester_value,
+                         </if>
+                         <if test="!pager.excludes.contains('isByTotal')">
+                             T.is_by_total,
+                         </if>
+                         <if test="!pager.excludes.contains('isFirstInstitution')">
+                             T.is_first_institution,
+                         </if>
+                         <if test="!pager.excludes.contains('isByRank')">
+                             T.is_by_rank,
+                         </if>
+                         <if test="!pager.excludes.contains('isByReach')">
+                             T.is_by_reach,
+                         </if>
+                         <if test="!pager.excludes.contains('timeStatusId')">
+                             T.time_status_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isByWeek!=null">
+                    and T.is_by_week=#{isByWeek}
+              </if>
+              <if test="weekValue!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='weekValue'">
+                            and T.week_value like concat('%',#{weekValue},'%')
+                         </when>
+                         <otherwise>
+                            and T.week_value=#{weekValue}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isByMonth!=null">
+                    and T.is_by_month=#{isByMonth}
+              </if>
+              <if test="monthValue!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='monthValue'">
+                            and T.month_value like concat('%',#{monthValue},'%')
+                         </when>
+                         <otherwise>
+                            and T.month_value=#{monthValue}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isBySemester!=null">
+                    and T.is_by_semester=#{isBySemester}
+              </if>
+              <if test="semesterValue!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='semesterValue'">
+                            and T.semester_value like concat('%',#{semesterValue},'%')
+                         </when>
+                         <otherwise>
+                            and T.semester_value=#{semesterValue}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isByTotal!=null">
+                    and T.is_by_total=#{isByTotal}
+              </if>
+              <if test="isFirstInstitution!=null">
+                    and T.is_first_institution=#{isFirstInstitution}
+              </if>
+              <if test="isByRank!=null">
+                    and T.is_by_rank=#{isByRank}
+              </if>
+              <if test="isByReach!=null">
+                    and T.is_by_reach=#{isByReach}
+              </if>
+              <if test="timeStatusId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='timeStatusId'">
+                            and T.time_status_id like concat('%',#{timeStatusId},'%')
+                         </when>
+                         <otherwise>
+                            and T.time_status_id=#{timeStatusId}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findMesCommonConfigListByCondition" parameterType="MesCommonConfig" resultType="MesCommonConfig">
+        select
+         <include refid="projection"/>
+         from mes_common_config T LEFT JOIN mes_time_status T1 ON T1.id=T.time_status_id
+         <include refid="match"/>
+         and T1.`status`=1
+    </select>
+    <select id="findMesCommonConfigCountByCondition" parameterType="MesCommonConfig" resultType="long">
+        select count(*) from mes_common_config T
+        <include refid="match"/>
+    </select>
+    <select id="findMesCommonConfigById" resultType="MesCommonConfig">
+        select * from mes_common_config where id=#{id}
+    </select>
+    <select id="findOneMesCommonConfigByCondition" parameterType="MesCommonConfig" resultType="MesCommonConfig">
+        select
+         <include refid="projection"/>
+         from mes_common_config T left join mes_time_status T1 on T1.id=T.time_status_id
+        <include refid="match"/> and T1.status=1
+    </select>
+    <insert id="saveMesCommonConfig" parameterType="MesCommonConfig">
+        insert into mes_common_config
+         (
+            id,
+            school_id,
+            create_time,
+            is_by_week,
+            week_value,
+            is_by_month,
+            month_value,
+            is_by_semester,
+            semester_value,
+            is_by_total,
+            is_first_institution,
+            is_by_rank,
+            is_by_reach,
+            time_status_id
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                now()
+                ,
+                #{isByWeek}
+                ,
+                #{weekValue}
+                ,
+                #{isByMonth}
+                ,
+                #{monthValue}
+                ,
+                #{isBySemester}
+                ,
+                #{semesterValue}
+                ,
+                #{isByTotal}
+                ,
+                #{isFirstInstitution}
+                ,
+                #{isByRank}
+                ,
+                #{isByReach}
+                ,
+                #{timeStatusId}
+                
+         )
+    </insert>
+    <update id="updateMesCommonConfig" parameterType="MesCommonConfig">
+        update mes_common_config
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="isByWeek!=null ">
+                        is_by_week=#{isByWeek},
+                    </if>
+                    <if test="weekValue!=null ">
+                        week_value=#{weekValue},
+                    </if>
+                    <if test="isByMonth!=null ">
+                        is_by_month=#{isByMonth},
+                    </if>
+                    <if test="monthValue!=null ">
+                        month_value=#{monthValue},
+                    </if>
+                    <if test="isBySemester!=null ">
+                        is_by_semester=#{isBySemester},
+                    </if>
+                    <if test="semesterValue!=null ">
+                        semester_value=#{semesterValue},
+                    </if>
+                    <if test="isByTotal!=null ">
+                        is_by_total=#{isByTotal},
+                    </if>
+                    <if test="isFirstInstitution!=null ">
+                        is_first_institution=#{isFirstInstitution},
+                    </if>
+                    <if test="isByRank!=null ">
+                        is_by_rank=#{isByRank},
+                    </if>
+                    <if test="isByReach!=null ">
+                        is_by_reach=#{isByReach},
+                    </if>
+                    <if test="timeStatusId!=null ">
+                        time_status_id=#{timeStatusId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteMesCommonConfig" >
+        delete from mes_common_config where id=#{id}
+    </delete>
+    <delete id="deleteMesCommonConfigByCondition" >
+        delete T from mes_common_config T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveMesCommonConfig" parameterType="MesCommonConfig">
+        INSERT INTO mes_common_config (  id,  school_id,  create_time,  is_by_week,  week_value,  is_by_month,  month_value,  is_by_semester,  semester_value,  is_by_total,  is_first_institution,  is_by_rank,  is_by_reach,  time_status_id )
+        VALUES
+        <foreach collection="list" item="mesCommonConfig" separator=",">
+            (  #{mesCommonConfig.id},  #{mesCommonConfig.schoolId},  #{mesCommonConfig.createTime},  #{mesCommonConfig.isByWeek},  #{mesCommonConfig.weekValue},  #{mesCommonConfig.isByMonth},  #{mesCommonConfig.monthValue},  #{mesCommonConfig.isBySemester},  #{mesCommonConfig.semesterValue},  #{mesCommonConfig.isByTotal},  #{mesCommonConfig.isFirstInstitution},  #{mesCommonConfig.isByRank},  #{mesCommonConfig.isByReach},  #{mesCommonConfig.timeStatusId}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findMesCommonConfigByTimeStatusId" resultType="MesCommonConfig">
+        select * from mes_common_config where time_status_id=#{id}
+    </select>
+</mapper>

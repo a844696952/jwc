@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.student.IStudentEnrolmentDao">
+    <!--########################################################################################################################-->
+    <select id="findStudentEnrolmentListByCondition" parameterType="StudentEnrolment" resultType="StudentEnrolment">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('classesId')">
+                             T.classes_id,
+                         </if>
+                         <if test="!pager.excludes.contains('studentCount')">
+                             T.student_count,
+                         </if>
+                         <if test="!pager.excludes.contains('graduationCount')">
+                             T.graduation_count,
+                         </if>
+                         <if test="!pager.excludes.contains('detainedGradeCount')">
+                             T.detained_grade_count,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('enrollYear')">
+                             T.enroll_year,
+                         </if>
+                         <if test="!pager.excludes.contains('enrolmentYear')">
+                             T.enrolment_year,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_student_enrolment T
+        <where>
+              <if test="classesId!=null">
+                 T.classes_id=#{classesId}
+              </if>
+              <if test="studentCount!=null">
+                and T.student_count=#{studentCount}
+              </if>
+              <if test="graduationCount!=null">
+                and T.graduation_count=#{graduationCount}
+              </if>
+              <if test="detainedGradeCount!=null">
+                and T.detained_grade_count=#{detainedGradeCount}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="enrollYear!=null">
+                and T.enroll_year=#{enrollYear}
+              </if>
+              <if test="enrolmentYear!=null">
+                and T.enrolment_year=#{enrolmentYear}
+              </if>
+              <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findStudentEnrolmentCountByCondition" parameterType="StudentEnrolment" resultType="long">
+        select count(*) from jw_student_enrolment
+        <where>
+              <if test="classesId!=null">
+                 classes_id=#{classesId}
+              </if>
+              <if test="studentCount!=null">
+                and student_count=#{studentCount}
+              </if>
+              <if test="graduationCount!=null">
+                and graduation_count=#{graduationCount}
+              </if>
+              <if test="detainedGradeCount!=null">
+                and detained_grade_count=#{detainedGradeCount}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="enrollYear!=null">
+                and enroll_year=#{enrollYear}
+              </if>
+              <if test="enrolmentYear!=null">
+                and enrolment_year=#{enrolmentYear}
+              </if>
+              <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+              </if>
+        </where>
+    </select>
+    <select id="findStudentEnrolmentById" resultType="StudentEnrolment">
+        select * from jw_student_enrolment where id=#{id}
+    </select>
+    <select id="findOneStudentEnrolmentByCondition" parameterType="StudentEnrolment" resultType="StudentEnrolment">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('classesId')">
+                             T.classes_id,
+                         </if>
+                         <if test="!pager.excludes.contains('studentCount')">
+                             T.student_count,
+                         </if>
+                         <if test="!pager.excludes.contains('graduationCount')">
+                             T.graduation_count,
+                         </if>
+                         <if test="!pager.excludes.contains('detainedGradeCount')">
+                             T.detained_grade_count,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('enrollYear')">
+                             T.enroll_year,
+                         </if>
+                         <if test="!pager.excludes.contains('enrolmentYear')">
+                             T.enrolment_year,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             T.grade_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_student_enrolment T
+        <where>
+              <if test="classesId!=null">
+                 T.classes_id=#{classesId}
+              </if>
+              <if test="studentCount!=null">
+                and T.student_count=#{studentCount}
+              </if>
+              <if test="graduationCount!=null">
+                and T.graduation_count=#{graduationCount}
+              </if>
+              <if test="detainedGradeCount!=null">
+                and T.detained_grade_count=#{detainedGradeCount}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="enrollYear!=null">
+                and T.enroll_year=#{enrollYear}
+              </if>
+              <if test="enrolmentYear!=null">
+                and T.enrolment_year=#{enrolmentYear}
+              </if>
+              <if test="gradeId!=null">
+                and T.grade_id=#{gradeId}
+              </if>
+        </where>
+    </select>
+    <insert id="saveStudentEnrolment" parameterType="StudentEnrolment">
+        insert into jw_student_enrolment
+         (
+            id,
+            classes_id,
+            student_count,
+            graduation_count,
+            detained_grade_count,
+            school_id,
+            create_time,
+            enroll_year,
+            enrolment_year,
+            grade_id
+        ) values
+         (
+                #{id}
+                ,
+                #{classesId}
+                ,
+                #{studentCount}
+                ,
+                #{graduationCount}
+                ,
+                #{detainedGradeCount}
+                ,
+                #{schoolId}
+                ,
+                now()
+                ,
+                #{enrollYear}
+                ,
+                #{enrolmentYear}
+                ,
+                #{gradeId}
+                
+         )
+    </insert>
+    <update id="updateStudentEnrolment" parameterType="StudentEnrolment">
+        update jw_student_enrolment
+        <set>
+                    <if test="classesId!=null ">
+                        classes_id=#{classesId},
+                    </if>
+                    <if test="studentCount!=null ">
+                        student_count=#{studentCount},
+                    </if>
+                    <if test="graduationCount!=null ">
+                        graduation_count=#{graduationCount},
+                    </if>
+                    <if test="detainedGradeCount!=null ">
+                        detained_grade_count=#{detainedGradeCount},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="enrollYear!=null ">
+                        enroll_year=#{enrollYear},
+                    </if>
+                    <if test="enrolmentYear!=null ">
+                        enrolment_year=#{enrolmentYear},
+                    </if>
+                    <if test="gradeId!=null ">
+                        grade_id=#{gradeId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteStudentEnrolment" >
+        delete from jw_student_enrolment where id=#{id}
+    </delete>
+    <delete id="deleteStudentEnrolmentByCondition" >
+        delete from jw_student_enrolment
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="classesId!=null">
+                and classes_id=#{classesId}
+              </if>
+              <if test="studentCount!=null">
+                and student_count=#{studentCount}
+              </if>
+              <if test="graduationCount!=null">
+                and graduation_count=#{graduationCount}
+              </if>
+              <if test="detainedGradeCount!=null">
+                and detained_grade_count=#{detainedGradeCount}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="enrollYear!=null">
+                and enroll_year=#{enrollYear}
+              </if>
+              <if test="enrolmentYear!=null">
+                and enrolment_year=#{enrolmentYear}
+              </if>
+              <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveStudentEnrolment" parameterType="StudentEnrolment">
+        INSERT INTO jw_student_enrolment (  id,  classes_id,  student_count,  graduation_count,  detained_grade_count,  school_id,  create_time,  enroll_year,  enrolment_year,  grade_id )
+        VALUES
+        <foreach collection="list" item="studentEnrolment" separator=",">
+            (  #{studentEnrolment.id},  #{studentEnrolment.classesId},  #{studentEnrolment.studentCount},  #{studentEnrolment.graduationCount},  #{studentEnrolment.detainedGradeCount},  #{studentEnrolment.schoolId},  #{studentEnrolment.createTime},  #{studentEnrolment.enrollYear},  #{studentEnrolment.enrolmentYear},  #{studentEnrolment.gradeId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

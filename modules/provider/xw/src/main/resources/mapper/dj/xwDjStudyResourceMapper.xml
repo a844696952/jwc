@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.IXwDjStudyResourceDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('activityType')">
+                        T.activity_type,
+                    </if>
+                    <if test="!pager.excludes.contains('title')">
+                        T.title,
+                    </if>
+                    <if test="!pager.excludes.contains('content')">
+                        T.content,
+                    </if>
+                    <if test="!pager.excludes.contains('publishTime')">
+                        T.publish_time,
+                    </if>
+                    <if test="!pager.excludes.contains('addTime')">
+                        T.add_time,
+                    </if>
+                    <if test="!pager.excludes.contains('studyNumber')">
+                        T.study_number,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherNumber')">
+                        T.teacher_number,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherName')">
+                        T.teacher_name,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('state')">
+                        T.state,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='type'">
+                        and T.type like concat('%',#{type},'%')
+                    </when>
+                    <otherwise>
+                        and T.type=#{type}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="activityType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='activityType'">
+                        and T.activity_type like concat('%',#{activityType},'%')
+                    </when>
+                    <otherwise>
+                        and T.activity_type=#{activityType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="title!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='title'">
+                        and T.title like concat('%',#{title},'%')
+                    </when>
+                    <otherwise>
+                        and T.title=#{title}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="content!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='content'">
+                        and T.content like concat('%',#{content},'%')
+                    </when>
+                    <otherwise>
+                        and T.content=#{content}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="publishTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='publishTime'">
+                        and T.publish_time like concat('%',#{publishTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.publish_time=#{publishTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="addTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='addTime'">
+                        and T.add_time like concat('%',#{addTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.add_time=#{addTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="studyNumber!=null">
+                and T.study_number=#{studyNumber}
+            </if>
+            <if test="teacherNumber!=null">
+                and T.teacher_number=#{teacherNumber}
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherName'">
+                        and T.teacher_name like concat('%',#{teacherName},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_name=#{teacherName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="state!=null">
+                and T.state=#{state}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item" index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwDjStudyResourceListByCondition" parameterType="XwDjStudyResource" resultType="XwDjStudyResource">
+        select
+        <include refid="projection"/>
+        from xw_dj_study_resource T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findXwDjStudyResourceCountByCondition" parameterType="XwDjStudyResource" resultType="long">
+        select count(*) from xw_dj_study_resource T
+        <include refid="match"/>
+    </select>
+    <select id="findXwDjStudyResourceById" resultType="XwDjStudyResource">
+        select * from xw_dj_study_resource where id=#{id}
+    </select>
+    <select id="findOneXwDjStudyResourceByCondition" parameterType="XwDjStudyResource" resultType="XwDjStudyResource">
+        select
+        <include refid="projection"/>
+        from xw_dj_study_resource T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwDjStudyResource" parameterType="XwDjStudyResource">
+        insert into xw_dj_study_resource
+         (
+            id,
+            type,
+            activity_type,
+            title,
+            content,
+            publish_time,
+            add_time,
+            study_number,
+            teacher_number,
+            teacher_id,
+            teacher_name,
+            school_id,
+            state
+        ) values
+         (
+                #{id}
+                ,
+                #{type}
+                ,
+                #{activityType}
+                ,
+                #{title}
+                ,
+                #{content}
+                ,
+                DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')
+                ,
+                DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')
+                ,
+                #{studyNumber}
+                ,
+                #{teacherNumber}
+                ,
+                #{teacherId}
+                ,
+                #{teacherName}
+                ,
+                #{schoolId}
+                ,
+                #{state}
+                
+         )
+    </insert>
+    <update id="updateXwDjStudyResource" parameterType="XwDjStudyResource">
+        update xw_dj_study_resource
+        <set>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="activityType!=null ">
+                activity_type=#{activityType},
+            </if>
+            <if test="title!=null ">
+                title=#{title},
+            </if>
+            <if test="content!=null ">
+                content=#{content},
+            </if>
+            <if test="publishTime==null ">
+                publish_time=DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),
+            </if>
+            <if test="addTime!=null ">
+                add_time=#{addTime},
+            </if>
+            <if test="studyNumber!=null ">
+                study_number=#{studyNumber},
+            </if>
+            <if test="teacherNumber!=null ">
+                teacher_number=#{teacherNumber},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="teacherName!=null ">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="state!=null ">
+                state=#{state}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteXwDjStudyResource">
+        delete from xw_dj_study_resource where id=#{id}
+    </delete>
+    <delete id="deleteXwDjStudyResourceByCondition">
+        delete T from xw_dj_study_resource T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwDjStudyResource" parameterType="XwDjStudyResource">
+        INSERT INTO xw_dj_study_resource ( id, type, activity_type, title, content, publish_time, add_time,
+        study_number, teacher_number, teacher_id, teacher_name, school_id, state )
+        VALUES
+        <foreach collection="list" item="xwDjStudyResource" separator=",">
+            ( #{xwDjStudyResource.id}, #{xwDjStudyResource.type}, #{xwDjStudyResource.activityType},
+            #{xwDjStudyResource.title}, #{xwDjStudyResource.content}, #{xwDjStudyResource.publishTime},
+            #{xwDjStudyResource.addTime}, #{xwDjStudyResource.studyNumber}, #{xwDjStudyResource.teacherNumber},
+            #{xwDjStudyResource.teacherId}, #{xwDjStudyResource.teacherName}, #{xwDjStudyResource.schoolId},
+            #{xwDjStudyResource.state} )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <insert id="saveXwDjStudyResourceDraft" parameterType="XwDjStudyResource">
+        insert into xw_dj_study_resource
+         (
+            id,
+            type,
+            activity_type,
+            title,
+            content,
+            publish_time,
+            add_time,
+            study_number,
+            teacher_number,
+            teacher_id,
+            teacher_name,
+            school_id,
+            state
+        ) values
+         (
+                #{id}
+                ,
+                #{type}
+                ,
+                #{activityType}
+                ,
+                #{title}
+                ,
+                #{content}
+                ,
+                #{publishTime}
+                ,
+                DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')
+                ,
+                #{studyNumber}
+                ,
+                #{teacherNumber}
+                ,
+                #{teacherId}
+                ,
+                #{teacherName}
+                ,
+                #{schoolId}
+                ,
+                #{state}
+
+         )
+    </insert>
+    <update id="updateXwDjStudyResourceDraft" parameterType="XwDjStudyResource">
+        update xw_dj_study_resource
+        <set>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="activityType!=null ">
+                activity_type=#{activityType},
+            </if>
+            <if test="title!=null ">
+                title=#{title},
+            </if>
+            <if test="content!=null ">
+                content=#{content},
+            </if>
+            <if test="publishTime!=null ">
+                publish_time=#{publishTime},
+            </if>
+            <if test="addTime!=null ">
+                add_time=#{addTime},
+            </if>
+            <if test="studyNumber!=null ">
+                study_number=#{studyNumber},
+            </if>
+            <if test="teacherNumber!=null ">
+                teacher_number=#{teacherNumber},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="teacherName!=null ">
+                teacher_name=#{teacherName},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="state!=null ">
+                state=#{state}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

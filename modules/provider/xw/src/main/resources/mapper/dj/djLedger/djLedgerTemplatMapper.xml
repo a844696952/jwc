@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.djLedger.IDjLedgerTemplatDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('ddid')">
+                             T.ddid,
+                         </if>
+                         <if test="!pager.excludes.contains('ddidType')">
+                             T.ddid_type,
+                         </if>
+                         <if test="!pager.excludes.contains('templateContent')">
+                             T.template_content,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('templateName')">
+                             T.template_name,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="ddid!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='ddid'">
+                            and T.ddid like concat('%',#{ddid},'%')
+                         </when>
+                         <otherwise>
+                            and T.ddid=#{ddid}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="ddidType!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='ddidType'">
+                            and T.ddid_type like concat('%',#{ddidType},'%')
+                         </when>
+                         <otherwise>
+                            and T.ddid_type=#{ddidType}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="templateContent!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='templateContent'">
+                            and T.template_content like concat('%',#{templateContent},'%')
+                         </when>
+                         <otherwise>
+                            and T.template_content=#{templateContent}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="templateName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='templateName'">
+                            and T.template_name like concat('%',#{templateName},'%')
+                         </when>
+                         <otherwise>
+                            and T.template_name=#{templateName}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDjLedgerTemplatListByCondition" parameterType="DjLedgerTemplat" resultType="DjLedgerTemplat">
+        select
+         <include refid="projection"/>
+         from xw_dj_ledger_templat T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDjLedgerTemplatCountByCondition" parameterType="DjLedgerTemplat" resultType="long">
+        select count(*) from xw_dj_ledger_templat T
+        <include refid="match"/>
+    </select>
+    <select id="findDjLedgerTemplatById" resultType="DjLedgerTemplat">
+        select * from xw_dj_ledger_templat where id=#{id}
+    </select>
+    <select id="findOneDjLedgerTemplatByCondition" parameterType="DjLedgerTemplat" resultType="DjLedgerTemplat">
+        select
+         <include refid="projection"/>
+         from xw_dj_ledger_templat T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDjLedgerTemplat" parameterType="DjLedgerTemplat">
+        insert into xw_dj_ledger_templat
+         (
+            id,
+            ddid,
+            ddid_type,
+            template_content,
+            school_id,
+            template_name
+        ) values
+         (
+                #{id}
+                ,
+                #{ddid}
+                ,
+                #{ddidType}
+                ,
+                #{templateContent}
+                ,
+                #{schoolId}
+                ,
+                #{templateName}
+                
+         )
+    </insert>
+    <update id="updateDjLedgerTemplat" parameterType="DjLedgerTemplat">
+        update xw_dj_ledger_templat
+        <set>
+                    <if test="ddid!=null ">
+                        ddid=#{ddid},
+                    </if>
+                    <if test="ddidType!=null ">
+                        ddid_type=#{ddidType},
+                    </if>
+                    <if test="templateContent!=null ">
+                        template_content=#{templateContent},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="templateName!=null ">
+                        template_name=#{templateName}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDjLedgerTemplat" >
+        delete from xw_dj_ledger_templat where id=#{id}
+    </delete>
+    <delete id="deleteDjLedgerTemplatByCondition" >
+        delete T from xw_dj_ledger_templat T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDjLedgerTemplat" parameterType="DjLedgerTemplat">
+        INSERT INTO xw_dj_ledger_templat (  id,  ddid,  ddid_type,  template_content,  school_id,  template_name )
+        VALUES
+        <foreach collection="list" item="djLedgerTemplat" separator=",">
+            (  #{djLedgerTemplat.id},  #{djLedgerTemplat.ddid},  #{djLedgerTemplat.ddidType},  #{djLedgerTemplat.templateContent},  #{djLedgerTemplat.schoolId},  #{djLedgerTemplat.templateName}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+
+    <select id="findTemplateTree" resultType="DjLedgerTemplat">
+        SELECT xw_dj_ledger_templat.id , dd.id ddid ,dd.name dd_type_name,dd.type_id ddid_type
+        ,xw_dj_ledger_templat.`template_name`,xw_dj_ledger_templat.`school_id` FROM xw_dj_ledger_templat RIGHT JOIN (SELECT * FROM ad_dd WHERE ad_dd.`type_id`="5000") dd
+        ON dd.`type_id`=xw_dj_ledger_templat.`ddid_type` AND dd.`id`=xw_dj_ledger_templat.`ddid`
+        <where>
+            <if test="schoolId!=null">
+                xw_dj_ledger_templat.school_id=#{schoolId}
+
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.auth.IRolePermDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('roleId')">
+                        T.role_id,
+                    </if>
+                    <if test="!pager.excludes.contains('permId')">
+                        T.perm_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="roleId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('roleId')">
+                    and T.role_id like concat('%',#{roleId},'%')
+                </when>
+                <otherwise>
+                    and T.role_id=#{roleId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="permId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('permId')">
+                    and T.perm_id like concat('%',#{permId},'%')
+                </when>
+                <otherwise>
+                    and T.perm_id=#{permId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                    and T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                    and T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                    and T.create_time like concat('%',#{createTime},'%')
+                </when>
+                <otherwise>
+                    and T.create_time=#{createTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findRolePermListByCondition" parameterType="RolePerm" resultType="RolePerm">
+        select
+        <include refid="projection"/>
+        from jw_role_jw_perm T
+        <where>
+            <include refid="match"/>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findRolePermCountByCondition" parameterType="RolePerm" resultType="long">
+        select count(*) from jw_role_jw_perm T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <select id="findRolePermById" resultType="RolePerm">
+        select * from jw_role_jw_perm where id=#{id}
+    </select>
+    <select id="findOneRolePermByCondition" parameterType="RolePerm" resultType="RolePerm">
+        select
+        <include refid="projection"/>
+        from jw_role_jw_perm T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <insert id="saveRolePerm" parameterType="RolePerm">
+        INSERT INTO jw_role_jw_perm (  id,  role_id,  perm_id,  school_id,  create_time )
+         values
+         (   #{id}  ,   #{roleId}  ,   #{permId}  ,   #{schoolId}  ,   now()    )
+    </insert>
+    <update id="updateRolePerm" parameterType="RolePerm">
+        update jw_role_jw_perm
+        <set>
+            <if test="roleId!=null ">
+                role_id=#{roleId},
+            </if>
+            <if test="permId!=null ">
+                perm_id=#{permId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateRolePermForAll" parameterType="RolePerm">
+        update jw_role_jw_perm
+        <set>
+            role_id=#{roleId},
+            perm_id=#{permId},
+            school_id=#{schoolId},
+            create_time=#{createTime}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteRolePerm" >
+        delete from jw_role_jw_perm where id=#{id}
+    </delete>
+    <delete id="deleteRolePermByCondition" >
+        delete T from jw_role_jw_perm T
+        <where>
+            <include refid="match"/>
+        </where>
+    </delete>
+    <insert id="batchSaveRolePerm" parameterType="RolePerm">
+        INSERT INTO jw_role_jw_perm (  id,  role_id,  perm_id,  school_id,  create_time )
+        VALUES
+        <foreach collection="list" item="rolePerm" separator=",">
+            (   #{rolePerm.id}  ,   #{rolePerm.roleId}  ,   #{rolePerm.permId}  ,   #{rolePerm.schoolId}  ,   now()    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <delete id="deleteRolePermByPermId">
+        delete from jw_role_jw_perm where perm_id=#{id}
+    </delete>
+    <delete id="deleteRolePermByPermIdsAndSchoolId">
+        delete from jw_role_jw_perm where school_id=#{schoolId} and perm_id in (
+        <foreach collection="list" item="permId" separator=",">
+            #{permId}
+        </foreach>
+
+        )
+    </delete>
+    <delete id="deleteRolePermByPermIds">
+        delete from jw_role_jw_perm where perm_id in
+        (
+        <foreach collection="ids" separator="," item="id">
+            #{id}
+        </foreach>
+
+        )
+    </delete>
+
+</mapper>

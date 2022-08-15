@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.information.IXwDjInformationDao">
+    <resultMap id="baseMap" type="XwDjInformation">
+        <id column="id" property="id"/>
+        <result column="column_id" property="columnId"/>
+        <result column="information_title" property="informationTitle"/>
+        <result column="information_content" property="informationContent"/>
+        <result column="information_state" property="informationState"/>
+        <result column="is_show_res" property="isShowRes"/>
+        <result column="create_date" property="createDate"/>
+        <result column="creator_id" property="creatorId"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="operate_date" property="operateDate"/>
+        <result column="classify_name" property="classifyName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="school_id" property="schoolId"/>
+    </resultMap>
+    <!-- 资讯列表 -->
+    <select id="getListByCondition" resultMap="baseMap">
+        SELECT
+        T.id, T.information_title, T.information_content,
+        T.information_state, T.create_date,T.create_time,T.school_id, classify.classify_name
+        FROM xw_dj_information T INNER JOIN xw_dj_classify classify
+        ON T.column_id = classify.id
+        WHERE 1 = 1
+        <if test="columnId != null">
+            AND T.column_id = #{columnId}
+        </if>
+        <if test="informationState != null">
+            AND T.information_state = #{informationState}
+        </if>
+        <if test="informationTitle != null">
+            AND T.information_title LIKE #{informationTitle}
+        </if>
+        <if test="creatorId != null">
+            AND T.creator_id = #{creatorId}
+        </if>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="getCountByCondition" parameterType="XwDjInformation" resultType="long">
+        select count(*)
+        FROM xw_dj_information information INNER JOIN xw_dj_classify classify
+        ON information.column_id = classify.id
+        WHERE 1 = 1
+        <if test="columnId != null">
+            AND information.column_id = #{columnId}
+        </if>
+        <if test="informationState != null">
+            AND information.information_state = #{informationState}
+        </if>
+        <if test="informationTitle != null">
+            AND information.information_title LIKE #{informationTitle}
+        </if>
+        <if test="creatorId != null">
+            AND information.creator_id = #{creatorId}
+        </if>
+    </select>
+
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('columnId')">
+                             T.column_id,
+                         </if>
+                         <if test="!pager.excludes.contains('informationTitle')">
+                             T.information_title,
+                         </if>
+                         <if test="!pager.excludes.contains('informationContent')">
+                             T.information_content,
+                         </if>
+                         <if test="!pager.excludes.contains('informationState')">
+                             T.information_state,
+                         </if>
+                         <if test="!pager.excludes.contains('isShowRes')">
+                             T.is_show_res,
+                         </if>
+                         <if test="!pager.excludes.contains('createDate')">
+                             T.create_date,
+                         </if>
+                         <if test="!pager.excludes.contains('creatorId')">
+                             T.creator_id,
+                         </if>
+                         <if test="!pager.excludes.contains('operatorId')">
+                             T.operator_id,
+                         </if>
+                         <if test="!pager.excludes.contains('operateDate')">
+                             T.operate_date,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="columnId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='columnId'">
+                            and T.column_id like concat('%',#{columnId},'%')
+                         </when>
+                         <otherwise>
+                            and T.column_id=#{columnId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="informationTitle!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='informationTitle'">
+                            and T.information_title like concat('%',#{informationTitle},'%')
+                         </when>
+                         <otherwise>
+                            and T.information_title=#{informationTitle}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="informationContent!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='informationContent'">
+                            and T.information_content like concat('%',#{informationContent},'%')
+                         </when>
+                         <otherwise>
+                            and T.information_content=#{informationContent}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="informationState!=null">
+                    and T.information_state=#{informationState}
+              </if>
+              <if test="isShowRes!=null">
+                    and T.is_show_res=#{isShowRes}
+              </if>
+              <if test="createDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createDate'">
+                            and T.create_date like concat('%',#{createDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_date=#{createDate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="creatorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='creatorId'">
+                            and T.creator_id like concat('%',#{creatorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.creator_id=#{creatorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="operatorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='operatorId'">
+                            and T.operator_id like concat('%',#{operatorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.operator_id=#{operatorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="operateDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='operateDate'">
+                            and T.operate_date like concat('%',#{operateDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.operate_date=#{operateDate}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwDjInformationListByCondition" parameterType="XwDjInformation" resultType="XwDjInformation">
+        select
+         <include refid="projection"/>
+         from xw_dj_information T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findXwDjInformationCountByCondition" parameterType="XwDjInformation" resultType="long">
+        select count(*) from xw_dj_information T
+        <include refid="match"/>
+    </select>
+    <select id="findXwDjInformationById" resultType="XwDjInformation">
+        select * from xw_dj_information where id=#{id}
+    </select>
+    <select id="findOneXwDjInformationByCondition" parameterType="XwDjInformation" resultType="XwDjInformation">
+        select
+         <include refid="projection"/>
+         from xw_dj_information T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwDjInformation" parameterType="XwDjInformation">
+        insert into xw_dj_information
+         (
+            id,
+            column_id,
+            information_title,
+            information_content,
+            information_state,
+            is_show_res,
+            create_date,
+            creator_id,
+            operator_id,
+            operate_date,
+            create_time,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                #{columnId}
+                ,
+                #{informationTitle}
+                ,
+                #{informationContent}
+                ,
+                #{informationState}
+                ,
+                #{isShowRes}
+                ,
+                #{createDate}
+                ,
+                #{creatorId}
+                ,
+                #{operatorId}
+                ,
+                #{operateDate}
+                ,
+                #{createTime}
+                ,
+                #{schoolId}
+                
+         )
+    </insert>
+    <update id="updateXwDjInformation" parameterType="XwDjInformation">
+        update xw_dj_information
+        <set>
+                    <if test="columnId!=null ">
+                        column_id=#{columnId},
+                    </if>
+                    <if test="informationTitle!=null ">
+                        information_title=#{informationTitle},
+                    </if>
+                    <if test="informationContent!=null ">
+                        information_content=#{informationContent},
+                    </if>
+                    <if test="informationState!=null ">
+                        information_state=#{informationState},
+                    </if>
+                    <if test="isShowRes!=null ">
+                        is_show_res=#{isShowRes},
+                    </if>
+                    <if test="createDate!=null ">
+                        create_date=#{createDate},
+                    </if>
+                    <if test="creatorId!=null ">
+                        creator_id=#{creatorId},
+                    </if>
+                    <if test="operatorId!=null ">
+                        operator_id=#{operatorId},
+                    </if>
+                    <if test="operateDate!=null ">
+                        operate_date=#{operateDate},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwDjInformation" >
+        delete from xw_dj_information where id=#{id}
+    </delete>
+    <delete id="deleteXwDjInformationByCondition" >
+        delete T from xw_dj_information T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwDjInformation" parameterType="XwDjInformation">
+        INSERT INTO xw_dj_information (  id,  column_id,  information_title,  information_content,  information_state,  is_show_res,  create_date,  creator_id,  operator_id,  operate_date )
+        VALUES
+        <foreach collection="list" item="xwDjInformation" separator=",">
+            (  #{xwDjInformation.id},  #{xwDjInformation.columnId},  #{xwDjInformation.informationTitle},  #{xwDjInformation.informationContent},  #{xwDjInformation.informationState},  #{xwDjInformation.isShowRes},  #{xwDjInformation.createDate},  #{xwDjInformation.creatorId},  #{xwDjInformation.operatorId},  #{xwDjInformation.operateDate}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <resultMap id="xwDjInformation" type="com.yice.edu.cn.common.pojo.xw.dj.information.XwDjInformation">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="classify_name" property="classifyName"/>
+        <result column="column_id" property="columnId"/>
+        <result column="information_title" property="informationTitle"/>
+        <result column="information_content" property="informationContent"/>
+        <result column="information_state" property="informationState"/>
+        <result column="is_show_res" property="isShowRes"/>
+        <result column="create_date" property="createDate"/>
+        <result column="creator_id" property="creatorId"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="operate_date" property="operateDate"/>
+        <result column="operator_name" property="operatorName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="school_id" property="schoolId"/>
+    </resultMap>
+    <resultMap id="xwDjInformationAndFile" type="com.yice.edu.cn.common.pojo.xw.dj.information.XwDjInformation" extends="xwDjInformation">
+        <collection property="xwDjAttachmentFiles" ofType="com.yice.edu.cn.common.pojo.xw.dj.partyMemberFile.XwDjAttachmentFile">
+            <id column="fileId"  jdbcType="VARCHAR" property="id"/>
+            <result column="file_name" property="fileName"/>
+            <result column="file_path" property="filePath"/>
+            <result column="file_type" property="fileType"/>
+            <result column="reference_id" property="referenceId"/>
+            <result column="file_desc" property="fileDesc"/>
+        </collection>
+    </resultMap>
+    <select id="selectXwDjInformationById" resultMap="xwDjInformationAndFile" parameterType="string">
+        select
+        t1.id,
+        t1.column_id,
+        t1.information_title,
+        t1.information_content,
+        t1.information_state,
+        t1.is_show_res,
+        t1.create_date,
+        t1.creator_id,
+        t1.operator_id,
+        t1.operate_date,
+        t1.school_id,
+        t1.create_time,
+        t2.id as fileId,
+        t2.file_name,
+        t2.file_path,
+        t2.file_type,
+        t2.reference_id,
+        t2.file_desc,
+        t3.name as operator_name,
+        t4.classify_name
+        from xw_dj_information t1 left join xw_dj_attachment_file t2 on t1.id=t2.reference_id left join jw_teacher t3 on t1.operator_id=t3.id left join xw_dj_classify t4 on t1.column_id=t4.id
+        where t1.id=#{id}
+    </select>
+
+
+</mapper>

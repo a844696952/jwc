@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.IDjClassifyDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classifyName')">
+                             T.classify_name,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('classifyType')">
+                             T.classify_type,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classifyName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classifyName'">
+                            and T.classify_name like concat('%',#{classifyName},'%')
+                         </when>
+                         <otherwise>
+                            and T.classify_name=#{classifyName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classifyType!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classifyType'">
+                            and T.classify_type like concat('%',#{classifyType},'%')
+                         </when>
+                         <otherwise>
+                            and T.classify_type=#{classifyType}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDjClassifyListByCondition" parameterType="DjClassify" resultType="com.yice.edu.cn.common.pojo.xw.dj.DjClassify">
+        select
+         <include refid="projection"/>
+         from xw_dj_classify T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDjClassifyCountByCondition" parameterType="DjClassify" resultType="long">
+        select count(*) from xw_dj_classify T
+        <include refid="match"/>
+    </select>
+    <select id="findDjClassifyById" resultType="com.yice.edu.cn.common.pojo.xw.dj.DjClassify">
+        select * from xw_dj_classify where id=#{id}
+    </select>
+    <select id="findOneDjClassifyByCondition" parameterType="DjClassify" resultType="com.yice.edu.cn.common.pojo.xw.dj.DjClassify">
+        select
+         <include refid="projection"/>
+         from xw_dj_classify T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDjClassify" parameterType="DjClassify">
+        insert into xw_dj_classify
+         (
+            id,
+            school_id,
+            classify_name,
+            create_time,
+            update_time,
+            classify_type,
+            status
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{classifyName}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{classifyType}
+                ,
+                0
+                
+         )
+    </insert>
+    <update id="updateDjClassify" parameterType="DjClassify">
+        update xw_dj_classify
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="classifyName!=null ">
+                        classify_name=#{classifyName},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="updateTime!=null ">
+                        update_time=#{updateTime},
+                    </if>
+                    <if test="classifyType!=null ">
+                        classify_type=#{classifyType},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDjClassify" >
+        delete from xw_dj_classify where id=#{id}
+    </delete>
+    <delete id="deleteDjClassifyByCondition" >
+        delete T from xw_dj_classify T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDjClassify" parameterType="DjClassify">
+        INSERT INTO xw_dj_classify (  id,  school_id,  classify_name,  create_time,  update_time,  classify_type,  status )
+        VALUES
+        <foreach collection="list" item="djClassify" separator=",">
+            (  #{djClassify.id},  #{djClassify.schoolId},  #{djClassify.classifyName},  #{djClassify.createTime},  #{djClassify.updateTime},  #{djClassify.classifyType},  #{djClassify.status}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <!--根据类型 查询 下拉框（公用）-->
+    <select id="selectClassifyListByType" parameterType="DjClassify" resultType="com.yice.edu.cn.common.pojo.xw.dj.DjClassify">
+            SELECT
+                T.id,
+                T.classify_name
+            FROM
+                xw_dj_classify T
+                where
+                T.school_id = #{schoolId}
+                and  T.classify_type = #{classifyType}
+                and  T.`status` = 0
+                order by T.create_time desc
+    </select>
+
+    <!--查询该类型下拉框是否已经存在-->
+    <select id="findClassifyListByType" parameterType="DjClassify" resultType="DjClassify">
+        SELECT
+        T.id,
+        T.classify_name
+        FROM
+        xw_dj_classify T
+        where
+        T.school_id = #{schoolId}
+        and  T.classify_type = #{classifyType}
+        <if test="classifyName !=null and classifyName !='' ">
+            and T.classify_name = #{classifyName}
+        </if>
+        <if test="id !=null and id !='' ">
+            and id <![CDATA[ <> ]]> #{id}
+        </if>
+    </select>
+
+</mapper>

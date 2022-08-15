@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.active.IDmActiveDao">
+    <!--########################################################################################################################-->
+    <select id="findDmActiveListByCondition" parameterType="DmActive" resultType="DmActive">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('activeName')">
+                             T.active_name,
+                         </if>
+                         <if test="!pager.excludes.contains('imgUrl')">
+                             T.img_url,
+                         </if>
+                         <if test="!pager.excludes.contains('content')">
+                             T.content,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from dm_active T
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="activeName!=null">
+                and T.active_name=#{activeName}
+              </if>
+              <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+              </if>
+              <if test="content!=null">
+                and T.content=#{content}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findDmActiveCountByCondition" parameterType="DmActive" resultType="long">
+        select count(*) from dm_active
+        <where>
+              <if test="schoolId!=null">
+                 school_id=#{schoolId}
+              </if>
+              <if test="activeName!=null">
+                  and active_name=#{activeName}
+              </if>
+              <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+              </if>
+              <if test="content!=null">
+                and content=#{content}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+        </where>
+    </select>
+    <select id="findDmActiveById" resultType="DmActive">
+        select * from dm_active where id=#{id}
+    </select>
+    <select id="findOneDmActiveByCondition" parameterType="DmActive" resultType="DmActive">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('activeName')">
+                             T.active_name,
+                         </if>
+                         <if test="!pager.excludes.contains('imgUrl')">
+                             T.img_url,
+                         </if>
+                         <if test="!pager.excludes.contains('content')">
+                             T.content,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from dm_active T
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="activeName!=null">
+                and T.active_name=#{activeName}
+              </if>
+              <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+              </if>
+              <if test="content!=null">
+                and T.content=#{content}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveDmActive" parameterType="DmActive" useGeneratedKeys="true" keyProperty="id">
+        insert into dm_active
+         (
+            id,
+            school_id,
+            active_name,
+            img_url,
+            content,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{activeName}
+                ,
+                #{imgUrl}
+                ,
+                #{content}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateDmActive" parameterType="DmActive">
+        update dm_active
+          <set>
+                <if test="schoolId!=null ">
+                    school_id=#{schoolId},
+                </if>
+                <if test="activeName!=null ">
+                    active_name=#{activeName},
+                </if>
+                <if test="imgUrl!=null ">
+                    img_url=#{imgUrl},
+                </if>
+                <if test="content!=null ">
+                    content=#{content},
+                </if>
+                <if test="createTime!=null ">
+                    create_time=#{createTime}
+                </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDmActive" >
+        delete from dm_active where id=#{id}
+    </delete>
+    <delete id="deleteDmActiveByCondition" >
+        delete from dm_active
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="activeName!=null">
+                and active_name=#{activeName}
+              </if>
+              <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+              </if>
+              <if test="content!=null">
+                and content=#{content}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveDmActive" parameterType="DmActive" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO dm_active (  id,  school_id,  active_name,  img_url,  content,  create_time )
+        VALUES
+        <foreach collection="list" item="dmActive" separator=",">
+            (  #{dmActive.id},  #{dmActive.schoolId},  #{dmActive.activeName},  #{dmActive.imgUrl},  #{dmActive.content}, #{dmActive.createTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <!-- 批量删除学校活动信息 -->
+    <delete id="deleteManyDmActive" parameterType="string">
+        delete from dm_active where id in
+        <foreach item="rowData" collection="array" open="(" separator="," close=")">
+            #{rowData}
+        </foreach>
+    </delete>
+    <select id="findDmActiveListByConditionLike" parameterType="DmActive" resultType="DmActive">
+        select T.id,T.active_name,T.img_url,T.create_time from dm_active T
+        <where>
+            <if test="schoolId!=null">
+                T.school_id=#{schoolId}
+            </if>
+            <if test="activeName!=null">
+                and T.active_name like concat('%${activeName}%')
+            </if>
+            <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+            </if>
+            <if test="content!=null">
+                and T.content=#{content}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findDmActiveCountByConditionLike" parameterType="DmActive" resultType="long">
+        select count(id) from dm_active
+        <where>
+            <if test="schoolId!=null">
+                school_id=#{schoolId}
+            </if>
+            <if test="activeName!=null">
+                and active_name like concat('%${activeName}%')
+            </if>
+            <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+            </if>
+            <if test="content!=null">
+                and content=#{content}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+        </where>
+    </select>
+    <select id="findDmActiveListByConditionVue" parameterType="DmActive" resultType="DmActive">
+        select T.id,T.active_name,T.img_url from dm_active T where T.school_id=#{schoolId}
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+</mapper>

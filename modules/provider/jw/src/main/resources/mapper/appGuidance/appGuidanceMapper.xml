@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.appGuidance.IAppGuidanceDao">
+    <!--########################################################################################################################-->
+    <select id="findAppGuidanceListByCondition" parameterType="AppGuidance" resultType="AppGuidance">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('content')">
+                             T.content,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from app_guidance T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="content!=null">
+                and T.content=#{content}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findAppGuidanceCountByCondition" parameterType="AppGuidance" resultType="long">
+        select count(*) from app_guidance
+        <where>
+              <if test="name!=null">
+                 name=#{name}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="content!=null">
+                and content=#{content}
+              </if>
+        </where>
+    </select>
+    <select id="findAppGuidanceById" resultType="AppGuidance">
+        select * from app_guidance where id=#{id}
+    </select>
+    <select id="findOneAppGuidanceByCondition" parameterType="AppGuidance" resultType="AppGuidance">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('content')">
+                             T.content,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from app_guidance T
+        <where>
+              <if test="name!=null">
+                 T.name=#{name}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="content!=null">
+                and T.content=#{content}
+              </if>
+        </where>
+    </select>
+    <insert id="saveAppGuidance" parameterType="AppGuidance">
+        insert into app_guidance
+         (
+            id,
+            name,
+            update_time,
+            content
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{updateTime}
+                ,
+                #{content}
+                
+         )
+    </insert>
+    <update id="updateAppGuidance" parameterType="AppGuidance">
+        update app_guidance
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    update_time=#{updateTime},
+                    <if test="content!=null ">
+                        content=#{content}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteAppGuidance" >
+        delete from app_guidance where id=#{id}
+    </delete>
+    <delete id="deleteAppGuidanceByCondition" >
+        delete from app_guidance
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="name!=null">
+                and name=#{name}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="content!=null">
+                and content=#{content}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveAppGuidance" parameterType="AppGuidance">
+        INSERT INTO app_guidance (  id,  name,  update_time,  content )
+        VALUES
+        <foreach collection="list" item="appGuidance" separator=",">
+            (  #{appGuidance.id},  #{appGuidance.name},  #{appGuidance.updateTime},  #{appGuidance.content}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <select id="findAppGuidanceListByCondition4Like" parameterType="AppGuidance" resultType="AppGuidance">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('name')">
+                        T.name,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('content')">
+                        T.content,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from app_guidance T
+        <where>
+            <if test="name!=null">
+                T.name like "%"#{name}"%"
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="content!=null">
+                and T.content=#{content}
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findAppGuidanceCountByCondition4Like" parameterType="AppGuidance" resultType="long">
+        select count(*) from app_guidance
+        <where>
+            <if test="name!=null">
+                name like "%"#{name}"%"
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="content!=null">
+                and content=#{content}
+            </if>
+        </where>
+    </select>
+</mapper>

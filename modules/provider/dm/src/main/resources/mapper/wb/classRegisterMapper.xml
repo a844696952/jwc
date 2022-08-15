@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.wb.classRegister.IClassRegisterDao">
+    <!--########################################################################################################################-->
+    <select id="findClassRegisterListByCondition" parameterType="ClassRegister" resultType="ClassRegister">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('chapterId')">
+                             T.chapter_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             C.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('term')">
+                             T.term,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolYear')">
+                             T.school_year,
+                         </if>
+                         <if test="!pager.excludes.contains('classroomName')">
+                             T.classroom_name,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('startTime')">
+                             T.start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('endTime')">
+                             T.end_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from class_register T  left join jw_classes C on T.class_id = C.id
+        <where>
+              <if test="chapterId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='chapterId'">
+                             T.chapter_id like concat('%',#{chapterId},'%')
+                         </when>
+                         <otherwise>
+                             T.chapter_id=#{chapterId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="gradeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeId'">
+                            and C.grade_id like concat('%',#{gradeId},'%')
+                         </when>
+                         <otherwise>
+                            and C.grade_id=#{gradeId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classId'">
+                            and T.class_id like concat('%',#{classId},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_id=#{classId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="term!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='term'">
+                            and T.term like concat('%',#{term},'%')
+                         </when>
+                         <otherwise>
+                            and T.term=#{term}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolYear!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolYear'">
+                            and T.school_year like concat('%',#{schoolYear},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_year=#{schoolYear}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="classroomName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classroomName'">
+                            and T.classroom_name like concat('%',#{classroomName},'%')
+                         </when>
+                         <otherwise>
+                            and T.classroom_name=#{classroomName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+              <if test="startTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='startTime'">
+                            and T.start_time like concat('%',#{startTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.start_time=#{startTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="endTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='endTime'">
+                            and T.end_time like concat('%',#{endTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.end_time=#{endTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findClassRegisterCountByCondition" parameterType="ClassRegister" resultType="long">
+        select count(*) from class_register T
+        <where>
+              <if test="chapterId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='chapterId'">
+                             T.chapter_id like concat('%',#{chapterId},'%')
+                         </when>
+                         <otherwise>
+                             T.chapter_id=#{chapterId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="teacherId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherId'">
+                            and T.teacher_id like concat('%',#{teacherId},'%')
+                         </when>
+                         <otherwise>
+                            and T.teacher_id=#{teacherId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="gradeId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='gradeId'">
+                            and C.grade_id like concat('%',#{gradeId},'%')
+                         </when>
+                         <otherwise>
+                            and C.grade_id=#{gradeId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="classId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classId'">
+                            and T.class_id like concat('%',#{classId},'%')
+                         </when>
+                         <otherwise>
+                            and T.class_id=#{classId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="term!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='term'">
+                            and T.term like concat('%',#{term},'%')
+                         </when>
+                         <otherwise>
+                            and T.term=#{term}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="schoolYear!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolYear'">
+                            and T.school_year like concat('%',#{schoolYear},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_year=#{schoolYear}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="classroomName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='classroomName'">
+                            and T.classroom_name like concat('%',#{classroomName},'%')
+                         </when>
+                         <otherwise>
+                            and T.classroom_name=#{classroomName}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+            </if>
+              <if test="startTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='startTime'">
+                            and T.start_time like concat('%',#{startTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.start_time=#{startTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="endTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='endTime'">
+                            and T.end_time like concat('%',#{endTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.end_time=#{endTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findClassRegisterById" resultType="ClassRegister">
+        select * from class_register where id=#{id}
+    </select>
+    <select id="findOneClassRegisterByCondition" parameterType="ClassRegister" resultType="ClassRegister">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('chapterId')">
+                             T.chapter_id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherId')">
+                             T.teacher_id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('gradeId')">
+                             C.grade_id,
+                         </if>
+                         <if test="!pager.excludes.contains('classId')">
+                             T.class_id,
+                         </if>
+                         <if test="!pager.excludes.contains('term')">
+                             T.term,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolYear')">
+                             T.school_year,
+                         </if>
+                         <if test="!pager.excludes.contains('classroomName')">
+                             T.classroom_name,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                         <if test="!pager.excludes.contains('startTime')">
+                             T.start_time,
+                         </if>
+                         <if test="!pager.excludes.contains('endTime')">
+                             T.end_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from class_register T
+        <where>
+              <if test="chapterId!=null">
+                 T.chapter_id=#{chapterId}
+              </if>
+              <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+              </if>
+              <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+              </if>
+              <if test="gradeId!=null">
+                and C.grade_id=#{gradeId}
+              </if>
+              <if test="classId!=null">
+                and T.class_id=#{classId}
+              </if>
+              <if test="term!=null">
+                and T.term=#{term}
+              </if>
+              <if test="schoolYear!=null">
+                and T.school_year=#{schoolYear}
+              </if>
+              <if test="classroomName!=null">
+                and T.classroom_name=#{classroomName}
+              </if>
+              <if test="status!=null">
+                and T.status=#{status}
+              </if>
+              <if test="startTime!=null">
+                and T.start_time=#{startTime}
+              </if>
+              <if test="endTime!=null">
+                and T.end_time=#{endTime}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveClassRegister" parameterType="ClassRegister">
+        insert into class_register
+         (
+            id,
+            chapter_id,
+            teacher_id,
+            school_id,
+            class_id,
+            term,
+            school_year,
+            classroom_name,
+            status,
+            start_time,
+            end_time,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{chapterId}
+                ,
+                #{teacherId}
+                ,
+                #{schoolId}
+                ,
+                #{classId}
+                ,
+                #{term}
+                ,
+                #{schoolYear}
+                ,
+                #{classroomName}
+                ,
+                #{status}
+                ,
+                 now()
+                ,
+                #{endTime}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateClassRegister" parameterType="ClassRegister">
+        update class_register
+        <set>
+                    <if test="chapterId!=null ">
+                        chapter_id=#{chapterId},
+                    </if>
+                    <if test="teacherId!=null ">
+                        teacher_id=#{teacherId},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="gradeId!=null ">
+                        grade_id=#{gradeId},
+                    </if>
+                    <if test="classId!=null ">
+                        class_id=#{classId},
+                    </if>
+                    <if test="term!=null ">
+                        term=#{term},
+                    </if>
+                    <if test="schoolYear!=null ">
+                        school_year=#{schoolYear},
+                    </if>
+                    <if test="classroomName!=null ">
+                        classroom_name=#{classroomName},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status},
+                    </if>
+                    <if test="startTime!=null ">
+                        start_time=#{startTime},
+                    </if>
+                        end_time=now(),
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteClassRegister" >
+        delete from class_register where id=#{id}
+    </delete>
+    <delete id="deleteClassRegisterByCondition" >
+        delete from class_register
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="chapterId!=null">
+                and chapter_id=#{chapterId}
+              </if>
+              <if test="teacherId!=null">
+                and teacher_id=#{teacherId}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="gradeId!=null">
+                and grade_id=#{gradeId}
+              </if>
+              <if test="classId!=null">
+                and class_id=#{classId}
+              </if>
+              <if test="term!=null">
+                and term=#{term}
+              </if>
+              <if test="schoolYear!=null">
+                and school_year=#{schoolYear}
+              </if>
+              <if test="classroomName!=null">
+                and classroom_name=#{classroomName}
+              </if>
+              <if test="status!=null">
+                and status=#{status}
+              </if>
+              <if test="startTime!=null">
+                and start_time=#{startTime}
+              </if>
+              <if test="endTime!=null">
+                and end_time=#{endTime}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveClassRegister" parameterType="ClassRegister">
+        INSERT INTO class_register (  id,  chapter_id,  teacher_id,  school_id,   class_id,  term,  school_year,  classroom_name,  status,  start_time,  end_time,  create_time )
+        VALUES
+        <foreach collection="list" item="classRegister" separator=",">
+            (  #{classRegister.id},  #{classRegister.chapterId},  #{classRegister.teacherId},  #{classRegister.schoolId}, #{classRegister.classId},  #{classRegister.term},  #{classRegister.schoolYear},  #{classRegister.classroomName},  #{classRegister.status},  #{classRegister.startTime},  #{classRegister.endTime},  #{classRegister.createTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <!--后台管理上课记录-->
+    <select id="findClassRegisterListByCondition2" parameterType="ClassRegister" resultType="ClassRegister">
+        SELECT DISTINCT
+        t1.classroom_name,
+        t1.school_year,
+        t1.term,
+        c.grade_name,
+        c.`number` AS classes_name,
+        t4.subject_name,
+        t3.course_name,
+        t5.name,
+        t1.create_time,
+        t1.start_time,
+        t1.end_time
+        FROM
+        class_register t1
+        INNER JOIN jw_classes c ON c.`id` = t1.`class_id`
+        LEFT JOIN jw_teacher_classes t2  ON t1.class_id = t2.classes_id
+        LEFT JOIN jy_teaching_plan t3 ON t1.chapter_id = t3.chapter_id
+        LEFT JOIN jy_textbook_setting t4 ON t3.textbook_id = t4.textbook_id
+        LEFT JOIN  jw_teacher t5 ON t5.id = t1.teacher_id
+        <where>
+             t1.school_id=#{schoolId}
+             and t1.teacher_id=#{teacherId}
+            <if test="gradeId!=null">
+                and c.grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">
+                and t2.classes_id=#{classId}
+            </if>
+            <if test="subjectName!=null">
+                and t4.subject_name=#{subjectName}
+            </if>
+            <if test="createTime1!=null">
+                and t1.create_time <![CDATA[ >= ]]>#{createTime1}
+            </if>
+            <if test="createTime2!=null">
+                and t1.create_time <![CDATA[ <= ]]>#{createTime2}
+            </if>
+            <if test="keyWord != null and keyWord != '' ">
+                AND concat(IFNULL(t1.classroom_name, ''),
+                IFNULL(t5.name, ''),
+                IFNULL(t3.course_name, ''),
+                IFNULL(t4.subject_name, ''),
+                IFNULL(c.grade_name, '')) LIKE concat(concat('%',#{keyWord}),'%')
+            </if>
+            GROUP BY  t1.id
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by t1.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <!--查询分页总数-->
+    <select id="findClassRegisterCountByCondition2" parameterType="ClassRegister" resultType="ClassRegister">
+        SELECT DISTINCT
+        t1.classroom_name,
+        c.grade_name,
+        t1.school_year,
+        t1.term,
+        c.`number` AS classes_name,
+        t4.subject_name,
+        t3.course_name,
+        t5.name,
+        t1.create_time,
+        t1.start_time,
+        t1.end_time
+        FROM
+        class_register t1
+        INNER JOIN jw_classes c ON c.`id` = t1.`class_id`
+        LEFT JOIN jw_teacher_classes t2 ON t1.class_id = t2.classes_id
+        LEFT JOIN jy_teaching_plan t3 ON t1.chapter_id = t3.chapter_id
+        LEFT JOIN jy_textbook_setting t4 ON t3.textbook_id = t4.textbook_id
+        LEFT JOIN  jw_teacher t5 ON t5.id = t1.teacher_id
+        <where>
+            t1.school_id=#{schoolId}
+            and t1.teacher_id=#{teacherId}
+            <if test="gradeId!=null">
+                and c.grade_id=#{gradeId}
+            </if>
+            <if test="classId!=null">le
+                and t2.classes_id=#{classId}
+            </if>
+            <if test="subjectName!=null">
+                and t4.subject_name=#{subjectName}
+            </if>
+            <if test="createTime1!=null">
+                and t1.create_time <![CDATA[ >= ]]>#{createTime1}
+            </if>
+            <if test="createTime2!=null">
+                and t1.create_time <![CDATA[ <= ]]>#{createTime2}
+            </if>
+            <if test="keyWord != null and keyWord != '' ">
+                AND concat(IFNULL(t1.classroom_name, ''),
+                IFNULL(t5.name, ''),
+                IFNULL(t3.course_name, ''),
+                IFNULL(t4.subject_name, ''),
+                IFNULL(c.grade_name, '')) LIKE concat(concat('%',#{keyWord}),'%')
+            </if>
+            GROUP BY  t1.id
+        </where>
+    </select>
+    <!--查询当前学校的课程-->
+    <select id="findClasScourseName" parameterType="string" resultType="string">
+        SELECT
+        c.`alias`
+        FROM jw_teacher_classes tc
+        INNER JOIN jw_course c ON tc.`course_id` = c.`id` AND tc.`school_id`=c.`school_id`
+        <where>
+            tc.school_id = #{schoolId}
+            GROUP BY c.`alias`
+        </where>
+    </select>
+    <update id="updateClassRegisterStatus" parameterType="ClassRegister">
+        update class_register
+        <set>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+        </set>
+        where
+         status=1
+         and create_time <![CDATA[ >= ]]>#{createTime1}
+         and create_time <![CDATA[ <= ]]>#{createTime2}
+    </update>
+</mapper>

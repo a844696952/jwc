@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.timetable.ITimetableTimeDao">
+    <!--########################################################################################################################-->
+    <select id="findTimetableTimeListByCondition" parameterType="TimetableTime" resultType="TimetableTime">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('jobId')">
+                             T.job_id,
+                         </if>
+                         <if test="!pager.excludes.contains('weeks')">
+                             T.weeks,
+                         </if>
+                         <if test="!pager.excludes.contains('ams')">
+                             T.ams,
+                         </if>
+                         <if test="!pager.excludes.contains('pms')">
+                             T.pms,
+                         </if>
+                         <if test="!pager.excludes.contains('nights')">
+                             T.nights,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_timetable_time T
+        <where>
+              <if test="jobId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='jobId'">
+                             T.job_id like concat('%',#{jobId},'%')
+                         </when>
+                         <otherwise>
+                             T.job_id=#{jobId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="weeks!=null">
+                    and T.weeks=#{weeks}
+              </if>
+              <if test="ams!=null">
+                    and T.ams=#{ams}
+              </if>
+              <if test="pms!=null">
+                    and T.pms=#{pms}
+              </if>
+              <if test="nights!=null">
+                    and T.nights=#{nights}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findTimetableTimeCountByCondition" parameterType="TimetableTime" resultType="long">
+        select count(*) from jw_timetable_time T
+        <where>
+              <if test="jobId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='jobId'">
+                             T.job_id like concat('%',#{jobId},'%')
+                         </when>
+                         <otherwise>
+                             T.job_id=#{jobId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="weeks!=null">
+                    and T.weeks=#{weeks}
+            </if>
+              <if test="ams!=null">
+                    and T.ams=#{ams}
+            </if>
+              <if test="pms!=null">
+                    and T.pms=#{pms}
+            </if>
+              <if test="nights!=null">
+                    and T.nights=#{nights}
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findTimetableTimeById" resultType="TimetableTime">
+        select * from jw_timetable_time where id=#{id}
+    </select>
+    <select id="findOneTimetableTimeByCondition" parameterType="TimetableTime" resultType="TimetableTime">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('jobId')">
+                             T.job_id,
+                         </if>
+                         <if test="!pager.excludes.contains('weeks')">
+                             T.weeks,
+                         </if>
+                         <if test="!pager.excludes.contains('ams')">
+                             T.ams,
+                         </if>
+                         <if test="!pager.excludes.contains('pms')">
+                             T.pms,
+                         </if>
+                         <if test="!pager.excludes.contains('nights')">
+                             T.nights,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jw_timetable_time T
+        <where>
+              <if test="jobId!=null">
+                 T.job_id=#{jobId}
+              </if>
+              <if test="weeks!=null">
+                and T.weeks=#{weeks}
+              </if>
+              <if test="ams!=null">
+                and T.ams=#{ams}
+              </if>
+              <if test="pms!=null">
+                and T.pms=#{pms}
+              </if>
+              <if test="nights!=null">
+                and T.nights=#{nights}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+        </where>
+    </select>
+    <insert id="saveTimetableTime" parameterType="TimetableTime">
+        insert into jw_timetable_time
+         (
+            id,
+            job_id,
+            weeks,
+            ams,
+            pms,
+            nights,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{jobId}
+                ,
+                #{weeks}
+                ,
+                #{ams}
+                ,
+                #{pms}
+                ,
+                #{nights}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateTimetableTime" parameterType="TimetableTime">
+        update jw_timetable_time
+        <set>
+                    <if test="jobId!=null ">
+                        job_id=#{jobId},
+                    </if>
+                    <if test="weeks!=null ">
+                        weeks=#{weeks},
+                    </if>
+                    <if test="ams!=null ">
+                        ams=#{ams},
+                    </if>
+                    <if test="pms!=null ">
+                        pms=#{pms},
+                    </if>
+                    <if test="nights!=null ">
+                        nights=#{nights},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteTimetableTime" >
+        delete from jw_timetable_time where id=#{id}
+    </delete>
+    <delete id="deleteTimetableTimeByCondition" >
+        delete from jw_timetable_time
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="jobId!=null">
+                and job_id=#{jobId}
+              </if>
+              <if test="weeks!=null">
+                and weeks=#{weeks}
+              </if>
+              <if test="ams!=null">
+                and ams=#{ams}
+              </if>
+              <if test="pms!=null">
+                and pms=#{pms}
+              </if>
+              <if test="nights!=null">
+                and nights=#{nights}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveTimetableTime" parameterType="TimetableTime">
+        INSERT INTO jw_timetable_time (  id,  job_id,  weeks,  ams,  pms,  nights,  create_time )
+        VALUES
+        <foreach collection="list" item="timetableTime" separator=",">
+            (  #{timetableTime.id},  #{timetableTime.jobId},  #{timetableTime.weeks},  #{timetableTime.ams},  #{timetableTime.pms},  #{timetableTime.nights},  #{timetableTime.createTime}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

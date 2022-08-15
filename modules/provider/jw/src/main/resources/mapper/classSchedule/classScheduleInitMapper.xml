@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.classSchedule.IClassScheduleInitDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('number')">
+                        T.number,
+                    </if>
+                    <if test="!pager.excludes.contains('startTime')">
+                        T.start_time,
+                    </if>
+                    <if test="!pager.excludes.contains('endTime')">
+                        T.end_time,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="number!=null">
+                and T.number=#{number}
+            </if>
+            <if test="startTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('startTime')">
+                        and T.start_time like concat('%',#{startTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.start_time=#{startTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="endTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('endTime')">
+                        and T.end_time like concat('%',#{endTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.end_time=#{endTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findClassScheduleInitListByCondition" parameterType="ClassScheduleInit" resultType="ClassScheduleInit">
+        select
+        <include refid="projection"/>
+        from jw_class_schedule_init T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findClassScheduleInitCountByCondition" parameterType="ClassScheduleInit" resultType="long">
+        select count(*) from jw_class_schedule_init T
+        <include refid="match"/>
+    </select>
+    <select id="findClassScheduleInitById" resultType="ClassScheduleInit">
+        select * from jw_class_schedule_init where id=#{id}
+    </select>
+    <select id="findOneClassScheduleInitByCondition" parameterType="ClassScheduleInit" resultType="ClassScheduleInit">
+        select
+        <include refid="projection"/>
+        from jw_class_schedule_init T
+        <include refid="match"/>
+    </select>
+    <insert id="saveClassScheduleInit" parameterType="ClassScheduleInit">
+        INSERT INTO jw_class_schedule_init (  id,  number,  start_time,  end_time,  school_id,  type )
+         values
+         (   #{id}  ,   #{number}  ,   #{startTime}  ,   #{endTime}  ,   #{schoolId}  ,   #{type}    )
+    </insert>
+    <update id="updateClassScheduleInit" parameterType="ClassScheduleInit">
+        update jw_class_schedule_init
+        <set>
+            <if test="number!=null ">
+                number=#{number},
+            </if>
+            <if test="startTime!=null ">
+                start_time=#{startTime},
+            </if>
+            <if test="endTime!=null ">
+                end_time=#{endTime},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="type!=null ">
+                type=#{type}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateClassScheduleInitForAll" parameterType="ClassScheduleInit">
+        update jw_class_schedule_init
+        <set>
+            number=#{number},
+            start_time=#{startTime},
+            end_time=#{endTime},
+            school_id=#{schoolId},
+            type=#{type}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteClassScheduleInit" >
+        delete from jw_class_schedule_init where id=#{id}
+    </delete>
+    <delete id="deleteClassScheduleInitByCondition" >
+        delete T from jw_class_schedule_init T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveClassScheduleInit" parameterType="ClassScheduleInit">
+        INSERT INTO jw_class_schedule_init (  id,  number,  start_time,  end_time,  school_id,  type )
+        VALUES
+        <foreach collection="list" item="classScheduleInit" separator=",">
+            (   #{classScheduleInit.id}  ,   #{classScheduleInit.number}  ,   #{classScheduleInit.startTime}  ,   #{classScheduleInit.endTime}  ,   #{classScheduleInit.schoolId}  ,   #{classScheduleInit.type}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findClassScheduleTimeList" resultType="classScheduleInit">
+        select IFNULL(o.id,T.id) id,T.number,IFNULL(o.start_time,T.start_time) startTime,IFNULL(o.end_time,T.end_time) endTime from jw_class_schedule_init T left join jw_class_schedule_time o on T.number = o.number and  o.school_id = #{schoolId} and o.grade_id = #{gradeId}
+        order by T.number
+    </select>
+
+    <update id="updateSchoolScheduleTime">
+      <foreach collection="list" separator=";" item="scheduleTime">
+          update jw_class_schedule_init set start_time = #{scheduleTime.startTime},end_time = #{scheduleTime.endTime} where id = #{scheduleTime.id}
+      </foreach>
+    </update>
+
+
+
+</mapper>

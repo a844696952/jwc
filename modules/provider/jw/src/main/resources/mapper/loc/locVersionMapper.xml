@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.loc.LocVersionDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('versionName')">
+                        T.version_name,
+                    </if>
+                    <if test="!pager.excludes.contains('state')">
+                        T.state,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="versionName!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('versionName')">
+                    and T.version_name like concat('%',#{versionName},'%')
+                </when>
+                <otherwise>
+                    and T.version_name=#{versionName}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="state!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('state')">
+                    and T.state like concat('%',#{state},'%')
+                </when>
+                <otherwise>
+                    and T.state=#{state}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                    and T.create_time like concat('%',#{createTime},'%')
+                </when>
+                <otherwise>
+                    and T.create_time=#{createTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="updateTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                    and T.update_time like concat('%',#{updateTime},'%')
+                </when>
+                <otherwise>
+                    and T.update_time=#{updateTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findLocVersionListByCondition" parameterType="LocVersion" resultType="LocVersion">
+        select
+        <include refid="projection"/>
+        from loc_version T
+        <where>
+            <include refid="match"/>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findLocVersionCountByCondition" parameterType="LocVersion" resultType="long">
+        select count(*) from loc_version T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <select id="findLocVersionById" resultType="LocVersion">
+        select * from loc_version where id=#{id}
+    </select>
+    <select id="findOneLocVersionByCondition" parameterType="LocVersion" resultType="LocVersion">
+        select
+        <include refid="projection"/>
+        from loc_version T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <insert id="saveLocVersion" parameterType="LocVersion">
+        INSERT INTO loc_version (  id,  version_name,  state,  create_time,  update_time )
+         values
+         (   #{id}  ,   #{versionName}  ,   #{state}  ,   now()  ,   #{updateTime}    )
+    </insert>
+    <update id="updateLocVersion" parameterType="LocVersion">
+        update loc_version
+        <set>
+            <if test="versionName!=null ">
+                version_name=#{versionName},
+            </if>
+            <if test="state!=null ">
+                state=#{state},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateLocVersionForAll" parameterType="LocVersion">
+        update loc_version
+        <set>
+            version_name=#{versionName},
+            state=#{state},
+            create_time=#{createTime},
+            update_time=now()
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteLocVersion" >
+        delete from loc_version where id=#{id}
+    </delete>
+    <delete id="deleteLocVersionByCondition" >
+        delete T from loc_version T
+        <where>
+            <include refid="match"/>
+        </where>
+    </delete>
+    <insert id="batchSaveLocVersion" parameterType="LocVersion">
+        INSERT INTO loc_version (  id,  version_name,  state,  create_time,  update_time )
+        VALUES
+        <foreach collection="list" item="locVersion" separator=",">
+            (   #{locVersion.id}  ,   #{locVersion.versionName}  ,   #{locVersion.state}  ,   now()  ,   #{locVersion.updateTime}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <select id="findVersionNameRepetition" parameterType="LocVersion" resultType="long">
+        select count(*) from loc_version
+        <where>
+            <if test="id!=null">
+                id != #{id}
+            </if>
+            <if test="versionName!=null">
+                and version_name = #{versionName}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.teacher.IJwCmsAddressDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('loginUrl')">
+                        T.login_url,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="loginUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='loginUrl'">
+                        and T.login_url like concat('%',#{loginUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.login_url=#{loginUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item" index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findJwCmsAddressListByCondition" parameterType="JwCmsAddress" resultType="JwCmsAddress">
+        select
+        <include refid="projection"/>
+        from jw_cms_address T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findJwCmsAddressCountByCondition" parameterType="JwCmsAddress" resultType="long">
+        select count(*) from jw_cms_address T
+        <include refid="match"/>
+    </select>
+    <select id="findJwCmsAddressById" resultType="JwCmsAddress">
+        select * from jw_cms_address where id=#{id}
+    </select>
+    <select id="findOneJwCmsAddressByCondition" parameterType="JwCmsAddress" resultType="JwCmsAddress">
+        select
+        <include refid="projection"/>
+        from jw_cms_address T
+        <include refid="match"/>
+    </select>
+    <insert id="saveJwCmsAddress" parameterType="JwCmsAddress">
+        insert into jw_cms_address
+         (
+            id,
+            login_url
+        ) values
+         (
+                #{id}
+                ,
+                #{loginUrl}
+                
+         )
+    </insert>
+    <update id="updateJwCmsAddress" parameterType="JwCmsAddress">
+        update jw_cms_address
+        <set>
+            <if test="loginUrl!=null ">
+                login_url=#{loginUrl}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteJwCmsAddress">
+        delete from jw_cms_address where id=#{id}
+    </delete>
+    <delete id="deleteJwCmsAddressByCondition">
+        delete T from jw_cms_address T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveJwCmsAddress" parameterType="JwCmsAddress">
+        INSERT INTO jw_cms_address ( id, login_url )
+        VALUES
+        <foreach collection="list" item="jwCmsAddress" separator=",">
+            ( #{jwCmsAddress.id}, #{jwCmsAddress.loginUrl} )
+        </foreach>
+    </insert>
+
+    <select id="getJwCmsAddress" resultType="JwCmsAddress">
+        select * from jw_cms_address
+    </select>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

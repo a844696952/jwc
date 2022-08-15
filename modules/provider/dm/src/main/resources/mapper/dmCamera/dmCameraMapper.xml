@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dm.dao.dmCamera.DmCameraDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('cameraName')">
+                        T.camera_name,
+                    </if>
+                    <if test="!pager.excludes.contains('cameraModule')">
+                        T.camera_module,
+                    </if>
+                    <if test="!pager.excludes.contains('rtsp')">
+                        T.rtsp,
+                    </if>
+                    <if test="!pager.excludes.contains('deviceId')">
+                        T.device_id,
+                    </if>
+                    <if test="!pager.excludes.contains('remark')">
+                        T.remark,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('areaId')">
+                        T.area_id,
+                    </if>
+                    <if test="!pager.excludes.contains('areaName')">
+                        T.area_name,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='id'">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="teacherId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='teacherId'">
+                        and T.teacher_id like concat('%',#{teacherId},'%')
+                    </when>
+                    <otherwise>
+                        and T.teacher_id=#{teacherId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="cameraName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='cameraName'">
+                        and T.camera_name like concat('%',#{cameraName},'%')
+                    </when>
+                    <otherwise>
+                        and T.camera_name=#{cameraName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="cameraModule!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='cameraModule'">
+                        and T.camera_module like concat('%',#{cameraModule},'%')
+                    </when>
+                    <otherwise>
+                        and T.camera_module=#{cameraModule}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="rtsp!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='rtsp'">
+                        and T.rtsp like concat('%',#{rtsp},'%')
+                    </when>
+                    <otherwise>
+                        and T.rtsp=#{rtsp}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="deviceId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='deviceId'">
+                        and T.device_id like concat('%',#{deviceId},'%')
+                    </when>
+                    <otherwise>
+                        and T.device_id=#{deviceId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="remark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='remark'">
+                        and T.remark like concat('%',#{remark},'%')
+                    </when>
+                    <otherwise>
+                        and T.remark=#{remark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="areaId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='areaId'">
+                        and T.area_id like concat('%',#{areaId},'%')
+                    </when>
+                    <otherwise>
+                        and T.area_id=#{areaId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="areaName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='areaName'">
+                        and T.area_name like concat('%',#{areaName},'%')
+                    </when>
+                    <otherwise>
+                        and T.area_name=#{areaName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDmCameraListByCondition" parameterType="DmCamera" resultType="DmCamera">
+        select
+        <include refid="projection"/>
+        from dm_camera T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findDmCameraCountByCondition" parameterType="DmCamera" resultType="long">
+        select count(*) from dm_camera T
+        <include refid="match"/>
+    </select>
+    <select id="findDmCameraById" resultType="DmCamera">
+        select * from dm_camera where id=#{id}
+    </select>
+    <select id="findOneDmCameraByCondition" parameterType="DmCamera" resultType="DmCamera">
+        select
+        <include refid="projection"/>
+        from dm_camera T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDmCamera" parameterType="DmCamera">
+        insert into dm_camera
+        (
+        id,
+        school_id,
+        teacher_id,
+        camera_name,
+        camera_module,
+        rtsp,
+        device_id,
+        remark,
+        update_time,
+        create_time,
+        area_id,
+        area_name
+        ) values
+        (
+        #{id}
+        ,
+        #{schoolId}
+        ,
+        #{teacherId}
+        ,
+        #{cameraName}
+        ,
+        #{cameraModule}
+        ,
+        #{rtsp}
+        ,
+        #{deviceId}
+        ,
+        #{remark}
+        ,
+        #{updateTime}
+        ,
+        now()
+        ,
+        #{areaId}
+        ,
+        #{areaName}
+
+        )
+    </insert>
+    <update id="updateDmCamera" parameterType="DmCamera">
+        update dm_camera
+        <set>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="cameraName!=null ">
+                camera_name=#{cameraName},
+            </if>
+            <if test="cameraModule!=null ">
+                camera_module=#{cameraModule},
+            </if>
+            <if test="rtsp!=null ">
+                rtsp=#{rtsp},
+            </if>
+            <if test="deviceId!=null ">
+                device_id=#{deviceId},
+            </if>
+            <if test="remark!=null ">
+                remark=#{remark},
+            </if>
+            update_time=now(),
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="areaId!=null ">
+                area_id=#{areaId},
+            </if>
+            <if test="areaName!=null ">
+                area_name=#{areaName}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteDmCamera" >
+        delete from dm_camera where id=#{id}
+    </delete>
+    <delete id="deleteDmCameraByCondition" >
+        delete T from dm_camera T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDmCamera" parameterType="DmCamera">
+        INSERT INTO dm_camera (  id,  school_id,  teacher_id,  camera_name,  camera_module,  rtsp,  device_id,  remark,  update_time,  create_time,  area_id,  area_name )
+        VALUES
+        <foreach collection="list" item="dmCamera" separator=",">
+            (  #{dmCamera.id},  #{dmCamera.schoolId},  #{dmCamera.teacherId},  #{dmCamera.cameraName},  #{dmCamera.cameraModule},  #{dmCamera.rtsp},  #{dmCamera.deviceId},  #{dmCamera.remark},  #{dmCamera.updateTime},  #{dmCamera.createTime},  #{dmCamera.areaId},  #{dmCamera.areaName}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

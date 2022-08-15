@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.partyMemberPhoto.IXwDjPhotoDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('photoTitle')">
+                             T.photo_title,
+                         </if>
+                         <if test="!pager.excludes.contains('createDate')">
+                             T.create_date,
+                         </if>
+                         <if test="!pager.excludes.contains('photoState')">
+                             T.photo_state,
+                         </if>
+                         <if test="!pager.excludes.contains('creatorId')">
+                             T.creator_id,
+                         </if>
+                         <if test="!pager.excludes.contains('operatorId')">
+                             T.operator_id,
+                         </if>
+                         <if test="!pager.excludes.contains('operateDate')">
+                             T.operate_date,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="photoTitle!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='photoTitle'">
+                            and T.photo_title like concat('%',#{photoTitle},'%')
+                         </when>
+                         <otherwise>
+                            and T.photo_title=#{photoTitle}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createDate'">
+                            and T.create_date like concat('%',#{createDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_date=#{createDate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="photoState!=null">
+                    and T.photo_state=#{photoState}
+              </if>
+              <if test="creatorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='creatorId'">
+                            and T.creator_id like concat('%',#{creatorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.creator_id=#{creatorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="operatorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='operatorId'">
+                            and T.operator_id like concat('%',#{operatorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.operator_id=#{operatorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="operateDate!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='operateDate'">
+                            and T.operate_date like concat('%',#{operateDate},'%')
+                         </when>
+                         <otherwise>
+                            and T.operate_date=#{operateDate}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+                <if test="createTime!=null">
+                    <choose>
+                        <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                        </when>
+                        <otherwise>
+                            and T.create_time=#{createTime}
+                        </otherwise>
+                    </choose>
+                </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.photo_state asc,
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findXwDjPhotoListByCondition" parameterType="XwDjPhoto" resultType="XwDjPhoto">
+        select
+         <include refid="projection"/>
+         from xw_dj_photo T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findXwDjPhotoCountByCondition" parameterType="XwDjPhoto" resultType="long">
+        select count(*) from xw_dj_photo T
+        <include refid="match"/>
+    </select>
+    <select id="findXwDjPhotoById" resultType="XwDjPhoto">
+        select * from xw_dj_photo where id=#{id}
+    </select>
+    <select id="findOneXwDjPhotoByCondition" parameterType="XwDjPhoto" resultType="XwDjPhoto">
+        select
+         <include refid="projection"/>
+         from xw_dj_photo T
+        <include refid="match"/>
+    </select>
+    <insert id="saveXwDjPhoto" parameterType="XwDjPhoto">
+        insert into xw_dj_photo
+         (
+            id,
+            photo_title,
+            create_date,
+            photo_state,
+            creator_id,
+            operator_id,
+            operate_date,
+            school_id,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{photoTitle}
+                ,
+                now()
+                ,
+                #{photoState}
+                ,
+                #{creatorId}
+                ,
+                #{operatorId}
+                ,
+                now()
+                ,
+                #{schoolId}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateXwDjPhoto" parameterType="XwDjPhoto">
+        update xw_dj_photo
+        <set>
+                    <if test="photoTitle!=null ">
+                        photo_title=#{photoTitle},
+                    </if>
+                    <if test="createDate!=null ">
+                        create_date=#{createDate},
+                    </if>
+                    <if test="photoState!=null ">
+                        photo_state=#{photoState},
+                    </if>
+                    <if test="creatorId!=null ">
+                        creator_id=#{creatorId},
+                    </if>
+                    <if test="operatorId!=null ">
+                        operator_id=#{operatorId},
+                        operate_date= now(),
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                <if test="createTime!=null ">
+                    create_time=#{createTime}
+                </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteXwDjPhoto" >
+        delete from xw_dj_photo where id=#{id}
+    </delete>
+    <delete id="deleteXwDjPhotoByCondition" >
+        delete T from xw_dj_photo T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveXwDjPhoto" parameterType="XwDjPhoto">
+        INSERT INTO xw_dj_photo (  id,  photo_title,  create_date,  photo_state,  creator_id,  operator_id,  operate_date,  school_id, create_time)
+        VALUES
+        <foreach collection="list" item="xwDjPhoto" separator=",">
+            (  #{xwDjPhoto.id},  #{xwDjPhoto.photoTitle},  #{xwDjPhoto.createDate},  #{xwDjPhoto.photoState},  #{xwDjPhoto.creatorId},  #{xwDjPhoto.operatorId},  #{xwDjPhoto.operateDate},  #{xwDjPhoto.schoolId},#{xwDjPhoto.createTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <resultMap id="xwDjPhotoAndFile" type="XwDjPhoto">
+        <id column="id" property="id"/>
+        <result column="photo_title" property="photoTitle"/>
+        <result column="create_date" property="createDate"/>
+        <result column="photo_state" property="photoState"/>
+        <result column="creator_id" property="creatorId"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="operate_date" property="operateDate"/>
+        <result column="school_id" property="schoolId"/>
+        <result column="teacher_name" property="teacherName"/>
+        <collection property="files" ofType="XwDjAttachmentFile">
+            <result column="file_name" property="fileName"/>
+            <result column="file_path" property="filePath"/>
+            <result column="file_type" property="fileType"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="findXwDjPhotoByIdLeft" resultMap="xwDjPhotoAndFile">
+        SELECT
+        dp.id,dp.photo_title,dp.create_date,dp.photo_state,dp.creator_id,dp.operator_id,dp.operate_date,dp.school_id,df.file_path,df.file_type,df.file_name,tea.`name` AS teacher_name
+        FROM xw_dj_photo AS dp
+        LEFT JOIN xw_dj_attachment_file AS df ON dp.id = df.reference_id
+        LEFT JOIN jw_teacher AS tea ON tea.id = dp.operator_id
+        WHERE dp.id = #{id}
+    </select>
+
+
+</mapper>

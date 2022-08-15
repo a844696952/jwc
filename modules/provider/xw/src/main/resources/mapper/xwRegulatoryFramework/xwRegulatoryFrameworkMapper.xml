@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.xwRegulatoryFramework.IXwRegulatoryFrameworkDao">
+    <!--########################################################################################################################-->
+    <select id="findXwRegulatoryFrameworkListByCondition" parameterType="XwRegulatoryFramework" resultType="XwRegulatoryFramework">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('cmId')">
+                        T.cm_id,
+                    </if>
+                    <if test="!pager.excludes.contains('theme')">
+                        T.theme,
+                    </if>
+                    <if test="!pager.excludes.contains('content')">
+                        T.content,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_regulatory_framework T
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="cmId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='cmId'">
+                        and T.cm_id like concat('%',#{cmId},'%')
+                    </when>
+                    <otherwise>
+                        and T.cm_id=#{cmId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="theme!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='theme'">
+                        and T.theme like concat('%',#{theme},'%')
+                    </when>
+                    <otherwise>
+                        and T.theme=#{theme}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="content!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='content'">
+                        and T.content like concat('%',#{content},'%')
+                    </when>
+                    <otherwise>
+                        and T.content=#{content}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+
+                        and T.school_id=#{schoolId}
+
+            </if>
+        </where>
+            order by T.create_time DESC
+
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findXwRegulatoryFrameworkCountByCondition" parameterType="XwRegulatoryFramework" resultType="long">
+        select count(*) from xw_regulatory_framework T
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="cmId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='cmId'">
+                        and T.cm_id like concat('%',#{cmId},'%')
+                    </when>
+                    <otherwise>
+                        and T.cm_id=#{cmId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="theme!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='theme'">
+                        and T.theme like concat('%',#{theme},'%')
+                    </when>
+                    <otherwise>
+                        and T.theme=#{theme}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="content!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='content'">
+                        and T.content like concat('%',#{content},'%')
+                    </when>
+                    <otherwise>
+                        and T.content=#{content}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findXwRegulatoryFrameworkById" resultType="XwRegulatoryFramework">
+        select * from xw_regulatory_framework where id=#{id}
+    </select>
+    <select id="findOneXwRegulatoryFrameworkByCondition" parameterType="XwRegulatoryFramework" resultType="XwRegulatoryFramework">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('cmId')">
+                        T.cm_id,
+                    </if>
+                    <if test="!pager.excludes.contains('theme')">
+                        T.theme,
+                    </if>
+                    <if test="!pager.excludes.contains('content')">
+                        T.content,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_regulatory_framework T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="cmId!=null">
+                and T.cm_id=#{cmId}
+            </if>
+            <if test="theme!=null">
+                and T.theme=#{theme}
+            </if>
+            <if test="content!=null">
+                and T.content=#{content}
+            </if>
+        </where>
+    </select>
+    <insert id="saveXwRegulatoryFramework" parameterType="XwRegulatoryFramework">
+        insert into xw_regulatory_framework
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            cm_id,
+            theme,
+            content,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{cmId}
+                ,
+                #{theme}
+                ,
+                #{content}
+                ,
+                #{schoolId}
+         )
+    </insert>
+    <update id="updateXwRegulatoryFramework" parameterType="XwRegulatoryFramework">
+        update xw_regulatory_framework
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="cmId!=null ">
+                cm_id=#{cmId},
+            </if>
+            <if test="theme!=null ">
+                theme=#{theme},
+            </if>
+            <if test="content!=null ">
+                content=#{content}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteXwRegulatoryFramework" >
+        delete from xw_regulatory_framework where id=#{id}
+    </delete>
+    <delete id="deleteXwRegulatoryFrameworkByCondition" >
+        delete from xw_regulatory_framework
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and del=#{del}
+            </if>
+            <if test="cmId!=null">
+                and cm_id=#{cmId}
+            </if>
+            <if test="theme!=null">
+                and theme=#{theme}
+            </if>
+            <if test="content!=null">
+                and content=#{content}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveXwRegulatoryFramework" parameterType="XwRegulatoryFramework">
+        INSERT INTO xw_regulatory_framework (  id,  create_time,  update_time,  del,  cm_id,  theme,  content )
+        VALUES
+        <foreach collection="list" item="xwRegulatoryFramework" separator=",">
+            (  #{xwRegulatoryFramework.id},  #{xwRegulatoryFramework.createTime},  #{xwRegulatoryFramework.updateTime},  #{xwRegulatoryFramework.del},  #{xwRegulatoryFramework.cmId},  #{xwRegulatoryFramework.theme},  #{xwRegulatoryFramework.content}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+
+
+
+</mapper>

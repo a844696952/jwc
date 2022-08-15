@@ -1,0 +1,1689 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.assetsStockDetail.IAssetsStockDetailDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsNo')">
+                        T.assets_no,
+                    </if>
+                    <if test="!pager.excludes.contains('inventoryCode')">
+                        T.inventory_code,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsFileId')">
+                        T.assets_file_id,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsCategoryId')">
+                        T.assets_category_id,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsCategoryAncestorId')">
+                        T.assets_category_ancestor_id,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsName')">
+                        T.assets_name,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsProperty')">
+                        T.assets_property,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsUnit')">
+                        T.assets_unit,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsModel')">
+                        T.assets_model,
+                    </if>
+                    <if test="!pager.excludes.contains('manufacturer')">
+                        T.manufacturer,
+                    </if>
+                    <if test="!pager.excludes.contains('supplier')">
+                        T.supplier,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsPrice')">
+                        T.assets_price,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsBarcode')">
+                        T.assets_barcode,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsBuyTime')">
+                        T.assets_buy_time,
+                    </if>
+                    <if test="!pager.excludes.contains('status')">
+                        T.status,
+                    </if>
+                    <if test="!pager.excludes.contains('putInNo')">
+                        T.put_in_no,
+                    </if>
+                    <if test="!pager.excludes.contains('returnTime')">
+                        T.return_time,
+                    </if>
+                    <if test="!pager.excludes.contains('beforeRepairStatus')">
+                        T.before_repair_status,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsPic')">
+                        T.assets_pic,
+                    </if>
+                    <if test="!pager.excludes.contains('assetsRemark')">
+                        T.assets_remark,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('delStaffId')">
+                        T.del_staff_id,
+                    </if>
+                    <if test="!pager.excludes.contains('delStaffName')">
+                        T.del_staff_name,
+                    </if>
+                    <if test="!pager.excludes.contains('delTime')">
+                        T.del_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('putInWarehouseName')">
+                        T.put_in_warehouse_name,
+                    </if>
+                    <if test="!pager.excludes.contains('putInWarehouse')">
+                        T.put_in_warehouse,
+                    </if>
+                    <if test="!pager.excludes.contains('putInTime')">
+                        T.put_in_time,
+                    </if>
+                    <if test="!pager.excludes.contains('borrowOperaterId')">
+                        T.borrow_operater_id,
+                    </if>
+                    <if test="!pager.excludes.contains('borrowOperaterName')">
+                        T.borrow_operater_name,
+                    </if>
+                    <if test="!pager.excludes.contains('borrowTime')">
+                        T.borrow_time,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyPerson')">
+                        T.duty_person,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyPersonName')">
+                        T.duty_person_name,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyPersonDeptId')">
+                        T.duty_person_dept_id,
+                    </if>
+                    <if test="!pager.excludes.contains('dutyPersonDept')">
+                        T.duty_person_dept,
+                    </if>
+                    <if test="!pager.excludes.contains('usePlaceId')">
+                        T.use_place_id,
+                    </if>
+                    <if test="!pager.excludes.contains('usePlace')">
+                        T.use_place,
+                    </if>
+                    <if test="!pager.excludes.contains('operatorId')">
+                        T.operator_id,
+                    </if>
+                    <if test="!pager.excludes.contains('operatorName')">
+                        T.operator_name,
+                    </if>
+                    <if test="!pager.excludes.contains('scrapRemark')">
+                        T.scrap_remark,
+                    </if>
+                    <if test="!pager.excludes.contains('scrapTime')">
+                        T.scrap_time,
+                    </if>
+                    <if test="!pager.excludes.contains('repairStaffId')">
+                        T.repair_staff_id,
+                    </if>
+                    <if test="!pager.excludes.contains('repairStaffName')">
+                        T.repair_staff_name,
+                    </if>
+                    <if test="!pager.excludes.contains('repairStaffTel')">
+                        T.repair_staff_tel,
+                    </if>
+                    <if test="!pager.excludes.contains('disposeStaffId')">
+                        T.dispose_staff_id,
+                    </if>
+                    <if test="!pager.excludes.contains('disposeStaffName')">
+                        T.dispose_staff_name,
+                    </if>
+                    <if test="!pager.excludes.contains('processType')">
+                        T.process_type,
+                    </if>
+                    <if test="!pager.excludes.contains('upkeepCosts')">
+                        T.upkeep_costs,
+                    </if>
+                    <if test="!pager.excludes.contains('useTimeLimitDate')">
+                        T.use_time_limit_date,
+                    </if>
+                    <if test="!pager.excludes.contains('maintenanceTimeLimitUnit')">
+                        T.maintenance_time_limit_unit,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsNo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsNo')">
+                        and T.assets_no like concat('%',#{assetsNo},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_no=#{assetsNo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="inventoryCode!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('inventoryCode')">
+                        and T.inventory_code like concat('%',#{inventoryCode},'%')
+                    </when>
+                    <otherwise>
+                        and T.inventory_code=#{inventoryCode}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsFileId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsFileId')">
+                        and T.assets_file_id like concat('%',#{assetsFileId},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_file_id=#{assetsFileId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsCategoryId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsCategoryId')">
+                        and T.assets_category_id like concat('%',#{assetsCategoryId},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_category_id=#{assetsCategoryId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsCategoryAncestorId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsCategoryAncestorId')">
+                        and T.assets_category_ancestor_id like concat('%',#{assetsCategoryAncestorId},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_category_ancestor_id=#{assetsCategoryAncestorId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsName')">
+                        and T.assets_name like concat('%',#{assetsName},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_name=#{assetsName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsProperty!=null">
+                and T.assets_property=#{assetsProperty}
+            </if>
+            <if test="assetsUnit!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsUnit')">
+                        and T.assets_unit like concat('%',#{assetsUnit},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_unit=#{assetsUnit}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsModel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsModel')">
+                        and T.assets_model like concat('%',#{assetsModel},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_model=#{assetsModel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="manufacturer!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('manufacturer')">
+                        and T.manufacturer like concat('%',#{manufacturer},'%')
+                    </when>
+                    <otherwise>
+                        and T.manufacturer=#{manufacturer}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="supplier!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('supplier')">
+                        and T.supplier like concat('%',#{supplier},'%')
+                    </when>
+                    <otherwise>
+                        and T.supplier=#{supplier}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsPrice!=null">
+                and T.assets_price=#{assetsPrice}
+            </if>
+            <if test="assetsBarcode!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsBarcode')">
+                        and T.assets_barcode like concat('%',#{assetsBarcode},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_barcode=#{assetsBarcode}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsBuyTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsBuyTime')">
+                        and T.assets_buy_time like concat('%',#{assetsBuyTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_buy_time=#{assetsBuyTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status!=null">
+                and T.status=#{status}
+            </if>
+            <if test="putInNo!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('putInNo')">
+                        and T.put_in_no like concat('%',#{putInNo},'%')
+                    </when>
+                    <otherwise>
+                        and T.put_in_no=#{putInNo}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="returnTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('returnTime')">
+                        and T.return_time like concat('%',#{returnTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.return_time=#{returnTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="beforeRepairStatus!=null">
+                and T.before_repair_status=#{beforeRepairStatus}
+            </if>
+            <if test="assetsPic!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsPic')">
+                        and T.assets_pic like concat('%',#{assetsPic},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_pic=#{assetsPic}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsRemark')">
+                        and T.assets_remark like concat('%',#{assetsRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_remark=#{assetsRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="delStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('delStaffId')">
+                        and T.del_staff_id like concat('%',#{delStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.del_staff_id=#{delStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="delStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('delStaffName')">
+                        and T.del_staff_name like concat('%',#{delStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.del_staff_name=#{delStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="delTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('delTime')">
+                        and T.del_time like concat('%',#{delTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.del_time=#{delTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="putInWarehouseName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('putInWarehouseName')">
+                        and T.put_in_warehouse_name like concat('%',#{putInWarehouseName},'%')
+                    </when>
+                    <otherwise>
+                        and T.put_in_warehouse_name=#{putInWarehouseName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="putInWarehouse!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('putInWarehouse')">
+                        and T.put_in_warehouse like concat('%',#{putInWarehouse},'%')
+                    </when>
+                    <otherwise>
+                        and T.put_in_warehouse=#{putInWarehouse}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="putInTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('putInTime')">
+                        and T.put_in_time like concat('%',#{putInTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.put_in_time=#{putInTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="borrowOperaterId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('borrowOperaterId')">
+                        and T.borrow_operater_id like concat('%',#{borrowOperaterId},'%')
+                    </when>
+                    <otherwise>
+                        and T.borrow_operater_id=#{borrowOperaterId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="borrowOperaterName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('borrowOperaterName')">
+                        and T.borrow_operater_name like concat('%',#{borrowOperaterName},'%')
+                    </when>
+                    <otherwise>
+                        and T.borrow_operater_name=#{borrowOperaterName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="borrowTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('borrowTime')">
+                        and T.borrow_time like concat('%',#{borrowTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.borrow_time=#{borrowTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyPerson!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('dutyPerson')">
+                        and T.duty_person like concat('%',#{dutyPerson},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_person=#{dutyPerson}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyPersonName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('dutyPersonName')">
+                        and T.duty_person_name like concat('%',#{dutyPersonName},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_person_name=#{dutyPersonName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyPersonDeptId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('dutyPersonDeptId')">
+                        and T.duty_person_dept_id like concat('%',#{dutyPersonDeptId},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_person_dept_id=#{dutyPersonDeptId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyPersonDept!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('dutyPersonDept')">
+                        and T.duty_person_dept like concat('%',#{dutyPersonDept},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_person_dept=#{dutyPersonDept}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="usePlaceId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('usePlaceId')">
+                        and T.use_place_id like concat('%',#{usePlaceId},'%')
+                    </when>
+                    <otherwise>
+                        and T.use_place_id=#{usePlaceId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="usePlace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('usePlace')">
+                        and T.use_place like concat('%',#{usePlace},'%')
+                    </when>
+                    <otherwise>
+                        and T.use_place=#{usePlace}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="operatorId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('operatorId')">
+                        and T.operator_id like concat('%',#{operatorId},'%')
+                    </when>
+                    <otherwise>
+                        and T.operator_id=#{operatorId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="operatorName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('operatorName')">
+                        and T.operator_name like concat('%',#{operatorName},'%')
+                    </when>
+                    <otherwise>
+                        and T.operator_name=#{operatorName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="scrapRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('scrapRemark')">
+                        and T.scrap_remark like concat('%',#{scrapRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.scrap_remark=#{scrapRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="scrapTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('scrapTime')">
+                        and T.scrap_time like concat('%',#{scrapTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.scrap_time=#{scrapTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('repairStaffId')">
+                        and T.repair_staff_id like concat('%',#{repairStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_id=#{repairStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('repairStaffName')">
+                        and T.repair_staff_name like concat('%',#{repairStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_name=#{repairStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffTel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('repairStaffTel')">
+                        and T.repair_staff_tel like concat('%',#{repairStaffTel},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_tel=#{repairStaffTel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="disposeStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('disposeStaffId')">
+                        and T.dispose_staff_id like concat('%',#{disposeStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.dispose_staff_id=#{disposeStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="disposeStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('disposeStaffName')">
+                        and T.dispose_staff_name like concat('%',#{disposeStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.dispose_staff_name=#{disposeStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="processType!=null">
+                and T.process_type=#{processType}
+            </if>
+            <if test="upkeepCosts!=null">
+                and T.upkeep_costs=#{upkeepCosts}
+            </if>
+            <if test="useTimeLimitDate!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('useTimeLimitDate')">
+                        and T.use_time_limit_date like concat('%',#{useTimeLimitDate},'%')
+                    </when>
+                    <otherwise>
+                        and T.use_time_limit_date=#{useTimeLimitDate}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="maintenanceTimeLimitUnit!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('maintenanceTimeLimitUnit')">
+                        and T.maintenance_time_limit_unit like concat('%',#{maintenanceTimeLimitUnit},'%')
+                    </when>
+                    <otherwise>
+                        and T.maintenance_time_limit_unit=#{maintenanceTimeLimitUnit}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+            <if test="buildingId!=null">
+                and T.building_id=#{buildingId}
+            </if>
+            <if test="typeId!=null">
+                and T.type_id=#{typeId}
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findAssetsStockDetailListByCondition" parameterType="AssetsStockDetail" resultType="AssetsStockDetail">
+        select
+        <include refid="projection"/>
+        from xw_assets_stock_detail T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findAssetsStockDetailCountByCondition" parameterType="AssetsStockDetail" resultType="long">
+        select count(*) from xw_assets_stock_detail T
+        <include refid="match"/>
+    </select>
+    <select id="findAssetsStockDetailById" resultType="AssetsStockDetail">
+        select * from xw_assets_stock_detail where id=#{id}
+    </select>
+    <select id="findOneAssetsStockDetailByCondition" parameterType="AssetsStockDetail" resultType="AssetsStockDetail">
+        select
+        <include refid="projection1"/>
+        <include refid="tableJoin"/>
+        where T.assets_no = #{id} and T.school_id = #{schoolId}
+    </select>
+    <insert id="saveAssetsStockDetail" parameterType="AssetsStockDetail">
+        INSERT INTO xw_assets_stock_detail (  id,  assets_no,  inventory_code,  assets_file_id,  assets_category_id,  assets_category_ancestor_id,  assets_name,  assets_property,  assets_unit,  assets_model,  manufacturer,  supplier,  assets_price,  assets_barcode,  assets_buy_time,  status,  put_in_no,  return_time,  before_repair_status,  assets_pic,  assets_remark,  del,  del_staff_id,  del_staff_name,  del_time,  update_time,  school_id,  put_in_warehouse_name,  put_in_warehouse,  put_in_time,  borrow_operater_id,  borrow_operater_name,  borrow_time,  duty_person,  duty_person_name,  duty_person_dept_id,  duty_person_dept,  use_place_id,  use_place,  operator_id,  operator_name,  scrap_remark,  scrap_time,  repair_staff_id,  repair_staff_name,  repair_staff_tel,  dispose_staff_id,  dispose_staff_name,  process_type,  upkeep_costs,  use_time_limit_date,  maintenance_time_limit_unit )
+         values
+         (   #{id}  ,   #{assetsNo}  ,   #{inventoryCode}  ,   #{assetsFileId}  ,   #{assetsCategoryId}  ,   #{assetsCategoryAncestorId}  ,   #{assetsName}  ,   #{assetsProperty}  ,   #{assetsUnit}  ,   #{assetsModel}  ,   #{manufacturer}  ,   #{supplier}  ,   #{assetsPrice}  ,   #{assetsBarcode}  ,   #{assetsBuyTime}  ,   #{status}  ,   #{putInNo}  ,   #{returnTime}  ,   #{beforeRepairStatus}  ,   #{assetsPic}  ,   #{assetsRemark}  ,   #{del}  ,   #{delStaffId}  ,   #{delStaffName}  ,   #{delTime}  ,   #{updateTime}  ,   #{schoolId}  ,   #{putInWarehouseName}  ,   #{putInWarehouse}  ,   #{putInTime}  ,   #{borrowOperaterId}  ,   #{borrowOperaterName}  ,   #{borrowTime}  ,   #{dutyPerson}  ,   #{dutyPersonName}  ,   #{dutyPersonDeptId}  ,   #{dutyPersonDept}  ,   #{usePlaceId}  ,   #{usePlace}  ,   #{operatorId}  ,   #{operatorName}  ,   #{scrapRemark}  ,   #{scrapTime}  ,   #{repairStaffId}  ,   #{repairStaffName}  ,   #{repairStaffTel}  ,   #{disposeStaffId}  ,   #{disposeStaffName}  ,   #{processType}  ,   #{upkeepCosts}  ,   #{useTimeLimitDate}  ,   #{maintenanceTimeLimitUnit}    )
+    </insert>
+    <update id="updateAssetsStockDetail" parameterType="AssetsStockDetail">
+        update xw_assets_stock_detail
+        <set>
+            assets_no=#{assetsNo},
+            inventory_code=#{inventoryCode},
+            assets_file_id=#{assetsFileId},
+            assets_category_id=#{assetsCategoryId},
+            assets_category_ancestor_id=#{assetsCategoryAncestorId},
+            assets_name=#{assetsName},
+            assets_property=#{assetsProperty},
+            assets_unit=#{assetsUnit},
+            assets_model=#{assetsModel},
+            manufacturer=#{manufacturer},
+            supplier=#{supplier},
+            assets_price=#{assetsPrice},
+            assets_barcode=#{assetsBarcode},
+            assets_buy_time=#{assetsBuyTime},
+            status=#{status},
+            put_in_no=#{putInNo},
+            return_time=#{returnTime},
+            before_repair_status=#{beforeRepairStatus},
+            assets_pic=#{assetsPic},
+            assets_remark=#{assetsRemark},
+            del=#{del},
+            del_staff_id=#{delStaffId},
+            del_staff_name=#{delStaffName},
+            del_time=#{delTime},
+            update_time=now(),
+            school_id=#{schoolId},
+            put_in_warehouse_name=#{putInWarehouseName},
+            put_in_warehouse=#{putInWarehouse},
+            put_in_time=#{putInTime},
+            borrow_operater_id=#{borrowOperaterId},
+            borrow_operater_name=#{borrowOperaterName},
+            borrow_time=#{borrowTime},
+            duty_person=#{dutyPerson},
+            duty_person_name=#{dutyPersonName},
+            duty_person_dept_id=#{dutyPersonDeptId},
+            duty_person_dept=#{dutyPersonDept},
+            use_place_id=#{usePlaceId},
+            use_place=#{usePlace},
+            operator_id=#{operatorId},
+            operator_name=#{operatorName},
+            scrap_remark=#{scrapRemark},
+            scrap_time=#{scrapTime},
+            repair_staff_id=#{repairStaffId},
+            repair_staff_name=#{repairStaffName},
+            repair_staff_tel=#{repairStaffTel},
+            dispose_staff_id=#{disposeStaffId},
+            dispose_staff_name=#{disposeStaffName},
+            process_type=#{processType},
+            upkeep_costs=#{upkeepCosts},
+            use_time_limit_date=#{useTimeLimitDate},
+            maintenance_time_limit_unit=#{maintenanceTimeLimitUnit}
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateAssetsStockDetailForNotNull" parameterType="AssetsStockDetail">
+        update xw_assets_stock_detail
+        <set>
+            <if test="assetsNo!=null ">
+                assets_no=#{assetsNo},
+            </if>
+            <if test="inventoryCode!=null ">
+                inventory_code=#{inventoryCode},
+            </if>
+            <if test="assetsFileId!=null ">
+                assets_file_id=#{assetsFileId},
+            </if>
+            <if test="assetsCategoryId!=null ">
+                assets_category_id=#{assetsCategoryId},
+            </if>
+            <if test="assetsCategoryAncestorId!=null ">
+                assets_category_ancestor_id=#{assetsCategoryAncestorId},
+            </if>
+            <if test="assetsName!=null ">
+                assets_name=#{assetsName},
+            </if>
+            <if test="assetsProperty!=null ">
+                assets_property=#{assetsProperty},
+            </if>
+            <if test="assetsUnit!=null ">
+                assets_unit=#{assetsUnit},
+            </if>
+            <if test="assetsModel!=null ">
+                assets_model=#{assetsModel},
+            </if>
+            <if test="manufacturer!=null ">
+                manufacturer=#{manufacturer},
+            </if>
+            <if test="supplier!=null ">
+                supplier=#{supplier},
+            </if>
+            <if test="assetsPrice!=null ">
+                assets_price=#{assetsPrice},
+            </if>
+            <if test="assetsBarcode!=null ">
+                assets_barcode=#{assetsBarcode},
+            </if>
+            <if test="assetsBuyTime!=null ">
+                assets_buy_time=#{assetsBuyTime},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="putInNo!=null ">
+                put_in_no=#{putInNo},
+            </if>
+            <if test="returnTime!=null ">
+                return_time=#{returnTime},
+            </if>
+            <if test="beforeRepairStatus!=null ">
+                before_repair_status=#{beforeRepairStatus},
+            </if>
+            <!--<if test="assetsPic!=null ">
+                assets_pic=#{assetsPic},
+            </if>-->
+            <choose>
+                <when test="assetsPic!=null">
+                    assets_pic=#{assetsPic},
+                </when>
+                <otherwise>
+                    assets_pic = NULL,
+                </otherwise>
+            </choose>
+            <if test="assetsRemark!=null ">
+                assets_remark=#{assetsRemark},
+            </if>
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="delStaffId!=null ">
+                del_staff_id=#{delStaffId},
+            </if>
+            <if test="delStaffName!=null ">
+                del_staff_name=#{delStaffName},
+            </if>
+            <if test="delTime!=null ">
+                del_time=#{delTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="putInWarehouseName!=null ">
+                put_in_warehouse_name=#{putInWarehouseName},
+            </if>
+            <if test="putInWarehouse!=null ">
+                put_in_warehouse=#{putInWarehouse},
+            </if>
+            <if test="putInTime!=null ">
+                put_in_time=#{putInTime},
+            </if>
+            <if test="borrowOperaterId!=null ">
+                borrow_operater_id=#{borrowOperaterId},
+            </if>
+            <if test="borrowOperaterName!=null ">
+                borrow_operater_name=#{borrowOperaterName},
+            </if>
+            <if test="borrowTime!=null ">
+                borrow_time=#{borrowTime},
+            </if>
+            <if test="dutyPerson!=null ">
+                duty_person=#{dutyPerson},
+            </if>
+            <if test="dutyPersonName!=null ">
+                duty_person_name=#{dutyPersonName},
+            </if>
+            <if test="dutyPersonDeptId!=null ">
+                duty_person_dept_id=#{dutyPersonDeptId},
+            </if>
+            <if test="dutyPersonDept!=null ">
+                duty_person_dept=#{dutyPersonDept},
+            </if>
+            <if test="usePlaceId!=null ">
+                use_place_id=#{usePlaceId},
+            </if>
+            <if test="usePlace!=null ">
+                use_place=#{usePlace},
+            </if>
+            <if test="operatorId!=null ">
+                operator_id=#{operatorId},
+            </if>
+            <if test="operatorName!=null ">
+                operator_name=#{operatorName},
+            </if>
+            <if test="scrapRemark!=null ">
+                scrap_remark=#{scrapRemark},
+            </if>
+            <if test="scrapTime!=null ">
+                scrap_time=#{scrapTime},
+            </if>
+            <if test="repairStaffId!=null ">
+                repair_staff_id=#{repairStaffId},
+            </if>
+            <if test="repairStaffName!=null ">
+                repair_staff_name=#{repairStaffName},
+            </if>
+            <if test="repairStaffTel!=null ">
+                repair_staff_tel=#{repairStaffTel},
+            </if>
+            <if test="disposeStaffId!=null ">
+                dispose_staff_id=#{disposeStaffId},
+            </if>
+            <if test="disposeStaffName!=null ">
+                dispose_staff_name=#{disposeStaffName},
+            </if>
+            <if test="processType!=null ">
+                process_type=#{processType},
+            </if>
+            <if test="upkeepCosts!=null ">
+                upkeep_costs=#{upkeepCosts},
+            </if>
+            <if test="useTimeLimitDate!=null ">
+                use_time_limit_date=#{useTimeLimitDate},
+            </if>
+            <if test="maintenanceTimeLimitUnit!=null ">
+                maintenance_time_limit_unit=#{maintenanceTimeLimitUnit},
+            </if>
+            <if test="processRemark!=null ">
+                process_remark=#{processRemark},
+            </if>
+            <if test="buildingId!=null ">
+                building_id=#{buildingId},
+            </if>
+            <if test="typeId!=null ">
+                type_id=#{typeId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteAssetsStockDetail" >
+        delete from xw_assets_stock_detail where id=#{id}
+    </delete>
+    <delete id="deleteAssetsStockDetailByCondition" >
+        delete T from xw_assets_stock_detail T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveAssetsStockDetail" parameterType="AssetsStockDetail">
+        INSERT INTO xw_assets_stock_detail (  id,  assets_no,  inventory_code,  assets_file_id,  assets_category_id,  assets_category_ancestor_id,  assets_name,  assets_property,  assets_unit,  assets_model,  manufacturer,  supplier,  assets_price,  assets_barcode,  assets_buy_time,  status,  put_in_no,  return_time,  before_repair_status,  assets_pic,  assets_remark,  del,  del_staff_id,  del_staff_name,  del_time,  update_time,  school_id,  put_in_warehouse_name,  put_in_warehouse,  put_in_time,  borrow_operater_id,  borrow_operater_name,  borrow_time,  duty_person,  duty_person_name,  duty_person_dept_id,  duty_person_dept,  use_place_id,  use_place,  operator_id,  operator_name,  scrap_remark,  scrap_time,  repair_staff_id,  repair_staff_name,  repair_staff_tel,  dispose_staff_id,  dispose_staff_name,  process_type,  upkeep_costs,  use_time_limit_date,  maintenance_time_limit_unit, school_year_id, from_to,term,create_time)
+        VALUES
+        <foreach collection="list" item="assetsStockDetail" separator=",">
+            (   #{assetsStockDetail.id}  ,   #{assetsStockDetail.assetsNo}  ,   #{assetsStockDetail.inventoryCode}  ,   #{assetsStockDetail.assetsFileId}  ,   #{assetsStockDetail.assetsCategoryId}  ,   #{assetsStockDetail.assetsCategoryAncestorId}  ,   #{assetsStockDetail.assetsName}  ,   #{assetsStockDetail.assetsProperty}  ,   #{assetsStockDetail.assetsUnit}  ,   #{assetsStockDetail.assetsModel}  ,   #{assetsStockDetail.manufacturer}  ,   #{assetsStockDetail.supplier}  ,   #{assetsStockDetail.assetsPrice}  ,   #{assetsStockDetail.assetsBarcode}  ,   #{assetsStockDetail.assetsBuyTime}  ,   #{assetsStockDetail.status}  ,   #{assetsStockDetail.putInNo}  ,   #{assetsStockDetail.returnTime}  ,   #{assetsStockDetail.beforeRepairStatus}  ,   #{assetsStockDetail.assetsPic}  ,   #{assetsStockDetail.assetsRemark}  ,   #{assetsStockDetail.del}  ,   #{assetsStockDetail.delStaffId}  ,   #{assetsStockDetail.delStaffName}  ,   #{assetsStockDetail.delTime}  ,   #{assetsStockDetail.updateTime}  ,   #{assetsStockDetail.schoolId}  ,   #{assetsStockDetail.putInWarehouseName}  ,   #{assetsStockDetail.putInWarehouse}  ,   #{assetsStockDetail.putInTime}  ,   #{assetsStockDetail.borrowOperaterId}  ,   #{assetsStockDetail.borrowOperaterName}  ,   #{assetsStockDetail.borrowTime}  ,   #{assetsStockDetail.dutyPerson}  ,   #{assetsStockDetail.dutyPersonName}  ,   #{assetsStockDetail.dutyPersonDeptId}  ,   #{assetsStockDetail.dutyPersonDept}  ,   #{assetsStockDetail.usePlaceId}  ,   #{assetsStockDetail.usePlace}  ,   #{assetsStockDetail.operatorId}  ,   #{assetsStockDetail.operatorName}  ,   #{assetsStockDetail.scrapRemark}  ,   #{assetsStockDetail.scrapTime}  ,   #{assetsStockDetail.repairStaffId}  ,   #{assetsStockDetail.repairStaffName}  ,   #{assetsStockDetail.repairStaffTel}  ,   #{assetsStockDetail.disposeStaffId}  ,   #{assetsStockDetail.disposeStaffName}  ,   #{assetsStockDetail.processType}  ,   #{assetsStockDetail.upkeepCosts}  ,   #{assetsStockDetail.useTimeLimitDate}  ,   #{assetsStockDetail.maintenanceTimeLimitUnit}, #{assetsStockDetail.schoolYearId}, #{assetsStockDetail.fromTo},#{assetsStockDetail.term} ,now()   )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+
+    <select id="findAssetsStockDetailJoinTableById" resultType="AssetsStockDetail">
+        select
+         <include refid="projection1"/>
+         <include refid="tableJoin"/>
+        where T.id=#{id}
+    </select>
+
+    <sql id="projection1">
+        T.*,
+        b.`name` AS buildingName,
+        c.`name` As usePlaceName,
+        aca.assets_category_name AS assetsCategoryName,
+        ain.assets_buyer as assetsBuyer,
+        ain.valid_date as validDate,
+        ain.maintenance_date  as maintenanceDate,
+        CASE
+        WHEN now( ) >= str_to_date( T.use_time_limit_date, '%Y-%m-%d %H:%i:%S' ) THEN
+        '1' ELSE '2'
+        END AS 'isOverValidTime',
+        CASE
+        WHEN now( ) >= str_to_date( T.maintenance_time_limit_unit, '%Y-%m-%d %H:%i:%S' ) THEN
+        '1' ELSE '2'
+        END AS 'isOverMaintenanceTime'
+
+    </sql>
+
+    <sql id="fuzzyMatch">
+        <where>
+            1 = 1
+            <if test="isOverMaintenanceTime == '1'.toString()">
+                <![CDATA[
+                and  now() >= str_to_date( T.maintenance_time_limit_unit, '%Y-%m-%d %H:%i:%S' )
+             ]]>
+            </if>
+            <if test="isOverMaintenanceTime == '2'.toString()">
+                <![CDATA[
+                and ( now() < str_to_date( T.maintenance_time_limit_unit, '%Y-%m-%d %H:%i:%S' ) or T.maintenance_time_limit_unit = '')
+             ]]>
+            </if>
+            <if test="isOverValidTime == '1'.toString()">
+                <![CDATA[
+                and  now() >= str_to_date( T.use_time_limit_date, '%Y-%m-%d %H:%i:%S' )
+             ]]>
+            </if>
+            <if test="isOverValidTime == '2'.toString()">
+                <![CDATA[
+                and ( now() < str_to_date( T.use_time_limit_date, '%Y-%m-%d %H:%i:%S' ) or T.use_time_limit_date = '')
+             ]]>
+            </if>
+
+            <if test="id!=null">
+                and  T.id=#{id}
+            </if>
+            <if test="assetsCategoryId != null">
+                and  T.assets_category_ancestor_id like concat('%',#{assetsCategoryId},'%')
+            </if>
+            <if test="assetsNo!=null">
+                and T.assets_no like concat('%',#{assetsNo},'%')
+            </if>
+            <if test="inventoryCode!=null">
+                and T.inventory_code like concat('%',#{inventoryCode},'%')
+            </if>
+            <if test="assetsFileId!=null">
+                and T.assets_file_id=#{assetsFileId}
+            </if>
+            <if test="assetsCategoryAncestorId!=null">
+                and T.assets_category_ancestor_id like concat('%',#{assetsCategoryAncestorId},'%')
+            </if>
+            <if test="assetsName!=null">
+                and T.assets_name like concat('%',#{assetsName},'%')
+            </if>
+            <if test="assetsProperty!=null">
+                and T.assets_property=#{assetsProperty}
+            </if>
+            <if test="assetsUnit!=null">
+                and T.assets_unit=#{assetsUnit}
+            </if>
+            <if test="assetsModel!=null">
+                and T.assets_model like concat('%',#{assetsModel},'%')
+            </if>
+            <if test="manufacturer!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='manufacturer'">
+                        and T.manufacturer like concat('%',#{manufacturer},'%')
+                    </when>
+                    <otherwise>
+                        and T.manufacturer=#{manufacturer}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="supplier!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='supplier'">
+                        and T.supplier like concat('%',#{supplier},'%')
+                    </when>
+                    <otherwise>
+                        and T.supplier=#{supplier}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsPrice!=null">
+                and T.assets_price=#{assetsPrice}
+            </if>
+            <if test="assetsBarcode!=null">
+                and T.assets_barcode like concat('%',#{assetsBarcode},'%')
+            </if>
+            <if test="assetsBuyTime!=null">
+                and T.assets_buy_time=#{assetsBuyTime}
+            </if>
+            <if test="status != null">
+                <choose>
+                    <when test="status == '6'.toString()">
+                        and T.status != 5
+                    </when>
+                    <when test="FreeFile!=null">
+                        and T.status != #{status}
+                    </when>
+                    <otherwise>
+                        and T.status = #{status}
+                    </otherwise>
+                </choose>
+            </if>            <if test="putInNo!=null">
+                and T.put_in_no like concat('%',#{putInNo},'%')
+            </if>
+            <if test="returnTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='returnTime'">
+                        and T.return_time like concat('%',#{returnTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.return_time=#{returnTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="beforeRepairStatus!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='beforeRepairStatus'">
+                        and T.before_repair_status like concat('%',#{beforeRepairStatus},'%')
+                    </when>
+                    <otherwise>
+                        and T.before_repair_status=#{beforeRepairStatus}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsPic!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetsPic'">
+                        and T.assets_pic like concat('%',#{assetsPic},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_pic=#{assetsPic}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='assetsRemark'">
+                        and T.assets_remark like concat('%',#{assetsRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_remark=#{assetsRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="delStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='delStaffId'">
+                        and T.del_staff_id like concat('%',#{delStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.del_staff_id=#{delStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="delStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='delStaffName'">
+                        and T.del_staff_name like concat('%',#{delStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.del_staff_name=#{delStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="delTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='delTime'">
+                        and T.del_time like concat('%',#{delTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.del_time=#{delTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="putInWarehouse!=null">
+                and T.put_in_warehouse=#{putInWarehouse}
+            </if>
+            <if test="putInTime!=null">
+                and T.put_in_time=#{putInTime}
+            </if>
+            <if test="borrowOperaterId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='borrowOperaterId'">
+                        and T.borrow_operater_id like concat('%',#{borrowOperaterId},'%')
+                    </when>
+                    <otherwise>
+                        and T.borrow_operater_id=#{borrowOperaterId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="borrowOperaterName!=null">
+                and T.borrow_operater_name like concat('%',#{borrowOperaterName},'%')
+            </if>
+            <if test="borrowTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='borrowTime'">
+                        and T.borrow_time like concat('%',#{borrowTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.borrow_time=#{borrowTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="dutyPerson!=null">
+                and T.duty_person like concat('%',#{dutyPerson},'%')
+            </if>
+            <if test="dutyPersonName!=null">
+                        and T.duty_person_name like concat('%',#{dutyPersonName},'%')
+            </if>
+            <if test="dutyPersonDept!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='dutyPersonDept'">
+                        and T.duty_person_dept like concat('%',#{dutyPersonDept},'%')
+                    </when>
+                    <otherwise>
+                        and T.duty_person_dept=#{dutyPersonDept}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="usePlaceId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='usePlaceId'">
+                        and T.use_place_id like concat('%',#{usePlaceId},'%')
+                    </when>
+                    <otherwise>
+                        and T.use_place_id=#{usePlaceId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="usePlace!=null">
+                and T.use_place like concat('%',#{usePlace},'%')
+            </if>
+            <if test="operatorId!=null">
+                and T.operator_id=#{operatorId}
+            </if>
+            <if test="operatorName!=null">
+                and T.operator_name like concat('%',#{operatorName},'%')
+            </if>
+            <if test="scrapRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='scrapRemark'">
+                        and T.scrap_remark like concat('%',#{scrapRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.scrap_remark=#{scrapRemark}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="scrapTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='scrapTime'">
+                        and T.scrap_time like concat('%',#{scrapTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.scrap_time=#{scrapTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairStaffId'">
+                        and T.repair_staff_id like concat('%',#{repairStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_id=#{repairStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairStaffName'">
+                        and T.repair_staff_name like concat('%',#{repairStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_name=#{repairStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="repairStaffTel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='repairStaffTel'">
+                        and T.repair_staff_tel like concat('%',#{repairStaffTel},'%')
+                    </when>
+                    <otherwise>
+                        and T.repair_staff_tel=#{repairStaffTel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="disposeStaffId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='disposeStaffId'">
+                        and T.dispose_staff_id like concat('%',#{disposeStaffId},'%')
+                    </when>
+                    <otherwise>
+                        and T.dispose_staff_id=#{disposeStaffId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="disposeStaffName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='disposeStaffName'">
+                        and T.dispose_staff_name like concat('%',#{disposeStaffName},'%')
+                    </when>
+                    <otherwise>
+                        and T.dispose_staff_name=#{disposeStaffName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="processType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='processType'">
+                        and T.process_type like concat('%',#{processType},'%')
+                    </when>
+                    <otherwise>
+                        and T.process_type=#{processType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="upkeepCosts!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='upkeepCosts'">
+                        and T.upkeep_costs like concat('%',#{upkeepCosts},'%')
+                    </when>
+                    <otherwise>
+                        and T.upkeep_costs=#{upkeepCosts}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+            <if test="buildingId!=null">
+                and T.building_id=#{buildingId}
+            </if>
+            <if test="typeId!=null">
+                and T.type_id=#{typeId}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="tableJoin">
+        from xw_assets_stock_detail T
+        LEFT JOIN
+            (select T1.id as assets_category_id, T1.name as assets_category_name,'-1' parent_id from xw_assets_basic_category T1
+            union all
+            select T2.id as assets_category_id,T2.assets_category_name,T2.parent_id from xw_assets_category T2)  aca
+         on T.assets_category_id = aca.assets_category_id
+        LEFT JOIN xw_assets_in_new ain ON T.put_in_no = ain.put_in_no and T.assets_file_id = ain.assets_file_id
+	    LEFT JOIN jw_building b ON T.building_id = b.id
+	    LEFT JOIN jw_building c ON T.use_place_id = c.id
+    </sql>
+
+    <select id="findAssetsStockDetailListByFuzzyCondition" parameterType="AssetsStockDetail" resultType="AssetsStockDetail">
+        select
+        <include refid="projection1"/>
+        <include refid="tableJoin"/>
+        <include refid="fuzzyMatch"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findAssetsStockDetailCountByFuzzyCondition" parameterType="AssetsStockDetail" resultType="long">
+        select
+        count( T.id )
+        <include refid="tableJoin"/>
+        <include refid="fuzzyMatch"/>
+    </select>
+
+
+    <select id="getLastCodeByInventoryCode" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT
+            s.assets_no
+        FROM
+            xw_assets_stock_detail s
+        WHERE
+            s.assets_no LIKE concat(#{inventoryCode},'%')
+        ORDER BY
+            id DESC
+            LIMIT 1
+    </select>
+
+    <!-- 资产使用记录-->
+    <select id="findAssetsUseRecordById" parameterType="AssetsStockDetail" resultType="AssetsStockDetail">
+        SELECT
+        ast.`status` as status,
+        aou.warehouse_name as usePlace,
+        aou.apply_user_name as dutyPersonName,
+        aou.apply_user_department_name as dutyPersonDept,
+        aou.get_out_time as borrowTime
+        FROM
+        xw_assets_out_new aou
+        LEFT JOIN xw_assets_stock_detail ast ON aou.assets_id = ast.id
+        <where>
+            <if test="id!=null">
+                and ast.id = #{id}
+            </if>
+            <if test="schoolId!=null ">
+                and aou.school_id=#{schoolId}
+            </if>
+        </where>
+        order by aou.id desc
+        <include refid="page" />
+    </select>
+
+    <!-- 资产使用记录条数-->
+    <select id="findAssetsUseRecordCountById" parameterType="AssetsStockDetail" resultType="long">
+        SELECT
+        count(*)
+        FROM
+        xw_assets_out_new aou
+        LEFT JOIN xw_assets_stock_detail ast ON aou.assets_id = ast.id
+        <where>
+            <if test="id!=null">
+                and ast.id = #{id}
+            </if>
+            <if test="schoolId!=null ">
+                and aou.school_id=#{schoolId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAssetsResListByAssetsResIds"
+            resultType="AssetsStockDetail">
+        SELECT
+        T.*
+        from xw_assets_stock_detail T
+        <where>
+            T.id in
+            <foreach collection="assetsResIds1" item="assetsResId" separator="," open="(" close=")">
+                #{assetsResId}
+            </foreach>
+        </where>
+    </select>
+
+    <update id="updateAssetsStockDetailForNotNullByCondition" parameterType="AssetsStockDetail">
+        update xw_assets_stock_detail
+        <set>
+            <if test="assetsNo!=null ">
+                assets_no=#{assetsNo},
+            </if>
+            <if test="inventoryCode!=null ">
+                inventory_code=#{inventoryCode},
+            </if>
+            <if test="assetsFileId!=null ">
+                assets_file_id=#{assetsFileId},
+            </if>
+            <if test="assetsCategoryId!=null ">
+                assets_category_id=#{assetsCategoryId},
+            </if>
+            <if test="assetsCategoryAncestorId!=null ">
+                assets_category_ancestor_id=#{assetsCategoryAncestorId},
+            </if>
+            <if test="assetsName!=null ">
+                assets_name=#{assetsName},
+            </if>
+            <if test="assetsProperty!=null ">
+                assets_property=#{assetsProperty},
+            </if>
+            <if test="assetsUnit!=null ">
+                assets_unit=#{assetsUnit},
+            </if>
+            <if test="assetsModel!=null ">
+                assets_model=#{assetsModel},
+            </if>
+            <if test="manufacturer!=null ">
+                manufacturer=#{manufacturer},
+            </if>
+            <if test="supplier!=null ">
+                supplier=#{supplier},
+            </if>
+            <if test="assetsPrice!=null ">
+                assets_price=#{assetsPrice},
+            </if>
+            <if test="assetsBarcode!=null ">
+                assets_barcode=#{assetsBarcode},
+            </if>
+            <if test="assetsBuyTime!=null ">
+                assets_buy_time=#{assetsBuyTime},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="putInNo!=null ">
+                put_in_no=#{putInNo},
+            </if>
+            <if test="returnTime!=null ">
+                return_time=#{returnTime},
+            </if>
+            <if test="beforeRepairStatus!=null ">
+                before_repair_status=#{beforeRepairStatus},
+            </if>
+            <if test="assetsPic!=null ">
+                assets_pic=#{assetsPic},
+            </if>
+            <if test="assetsRemark!=null ">
+                assets_remark=#{assetsRemark},
+            </if>
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="delStaffId!=null ">
+                del_staff_id=#{delStaffId},
+            </if>
+            <if test="delStaffName!=null ">
+                del_staff_name=#{delStaffName},
+            </if>
+            <if test="delTime!=null ">
+                del_time=#{delTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="putInWarehouseName!=null ">
+                put_in_warehouse_name=#{putInWarehouseName},
+            </if>
+            <if test="putInWarehouse!=null ">
+                put_in_warehouse=#{putInWarehouse},
+            </if>
+            <if test="putInTime!=null ">
+                put_in_time=#{putInTime},
+            </if>
+            <if test="borrowOperaterId!=null ">
+                borrow_operater_id=#{borrowOperaterId},
+            </if>
+            <if test="borrowOperaterName!=null ">
+                borrow_operater_name=#{borrowOperaterName},
+            </if>
+            <if test="borrowTime!=null ">
+                borrow_time=#{borrowTime},
+            </if>
+            <if test="dutyPerson!=null ">
+                duty_person=#{dutyPerson},
+            </if>
+            <if test="dutyPersonName!=null ">
+                duty_person_name=#{dutyPersonName},
+            </if>
+            <if test="dutyPersonDeptId!=null ">
+                duty_person_dept_id=#{dutyPersonDeptId},
+            </if>
+            <if test="dutyPersonDept!=null ">
+                duty_person_dept=#{dutyPersonDept},
+            </if>
+            <if test="usePlaceId!=null ">
+                use_place_id=#{usePlaceId},
+            </if>
+            <if test="usePlace!=null ">
+                use_place=#{usePlace},
+            </if>
+            <if test="operatorId!=null ">
+                operator_id=#{operatorId},
+            </if>
+            <if test="operatorName!=null ">
+                operator_name=#{operatorName},
+            </if>
+            <if test="scrapRemark!=null ">
+                scrap_remark=#{scrapRemark},
+            </if>
+            <if test="scrapTime!=null ">
+                scrap_time=#{scrapTime},
+            </if>
+            <if test="repairStaffId!=null ">
+                repair_staff_id=#{repairStaffId},
+            </if>
+            <if test="repairStaffName!=null ">
+                repair_staff_name=#{repairStaffName},
+            </if>
+            <if test="repairStaffTel!=null ">
+                repair_staff_tel=#{repairStaffTel},
+            </if>
+            <if test="disposeStaffId!=null ">
+                dispose_staff_id=#{disposeStaffId},
+            </if>
+            <if test="disposeStaffName!=null ">
+                dispose_staff_name=#{disposeStaffName},
+            </if>
+            <if test="processType!=null ">
+                process_type=#{processType},
+            </if>
+            <if test="upkeepCosts!=null ">
+                upkeep_costs=#{upkeepCosts},
+            </if>
+            <if test="useTimeLimitDate!=null ">
+                use_time_limit_date=#{useTimeLimitDate},
+            </if>
+            <if test="maintenanceTimeLimitUnit!=null ">
+                maintenance_time_limit_unit=#{maintenanceTimeLimitUnit},
+            </if>
+            <if test="processRemark!=null ">
+                process_remark=#{processRemark}
+            </if>
+        </set>
+        <where>
+            <if test="assetsFileId!=null ">
+               and assets_file_id=#{assetsFileId}
+            </if>
+        </where>
+    </update>
+
+
+        <!--资产使用百分比-->
+    <select id="findAssetsUsePercentage" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsStockDetail.AssetsStockDetail" resultType="string">
+        SELECT
+            concat(ROUND(
+
+            ( SELECT count( 1 ) AS useCount FROM xw_assets_stock_detail t1  WHERE t1.del = 1 AND school_id=#{schoolId} and t1.status = 2) /
+            ( SELECT count( 1 ) AS totalCount FROM xw_assets_stock_detail t1 WHERE t1.del = 1 AND school_id=#{schoolId}
+
+            )*100,2)
+
+            ,'','%')
+    </select>
+
+    <!--最近1年的资产使用情况-->
+    <select id="findRecentOneYearAssertsCount" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsStockDetail.AssetsStockDetail" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsStockDetail.AssetsStockDetail">
+        <![CDATA[
+        	SELECT
+                put_in_time as xTime,
+                count( put_in_time ) as yCount
+            FROM
+                ( SELECT SUBSTR( t.put_in_time, 1, 7 ) AS put_in_time FROM xw_assets_stock_detail t
+								WHERE
+								t.school_id = #{schoolId}
+								and  t.assets_property = #{assetsProperty}
+								and t.status <> 5
+								and DATE_FORMAT(t.put_in_time,'%Y-%m') >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 11 MONTH),'%Y-%m')
+								and	DATE_FORMAT(t.put_in_time,'%Y-%m') <= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 0 MONTH),'%Y-%m')
+                 ) A
+            GROUP BY
+               put_in_time
+
+        ]]>
+    </select>
+
+
+    <!--最近1月的资产使用情况-->
+    <select id="findRecentOneMonthAssertsCount" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsStockDetail.AssetsStockDetail" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsStockDetail.AssetsStockDetail">
+        <![CDATA[
+             SELECT
+                put_in_time as xTime,
+                count( put_in_time ) as yCount
+            FROM
+                ( SELECT SUBSTR( t.put_in_time, 1, 10 ) AS put_in_time FROM xw_assets_stock_detail t
+								WHERE
+								t.school_id = #{schoolId}
+								and  t.assets_property = #{assetsProperty}
+								and t.status <> 5
+								and  DATE_FORMAT(t.put_in_time,'%Y-%m-%d') >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 29 DAY),'%Y-%m-%d')
+								and	DATE_FORMAT(t.put_in_time,'%Y-%m-%d') <= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 0 DAY),'%Y-%m-%d')
+                 ) A
+            GROUP BY
+               put_in_time
+        ]]>
+    </select>
+
+   <!-- 查询学校的各种档案总价-->
+    <select id="findFileTotalPrice" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsStockDetail.AssetsStockDetail" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsFile.AssetsFile">
+        select t.assets_name,sum(t.assets_price) totalPrice
+        from xw_assets_stock_detail t
+        where
+              t.del = 1
+            and t.school_id = #{schoolId}
+
+           <if test="assetsProperty!=null ">
+              and  assets_property=#{assetsProperty}
+           </if>
+
+            <if test="yearMonth == '1'.toString()">
+                <![CDATA[
+                and  DATE_FORMAT(t.put_in_time,'%Y-%m-%d') >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 30 DAY),'%Y-%m-%d')
+                and	DATE_FORMAT(t.put_in_time,'%Y-%m-%d') <= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 0 DAY),'%Y-%m-%d')
+                ]]>
+            </if>
+            <if test="yearMonthDay == '1'.toString()">
+                <![CDATA[
+                and DATE_FORMAT(t.put_in_time,'%Y-%m') >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 12 MONTH),'%Y-%m')
+				and	DATE_FORMAT(t.put_in_time,'%Y-%m') <= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 0 MONTH),'%Y-%m')
+				 ]]>
+            </if>
+
+        group by t.assets_name
+
+    </select>
+
+
+</mapper>

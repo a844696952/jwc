@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.assetsOutNew.IAssetsOutNewDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createUserId')">
+                             T.create_user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createUsername')">
+                             T.create_username,
+                         </if>
+                         <if test="!pager.excludes.contains('getOutNumber')">
+                             T.get_out_number,
+                         </if>
+                         <if test="!pager.excludes.contains('getOutTime')">
+                             T.get_out_time,
+                         </if>
+                         <if test="!pager.excludes.contains('getOutCount')">
+                             T.get_out_count,
+                         </if>
+                         <if test="!pager.excludes.contains('remark')">
+                             T.remark,
+                         </if>
+                         <if test="!pager.excludes.contains('applyUserId')">
+                             T.apply_user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('applyUserName')">
+                             T.apply_user_name,
+                         </if>
+                         <if test="!pager.excludes.contains('applyUserDepartmentId')">
+                             T.apply_user_department_id,
+                         </if>
+                         <if test="!pager.excludes.contains('applyUserDepartmentName')">
+                             T.apply_user_department_name,
+                         </if>
+                         <if test="!pager.excludes.contains('typeId')">
+                             T.typeId,
+                         </if>
+                         <if test="!pager.excludes.contains('buildingId')">
+                             T.buildingId,
+                         </if>
+                         <if test="!pager.excludes.contains('warehouseId')">
+                             T.warehouse_id,
+                         </if>
+                         <if test="!pager.excludes.contains('warehouseName')">
+                             T.warehouse_name,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsId')">
+                             T.assets_id,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsName')">
+                             T.assets_name,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsProperty')">
+                             T.assets_property,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsNumber')">
+                             T.assets_number,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsFileId')">
+                             T.assets_file_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createUserId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createUserId'">
+                            and T.create_user_id like concat('%',#{createUserId},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_user_id=#{createUserId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createUsername!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createUsername'">
+                            and T.create_username like concat('%',#{createUsername},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_username=#{createUsername}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="getOutNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='getOutNumber'">
+                            and T.get_out_number like concat('%',#{getOutNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.get_out_number=#{getOutNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="getOutTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='getOutTime'">
+                            and T.get_out_time like concat('%',#{getOutTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.get_out_time=#{getOutTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="getOutCount!=null">
+                    and T.get_out_count=#{getOutCount}
+              </if>
+              <if test="remark!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='remark'">
+                            and T.remark like concat('%',#{remark},'%')
+                         </when>
+                         <otherwise>
+                            and T.remark=#{remark}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="applyUserId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='applyUserId'">
+                            and T.apply_user_id like concat('%',#{applyUserId},'%')
+                         </when>
+                         <otherwise>
+                            and T.apply_user_id=#{applyUserId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="applyUserName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='applyUserName'">
+                            and T.apply_user_name like concat('%',#{applyUserName},'%')
+                         </when>
+                         <otherwise>
+                            and T.apply_user_name=#{applyUserName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="applyUserDepartmentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='applyUserDepartmentId'">
+                            and T.apply_user_department_id like concat('%',#{applyUserDepartmentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.apply_user_department_id=#{applyUserDepartmentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="applyUserDepartmentName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='applyUserDepartmentName'">
+                            and T.apply_user_department_name like concat('%',#{applyUserDepartmentName},'%')
+                         </when>
+                         <otherwise>
+                            and T.apply_user_department_name=#{applyUserDepartmentName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="warehouseId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='warehouseId'">
+                            and T.warehouse_id like concat('%',#{warehouseId},'%')
+                         </when>
+                         <otherwise>
+                            and T.warehouse_id=#{warehouseId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="warehouseName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='warehouseName'">
+                            and T.warehouse_name like concat('%',#{warehouseName},'%')
+                         </when>
+                         <otherwise>
+                            and T.warehouse_name=#{warehouseName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='assetsId'">
+                            and T.assets_id like concat('%',#{assetsId},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_id=#{assetsId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='assetsName'">
+                            and T.assets_name like concat('%',#{assetsName},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_name=#{assetsName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsProperty!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='assetsProperty'">
+                            and T.assets_property like concat('%',#{assetsProperty},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_property=#{assetsProperty}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsNumber!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='assetsNumber'">
+                            and T.assets_number like concat('%',#{assetsNumber},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_number=#{assetsNumber}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsFileId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='assetsFileId'">
+                            and T.assets_file_id like concat('%',#{assetsFileId},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_file_id=#{assetsFileId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findAssetsOutNewListByCondition" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew">
+        select
+         <include refid="projection"/>
+         from xw_assets_out_new T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findAssetsOutNewCountByCondition" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew" resultType="long">
+        select count(*) from xw_assets_out_new T
+        <include refid="match"/>
+    </select>
+    <select id="findAssetsOutNewById" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew">
+        select * from xw_assets_out_new where id=#{id}
+    </select>
+    <select id="findOneAssetsOutNewByCondition" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew">
+        select
+         <include refid="projection"/>
+         from xw_assets_out_new T
+        <include refid="match"/>
+    </select>
+    <insert id="saveAssetsOutNew" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew">
+        insert into xw_assets_out_new
+         (
+            id,
+            school_id,
+            create_user_id,
+            create_username,
+            get_out_number,
+            get_out_time,
+            get_out_count,
+            remark,
+            apply_user_id,
+            apply_user_name,
+            apply_user_department_id,
+            apply_user_department_name,
+            type_id,
+            building_id,
+            warehouse_id,
+            warehouse_name,
+            assets_id,
+            assets_name,
+            assets_property,
+            assets_number,
+            assets_file_id,
+            create_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{createUserId}
+                ,
+                #{createUsername}
+                ,
+                #{getOutNumber}
+                ,
+                #{getOutTime}
+                ,
+                #{getOutCount}
+                ,
+                #{remark}
+                ,
+                #{applyUserId}
+                ,
+                #{applyUserName}
+                ,
+                #{applyUserDepartmentId}
+                ,
+                #{applyUserDepartmentName}
+                ,
+                #{type_id}
+                ,
+                #{building_id}
+                ,
+                #{warehouseId}
+                ,
+                #{warehouseName}
+                ,
+                #{assetsId}
+                ,
+                #{assetsName}
+                ,
+                #{assetsProperty}
+                ,
+                #{assetsNumber}
+                ,
+                #{assetsFileId}
+                ,
+                now()
+                
+         )
+    </insert>
+    <update id="updateAssetsOutNew" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew">
+        update xw_assets_out_new
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createUserId!=null ">
+                        create_user_id=#{createUserId},
+                    </if>
+                    <if test="createUsername!=null ">
+                        create_username=#{createUsername},
+                    </if>
+                    <if test="getOutNumber!=null ">
+                        get_out_number=#{getOutNumber},
+                    </if>
+                    <if test="getOutTime!=null ">
+                        get_out_time=#{getOutTime},
+                    </if>
+                    <if test="getOutCount!=null ">
+                        get_out_count=#{getOutCount},
+                    </if>
+                    <if test="remark!=null ">
+                        remark=#{remark},
+                    </if>
+                    <if test="applyUserId!=null ">
+                        apply_user_id=#{applyUserId},
+                    </if>
+                    <if test="applyUserName!=null ">
+                        apply_user_name=#{applyUserName},
+                    </if>
+                    <if test="applyUserDepartmentId!=null ">
+                        apply_user_department_id=#{applyUserDepartmentId},
+                    </if>
+                    <if test="applyUserDepartmentName!=null ">
+                        apply_user_department_name=#{applyUserDepartmentName},
+                    </if>
+                    <if test="typeId!=null ">
+                        type_id=#{typeId},
+                    </if>
+                    <if test="buildingId!=null ">
+                        building_id=#{buildingId},
+                    </if>
+                    <if test="warehouseId!=null ">
+                        warehouse_id=#{warehouseId},
+                    </if>
+                    <if test="warehouseName!=null ">
+                        warehouse_name=#{warehouseName},
+                    </if>
+                    <if test="assetsId!=null ">
+                        assets_id=#{assetsId},
+                    </if>
+                    <if test="assetsName!=null ">
+                        assets_name=#{assetsName},
+                    </if>
+                    <if test="assetsProperty!=null ">
+                        assets_property=#{assetsProperty},
+                    </if>
+                    <if test="assetsNumber!=null ">
+                        assets_number=#{assetsNumber},
+                    </if>
+                    <if test="assetsFileId!=null ">
+                        assets_file_id=#{assetsFileId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteAssetsOutNew" >
+        delete from xw_assets_out_new where id=#{id}
+    </delete>
+    <delete id="deleteAssetsOutNewByCondition" >
+        delete T from xw_assets_out_new T
+        <include refid="match"/>
+    </delete>
+    <!--修改时注意最后的时间create_time插入要用now()-->
+    <insert id="batchSaveAssetsOutNew" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew">
+        INSERT INTO xw_assets_out_new (  id,  school_id,  create_user_id,  create_username,  get_out_number,  get_out_time,  get_out_count,  remark,  apply_user_id,  apply_user_name,  apply_user_department_id,  apply_user_department_name, type_id, building_id,  warehouse_id,  warehouse_name,  assets_id,  assets_name,  assets_property,  assets_number,  assets_file_id,  create_time )
+        VALUES
+        <foreach collection="list" item="assetsOutNew" separator=",">
+            (  #{assetsOutNew.id},  #{assetsOutNew.schoolId},  #{assetsOutNew.createUserId},  #{assetsOutNew.createUsername},  #{assetsOutNew.getOutNumber},  #{assetsOutNew.getOutTime},  #{assetsOutNew.getOutCount},  #{assetsOutNew.remark},  #{assetsOutNew.applyUserId},  #{assetsOutNew.applyUserName},  #{assetsOutNew.applyUserDepartmentId},  #{assetsOutNew.applyUserDepartmentName},  #{assetsOutNew.typeId}, #{assetsOutNew.buildingId}, #{assetsOutNew.warehouseId},  #{assetsOutNew.warehouseName},  #{assetsOutNew.assetsId},  #{assetsOutNew.assetsName},  #{assetsOutNew.assetsProperty},  #{assetsOutNew.assetsNumber},  #{assetsOutNew.assetsFileId},  now()  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findAssetsOutNewListByCondition4Gather" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew" resultType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew">
+        select
+        T.get_out_number,
+        T.create_username,
+        T.get_out_time,
+        T.get_out_count
+        from xw_assets_out_new T
+        <where>
+            <if test="schoolId!=null">
+                T.school_id=#{schoolId}
+            </if>
+            <if test="getOutNumber!=null ">
+                and T.get_out_number like concat('%',#{getOutNumber},'%')
+            </if>
+            <if test="createUsername!=null ">
+                and T.create_username like concat('%',#{createUsername},'%')
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+            </if>
+        </where>
+        GROUP BY T.get_out_number
+        ORDER BY T.create_time DESC
+        <include refid="page"/>
+    </select>
+    <select id="findAssetsOutNewCountByCondition4Gather" parameterType="com.yice.edu.cn.common.pojo.xw.zc.assetsOutNew.AssetsOutNew" resultType="long">
+        select count(*) from (select count(*) from xw_assets_out_new T
+        <where>
+            <if test="schoolId!=null">
+                T.school_id=#{schoolId}
+            </if>
+            <if test="getOutNumber!=null ">
+                and T.get_out_number like concat('%',#{getOutNumber},'%')
+            </if>
+            <if test="createUsername!=null ">
+                and T.create_username like concat('%',#{createUsername},'%')
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+            </if>
+        </where>
+        GROUP BY T.get_out_number) O
+    </select>
+</mapper>

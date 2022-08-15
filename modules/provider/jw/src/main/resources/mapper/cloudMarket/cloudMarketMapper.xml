@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.cloudMarket.CloudMarketDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('url')">
+                             T.url,
+                         </if>
+                         <if test="!pager.excludes.contains('customerId')">
+                             T.customer_id,
+                         </if>
+                         <if test="!pager.excludes.contains('customerName')">
+                             T.customer_name,
+                         </if>
+                         <if test="!pager.excludes.contains('userId')">
+                             T.user_id,
+                         </if>
+                         <if test="!pager.excludes.contains('userName')">
+                             T.user_name,
+                         </if>
+                         <if test="!pager.excludes.contains('mobilePhone')">
+                             T.mobile_phone,
+                         </if>
+                         <if test="!pager.excludes.contains('email')">
+                             T.email,
+                         </if>
+                         <if test="!pager.excludes.contains('businessId')">
+                             T.business_id,
+                         </if>
+                         <if test="!pager.excludes.contains('orderId')">
+                             T.order_id,
+                         </if>
+                         <if test="!pager.excludes.contains('skuCode')">
+                             T.sku_code,
+                         </if>
+                         <if test="!pager.excludes.contains('productId')">
+                             T.product_id,
+                         </if>
+                         <if test="!pager.excludes.contains('expireTime')">
+                             T.expire_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+          <if test="id!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                         T.id like concat('%',#{id},'%')
+                     </when>
+                     <otherwise>
+                         T.id=#{id}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="createTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.create_time=#{createTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="updateTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.update_time=#{updateTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="url!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('url')">
+                        and T.url like concat('%',#{url},'%')
+                     </when>
+                     <otherwise>
+                        and T.url=#{url}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="customerId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('customerId')">
+                        and T.customer_id like concat('%',#{customerId},'%')
+                     </when>
+                     <otherwise>
+                        and T.customer_id=#{customerId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="customerName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('customerName')">
+                        and T.customer_name like concat('%',#{customerName},'%')
+                     </when>
+                     <otherwise>
+                        and T.customer_name=#{customerName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="userId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('userId')">
+                        and T.user_id like concat('%',#{userId},'%')
+                     </when>
+                     <otherwise>
+                        and T.user_id=#{userId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="userName!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('userName')">
+                        and T.user_name like concat('%',#{userName},'%')
+                     </when>
+                     <otherwise>
+                        and T.user_name=#{userName}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="mobilePhone!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('mobilePhone')">
+                        and T.mobile_phone like concat('%',#{mobilePhone},'%')
+                     </when>
+                     <otherwise>
+                        and T.mobile_phone=#{mobilePhone}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="email!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('email')">
+                        and T.email like concat('%',#{email},'%')
+                     </when>
+                     <otherwise>
+                        and T.email=#{email}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="businessId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('businessId')">
+                        and T.business_id like concat('%',#{businessId},'%')
+                     </when>
+                     <otherwise>
+                        and T.business_id=#{businessId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="orderId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('orderId')">
+                        and T.order_id like concat('%',#{orderId},'%')
+                     </when>
+                     <otherwise>
+                        and T.order_id=#{orderId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="skuCode!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('skuCode')">
+                        and T.sku_code like concat('%',#{skuCode},'%')
+                     </when>
+                     <otherwise>
+                        and T.sku_code=#{skuCode}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="productId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('productId')">
+                        and T.product_id like concat('%',#{productId},'%')
+                     </when>
+                     <otherwise>
+                        and T.product_id=#{productId}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="expireTime!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('expireTime')">
+                        and T.expire_time like concat('%',#{expireTime},'%')
+                     </when>
+                     <otherwise>
+                        and T.expire_time=#{expireTime}
+                     </otherwise>
+                  </choose>
+          </if>
+          <if test="schoolId!=null">
+                <choose>
+                     <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                     </when>
+                     <otherwise>
+                        and T.school_id=#{schoolId}
+                     </otherwise>
+                  </choose>
+          </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findCloudMarketListByCondition" parameterType="CloudMarket" resultType="CloudMarket">
+        select
+         <include refid="projection"/>
+         from cloud_market T
+         <where>
+            <include refid="match"/>
+         </where>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findCloudMarketCountByCondition" parameterType="CloudMarket" resultType="long">
+        select count(*) from cloud_market T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <select id="findCloudMarketById" resultType="CloudMarket">
+        select * from cloud_market where id=#{id}
+    </select>
+    <select id="findOneCloudMarketByCondition" parameterType="CloudMarket" resultType="CloudMarket">
+        select
+         <include refid="projection"/>
+         from cloud_market T
+        <where>
+            <include refid="match"/>
+         </where>
+    </select>
+    <insert id="saveCloudMarket" parameterType="CloudMarket">
+        INSERT INTO cloud_market (  id,  create_time,  update_time,  url,  customer_id,  customer_name,  user_id,  user_name,  mobile_phone,  email,  business_id,  order_id,  sku_code,  product_id,  expire_time,  school_id )
+         values
+         (   #{id}  ,   now()  ,   #{updateTime}  ,   #{url}  ,   #{customerId}  ,   #{customerName}  ,   #{userId}  ,   #{userName}  ,   #{mobilePhone}  ,   #{email}  ,   #{businessId}  ,   #{orderId}  ,   #{skuCode}  ,   #{productId}  ,   #{expireTime}  ,   #{schoolId}    )
+    </insert>
+    <update id="updateCloudMarket" parameterType="CloudMarket">
+        update cloud_market
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="url!=null ">
+                        url=#{url},
+                    </if>
+                    <if test="customerId!=null ">
+                        customer_id=#{customerId},
+                    </if>
+                    <if test="customerName!=null ">
+                        customer_name=#{customerName},
+                    </if>
+                    <if test="userId!=null ">
+                        user_id=#{userId},
+                    </if>
+                    <if test="userName!=null ">
+                        user_name=#{userName},
+                    </if>
+                    <if test="mobilePhone!=null ">
+                        mobile_phone=#{mobilePhone},
+                    </if>
+                    <if test="email!=null ">
+                        email=#{email},
+                    </if>
+                    <if test="businessId!=null ">
+                        business_id=#{businessId},
+                    </if>
+                    <if test="orderId!=null ">
+                        order_id=#{orderId},
+                    </if>
+                    <if test="skuCode!=null ">
+                        sku_code=#{skuCode},
+                    </if>
+                    <if test="productId!=null ">
+                        product_id=#{productId},
+                    </if>
+                    <if test="expireTime!=null ">
+                        expire_time=#{expireTime},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateCloudMarketForAll" parameterType="CloudMarket">
+        update cloud_market
+        <set>
+                    create_time=#{createTime},
+                    update_time=now(),
+                    url=#{url},
+                    customer_id=#{customerId},
+                    customer_name=#{customerName},
+                    user_id=#{userId},
+                    user_name=#{userName},
+                    mobile_phone=#{mobilePhone},
+                    email=#{email},
+                    business_id=#{businessId},
+                    order_id=#{orderId},
+                    sku_code=#{skuCode},
+                    product_id=#{productId},
+                    expire_time=#{expireTime},
+                    school_id=#{schoolId}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteCloudMarket" >
+        delete from cloud_market where id=#{id}
+    </delete>
+    <delete id="deleteCloudMarketByCondition" >
+        delete T from cloud_market T
+        <where>
+            <include refid="match"/>
+         </where>
+    </delete>
+    <insert id="batchSaveCloudMarket" parameterType="CloudMarket">
+        INSERT INTO cloud_market (  id,  create_time,  update_time,  url,  customer_id,  customer_name,  user_id,  user_name,  mobile_phone,  email,  business_id,  order_id,  sku_code,  product_id,  expire_time,  school_id )
+        VALUES
+        <foreach collection="list" item="cloudMarket" separator=",">
+            (   #{cloudMarket.id}  ,   now()  ,   #{cloudMarket.updateTime}  ,   #{cloudMarket.url}  ,   #{cloudMarket.customerId}  ,   #{cloudMarket.customerName}  ,   #{cloudMarket.userId}  ,   #{cloudMarket.userName}  ,   #{cloudMarket.mobilePhone}  ,   #{cloudMarket.email}  ,   #{cloudMarket.businessId}  ,   #{cloudMarket.orderId}  ,   #{cloudMarket.skuCode}  ,   #{cloudMarket.productId}  ,   #{cloudMarket.expireTime}  ,   #{cloudMarket.schoolId}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

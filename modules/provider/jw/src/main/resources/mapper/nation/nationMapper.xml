@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.nation.INationDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('name')">
+                             T.name,
+                         </if>
+                         <if test="!pager.excludes.contains('code')">
+                             T.code,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                     T.id=#{id}
+              </if>
+              <if test="name!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='name'">
+                            and T.name like concat('%',#{name},'%')
+                         </when>
+                         <otherwise>
+                            and T.name=#{name}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="code!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='code'">
+                            and T.code like concat('%',#{code},'%')
+                         </when>
+                         <otherwise>
+                            and T.code=#{code}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findNationListByCondition" parameterType="Nation" resultType="Nation">
+        select
+         <include refid="projection"/>
+         from ad_nation T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findNationCountByCondition" parameterType="Nation" resultType="long">
+        select count(*) from ad_nation T
+        <include refid="match"/>
+    </select>
+    <select id="findNationById" resultType="Nation">
+        select * from ad_nation where id=#{id}
+    </select>
+    <select id="findOneNationByCondition" parameterType="Nation" resultType="Nation">
+        select
+         <include refid="projection"/>
+         from ad_nation T
+        <include refid="match"/>
+    </select>
+    <insert id="saveNation" parameterType="Nation">
+        insert into ad_nation
+         (
+            id,
+            name,
+            code
+        ) values
+         (
+                #{id}
+                ,
+                #{name}
+                ,
+                #{code}
+                
+         )
+    </insert>
+    <update id="updateNation" parameterType="Nation">
+        update ad_nation
+        <set>
+                    <if test="name!=null ">
+                        name=#{name},
+                    </if>
+                    <if test="code!=null ">
+                        code=#{code}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteNation" >
+        delete from ad_nation where id=#{id}
+    </delete>
+    <delete id="deleteNationByCondition" >
+        delete T from ad_nation T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveNation" parameterType="Nation">
+        INSERT INTO ad_nation (  id,  name,  code )
+        VALUES
+        <foreach collection="list" item="nation" separator=",">
+            (  #{nation.id},  #{nation.name},  #{nation.code}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

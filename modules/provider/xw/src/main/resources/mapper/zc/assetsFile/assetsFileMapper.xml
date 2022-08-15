@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.zc.assetsFile.IAssetsFileDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsName')">
+                             T.assets_name,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsCategoryId')">
+                             T.assets_category_id,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsCategoryAncestorId')">
+                             T.assets_category_ancestor_id,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsProperty')">
+                             T.assets_property,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsThresholdValue')">
+                             T.assets_threshold_value,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsUnit')">
+                             T.assets_unit,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('createUser')">
+                             T.create_user,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createUsername')">
+                             T.create_username,
+                         </if>
+                         <if test="!pager.excludes.contains('inventoryCode')">
+                             T.inventory_code,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsModel')">
+                             T.assets_model,
+                         </if>
+                         <if test="!pager.excludes.contains('manufacturer')">
+                             T.manufacturer,
+                         </if>
+                         <if test="!pager.excludes.contains('supplier')">
+                             T.supplier,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsPrice')">
+                             T.assets_price,
+                         </if>
+                         <if test="!pager.excludes.contains('assetsBarcode')">
+                             T.assets_barcode,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsName')">
+                            and T.assets_name like concat('%',#{assetsName},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_name=#{assetsName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsCategoryId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsCategoryId')">
+                            and T.assets_category_id like concat('%',#{assetsCategoryId},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_category_id=#{assetsCategoryId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsCategoryAncestorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsCategoryAncestorId')">
+                            and T.assets_category_ancestor_id like concat('%',#{assetsCategoryAncestorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_category_ancestor_id=#{assetsCategoryAncestorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsProperty!=null">
+                    and T.assets_property=#{assetsProperty}
+              </if>
+              <if test="assetsThresholdValue!=null">
+                    and T.assets_threshold_value=#{assetsThresholdValue}
+              </if>
+              <if test="assetsUnit!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsUnit')">
+                            and T.assets_unit like concat('%',#{assetsUnit},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_unit=#{assetsUnit}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createUser!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('createUser')">
+                            and T.create_user like concat('%',#{createUser},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_user=#{createUser}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createUsername!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('createUsername')">
+                            and T.create_username like concat('%',#{createUsername},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_username=#{createUsername}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="inventoryCode!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('inventoryCode')">
+                            and T.inventory_code like concat('%',#{inventoryCode},'%')
+                         </when>
+                         <otherwise>
+                            and T.inventory_code=#{inventoryCode}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsModel!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsModel')">
+                            and T.assets_model like concat('%',#{assetsModel},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_model=#{assetsModel}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="manufacturer!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('manufacturer')">
+                            and T.manufacturer like concat('%',#{manufacturer},'%')
+                         </when>
+                         <otherwise>
+                            and T.manufacturer=#{manufacturer}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="supplier!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('supplier')">
+                            and T.supplier like concat('%',#{supplier},'%')
+                         </when>
+                         <otherwise>
+                            and T.supplier=#{supplier}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsPrice!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsPrice')">
+                            and T.assets_price like concat('%',#{assetsPrice},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_price=#{assetsPrice}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="assetsBarcode!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like!=null and pager.like.contains('assetsBarcode')">
+                            and T.assets_barcode like concat('%',#{assetsBarcode},'%')
+                         </when>
+                         <otherwise>
+                            and T.assets_barcode=#{assetsBarcode}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findAssetsFileListByCondition" parameterType="AssetsFile" resultType="AssetsFile">
+        select
+         <include refid="projection"/>
+         from xw_assets_file T
+         <include refid="match1"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findAssetsFileCountByCondition" parameterType="AssetsFile" resultType="long">
+        select count(*) from xw_assets_file T
+        <include refid="match1"/>
+    </select>
+    <select id="findAssetsFileById" resultType="AssetsFile">
+        select * from xw_assets_file where id=#{id}
+    </select>
+    <select id="findOneAssetsFileByCondition" parameterType="AssetsFile" resultType="AssetsFile">
+        select
+         <include refid="projection"/>
+         from xw_assets_file T
+        <include refid="match"/>
+    </select>
+    <insert id="saveAssetsFile" parameterType="AssetsFile">
+        INSERT INTO xw_assets_file (  id,  assets_name,  assets_category_id,  assets_category_ancestor_id,  assets_property,  assets_threshold_value,  assets_unit,  create_time,  create_user,  school_id,  create_username,  inventory_code,  assets_model,  manufacturer,  supplier,  assets_price,  assets_barcode )
+         values
+         (   #{id}  ,   #{assetsName}  ,   #{assetsCategoryId}  ,   #{assetsCategoryAncestorId}  ,   #{assetsProperty}  ,   #{assetsThresholdValue}  ,   #{assetsUnit}  ,   now()  ,   #{createUser}  ,   #{schoolId}  ,   #{createUsername}  ,   #{inventoryCode}  ,   #{assetsModel}  ,   #{manufacturer}  ,   #{supplier}  ,   #{assetsPrice}  ,   #{assetsBarcode}    )
+    </insert>
+    <update id="updateAssetsFile" parameterType="AssetsFile">
+        update xw_assets_file
+        <set>
+                    <if test="assetsName!=null ">
+                        assets_name=#{assetsName},
+                    </if>
+                    <if test="assetsCategoryId!=null ">
+                        assets_category_id=#{assetsCategoryId},
+                    </if>
+                    <if test="assetsCategoryAncestorId!=null ">
+                        assets_category_ancestor_id=#{assetsCategoryAncestorId},
+                    </if>
+                    <if test="assetsProperty!=null ">
+                        assets_property=#{assetsProperty},
+                    </if>
+                    <if test="assetsThresholdValue!=null ">
+                        assets_threshold_value=#{assetsThresholdValue},
+                    </if>
+                    <if test="assetsUnit!=null ">
+                        assets_unit=#{assetsUnit},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="createUser!=null ">
+                        create_user=#{createUser},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createUsername!=null ">
+                        create_username=#{createUsername},
+                    </if>
+                    <if test="inventoryCode!=null ">
+                        inventory_code=#{inventoryCode},
+                    </if>
+                    <if test="assetsModel!=null ">
+                        assets_model=#{assetsModel},
+                    </if>
+                    <if test="manufacturer!=null ">
+                        manufacturer=#{manufacturer},
+                    </if>
+                    <if test="supplier!=null ">
+                        supplier=#{supplier},
+                    </if>
+                    <if test="assetsPrice!=null ">
+                        assets_price=#{assetsPrice},
+                    </if>
+                    <if test="assetsBarcode!=null ">
+                        assets_barcode=#{assetsBarcode}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <update id="updateAssetsFileForAll" parameterType="AssetsFile">
+        update xw_assets_file
+        <set>
+                    assets_name=#{assetsName},
+                    assets_category_id=#{assetsCategoryId},
+                    assets_category_ancestor_id=#{assetsCategoryAncestorId},
+                    assets_property=#{assetsProperty},
+                    assets_threshold_value=#{assetsThresholdValue},
+                    assets_unit=#{assetsUnit},
+                    create_time=#{createTime},
+                    create_user=#{createUser},
+                    school_id=#{schoolId},
+                    create_username=#{createUsername},
+                    inventory_code=#{inventoryCode},
+                    assets_model=#{assetsModel},
+                    manufacturer=#{manufacturer},
+                    supplier=#{supplier},
+                    assets_price=#{assetsPrice},
+                    assets_barcode=#{assetsBarcode}
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteAssetsFile" >
+        delete from xw_assets_file where id=#{id}
+    </delete>
+    <delete id="deleteAssetsFileByCondition" >
+        delete T from xw_assets_file T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveAssetsFile" parameterType="AssetsFile">
+        INSERT INTO xw_assets_file (  id,  assets_name,  assets_category_id,  assets_category_ancestor_id,  assets_property,  assets_threshold_value,  assets_unit,  create_time,  create_user,  school_id,  create_username,  inventory_code,  assets_model,  manufacturer,  supplier,  assets_price,  assets_barcode )
+        VALUES
+        <foreach collection="list" item="assetsFile" separator=",">
+            (   #{assetsFile.id}  ,   #{assetsFile.assetsName}  ,   #{assetsFile.assetsCategoryId}  ,   #{assetsFile.assetsCategoryAncestorId}  ,   #{assetsFile.assetsProperty}  ,   #{assetsFile.assetsThresholdValue}  ,   #{assetsFile.assetsUnit}  ,   now()  ,   #{assetsFile.createUser}  ,   #{assetsFile.schoolId}  ,   #{assetsFile.createUsername}  ,   #{assetsFile.inventoryCode}  ,   #{assetsFile.assetsModel}  ,   #{assetsFile.manufacturer}  ,   #{assetsFile.supplier}  ,   #{assetsFile.assetsPrice}  ,   #{assetsFile.assetsBarcode}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <sql id="match1">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsName')">
+                        and T.assets_name like concat('%',#{assetsName},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_name=#{assetsName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsCategoryId!=null">
+                        and T.assets_category_ancestor_id like concat('%',#{assetsCategoryId},'%')
+            </if>
+
+            <if test="assetsProperty!=null">
+                and T.assets_property=#{assetsProperty}
+            </if>
+            <if test="assetsThresholdValue!=null">
+                and T.assets_threshold_value=#{assetsThresholdValue}
+            </if>
+            <if test="assetsUnit!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsUnit')">
+                        and T.assets_unit like concat('%',#{assetsUnit},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_unit=#{assetsUnit}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                        and T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createUser!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createUser')">
+                        and T.create_user like concat('%',#{createUser},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_user=#{createUser}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="createUsername!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('createUsername')">
+                        and T.create_username like concat('%',#{createUsername},'%')
+                    </when>
+                    <otherwise>
+                        and T.create_username=#{createUsername}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="inventoryCode!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('inventoryCode')">
+                        and T.inventory_code like concat('%',#{inventoryCode},'%')
+                    </when>
+                    <otherwise>
+                        and T.inventory_code=#{inventoryCode}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsModel!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsModel')">
+                        and T.assets_model like concat('%',#{assetsModel},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_model=#{assetsModel}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="manufacturer!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('manufacturer')">
+                        and T.manufacturer like concat('%',#{manufacturer},'%')
+                    </when>
+                    <otherwise>
+                        and T.manufacturer=#{manufacturer}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="supplier!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('supplier')">
+                        and T.supplier like concat('%',#{supplier},'%')
+                    </when>
+                    <otherwise>
+                        and T.supplier=#{supplier}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsPrice!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsPrice')">
+                        and T.assets_price like concat('%',#{assetsPrice},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_price=#{assetsPrice}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="assetsBarcode!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('assetsBarcode')">
+                        and T.assets_barcode like concat('%',#{assetsBarcode},'%')
+                    </when>
+                    <otherwise>
+                        and T.assets_barcode=#{assetsBarcode}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+</mapper>

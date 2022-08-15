@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.doc.WritingManagementDao">
+    <!--########################################################################################################################-->
+    <select id="findWritingManagementListByCondition" parameterType="WritingManagement" resultType="WritingManagement">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('writingObjectId')">
+                        T.writing_Object_id,
+                    </if>
+                    <if test="!pager.excludes.contains('writingObjectName')">
+                        T.writing_Object_name,
+                    </if>
+                    <if test="!pager.excludes.contains('writingId')">
+                        T.writing_id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('imgUrl')">
+                        T.img_url,
+                    </if>
+                    <if test="!pager.excludes.contains('departmentParentId')">
+                        T.department_parentId,
+                    </if>
+                    <if test="!pager.excludes.contains('departmentType')">
+                        T.department_type,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_writing_management T
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="writingObjectId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingObjectId'">
+                        and T.writing_Object_id like concat('%',#{writingObjectId},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_Object_id=#{writingObjectId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingObjectName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingObjectName'">
+                        and T.writing_Object_name like concat('%',#{writingObjectName},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_Object_name=#{writingObjectName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingId'">
+                        and T.writing_id like concat('%',#{writingId},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_id=#{writingId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="imgUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='imgUrl'">
+                        and T.img_url like concat('%',#{imgUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.img_url=#{imgUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="departmentParentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='departmentParentId'">
+                        and T.department_parentId like concat('%',#{departmentParentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.department_parentId=#{departmentParentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="departmentType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='departmentType'">
+                        and T.department_type like concat('%',#{departmentType},'%')
+                    </when>
+                    <otherwise>
+                        and T.department_type=#{departmentType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findWritingManagementCountByCondition" parameterType="WritingManagement" resultType="long">
+        select count(*) from xw_writing_management T
+        <where>
+            <if test="createTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='createTime'">
+                        T.create_time like concat('%',#{createTime},'%')
+                    </when>
+                    <otherwise>
+                        T.create_time=#{createTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="updateTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='updateTime'">
+                        and T.update_time like concat('%',#{updateTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.update_time=#{updateTime}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="writingObjectId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingObjectId'">
+                        and T.writing_Object_id like concat('%',#{writingObjectId},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_Object_id=#{writingObjectId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingObjectName!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingObjectName'">
+                        and T.writing_Object_name like concat('%',#{writingObjectName},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_Object_name=#{writingObjectName}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="writingId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='writingId'">
+                        and T.writing_id like concat('%',#{writingId},'%')
+                    </when>
+                    <otherwise>
+                        and T.writing_id=#{writingId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="imgUrl!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='imgUrl'">
+                        and T.img_url like concat('%',#{imgUrl},'%')
+                    </when>
+                    <otherwise>
+                        and T.img_url=#{imgUrl}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="departmentParentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='departmentParentId'">
+                        and T.department_parentId like concat('%',#{departmentParentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.department_parentId=#{departmentParentId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="departmentType!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='departmentType'">
+                        and T.department_type like concat('%',#{departmentType},'%')
+                    </when>
+                    <otherwise>
+                        and T.department_type=#{departmentType}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findWritingManagementById" resultType="WritingManagement">
+        select * from xw_writing_management where id=#{id}
+    </select>
+    <select id="findOneWritingManagementByCondition" parameterType="WritingManagement" resultType="WritingManagement">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('writingObjectId')">
+                        T.writing_Object_id,
+                    </if>
+                    <if test="!pager.excludes.contains('writingObjectName')">
+                        T.writing_Object_name,
+                    </if>
+                    <if test="!pager.excludes.contains('writingId')">
+                        T.writing_id,
+                    </if>
+                    <if test="!pager.excludes.contains('type')">
+                        T.type,
+                    </if>
+                    <if test="!pager.excludes.contains('imgUrl')">
+                        T.img_url,
+                    </if>
+                    <if test="!pager.excludes.contains('departmentParentId')">
+                        T.department_parentId,
+                    </if>
+                    <if test="!pager.excludes.contains('departmentType')">
+                        T.department_type,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_writing_management T
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="writingObjectId!=null">
+                and T.writing_Object_id=#{writingObjectId}
+            </if>
+            <if test="writingObjectName!=null">
+                and T.writing_Object_name=#{writingObjectName}
+            </if>
+            <if test="writingId!=null">
+                and T.writing_id=#{writingId}
+            </if>
+            <if test="type!=null">
+                and T.type=#{type}
+            </if>
+            <if test="imgUrl!=null">
+                and T.img_url=#{imgUrl}
+            </if>
+            <if test="departmentParentId!=null">
+                and T.department_parentId=#{departmentParentId}
+            </if>
+            <if test="departmentType!=null">
+                and T.department_type=#{departmentType}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id = #{schoolId}
+            </if>
+        </where>
+    </select>
+    <insert id="saveWritingManagement" parameterType="WritingManagement">
+        insert into xw_writing_management
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            writing_Object_id,
+            writing_Object_name,
+            writing_id,
+            type,
+            img_url,
+            department_parentId,
+            department_type,
+            school_id
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{writingObjectId}
+                ,
+                #{writingObjectName}
+                ,
+                #{writingId}
+                ,
+                #{type}
+                ,
+                #{imgUrl}
+                ,
+                #{departmentParentId}
+                ,
+                #{departmentType}
+                ,
+                #{schoolId}
+         )
+    </insert>
+    <update id="updateWritingManagement" parameterType="WritingManagement">
+        update xw_writing_management
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="writingObjectId!=null ">
+                writing_Object_id=#{writingObjectId},
+            </if>
+            <if test="writingObjectName!=null ">
+                writing_Object_name=#{writingObjectName},
+            </if>
+            <if test="writingId!=null ">
+                writing_id=#{writingId},
+            </if>
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="imgUrl!=null ">
+                img_url=#{imgUrl},
+            </if>
+            <if test="departmentParentId!=null ">
+                department_parentId=#{departmentParentId},
+            </if>
+            <if test="departmentType!=null ">
+                department_type=#{departmentType},
+            </if>
+            <if test="schoolId!=null">
+                school_id = #{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteWritingManagement" >
+        delete from xw_writing_management where id=#{id}
+    </delete>
+    <delete id="deleteWritingManagementByCondition" >
+        delete from xw_writing_management
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and del=#{del}
+            </if>
+            <if test="writingObjectId!=null">
+                and writing_Object_id=#{writingObjectId}
+            </if>
+            <if test="writingObjectName!=null">
+                and writing_Object_name=#{writingObjectName}
+            </if>
+            <if test="writingId!=null">
+                and writing_id=#{writingId}
+            </if>
+            <if test="type!=null">
+                and type=#{type}
+            </if>
+            <if test="imgUrl!=null">
+                and img_url=#{imgUrl}
+            </if>
+            <if test="departmentParentId!=null">
+                and department_parentId=#{departmentParentId}
+            </if>
+            <if test="departmentType!=null">
+                and department_type=#{departmentType}
+            </if>
+            <if test="schoolId!=null">
+                and school_id = #{schoolId}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveWritingManagement" parameterType="WritingManagement">
+        INSERT INTO xw_writing_management (  id,  create_time,  update_time,  del,  writing_Object_id,  writing_Object_name,  writing_id,  type ,  img_url,    department_parentId,  department_type,school_id )
+        VALUES
+        <foreach collection="list" item="writingManagement" separator=",">
+            (  #{writingManagement.id},  #{writingManagement.createTime},  #{writingManagement.updateTime},  #{writingManagement.del},  #{writingManagement.writingObjectId},  #{writingManagement.writingObjectName},  #{writingManagement.writingId},  #{writingManagement.type},#{writingManagement.imgUrl},   #{writingManagement.departmentParentId},  #{writingManagement.departmentType},#{writingManagement.schoolId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findWritingAndWritingManagement" resultType="Writing" parameterType="Writing">
+        select x.*,wm.type type from xw_writing x left join xw_writing_management wm on x.id = wm.writing_id
+        <where>
+            <if test="1==1">
+                x.writing_type = 2
+            </if>
+            <if test="subject!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='subject'">
+                        and x.subject like concat('%',#{subject},'%')
+                    </when>
+                    <otherwise>
+                        and x.subject=#{subject}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sendObjectId!=null">
+                and wm.writing_object_id = #{sendObjectId}
+            </if>
+            <if test="startTime!=null">
+                and x.update_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and x.update_time &lt;= #{endTime}
+            </if>
+            <if test="type!=null">
+                and wm.type = #{type}
+            </if>
+            <if test="writingNumberType!=null">
+                and x.writingNumberType = #{writingNumberType}
+            </if>
+        </where>
+        order by type,update_time desc
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+
+    <select id="findWritingAndWritingManagementLong" resultType="long" parameterType="Writing">
+        select count(*) from xw_writing x left join xw_writing_management wm on x.id = wm.writing_id
+        <where>
+            <if test="1==1">
+                x.writing_type = 2
+            </if>
+            <if test="subject!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='subject'">
+                        and x.subject like concat('%',#{subject},'%')
+                    </when>
+                    <otherwise>
+                        and x.subject=#{subject}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="sendObjectId!=null">
+                and wm.writing_object_id = #{sendObjectId}
+            </if>
+            <if test="startTime!=null">
+                and x.update_time &gt;= #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and x.update_time &lt;= #{endTime}
+            </if>
+            <if test="type!=null">
+                and wm.type = #{type}
+            </if>
+            <if test="writingNumberType!=null">
+                and x.writingNumberType = #{writingNumberType}
+            </if>
+        </where>
+
+    </select>
+
+
+</mapper>

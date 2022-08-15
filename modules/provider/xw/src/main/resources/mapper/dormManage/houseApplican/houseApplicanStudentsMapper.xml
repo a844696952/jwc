@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dormManage.houseApplican.IHouseApplicanStudentsDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('houseApplicanId')">
+                             T.house_applican_id,
+                         </if>
+                         <if test="!pager.excludes.contains('studentId')">
+                             T.student_id,
+                         </if>
+                         <if test="!pager.excludes.contains('type')">
+                             T.type,
+                         </if>
+                         <if test="!pager.excludes.contains('dormitoryId')">
+                             T.dormitory_id,
+                         </if>
+                         <if test="!pager.excludes.contains('dormitoryName')">
+                             T.dormitory_name,
+                         </if>
+                         <if test="!pager.excludes.contains('floorId')">
+                             T.floor_id,
+                         </if>
+                         <if test="!pager.excludes.contains('floorName')">
+                             T.floor_name,
+                         </if>
+                         <if test="!pager.excludes.contains('bedRoomId')">
+                             T.bedRoom_id,
+                         </if>
+                         <if test="!pager.excludes.contains('bedRoomName')">
+                             T.bedRoom_name,
+                         </if>
+                         <if test="!pager.excludes.contains('bedCode')">
+                             T.bed_code,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="houseApplicanId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='houseApplicanId'">
+                            and T.house_applican_id like concat('%',#{houseApplicanId},'%')
+                         </when>
+                         <otherwise>
+                            and T.house_applican_id=#{houseApplicanId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="studentId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='studentId'">
+                            and T.student_id like concat('%',#{studentId},'%')
+                         </when>
+                         <otherwise>
+                            and T.student_id=#{studentId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="type!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='type'">
+                            and T.type like concat('%',#{type},'%')
+                         </when>
+                         <otherwise>
+                            and T.type=#{type}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="dormitoryId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='dormitoryId'">
+                            and T.dormitory_id like concat('%',#{dormitoryId},'%')
+                         </when>
+                         <otherwise>
+                            and T.dormitory_id=#{dormitoryId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="dormitoryName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='dormitoryName'">
+                            and T.dormitory_name like concat('%',#{dormitoryName},'%')
+                         </when>
+                         <otherwise>
+                            and T.dormitory_name=#{dormitoryName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="floorId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='floorId'">
+                            and T.floor_id like concat('%',#{floorId},'%')
+                         </when>
+                         <otherwise>
+                            and T.floor_id=#{floorId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="floorName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='floorName'">
+                            and T.floor_name like concat('%',#{floorName},'%')
+                         </when>
+                         <otherwise>
+                            and T.floor_name=#{floorName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="bedRoomId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='bedRoomId'">
+                            and T.bedRoom_id like concat('%',#{bedRoomId},'%')
+                         </when>
+                         <otherwise>
+                            and T.bedRoom_id=#{bedRoomId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="bedRoomName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='bedRoomName'">
+                            and T.bedRoom_name like concat('%',#{bedRoomName},'%')
+                         </when>
+                         <otherwise>
+                            and T.bedRoom_name=#{bedRoomName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="bedCode!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='bedCode'">
+                            and T.bed_code like concat('%',#{bedCode},'%')
+                         </when>
+                         <otherwise>
+                            and T.bed_code=#{bedCode}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findHouseApplicanStudentsListByCondition" parameterType="HouseApplicanStudents" resultType="HouseApplicanStudents">
+        select
+         <include refid="projection"/>
+         from xw_house_applican_students T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findHouseApplicanStudentsCountByCondition" parameterType="HouseApplicanStudents" resultType="long">
+        select count(*) from xw_house_applican_students T
+        <include refid="match"/>
+    </select>
+    <select id="findHouseApplicanStudentsById" resultType="HouseApplicanStudents">
+        select * from xw_house_applican_students where id=#{id}
+    </select>
+    <select id="findOneHouseApplicanStudentsByCondition" parameterType="HouseApplicanStudents" resultType="HouseApplicanStudents">
+        select
+         <include refid="projection"/>
+         from xw_house_applican_students T
+        <include refid="match"/>
+    </select>
+    <insert id="saveHouseApplicanStudents" parameterType="HouseApplicanStudents">
+        insert into xw_house_applican_students
+         (
+            id,
+            school_id,
+            create_time,
+            house_applican_id,
+            student_id,
+            type,
+            dormitory_id,
+            dormitory_name,
+            floor_id,
+            floor_name,
+            bedRoom_id,
+            bedRoom_name,
+            bed_code,
+            update_time
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                now()
+                ,
+                #{houseApplicanId}
+                ,
+                #{studentId}
+                ,
+                #{type}
+                ,
+                #{dormitoryId}
+                ,
+                #{dormitoryName}
+                ,
+                #{floorId}
+                ,
+                #{floorName}
+                ,
+                #{bedRoomId}
+                ,
+                #{bedRoomName}
+                ,
+                #{bedCode}
+                ,
+                #{updateTime}
+                
+         )
+    </insert>
+    <update id="updateHouseApplicanStudents" parameterType="HouseApplicanStudents">
+        update xw_house_applican_students
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    <if test="houseApplicanId!=null ">
+                        house_applican_id=#{houseApplicanId},
+                    </if>
+                    <if test="studentId!=null ">
+                        student_id=#{studentId},
+                    </if>
+                    <if test="type!=null ">
+                        type=#{type},
+                    </if>
+                    <if test="dormitoryId!=null ">
+                        dormitory_id=#{dormitoryId},
+                    </if>
+                    <if test="dormitoryName!=null ">
+                        dormitory_name=#{dormitoryName},
+                    </if>
+                    <if test="floorId!=null ">
+                        floor_id=#{floorId},
+                    </if>
+                    <if test="floorName!=null ">
+                        floor_name=#{floorName},
+                    </if>
+                    <if test="bedRoomId!=null ">
+                        bedRoom_id=#{bedRoomId},
+                    </if>
+                    <if test="bedRoomName!=null ">
+                        bedRoom_name=#{bedRoomName},
+                    </if>
+                    <if test="bedCode!=null ">
+                        bed_code=#{bedCode},
+                    </if>
+                    update_time=now()
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteHouseApplicanStudents" >
+        delete from xw_house_applican_students where id=#{id}
+    </delete>
+    <delete id="deleteHouseApplicanStudentsByCondition" >
+        delete T from xw_house_applican_students T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveHouseApplicanStudents" parameterType="HouseApplicanStudents">
+        INSERT INTO xw_house_applican_students (  id,  school_id,  create_time,  house_applican_id,  student_id,  type,  dormitory_id,  dormitory_name,  floor_id,  floor_name,  bedRoom_id,  bedRoom_name,  bed_code,  update_time )
+        VALUES
+        <foreach collection="list" item="houseApplicanStudents" separator=",">
+            (  #{houseApplicanStudents.id},  #{houseApplicanStudents.schoolId},  now(),  #{houseApplicanStudents.houseApplicanId},  #{houseApplicanStudents.studentId},  #{houseApplicanStudents.type},  #{houseApplicanStudents.dormitoryId},  #{houseApplicanStudents.dormitoryName},  #{houseApplicanStudents.floorId},  #{houseApplicanStudents.floorName},  #{houseApplicanStudents.bedRoomId},  #{houseApplicanStudents.bedRoomName},  #{houseApplicanStudents.bedCode},  #{houseApplicanStudents.updateTime}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <update id="updateHouseApplicanStudents1" parameterType="HouseApplicanStudents">
+        update xw_house_applican_students
+        <set>
+
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+
+
+        </set>
+        where house_applican_id=#{houseApplicanId}
+    </update>
+
+    <select id="findHouseApplicanStudents" parameterType="HouseApplicanStudents" resultType="HouseApplicanStudents">
+      SELECT
+            a.house_applican_id,
+            GROUP_CONCAT( b.NAME ) studentsName,
+            GROUP_CONCAT( b.id ) studentsId,
+            GROUP_CONCAT( DISTINCT a.type ) types
+
+        FROM
+            xw_house_applican_students a,
+            jw_student b
+        WHERE
+            a.student_id = b.id and
+            a.type &gt; "0" and
+            a.school_id = #{schoolId}
+            <if test="type!=null ">
+                and type like concat('%',#{type},'%')
+            </if>
+        GROUP BY
+            a.house_applican_id
+            order by a.create_time desc
+        <include refid="page"/>
+    </select>
+
+    <select id="findHouseApplicanStudentsCount" parameterType="HouseApplicanStudents" resultType="long">
+	select count(*) from(
+        SELECT
+            a.house_applican_id,
+            GROUP_CONCAT( b.id ) studentsId,
+            GROUP_CONCAT( b.NAME ) studentsName,
+            GROUP_CONCAT( DISTINCT a.type ) types
+        FROM
+            xw_house_applican_students a,
+            jw_student b
+        WHERE
+            a.student_id = b.id and
+            a.type &gt; "0" and
+            a.school_id = #{schoolId}
+            <if test="type!=null ">
+                and type like concat('%',#{type},'%')
+            </if>
+        GROUP BY
+            a.house_applican_id
+
+	) c
+
+    </select>
+
+    <select id="findStudentIdByhouseApplicanId"  resultType="HouseApplicanStudents">
+      select * from xw_house_applican_students WHERE house_applican_id = #{houseApplicanId}
+    </select>
+
+    <select id="findStudentIdByhouseApplicanId1"  parameterType="HouseApplicanStudents"  resultType="HouseApplicanStudents">
+      select * from xw_house_applican_students WHERE house_applican_id = #{houseApplicanId}
+        <include refid="page"/>
+    </select>
+
+    <update id="saveHouseApplicanStudents1" parameterType="HouseApplicanStudents">
+        update xw_house_applican_students
+        <set>
+
+            <if test="type!=null ">
+                type=#{type},
+            </if>
+            <if test="dormitoryId!=null ">
+                dormitory_id=#{dormitoryId},
+            </if>
+            <if test="dormitoryName!=null ">
+                dormitory_name=#{dormitoryName},
+            </if>
+            <if test="floorId!=null ">
+                floor_id=#{floorId},
+            </if>
+            <if test="floorName!=null ">
+                floor_name=#{floorName},
+            </if>
+            <if test="bedRoomId!=null ">
+                bedRoom_id=#{bedRoomId},
+            </if>
+            <if test="bedRoomName!=null ">
+                bedRoom_name=#{bedRoomName},
+            </if>
+            <if test="bedCode!=null ">
+                bed_code=#{bedCode},
+            </if>
+            update_time=now()
+        </set>
+        where house_applican_id=#{houseApplicanId} and student_id=#{studentId}
+    </update>
+
+    <select id="lookHouseApplicanStudentsCount" parameterType="HouseApplicanStudents" resultType="long">
+        select count(*) from  xw_house_applican_students WHERE house_applican_id = #{houseApplicanId}
+    </select>
+</mapper>
+
+

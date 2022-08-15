@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.collectivePlan.ITeacherCollectionDao">
+    <!--########################################################################################################################-->
+    <select id="findTeacherCollectionListByCondition" parameterType="TeacherCollection" resultType="TeacherCollection">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherPlanId')">
+                             T.teacher_plan_id,
+                         </if>
+                         <if test="!pager.excludes.contains('collectionPlanId')">
+                             T.collection_plan_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateCount')">
+                             T.update_count,
+                         </if>
+                         <if test="!pager.excludes.contains('commentCount')">
+                             T.comment_count,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_teacher_collection T
+        <where>
+              <if test="teacherPlanId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherPlanId'">
+                             T.teacher_plan_id like concat('%',#{teacherPlanId},'%')
+                         </when>
+                         <otherwise>
+                             T.teacher_plan_id=#{teacherPlanId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="collectionPlanId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='collectionPlanId'">
+                            and T.collection_plan_id like concat('%',#{collectionPlanId},'%')
+                         </when>
+                         <otherwise>
+                            and T.collection_plan_id=#{collectionPlanId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateCount!=null">
+                    and T.update_count=#{updateCount}
+              </if>
+              <if test="commentCount!=null">
+                    and T.comment_count=#{commentCount}
+              </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+              </if>
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findTeacherCollectionCountByCondition" parameterType="TeacherCollection" resultType="long">
+        select count(*) from jy_teacher_collection T
+        <where>
+              <if test="teacherPlanId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='teacherPlanId'">
+                             T.teacher_plan_id like concat('%',#{teacherPlanId},'%')
+                         </when>
+                         <otherwise>
+                             T.teacher_plan_id=#{teacherPlanId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="collectionPlanId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='collectionPlanId'">
+                            and T.collection_plan_id like concat('%',#{collectionPlanId},'%')
+                         </when>
+                         <otherwise>
+                            and T.collection_plan_id=#{collectionPlanId}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+            </if>
+              <if test="updateCount!=null">
+                    and T.update_count=#{updateCount}
+            </if>
+              <if test="commentCount!=null">
+                    and T.comment_count=#{commentCount}
+            </if>
+              <if test="status!=null">
+                    and T.status=#{status}
+            </if>
+        </where>
+    </select>
+    <select id="findTeacherCollectionById" resultType="TeacherCollection">
+        select * from jy_teacher_collection where id=#{id}
+    </select>
+    <select id="findOneTeacherCollectionByCondition" parameterType="TeacherCollection" resultType="TeacherCollection">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('teacherPlanId')">
+                             T.teacher_plan_id,
+                         </if>
+                         <if test="!pager.excludes.contains('collectionPlanId')">
+                             T.collection_plan_id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateCount')">
+                             T.update_count,
+                         </if>
+                         <if test="!pager.excludes.contains('commentCount')">
+                             T.comment_count,
+                         </if>
+                         <if test="!pager.excludes.contains('status')">
+                             T.status,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from jy_teacher_collection T
+        <where>
+              <if test="teacherPlanId!=null">
+                 T.teacher_plan_id=#{teacherPlanId}
+              </if>
+              <if test="collectionPlanId!=null">
+                and T.collection_plan_id=#{collectionPlanId}
+              </if>
+              <if test="createTime!=null">
+                and T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="updateCount!=null">
+                and T.update_count=#{updateCount}
+              </if>
+              <if test="commentCount!=null">
+                and T.comment_count=#{commentCount}
+              </if>
+              <if test="status!=null">
+                and T.status=#{status}
+              </if>
+        </where>
+    </select>
+    <insert id="saveTeacherCollection" parameterType="TeacherCollection">
+        insert into jy_teacher_collection
+         (
+            id,
+            teacher_plan_id,
+            collection_plan_id,
+            create_time,
+            update_time,
+            update_count,
+            comment_count,
+            status
+        ) values
+         (
+                #{id}
+                ,
+                #{teacherPlanId}
+                ,
+                #{collectionPlanId}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{updateCount}
+                ,
+                #{commentCount}
+                ,
+                #{status}
+                
+         )
+    </insert>
+    <update id="updateTeacherCollection" parameterType="TeacherCollection">
+        update jy_teacher_collection
+        <set>
+                    <if test="teacherPlanId!=null ">
+                        teacher_plan_id=#{teacherPlanId},
+                    </if>
+                    <if test="collectionPlanId!=null ">
+                        collection_plan_id=#{collectionPlanId},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="updateCount!=null ">
+                        update_count=#{updateCount},
+                    </if>
+                    <if test="commentCount!=null ">
+                        comment_count=#{commentCount},
+                    </if>
+                    <if test="status!=null ">
+                        status=#{status}
+                    </if>
+          </set>
+          where
+            teacher_plan_id = #{teacherPlanId}
+            and collection_plan_id = #{collectionPlanId}
+    </update>
+
+    <delete id="deleteTeacherCollection" >
+        delete from jy_teacher_collection where id=#{id}
+    </delete>
+    <delete id="deleteTeacherCollectionByCondition" >
+        delete from jy_teacher_collection
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="teacherPlanId!=null">
+                and teacher_plan_id=#{teacherPlanId}
+              </if>
+              <if test="collectionPlanId!=null">
+                and collection_plan_id=#{collectionPlanId}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="updateCount!=null">
+                and update_count=#{updateCount}
+              </if>
+              <if test="commentCount!=null">
+                and comment_count=#{commentCount}
+              </if>
+              <if test="status!=null">
+                and status=#{status}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveTeacherCollection" parameterType="TeacherCollection">
+        INSERT INTO jy_teacher_collection (  id,  teacher_plan_id,  collection_plan_id,  create_time,  update_time,  update_count,  comment_count,  status )
+        VALUES
+        <foreach collection="list" item="teacherCollection" separator=",">
+            (  #{teacherCollection.id},  #{teacherCollection.teacherPlanId},  #{teacherCollection.collectionPlanId},  #{teacherCollection.createTime},  #{teacherCollection.updateTime},  #{teacherCollection.updateCount},  #{teacherCollection.commentCount},  #{teacherCollection.status}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+  <!-- 对集体备课教案的修改次数  进行增加-->
+    <update id="updateModifyCount" parameterType="TeacherCollection">
+        update jy_teacher_collection
+         set
+                update_count = update_count + 1
+        where
+        <if test="teacherPlanId!=null">
+             teacher_plan_id=#{teacherPlanId}
+        </if>
+        <if test="collectionPlanId!=null">
+            and collection_plan_id=#{collectionPlanId}
+        </if>
+    </update>
+
+    <!--对集体备课教案的 评论次数 进行增加-->
+    <update id="updateCommentCount" parameterType="TeacherCollection">
+        update jy_teacher_collection
+        set
+        comment_count = comment_count + 1
+        where
+        <if test="teacherPlanId!=null">
+            teacher_plan_id=#{teacherPlanId}
+        </if>
+        <if test="collectionPlanId!=null">
+            and collection_plan_id=#{collectionPlanId}
+        </if>
+    </update>
+
+    <!--评论次数减少-->
+    <update id="updateCommentCountReduce" parameterType="TeacherCollection">
+        update jy_teacher_collection
+        set
+        comment_count = comment_count - 1
+        where
+        <if test="teacherPlanId!=null">
+            teacher_plan_id=#{teacherPlanId}
+        </if>
+        <if test="collectionPlanId!=null">
+            and collection_plan_id=#{collectionPlanId}
+        </if>
+    </update>
+</mapper>

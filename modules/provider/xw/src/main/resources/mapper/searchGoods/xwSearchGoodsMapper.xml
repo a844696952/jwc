@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.searchGoods.IXwSearchGoodsDao">
+    <!--########################################################################################################################-->
+    <select id="findXwSearchGoodsListByCondition" parameterType="XwSearchGoods" resultType="XwSearchGoods">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('title')">
+                        T.title,
+                    </if>
+                    <if test="!pager.excludes.contains('goodsDescribe')">
+                        T.goods_describe,
+                    </if>
+                    <if test="!pager.excludes.contains('loseTime')">
+                        T.lose_time,
+                    </if>
+                    <if test="!pager.excludes.contains('losePlace')">
+                        T.lose_place,
+                    </if>
+                    <if test="!pager.excludes.contains('loser')">
+                        T.loser,
+                    </if>
+                    <if test="!pager.excludes.contains('loseContact')">
+                        T.lose_contact,
+                    </if>
+                    <if test="!pager.excludes.contains('loseRemark')">
+                        T.lose_remark,
+                    </if>
+                    <if test="!pager.excludes.contains('img')">
+                        T.img,
+                    </if>
+                    <if test="!pager.excludes.contains('picker')">
+                        T.picker,
+                    </if>
+                    <if test="!pager.excludes.contains('pickupContact')">
+                        T.pickup_contact,
+                    </if>
+                    <if test="!pager.excludes.contains('pickupRemark')">
+                        T.pickup_remark,
+                    </if>
+                    <if test="!pager.excludes.contains('getBackTime')">
+                        T.get_back_time,
+                    </if>
+                    <if test="!pager.excludes.contains('returnTime')">
+                        T.return_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('status')">
+                        T.status,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('studentId')">
+                        T.student_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_search_goods T
+        <where>
+            <if test="title!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='title'">
+                        T.title like concat('%',#{title},'%')
+                    </when>
+                    <otherwise>
+                        T.title=#{title}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="goodsDescribe!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='goodsDescribe'">
+                        and T.goods_describe like concat('%',#{goodsDescribe},'%')
+                    </when>
+                    <otherwise>
+                        and T.goods_describe=#{goodsDescribe}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="loseTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='loseTime'">
+                        and T.lose_time like concat('%',#{loseTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.lose_time=#{loseTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="losePlace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='losePlace'">
+                        and T.lose_place like concat('%',#{losePlace},'%')
+                    </when>
+                    <otherwise>
+                        and T.lose_place=#{losePlace}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="loser!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='loser'">
+                        and T.loser like concat('%',#{loser},'%')
+                    </when>
+                    <otherwise>
+                        and T.loser=#{loser}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="loseContact!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='loseContact'">
+                        and T.lose_contact like concat('%',#{loseContact},'%')
+                    </when>
+                    <otherwise>
+                        and T.lose_contact=#{loseContact}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="loseRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='loseRemark'">
+                        and T.lose_remark like concat('%',#{loseRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.lose_remark=#{loseRemark}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="img!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='img'">
+                        and T.img like concat('%',#{img},'%')
+                    </when>
+                    <otherwise>
+                        and T.img=#{img}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="picker!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='picker'">
+                        and T.picker like concat('%',#{picker},'%')
+                    </when>
+                    <otherwise>
+                        and T.picker=#{picker}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="pickupContact!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='pickupContact'">
+                        and T.pickup_contact like concat('%',#{pickupContact},'%')
+                    </when>
+                    <otherwise>
+                        and T.pickup_contact=#{pickupContact}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="pickupRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='pickupRemark'">
+                        and T.pickup_remark like concat('%',#{pickupRemark},'%')
+                    </when>
+                    <otherwise>
+                        and T.pickup_remark=#{pickupRemark}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="getBackTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='getBackTime'">
+                        and T.get_back_time like concat('%',#{getBackTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.get_back_time=#{getBackTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="returnTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='returnTime'">
+                        and T.return_time like concat('%',#{returnTime},'%')
+                    </when>
+                    <otherwise>
+                        and T.return_time=#{returnTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and T.create_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+            <if test="status!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='status'">
+                        and T.status like concat('%',#{status},'%')
+                    </when>
+                    <otherwise>
+                        and T.status=#{status}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="status2!=null">
+                and  T.status <![CDATA[ <> ]]> 3
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="studentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studentId'">
+                        and T.student_id like concat('%',#{studentId},'%')
+                    </when>
+                    <otherwise>
+                        and T.student_id=#{studentId}
+                    </otherwise>
+                </choose>
+            </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findXwSearchGoodsCountByCondition" parameterType="XwSearchGoods" resultType="long">
+        select count(*) from xw_search_goods
+        <where>
+            <if test="title!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='title'">
+                        title like concat('%',#{title},'%')
+                    </when>
+                    <otherwise>
+                        title=#{title}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="goodsDescribe!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='goodsDescribe'">
+                        and goods_describe like concat('%',#{goodsDescribe},'%')
+                    </when>
+                    <otherwise>
+                        and goods_describe=#{goodsDescribe}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="loseTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='loseTime'">
+                        and lose_time like concat('%',#{loseTime},'%')
+                    </when>
+                    <otherwise>
+                        and lose_time=#{loseTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="losePlace!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='losePlace'">
+                        and lose_place like concat('%',#{losePlace},'%')
+                    </when>
+                    <otherwise>
+                        and lose_place=#{losePlace}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="loser!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='loser'">
+                        and loser like concat('%',#{loser},'%')
+                    </when>
+                    <otherwise>
+                        and loser=#{loser}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="loseContact!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='loseContact'">
+                        and lose_contact like concat('%',#{loseContact},'%')
+                    </when>
+                    <otherwise>
+                        and lose_contact=#{loseContact}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="loseRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='loseRemark'">
+                        and lose_remark like concat('%',#{loseRemark},'%')
+                    </when>
+                    <otherwise>
+                        and lose_remark=#{loseRemark}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="img!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='img'">
+                        and img like concat('%',#{img},'%')
+                    </when>
+                    <otherwise>
+                        and img=#{img}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="picker!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='picker'">
+                        and picker like concat('%',#{picker},'%')
+                    </when>
+                    <otherwise>
+                        and picker=#{picker}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="pickupContact!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='pickupContact'">
+                        and pickup_contact like concat('%',#{pickupContact},'%')
+                    </when>
+                    <otherwise>
+                        and pickup_contact=#{pickupContact}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="pickupRemark!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='pickupRemark'">
+                        and pickup_remark like concat('%',#{pickupRemark},'%')
+                    </when>
+                    <otherwise>
+                        and pickup_remark=#{pickupRemark}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="getBackTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='getBackTime'">
+                        and get_back_time like concat('%',#{getBackTime},'%')
+                    </when>
+                    <otherwise>
+                        and get_back_time=#{getBackTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="returnTime!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='returnTime'">
+                        and return_time like concat('%',#{returnTime},'%')
+                    </when>
+                    <otherwise>
+                        and return_time=#{returnTime}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="startTime!=null and endTime!=null">
+                and create_time BETWEEN #{startTime} AND #{endTime}
+            </if>
+            <if test="status!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='status'">
+                        and status like concat('%',#{status},'%')
+                    </when>
+                    <otherwise>
+                        and status=#{status}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='schoolId'">
+                        and school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+
+            </if>
+            <if test="studentId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like=='studentId'">
+                        and student_id like concat('%',#{studentId},'%')
+                    </when>
+                    <otherwise>
+                        and student_id=#{studentId}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+    <select id="findXwSearchGoodsById" resultType="XwSearchGoods">
+        select * from xw_search_goods where id=#{id}
+    </select>
+    <select id="findOneXwSearchGoodsByCondition" parameterType="XwSearchGoods" resultType="XwSearchGoods">
+        select
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('title')">
+                        T.title,
+                    </if>
+                    <if test="!pager.excludes.contains('goodsDescribe')">
+                        T.goods_describe,
+                    </if>
+                    <if test="!pager.excludes.contains('loseTime')">
+                        T.lose_time,
+                    </if>
+                    <if test="!pager.excludes.contains('losePlace')">
+                        T.lose_place,
+                    </if>
+                    <if test="!pager.excludes.contains('loser')">
+                        T.loser,
+                    </if>
+                    <if test="!pager.excludes.contains('loseContact')">
+                        T.lose_contact,
+                    </if>
+                    <if test="!pager.excludes.contains('loseRemark')">
+                        T.lose_remark,
+                    </if>
+                    <if test="!pager.excludes.contains('img')">
+                        T.img,
+                    </if>
+                    <if test="!pager.excludes.contains('picker')">
+                        T.picker,
+                    </if>
+                    <if test="!pager.excludes.contains('pickupContact')">
+                        T.pickup_contact,
+                    </if>
+                    <if test="!pager.excludes.contains('pickupRemark')">
+                        T.pickup_remark,
+                    </if>
+                    <if test="!pager.excludes.contains('getBackTime')">
+                        T.get_back_time,
+                    </if>
+                    <if test="!pager.excludes.contains('returnTime')">
+                        T.return_time,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('status')">
+                        T.status,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('studentId')">
+                        T.student_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+        from xw_search_goods T
+        <where>
+            <if test="title!=null">
+                T.title=#{title}
+            </if>
+            <if test="goodsDescribe!=null">
+                and T.goods_describe=#{goodsDescribe}
+            </if>
+            <if test="loseTime!=null">
+                and T.lose_time=#{loseTime}
+            </if>
+            <if test="losePlace!=null">
+                and T.lose_place=#{losePlace}
+            </if>
+            <if test="loser!=null">
+                and T.loser=#{loser}
+            </if>
+            <if test="loseContact!=null">
+                and T.lose_contact=#{loseContact}
+            </if>
+            <if test="loseRemark!=null">
+                and T.lose_remark=#{loseRemark}
+            </if>
+            <if test="img!=null">
+                and T.img=#{img}
+            </if>
+            <if test="picker!=null">
+                and T.picker=#{picker}
+            </if>
+            <if test="pickupContact!=null">
+                and T.pickup_contact=#{pickupContact}
+            </if>
+            <if test="pickupRemark!=null">
+                and T.pickup_remark=#{pickupRemark}
+            </if>
+            <if test="getBackTime!=null">
+                and T.get_back_time=#{getBackTime}
+            </if>
+            <if test="returnTime!=null">
+                and T.return_time=#{returnTime}
+            </if>
+            <if test="createTime!=null">
+                and T.create_time=#{createTime}
+            </if>
+            <if test="status!=null">
+                and T.status=#{status}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="studentId!=null">
+                and T.student_id=#{studentId}
+            </if>
+        </where>
+    </select>
+    <insert id="saveXwSearchGoods" parameterType="XwSearchGoods">
+        insert into xw_search_goods
+         (
+            id,
+            title,
+            goods_describe,
+            lose_time,
+            lose_place,
+            loser,
+            lose_contact,
+            lose_remark,
+            img,
+            picker,
+            pickup_contact,
+            pickup_remark,
+            get_back_time,
+            return_time,
+            create_time,
+            status,
+            school_id,
+            student_id
+        ) values
+         (
+                #{id}
+                ,
+                #{title}
+                ,
+                #{goodsDescribe}
+                ,
+                #{loseTime}
+                ,
+                #{losePlace}
+                ,
+                #{loser}
+                ,
+                #{loseContact}
+                ,
+                #{loseRemark}
+                ,
+                #{img}
+                ,
+                #{picker}
+                ,
+                #{pickupContact}
+                ,
+                #{pickupRemark}
+                ,
+                #{getBackTime}
+                ,
+                #{returnTime}
+                ,
+                now()
+                ,
+                1
+                ,
+                #{schoolId}
+                ,
+                #{studentId}
+
+         )
+    </insert>
+    <update id="updateXwSearchGoods" parameterType="XwSearchGoods">
+        update xw_search_goods
+        <set>
+            <if test="title!=null ">
+                title=#{title},
+            </if>
+            <if test="goodsDescribe!=null ">
+                goods_describe=#{goodsDescribe},
+            </if>
+            <if test="loseTime!=null ">
+                lose_time=#{loseTime},
+            </if>
+            <if test="losePlace!=null ">
+                lose_place=#{losePlace},
+            </if>
+            <if test="loser!=null ">
+                loser=#{loser},
+            </if>
+            <if test="loseContact!=null ">
+                lose_contact=#{loseContact},
+            </if>
+            <if test="loseRemark!=null ">
+                lose_remark=#{loseRemark},
+            </if>
+            <if test="img!=null ">
+                img=#{img},
+            </if>
+            <if test="picker!=null ">
+                picker=#{picker},
+            </if>
+            <if test="pickupContact!=null ">
+                pickup_contact=#{pickupContact},
+            </if>
+            <if test="pickupRemark!=null ">
+                pickup_remark=#{pickupRemark},
+            </if>
+
+                get_back_time= now(),
+
+            <if test="returnTime!=null ">
+                return_time=#{returnTime},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="studentId!=null ">
+                student_id=#{studentId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="deleteXwSearchGoods" >
+        delete from xw_search_goods where id=#{id}
+    </delete>
+    <delete id="deleteXwSearchGoodsByCondition" >
+        delete from xw_search_goods
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+            <if test="title!=null">
+                and title=#{title}
+            </if>
+            <if test="goodsDescribe!=null">
+                and goods_describe=#{goodsDescribe}
+            </if>
+            <if test="loseTime!=null">
+                and lose_time=#{loseTime}
+            </if>
+            <if test="losePlace!=null">
+                and lose_place=#{losePlace}
+            </if>
+            <if test="loser!=null">
+                and loser=#{loser}
+            </if>
+            <if test="loseContact!=null">
+                and lose_contact=#{loseContact}
+            </if>
+            <if test="loseRemark!=null">
+                and lose_remark=#{loseRemark}
+            </if>
+            <if test="img!=null">
+                and img=#{img}
+            </if>
+            <if test="picker!=null">
+                and picker=#{picker}
+            </if>
+            <if test="pickupContact!=null">
+                and pickup_contact=#{pickupContact}
+            </if>
+            <if test="pickupRemark!=null">
+                and pickup_remark=#{pickupRemark}
+            </if>
+            <if test="getBackTime!=null">
+                and get_back_time=#{getBackTime}
+            </if>
+            <if test="returnTime!=null">
+                and return_time=#{returnTime}
+            </if>
+            <if test="createTime!=null">
+                and create_time=#{createTime}
+            </if>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+            <if test="schoolId!=null">
+                and school_id=#{schoolId}
+            </if>
+            <if test="studentId!=null">
+                and student_id=#{studentId}
+            </if>
+        </where>
+    </delete>
+    <insert id="batchSaveXwSearchGoods" parameterType="XwSearchGoods">
+        INSERT INTO xw_search_goods (  id,  title,  goods_describe,  lose_time,  lose_place,  loser,  lose_contact,  lose_remark,  img,  picker,  pickup_contact,  pickup_remark,  get_back_time,  return_time,  create_time,  status,  school_id )
+        VALUES
+        <foreach collection="list" item="xwSearchGoods" separator=",">
+            (  #{xwSearchGoods.id},  #{xwSearchGoods.title},  #{xwSearchGoods.goodsDescribe},  #{xwSearchGoods.loseTime},  #{xwSearchGoods.losePlace},  #{xwSearchGoods.loser},  #{xwSearchGoods.loseContact},  #{xwSearchGoods.loseRemark},  #{xwSearchGoods.img},  #{xwSearchGoods.picker},  #{xwSearchGoods.pickupContact},  #{xwSearchGoods.pickupRemark},  #{xwSearchGoods.getBackTime},  #{xwSearchGoods.returnTime},  #{xwSearchGoods.createTime},  #{xwSearchGoods.status},  #{xwSearchGoods.schoolId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+    <update id="updateXwSearchGoodsReturn" parameterType="XwSearchGoods">
+        update xw_search_goods
+        <set>
+            <if test="title!=null ">
+                title=#{title},
+            </if>
+            <if test="goodsDescribe!=null ">
+                goods_describe=#{goodsDescribe},
+            </if>
+            <if test="loseTime!=null ">
+                lose_time=#{loseTime},
+            </if>
+            <if test="losePlace!=null ">
+                lose_place=#{losePlace},
+            </if>
+            <if test="loser!=null ">
+                loser=#{loser},
+            </if>
+            <if test="loseContact!=null ">
+                lose_contact=#{loseContact},
+            </if>
+            <if test="loseRemark!=null ">
+                lose_remark=#{loseRemark},
+            </if>
+            <if test="img!=null ">
+                img=#{img},
+            </if>
+            <if test="picker!=null ">
+                picker=#{picker},
+            </if>
+            <if test="pickupContact!=null ">
+                pickup_contact=#{pickupContact},
+            </if>
+            <if test="pickupRemark!=null ">
+                pickup_remark=#{pickupRemark},
+            </if>
+            <if test="getBackTime!=null ">
+            get_back_time=#{getBackTime},
+            </if>
+
+                return_time=now(),
+
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            <if test="status!=null ">
+                status=#{status},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+</mapper>

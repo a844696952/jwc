@@ -1,0 +1,37 @@
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://admin:pwd9527@localhost:8761/eureka/
+#management:
+#  security:
+#    #安全配置里，引入了security后，这里必须设置成true
+#    enabled: true
+spring:
+#  boot:
+#    admin:
+#    #设置了context-path turbine就打不开了
+##      context-path: /bootAdmin
+#      routes:
+#        endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+#      turbine:
+#        location: hystrix-turbine
+#        clusters: index-cluster
+  application:
+    name: boot-admin
+  security:
+    user:
+      name: user
+      password: 02955986-673d-470d-b9a2-7180178d62d1
+server:
+  port: 1111
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

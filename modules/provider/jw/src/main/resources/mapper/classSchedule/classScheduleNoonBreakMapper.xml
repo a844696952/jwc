@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.classSchedule.IClassScheduleNoonBreakDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('number')">
+                        T.number,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <where>
+            <if test="id!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                        T.id like concat('%',#{id},'%')
+                    </when>
+                    <otherwise>
+                        T.id=#{id}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="number!=null">
+                and T.number=#{number}
+            </if>
+            <if test="schoolId!=null">
+                <choose>
+                    <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                        and T.school_id like concat('%',#{schoolId},'%')
+                    </when>
+                    <otherwise>
+                        and T.school_id=#{schoolId}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findClassScheduleNoonBreakListByCondition" parameterType="ClassScheduleNoonBreak" resultType="ClassScheduleNoonBreak">
+        select
+        <include refid="projection"/>
+        from jw_class_schedule_noon_break T
+        <include refid="match"/>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findClassScheduleNoonBreakCountByCondition" parameterType="ClassScheduleNoonBreak" resultType="long">
+        select count(*) from jw_class_schedule_noon_break T
+        <include refid="match"/>
+    </select>
+    <select id="findClassScheduleNoonBreakById" resultType="ClassScheduleNoonBreak">
+        select * from jw_class_schedule_noon_break where id=#{id}
+    </select>
+    <select id="findOneClassScheduleNoonBreakByCondition" parameterType="ClassScheduleNoonBreak" resultType="ClassScheduleNoonBreak">
+        select
+        <include refid="projection"/>
+        from jw_class_schedule_noon_break T
+        <include refid="match"/>
+    </select>
+    <insert id="saveClassScheduleNoonBreak" parameterType="ClassScheduleNoonBreak">
+        INSERT INTO jw_class_schedule_noon_break (  id,  number,  school_id )
+         values
+         (   #{id}  ,   #{number}  ,   #{schoolId}    )
+    </insert>
+    <update id="updateClassScheduleNoonBreak" parameterType="ClassScheduleNoonBreak">
+        update jw_class_schedule_noon_break
+        <set>
+            <if test="number!=null ">
+                number=#{number},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateClassScheduleNoonBreakForAll" parameterType="ClassScheduleNoonBreak">
+        update jw_class_schedule_noon_break
+        <set>
+            number=#{number},
+            school_id=#{schoolId}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteClassScheduleNoonBreak" >
+        delete from jw_class_schedule_noon_break where id=#{id}
+    </delete>
+    <delete id="deleteClassScheduleNoonBreakByCondition" >
+        delete T from jw_class_schedule_noon_break T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveClassScheduleNoonBreak" parameterType="ClassScheduleNoonBreak">
+        INSERT INTO jw_class_schedule_noon_break (  id,  number,  school_id )
+        VALUES
+        <foreach collection="list" item="classScheduleNoonBreak" separator=",">
+            (   #{classScheduleNoonBreak.id}  ,   #{classScheduleNoonBreak.number}  ,   #{classScheduleNoonBreak.schoolId}    )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+
+    <update id="updateClassScheduleNoobBreakNumber" parameterType="ClassScheduleNoonBreak">
+        update jw_class_schedule_noon_break set number = #{number} where school_id= #{schoolId}
+    </update>
+
+</mapper>

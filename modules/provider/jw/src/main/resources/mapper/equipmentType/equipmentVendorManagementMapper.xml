@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.equipmentType.EquipmentVendorManagementDao">
+    <!--########################################################################################################################-->
+    <select id="findEquipmentVendorManagementListByCondition" parameterType="EquipmentVendorManagement" resultType="EquipmentVendorManagement">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('vendorName')">
+                             T.vendor_name,
+                         </if>
+                         <if test="!pager.excludes.contains('vendorNumber')">
+                             T.vendor_number,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_vendor_management T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="vendorName!=null">
+                and T.vendor_name=#{vendorName}
+              </if>
+              <if test="vendorNumber!=null">
+                and T.vendor_number=#{vendorNumber}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findEquipmentVendorManagementCountByCondition" parameterType="EquipmentVendorManagement" resultType="long">
+        select count(*) from equipment_vendor_management
+        <where>
+              <if test="createTime!=null">
+                 create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="vendorName!=null">
+                and vendor_name=#{vendorName}
+              </if>
+              <if test="vendorNumber!=null">
+                and vendor_number=#{vendorNumber}
+              </if>
+        </where>
+    </select>
+    <select id="findEquipmentVendorManagementById" resultType="EquipmentVendorManagement">
+        select * from equipment_vendor_management where id=#{id}
+    </select>
+    <select id="findOneEquipmentVendorManagementByCondition" parameterType="EquipmentVendorManagement" resultType="EquipmentVendorManagement">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('del')">
+                             T.del,
+                         </if>
+                         <if test="!pager.excludes.contains('vendorName')">
+                             T.vendor_name,
+                         </if>
+                         <if test="!pager.excludes.contains('vendorNumber')">
+                             T.vendor_number,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from equipment_vendor_management T
+        <where>
+              <if test="createTime!=null">
+                 T.create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and T.del=#{del}
+              </if>
+              <if test="vendorName!=null">
+                and T.vendor_name=#{vendorName}
+              </if>
+              <if test="vendorNumber!=null">
+                and T.vendor_number=#{vendorNumber}
+              </if>
+        </where>
+    </select>
+    <insert id="saveEquipmentVendorManagement" parameterType="EquipmentVendorManagement">
+        insert into equipment_vendor_management
+         (
+            id,
+            create_time,
+            update_time,
+            del,
+            vendor_name,
+            vendor_number
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{del}
+                ,
+                #{vendorName}
+                ,
+                #{vendorNumber}
+                
+         )
+    </insert>
+    <update id="updateEquipmentVendorManagement" parameterType="EquipmentVendorManagement">
+        update equipment_vendor_management
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="del!=null ">
+                        del=#{del},
+                    </if>
+                    <if test="vendorName!=null ">
+                        vendor_name=#{vendorName},
+                    </if>
+                    <if test="vendorNumber!=null ">
+                        vendor_number=#{vendorNumber}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteEquipmentVendorManagement" >
+        delete from equipment_vendor_management where id=#{id}
+    </delete>
+    <delete id="deleteEquipmentVendorManagementByCondition" >
+        delete from equipment_vendor_management
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="createTime!=null">
+                and create_time=#{createTime}
+              </if>
+              <if test="updateTime!=null">
+                and update_time=#{updateTime}
+              </if>
+              <if test="del!=null">
+                and del=#{del}
+              </if>
+              <if test="vendorName!=null">
+                and vendor_name=#{vendorName}
+              </if>
+              <if test="vendorNumber!=null">
+                and vendor_number=#{vendorNumber}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveEquipmentVendorManagement" parameterType="EquipmentVendorManagement">
+        INSERT INTO equipment_vendor_management (  id,  create_time,  update_time,  del,  vendor_name,  vendor_number )
+        VALUES
+        <foreach collection="list" item="equipmentVendorManagement" separator=",">
+            (  #{equipmentVendorManagement.id},  #{equipmentVendorManagement.createTime},  #{equipmentVendorManagement.updateTime},  #{equipmentVendorManagement.del},  #{equipmentVendorManagement.vendorName},  #{equipmentVendorManagement.vendorNumber}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+
+    <select id="findEquipmentVendorManagementListByConditionGai" parameterType="EquipmentVendorManagement" resultType="EquipmentVendorManagement">
+            select  T.*,Group_CONCAT(s.device_name) device_name,Group_CONCAT(s.id) device_id,GROUP_CONCAT(distinct q.id) equipmentId
+        <choose>
+        <when test="pager!=null and pager.includes!=null">
+            <foreach collection="pager.includes" item="field" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+            </foreach>
+        </when>
+        <when test="pager!=null and pager.excludes!=null">
+            <trim suffixOverrides=",">
+                <if test="!pager.excludes.contains('id')">
+                    T.id,
+                </if>
+                <if test="!pager.excludes.contains('createTime')">
+                    T.create_time,
+                </if>
+                <if test="!pager.excludes.contains('updateTime')">
+                    T.update_time,
+                </if>
+                <if test="!pager.excludes.contains('del')">
+                    T.del,
+                </if>
+                <if test="!pager.excludes.contains('vendorName')">
+                    T.vendor_name,
+                </if>
+                <if test="!pager.excludes.contains('vendorNumber')">
+                    T.vendor_number,
+                </if>
+            </trim>
+        </when>
+        </choose>
+            from equipment_vendor_management T left join equipment_management_dervice_name l on T.id = l.vendor_management_id
+            left join equipment_device_name s  on l.device_id = s.id left join equipment_type q on s.equipment_id = q.id
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="vendorName!=null">
+                and T.vendor_name=#{vendorName}
+            </if>
+            <if test="vendorNumber!=null">
+                and T.vendor_number=#{vendorNumber}
+            </if>
+        </where>
+            group by T.id
+            order by T.create_time
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+
+    <select id="findEquipmentVendorManagementByIdGai" resultType="EquipmentVendorManagement">
+        select  T.*,Group_CONCAT(s.device_name) device_name,Group_CONCAT(s.id) device_id,GROUP_CONCAT(distinct q.id) equipmentId
+
+            from equipment_vendor_management T left join equipment_management_dervice_name l on T.id = l.vendor_management_id
+            left join equipment_device_name s  on l.device_id = s.id left join equipment_type q on s.equipment_id = q.id
+            where T.id = #{id}
+        group by T.id
+
+    </select>
+</mapper>

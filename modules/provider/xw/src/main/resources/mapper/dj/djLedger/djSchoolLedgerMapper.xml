@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dj.djLedger.IDjSchoolLedgerDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('ledgerContent')">
+                             T.ledger_content,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('ledgerName')">
+                             T.ledger_name,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="ledgerContent!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='ledgerContent'">
+                            and T.ledger_content like concat('%',#{ledgerContent},'%')
+                         </when>
+                         <otherwise>
+                            and T.ledger_content=#{ledgerContent}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="ledgerName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='ledgerName'">
+                            and T.ledger_name like concat('%',#{ledgerName},'%')
+                         </when>
+                         <otherwise>
+                            and T.ledger_name=#{ledgerName}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDjSchoolLedgerListByCondition" parameterType="DjSchoolLedger" resultType="DjSchoolLedger">
+        select
+         <include refid="projection"/>
+         from xw_dj_school_ledger T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDjSchoolLedgerCountByCondition" parameterType="DjSchoolLedger" resultType="long">
+        select count(*) from xw_dj_school_ledger T
+        <include refid="match"/>
+    </select>
+    <select id="findDjSchoolLedgerById" resultType="DjSchoolLedger">
+        select * from xw_dj_school_ledger where id=#{id}
+    </select>
+    <select id="findOneDjSchoolLedgerByCondition" parameterType="DjSchoolLedger" resultType="DjSchoolLedger">
+        select
+         <include refid="projection"/>
+         from xw_dj_school_ledger T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDjSchoolLedger" parameterType="DjSchoolLedger">
+        insert into xw_dj_school_ledger
+         (
+            id,
+            create_time,
+            update_time,
+            ledger_content,
+            school_id,
+            ledger_name
+        ) values
+         (
+                #{id}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{ledgerContent}
+                ,
+                #{schoolId}
+                ,
+                #{ledgerName}
+                
+         )
+    </insert>
+    <update id="updateDjSchoolLedger" parameterType="DjSchoolLedger">
+        update xw_dj_school_ledger
+        <set>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="ledgerContent!=null ">
+                        ledger_content=#{ledgerContent},
+                    </if>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="ledgerName!=null ">
+                        ledger_name=#{ledgerName}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDjSchoolLedger" >
+        delete from xw_dj_school_ledger where id=#{id}
+    </delete>
+    <delete id="deleteDjSchoolLedgerByCondition" >
+        delete T from xw_dj_school_ledger T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDjSchoolLedger" parameterType="DjSchoolLedger">
+        INSERT INTO xw_dj_school_ledger (  id,  create_time,  update_time,  ledger_content,  school_id,  ledger_name )
+        VALUES
+        <foreach collection="list" item="djSchoolLedger" separator=",">
+            (  #{djSchoolLedger.id},  #{djSchoolLedger.createTime},  #{djSchoolLedger.updateTime},  #{djSchoolLedger.ledgerContent},  #{djSchoolLedger.schoolId},  #{djSchoolLedger.ledgerName}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+</mapper>

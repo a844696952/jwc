@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.educationBureau.ISchoolEducationBureauDao">
+    <!--########################################################################################################################-->
+    <select id="findSchoolEducationBureauListByCondition" parameterType="SchoolEducationBureau" resultType="SchoolEducationBureau">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('educationBureauId')">
+                             T.education_bureau_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from school_education_bureau T
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="educationBureauId!=null">
+                and T.education_bureau_id=#{educationBureauId}
+              </if>
+
+        </where>
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortField)} ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.sortOrder)}
+        </if>
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </select>
+    <select id="findSchoolEducationBureauCountByCondition" parameterType="SchoolEducationBureau" resultType="long">
+        select count(*) from school_education_bureau
+        <where>
+              <if test="schoolId!=null">
+                 school_id=#{schoolId}
+              </if>
+              <if test="educationBureauId!=null">
+                and education_bureau_id=#{educationBureauId}
+              </if>
+        </where>
+    </select>
+    <select id="findSchoolEducationBureauById" resultType="SchoolEducationBureau">
+        select * from school_education_bureau where id=#{id}
+    </select>
+    <select id="findOneSchoolEducationBureauByCondition" parameterType="SchoolEducationBureau" resultType="SchoolEducationBureau">
+        select
+         <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('educationBureauId')">
+                             T.education_bureau_id,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+         from school_education_bureau T
+        <where>
+              <if test="schoolId!=null">
+                 T.school_id=#{schoolId}
+              </if>
+              <if test="educationBureauId!=null">
+                and T.education_bureau_id=#{educationBureauId}
+              </if>
+        </where>
+    </select>
+    <insert id="saveSchoolEducationBureau" parameterType="SchoolEducationBureau">
+        insert into school_education_bureau
+         (
+            id,
+            school_id,
+            education_bureau_id
+        ) values
+         (
+                #{id}
+                ,
+                #{schoolId}
+                ,
+                #{educationBureauId}
+                
+         )
+    </insert>
+    <update id="updateSchoolEducationBureau" parameterType="SchoolEducationBureau">
+        update school_education_bureau
+        <set>
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="educationBureauId!=null ">
+                        education_bureau_id=#{educationBureauId}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteSchoolEducationBureau" >
+        delete from school_education_bureau where id=#{id}
+    </delete>
+    <delete id="deleteSchoolEducationBureauByCondition" >
+        delete from school_education_bureau
+        <where>
+              <if test="id!=null">
+                 id=#{id}
+              </if>
+              <if test="schoolId!=null">
+                and school_id=#{schoolId}
+              </if>
+              <if test="educationBureauId!=null">
+                and education_bureau_id=#{educationBureauId}
+              </if>
+        </where>
+    </delete>
+    <insert id="batchSaveSchoolEducationBureau" parameterType="SchoolEducationBureau">
+        INSERT INTO school_education_bureau (  id,  school_id,  education_bureau_id )
+        VALUES
+        <foreach collection="list" item="schoolEducationBureau" separator=",">
+            (  #{schoolEducationBureau.id},  #{schoolEducationBureau.schoolId},  #{schoolEducationBureau.educationBureauId}  )
+        </foreach>
+    </insert>
+    <!--########################################################################################################################-->
+</mapper>

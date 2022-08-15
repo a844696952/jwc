@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.dy.dao.schoolManage.institution.MesSchoolEvaluationDao">
+
+
+    <select id="findSchoolYearById" resultType="com.yice.edu.cn.common.pojo.jw.schoolYear.SchoolYear">
+        select * from school_year  where id=#{schoolYearId}
+    </select>
+    <select id="findSchoolWeekBySchoolYearIdAndTerm" resultType="SchoolWeek">
+        select * from school_week where school_year_id=#{schoolYearId} and term_type=#{term}
+    </select>
+    <select id="findGradeIdBySchoolId" resultType="java.lang.String">
+        SELECT grade_id FROM jw_classes where school_id =#{schoolId} GROUP BY grade_id
+    </select>
+    <select id="findJwClassesBySchoolId" resultType="JwClasses">
+        SELECT * FROM jw_classes where school_id =#{schoolId} order by grade_id,number
+    </select>
+    <select id="findSchoolYearBySchoolId" resultType="SchoolYear">
+        select * from school_year where school_id=#{schoolId} and from_year=(select max(from_year) from school_year where school_id=#{schoolId})
+    </select>
+    <select id="findSchoolNameBySchoolId" resultType="java.lang.String">
+        SELECT name FROM school WHERE id=#{schoolId} LIMIT 1
+    </select>
+    <select id="findJwClassesBySchoolIdAndGradeId" resultType="com.yice.edu.cn.common.pojo.jw.classes.JwClasses">
+        SELECT * FROM jw_classes where school_id =#{schoolId} and grade_id=#{gradeId}
+    </select>
+    <select id="findGradeIdByClassesId" resultType="java.lang.String">
+        select grade_id from jw_classes where id=#{classesId}
+    </select>
+</mapper>

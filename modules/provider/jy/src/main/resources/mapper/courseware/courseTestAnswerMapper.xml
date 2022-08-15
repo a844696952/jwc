@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jy.dao.courseware.ICourseTestAnswerDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('testId')">
+                             T.test_id,
+                         </if>
+                         <if test="!pager.excludes.contains('answer')">
+                             T.answer,
+                         </if>
+                         <if test="!pager.excludes.contains('qid')">
+                             T.qid,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="testId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='testId'">
+                            and T.test_id like concat('%',#{testId},'%')
+                         </when>
+                         <otherwise>
+                            and T.test_id=#{testId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="answer!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='answer'">
+                            and T.answer like concat('%',#{answer},'%')
+                         </when>
+                         <otherwise>
+                            and T.answer=#{answer}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="qid!=null">
+                    and T.qid=#{qid}
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findCourseTestAnswerListByCondition" parameterType="CourseTestAnswer" resultType="CourseTestAnswer">
+        select
+         <include refid="projection"/>
+         from jy_course_test_answer T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findCourseTestAnswerCountByCondition" parameterType="CourseTestAnswer" resultType="long">
+        select count(*) from jy_course_test_answer T
+        <include refid="match"/>
+    </select>
+    <select id="findCourseTestAnswerById" resultType="CourseTestAnswer">
+        select * from jy_course_test_answer where id=#{id}
+    </select>
+    <select id="findOneCourseTestAnswerByCondition" parameterType="CourseTestAnswer" resultType="CourseTestAnswer">
+        select
+         <include refid="projection"/>
+         from jy_course_test_answer T
+        <include refid="match"/>
+    </select>
+    <insert id="saveCourseTestAnswer" parameterType="CourseTestAnswer">
+        insert into jy_course_test_answer
+         (
+            id,
+            test_id,
+            answer,
+            qid
+        ) values
+         (
+                #{id}
+                ,
+                #{testId}
+                ,
+                #{answer}
+                ,
+                #{qid}
+                
+         )
+    </insert>
+    <update id="updateCourseTestAnswer" parameterType="CourseTestAnswer">
+        update jy_course_test_answer
+        <set>
+                    <if test="testId!=null ">
+                        test_id=#{testId},
+                    </if>
+                    <if test="answer!=null ">
+                        answer=#{answer},
+                    </if>
+                    <if test="qid!=null ">
+                        qid=#{qid}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteCourseTestAnswer" >
+        delete from jy_course_test_answer where id=#{id}
+    </delete>
+    <delete id="deleteCourseTestAnswerByCondition" >
+        delete T from jy_course_test_answer T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveCourseTestAnswer" parameterType="CourseTestAnswer">
+        INSERT INTO jy_course_test_answer (  id,  test_id,  answer,  qid )
+        VALUES
+        <foreach collection="list" item="courseTestAnswer" separator=",">
+            (  #{courseTestAnswer.id},  #{courseTestAnswer.testId},  #{courseTestAnswer.answer},  #{courseTestAnswer.qid}  )
+        </foreach>
+    </insert>
+
+    <!--##################################################generated code end,do not update######################################################################-->
+    <delete id="deletes">
+        delete from jy_course_test_answer
+        <where>
+            test_id in
+            <foreach collection="list" item="testId" open="(" close=")" separator=",">
+                #{testId}
+            </foreach>
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.riseClazz.IRiseClazzDao">
+
+     <!--根据学校id解除该学校所有的班牌账号、教师和班级的绑定关系-->
+    <update id="clearDmAndClazzRelateBySchoolId" parameterType="DmClassCard">
+        update dm_class_card set class_id=null , teacher_id=null where school_id = #{schoolId}
+    </update>
+     <!--根据班牌id修改所绑定的班级id-->
+    <update id="updateDmClazzRelateByDmId" parameterType="DmClassCard">
+        update dm_class_card set class_id=#{classId} where id = #{id}
+    </update>
+    <!-- 查询光荣榜 -->
+    <select id="selectHonourRollStudentByClazzIdList" parameterType="DmDeleteData" resultType="DmHonourRollStudentHistory">
+        select * from dm_honour_roll_student where class_id in
+        <foreach collection="classIdList" item="classIdList" open="(" separator="," close=")">
+            #{classIdList}
+        </foreach>
+    </select>
+    <select id="selectHonourRollByClazzIdList" parameterType="DmDeleteData" resultType="DmHonourRollHistory">
+        select * from dm_honour_roll where class_id in
+        <foreach collection="classIdList" item="classIdList" open="(" separator="," close=")">
+            #{classIdList}
+        </foreach>
+    </select>
+    <!-- 删除个人荣誉 -->
+    <delete id="deleteDmHonourRollStudentByClassId">
+        delete from dm_honour_roll_student where class_id in
+        <foreach collection="classIdList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteDmHonourRollByClassId">
+        delete from dm_honour_roll where class_id in
+        <foreach collection="classIdList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    
+</mapper>

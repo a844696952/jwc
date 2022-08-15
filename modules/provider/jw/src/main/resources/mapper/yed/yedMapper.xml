@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.yed.YedDao">
+
+    <!--查询新生入学人数占比-->
+    <select id="findNewbornList" resultType="Yed" parameterType="Yed">
+
+SELECT
+	( SELECT COUNT( jw_student.id ) FROM jw_student WHERE jw_student.admission_date=#{admissionDate} AND school.id = jw_student.school_id  ) last,
+	( SELECT COUNT( jw_student.id ) FROM jw_student WHERE jw_student.admission_date=(#{admissionDate}-1)  AND school.id = jw_student.school_id ) year,
+	school.district_name  area
+FROM
+	school
+	inner JOIN school_education_bureau ON school.id = school_education_bureau.school_id
+	left JOIN education_bureau ON education_bureau.id = school_education_bureau.education_bureau_id
+WHERE
+	school_education_bureau.education_bureau_id = #{educationBureauId}
+	AND school.type_id = '122'
+GROUP BY
+	school.district_id
+    </select>
+    <select id="findTeacherCountByEducationBureauId" resultType="java.lang.Long">
+        SELECT count(*) from school_education_bureau seb inner join jw_teacher t on t.school_id=seb.school_id and seb.education_bureau_id=#{educationBureauId}
+    </select>
+    <select id="findStudentCountByEducationBureauId" resultType="java.lang.Long">
+         SELECT count(s.id) from school_education_bureau seb inner join jw_student s on s.school_id=seb.school_id and seb.education_bureau_id=#{educationBureauId}
+    </select>
+
+	<!--计算总数-->
+    <select id="findConutNewbornList" resultType="long" parameterType="Yed">
+		select count(*) from school s1
+		inner join school_education_bureau seb on s1.id = seb.school_id and seb.education_bureau_id = #{educationBureauId} and s1.type_id ='122'
+		left join jw_student st on st.school_id = s1.id and st.admission_date  = #{admissionDate}
+
+	 </select>
+
+	<!--计算今年添加的场地-->
+    <select id="findSpaceByRoleList" resultType="Yed" parameterType="Yed">
+		SELECT
+			count( sp.type_id )
+		VALUE
+			,
+			a.NAME
+		FROM
+			school s
+			INNER JOIN school_education_bureau seb ON s.id = seb.school_id
+			AND seb.education_bureau_id = #{educationBureauId}
+			AND s.type_id = '122'
+			LEFT JOIN jw_space sp ON s.id = sp.school_id
+			RIGHT JOIN (
+		SELECT
+			ad.id id,
+			ad.NAME NAME
+		FROM
+			ad_dd ad
+		WHERE
+			ad.id = '102'
+			OR ad.id = '103'
+			OR ad.id = '104'
+			OR ad.id = '105'
+			) a ON a.id = sp.type_id
+
+		GROUP BY
+			sp.type_id
+
+	</select>
+
+
+
+	<!--查询学生考勤情况-->
+	<select id="findStudentCheckWork" resultType="StudentCheckWork" parameterType="com.yice.edu.cn.common.pojo.jw.yed.StudentCheckWork">
+		SELECT
+			s.district_id,
+			s.district_name,
+			s.id,
+			d.NAME,
+			d.`month`,
+			d.late,
+			d.early,
+			d.miss,
+			d.normal
+		FROM
+			school_education_bureau seb
+			INNER JOIN school s ON s.id = seb.school_id
+			AND seb.education_bureau_id = #{educationBureauId}
+			AND s.type_id = '122'
+			LEFT JOIN dm_check_in_statistical_month d ON s.id = d.school_id
+		WHERE
+			MONTH  <![CDATA[ >= ]]> #{startDate}
+			AND MONTH <![CDATA[ <= ]]> #{endDate}
+		ORDER BY
+		MONTH
+	</select>
+
+	<!--查询升学率-->
+	<select id="findEnrolmentList" resultType="Enrolment" parameterType="Enrolment">
+     SELECT
+
+	(select sum(e.graduation_count) from jw_student_enrolment e where e.school_id = s.id and e.grade_id='22' and e.enrolment_year = #{enrolmentYear}) graduation_count,
+  (select sum(e.student_count) from jw_student_enrolment e where e.school_id = s.id and e.grade_id='22' and e.enrolment_year = #{enrolmentYear}) student_count,
+	s.district_name area
+FROM
+	school_education_bureau seb
+	INNER JOIN school s ON s.id = seb.school_id
+	AND seb.education_bureau_id = #{educationBureauId}
+	AND s.type_id = '122'
+
+	GROUP BY s.district_id
+
+
+	</select>
+
+    <select id="findSchoolByEducation" resultType="School" parameterType="String">
+	SELECT
+	s.*
+    FROM
+	school_education_bureau seb
+	INNER JOIN school s ON s.id = seb.school_id
+	AND seb.education_bureau_id = #{educationBureauId}
+	</select>
+</mapper>

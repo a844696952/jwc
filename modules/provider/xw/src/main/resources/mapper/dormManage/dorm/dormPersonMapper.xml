@@ -1,0 +1,1126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.xw.dao.dormManage.dorm.IDormPersonDao">
+    <!--########################################################generated code start,do not update################################################################-->
+    <sql id="projection">
+        <choose>
+             <when test="pager!=null and pager.includes!=null">
+                 <foreach collection="pager.includes" item="field" separator=",">
+                     T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                 </foreach>
+             </when>
+             <when test="pager!=null and pager.excludes!=null">
+                 <trim suffixOverrides=",">
+                         <if test="!pager.excludes.contains('id')">
+                             T.id,
+                         </if>
+                         <if test="!pager.excludes.contains('dormId')">
+                             T.dorm_id,
+                         </if>
+                         <if test="!pager.excludes.contains('moveIntoTime')">
+                             T.move_into_time,
+                         </if>
+                         <if test="!pager.excludes.contains('personId')">
+                             T.person_id,
+                         </if>
+                         <if test="!pager.excludes.contains('personType')">
+                             T.person_type,
+                         </if>
+                         <if test="!pager.excludes.contains('isDormLeader')">
+                             T.is_dorm_leader,
+                         </if>
+                         <if test="!pager.excludes.contains('remarks')">
+                             T.remarks,
+                         </if>
+                         <if test="!pager.excludes.contains('bunkName')">
+                             T.bunk_name,
+                         </if>
+                         <if test="!pager.excludes.contains('bunkSort')">
+                             T.bunk_sort,
+                         </if>
+                         <if test="!pager.excludes.contains('createTime')">
+                             T.create_time,
+                         </if>
+                         <if test="!pager.excludes.contains('updateTime')">
+                             T.update_time,
+                         </if>
+                         <if test="!pager.excludes.contains('schoolId')">
+                             T.school_id,
+                         </if>
+                         <if test="!pager.excludes.contains('otherWord')">
+                             T.other_word,
+                         </if>
+                 </trim>
+             </when>
+             <otherwise>
+                 T.*
+             </otherwise>
+         </choose>
+    </sql>
+    <sql id="match">
+        <where>
+              <if test="id!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='id'">
+                             T.id like concat('%',#{id},'%')
+                         </when>
+                         <otherwise>
+                             T.id=#{id}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="dormId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='dormId'">
+                            and T.dorm_id like concat('%',#{dormId},'%')
+                         </when>
+                         <otherwise>
+                            and T.dorm_id=#{dormId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="moveIntoTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='moveIntoTime'">
+                            and T.move_into_time like concat('%',#{moveIntoTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.move_into_time=#{moveIntoTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="personId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='personId'">
+                            and T.person_id like concat('%',#{personId},'%')
+                         </when>
+                         <otherwise>
+                            and T.person_id=#{personId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="personType!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='personType'">
+                            and T.person_type like concat('%',#{personType},'%')
+                         </when>
+                         <otherwise>
+                            and T.person_type=#{personType}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="isDormLeader!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='isDormLeader'">
+                            and T.is_dorm_leader like concat('%',#{isDormLeader},'%')
+                         </when>
+                         <otherwise>
+                            and T.is_dorm_leader=#{isDormLeader}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="remarks!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='remarks'">
+                            and T.remarks like concat('%',#{remarks},'%')
+                         </when>
+                         <otherwise>
+                            and T.remarks=#{remarks}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="bunkName!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='bunkName'">
+                            and T.bunk_name like concat('%',#{bunkName},'%')
+                         </when>
+                         <otherwise>
+                            and T.bunk_name=#{bunkName}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="bunkSort!=null">
+                    and T.bunk_sort=#{bunkSort}
+              </if>
+              <if test="createTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='createTime'">
+                            and T.create_time like concat('%',#{createTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.create_time=#{createTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="updateTime!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='updateTime'">
+                            and T.update_time like concat('%',#{updateTime},'%')
+                         </when>
+                         <otherwise>
+                            and T.update_time=#{updateTime}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="schoolId!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='schoolId'">
+                            and T.school_id like concat('%',#{schoolId},'%')
+                         </when>
+                         <otherwise>
+                            and T.school_id=#{schoolId}
+                         </otherwise>
+                      </choose>
+              </if>
+              <if test="otherWord!=null">
+                    <choose>
+                         <when test="pager!=null and pager.like=='otherWord'">
+                            and T.other_word like concat('%',#{otherWord},'%')
+                         </when>
+                         <otherwise>
+                            and T.other_word=#{otherWord}
+                         </otherwise>
+                      </choose>
+              </if>
+            <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+                <foreach collection="pager.rangeArray" item="item"  index="i">
+                    <if test="i==0 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                    </if>
+                    <if test="i==1 and item!=null">
+                        and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                    </if>
+                </foreach>
+
+            </if>
+        </where>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findDormPersonListByCondition" parameterType="DormPerson" resultType="DormPerson">
+        select
+         <include refid="projection"/>
+         from xw_dorm_person T
+         <include refid="match"/>
+         <include refid="sort"/>
+         <include refid="page"/>
+
+
+    </select>
+    <select id="findDormPersonCountByCondition" parameterType="DormPerson" resultType="long">
+        select count(*) from xw_dorm_person T
+        <include refid="match"/>
+    </select>
+    <select id="findDormPersonById" resultType="DormPerson">
+        select * from xw_dorm_person where id=#{id}
+    </select>
+    <select id="findOneDormPersonByCondition" parameterType="DormPerson" resultType="DormPerson">
+        select
+         <include refid="projection"/>
+         from xw_dorm_person T
+        <include refid="match"/>
+    </select>
+    <insert id="saveDormPerson" parameterType="DormPerson">
+        insert into xw_dorm_person
+         (
+            id,
+            dorm_id,
+            move_into_time,
+            person_id,
+            person_type,
+            is_dorm_leader,
+            remarks,
+            bunk_name,
+            bunk_sort,
+            create_time,
+            update_time,
+            school_id,
+            other_word
+        ) values
+         (
+                #{id}
+                ,
+                #{dormId}
+                ,
+                #{moveIntoTime}
+                ,
+                #{personId}
+                ,
+                #{personType}
+                ,
+                #{isDormLeader}
+                ,
+                #{remarks}
+                ,
+                #{bunkName}
+                ,
+                #{bunkSort}
+                ,
+                now()
+                ,
+                #{updateTime}
+                ,
+                #{schoolId}
+                ,
+                #{otherWord}
+                
+         )
+    </insert>
+    <update id="updateDormPerson" parameterType="DormPerson" >
+        update xw_dorm_person
+        <set>
+                    <if test="dormId!=null ">
+                        dorm_id=#{dormId},
+                    </if>
+                    <if test="moveIntoTime!=null ">
+                        move_into_time=#{moveIntoTime},
+                    </if>
+                    <if test="personId!=null ">
+                        person_id=#{personId},
+                    </if>
+                    <if test="personType!=null ">
+                        person_type=#{personType},
+                    </if>
+                    <if test="isDormLeader!=null ">
+                        is_dorm_leader=#{isDormLeader},
+                    </if>
+                    <if test="remarks!=null ">
+                        remarks=#{remarks},
+                    </if>
+                    <if test="bunkName!=null ">
+                        bunk_name=#{bunkName},
+                    </if>
+                    <if test="bunkSort!=null ">
+                        bunk_sort=#{bunkSort},
+                    </if>
+                    <if test="createTime!=null ">
+                        create_time=#{createTime},
+                    </if>
+                    update_time=now(),
+                    <if test="schoolId!=null ">
+                        school_id=#{schoolId},
+                    </if>
+                    <if test="otherWord!=null ">
+                        other_word=#{otherWord}
+                    </if>
+          </set>
+         where id=#{id}
+    </update>
+    <delete id="deleteDormPerson" >
+        delete from xw_dorm_person where id=#{id}
+    </delete>
+    <delete id="deleteDormPersonByCondition" >
+        delete T from xw_dorm_person T
+        <include refid="match"/>
+    </delete>
+    <insert id="batchSaveDormPerson" parameterType="DormPerson">
+        INSERT INTO xw_dorm_person (  id,  dorm_id,  move_into_time,  person_id,  person_type,  is_dorm_leader,  remarks,  bunk_name,  bunk_sort,  create_time,  update_time,  school_id,  other_word )
+        VALUES
+        <foreach collection="list" item="dormPerson" separator=",">
+            (  #{dormPerson.id},  #{dormPerson.dormId},  #{dormPerson.moveIntoTime},  #{dormPerson.personId},  #{dormPerson.personType},  #{dormPerson.isDormLeader},  #{dormPerson.remarks},  #{dormPerson.bunkName},  #{dormPerson.bunkSort},  #{dormPerson.createTime},  #{dormPerson.updateTime},  #{dormPerson.schoolId},  #{dormPerson.otherWord}  )
+        </foreach>
+    </insert>
+    <!--##################################################generated code end,do not update######################################################################-->
+    <select id="findStudentListByConditionOnDorm" parameterType="Student"  resultType="Student">
+        SELECT
+        T.*,
+        B.id classesId,
+        B.grade_id,
+        B.grade_name,
+        B.number classesNumber
+        FROM
+        jw_student T
+        LEFT JOIN jw_classes B ON T.classes_id = B.id
+        <where>
+            T.del=1
+            <if test="schoolId!=null">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="name!=null">
+                AND T.name like concat('%',#{name},'%')
+            </if>
+            <if test="gradeId!=null">
+                AND B.grade_id = #{gradeId}
+            </if>
+            <if test="classesNumber!=null">
+                AND B.number = #{classesNumber}
+            </if>
+            <if test="classesId!=null">
+                AND B.id = #{classesId}
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="boarder!=null">
+                and T.boarder=#{boarder}
+            </if>
+            <if test="studentNo!=null">
+                and T.student_no like concat('%',#{studentNo},'%')
+            </if>
+            AND T.id NOT IN ( SELECT person_id FROM xw_dorm_person WHERE person_type = '1' AND school_id = #{schoolId} )
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+
+    <select id="findStudentListCountByConditionOnDorm" parameterType="Student"  resultType="long">
+        SELECT
+        count(*)
+        FROM
+        jw_student T
+        LEFT JOIN jw_classes B ON T.classes_id = B.id
+        <where>
+            T.del=1
+            <if test="schoolId!=null">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="name!=null">
+                AND T.name like concat('%',#{name},'%')
+            </if>
+            <if test="gradeId!=null">
+                AND B.grade_id = #{gradeId}
+            </if>
+            <if test="classesNumber!=null">
+                AND B.number = #{classesNumber}
+            </if>
+            <if test="classesId!=null">
+                AND B.id = #{classesId}
+            </if>
+            <if test="sex!=null">
+                and T.sex=#{sex}
+            </if>
+            <if test="boarder!=null">
+                and T.boarder=#{boarder}
+            </if>
+            AND T.id NOT IN ( SELECT person_id FROM xw_dorm_person WHERE person_type = '1' AND school_id = #{schoolId} )
+        </where>
+    </select>
+
+    <select id="findTeacherListByConditionOnDorm" parameterType="Teacher"  resultType="Teacher">
+        SELECT
+        T.id,
+        T.NAME,
+        T.sex,
+        T.work_number,
+        T.tel,
+        T.school_id,
+        T.school_name
+        FROM
+        jw_teacher T
+        <where>
+            <if test="schoolId!=null">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="personType!=null">
+                AND  T.person_type = #{personType}
+            </if>
+            <if test="workNumber!=null">
+                AND  T.work_number LIKE  concat('%',#{workNumber},'%')
+            </if>
+            <if test="name!=null">
+                AND  T.name LIKE  concat('%',#{name},'%')
+            </if>
+            <if test="status!=null">
+                AND  T.status = #{status}
+            </if>
+            <if test="sex!=null">
+                AND  T.sex = #{sex}
+            </if>
+
+            AND T.id NOT IN ( SELECT person_id FROM xw_dorm_person WHERE person_type = '2' AND school_id = #{schoolId} )
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findTeacherListCountByConditionOnDorm" parameterType="Teacher"  resultType="long">
+        SELECT
+        COUNT(*)
+        FROM
+        jw_teacher T
+        <where>
+            <if test="schoolId!=null">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="personType!=null">
+                AND  T.person_type = #{personType}
+            </if>
+            <if test="workNumber!=null">
+                AND  T.work_number LIKE  concat('%',#{workNumber},'%')
+            </if>
+            <if test="name!=null">
+                AND  T.name LIKE  concat('%',#{name},'%')
+            </if>
+            <if test="status!=null">
+                AND  T.status = #{status}
+            </if>
+            <if test="sex!=null">
+                AND  T.sex = #{sex}
+            </if>
+
+            AND T.id NOT IN ( SELECT person_id FROM xw_dorm_person WHERE person_type = '2' AND school_id = #{schoolId} )
+        </where>
+    </select>
+
+
+    <select id="findNoTeacherListByConditionOnDorm" parameterType="Teacher"  resultType="Teacher">
+        SELECT
+        T.id,
+        T.NAME,
+        T.sex,
+        T.work_number,
+        T.tel,
+        T.person_type,
+        T.school_id,
+        GROUP_CONCAT( M.department_id ) department_id,
+        GROUP_CONCAT( N.NAME ) department_name
+        FROM
+        (
+        SELECT
+        B.*
+        FROM
+        jw_teacher B
+        <where>
+            <if test="personType!=null">
+                AND  B.person_type = #{personType}
+            </if>
+            <if test="schoolId!=null">
+                AND B.school_id = #{schoolId}
+            </if>
+            <if test="status!=null">
+                AND  B.status = #{status}
+            </if>
+            <if test="workNumber!=null">
+                AND  B.work_number LIKE  concat('%',#{workNumber},'%')
+            </if>
+            <if test="name!=null">
+                AND  B.name LIKE  concat('%',#{name},'%')
+            </if>
+            <if test="sex!=null">
+                AND  B.sex = #{sex}
+            </if>
+
+            AND B.id NOT IN
+            (SELECT A.person_id  FROM xw_dorm_person A WHERE A.person_type = '3' AND A.school_id = #{schoolId})
+        </where>
+        ) T
+        LEFT JOIN jw_department_teacher M ON T.id = M.teacher_id
+        LEFT JOIN jw_department N ON M.department_id = N.id
+        <where>
+            <if test="departmentId!=null">
+                AND M.department_id = #{departmentId}
+            </if>
+        </where>
+
+        GROUP BY
+        T.id
+        <include refid="sort"/>
+        <include refid="page"/>
+    </select>
+
+    <select id="findNoTeacherCountListByConditionOnDorm" parameterType="Teacher"  resultType="long">
+        select count(M.id) from
+        (
+        SELECT
+        T.*
+        FROM
+        (
+        SELECT
+        B.*
+        FROM
+        jw_teacher B
+        <where>
+            <if test="personType!=null">
+                AND  B.person_type = #{personType}
+            </if>
+            <if test="schoolId!=null">
+                AND B.school_id = #{schoolId}
+            </if>
+            <if test="status!=null">
+                AND  B.status = #{status}
+            </if>
+            <if test="workNumber!=null">
+                AND  B.work_number LIKE  concat('%',#{workNumber},'%')
+            </if>
+            <if test="name!=null">
+                AND  B.name LIKE  concat('%',#{name},'%')
+            </if>
+            <if test="sex!=null">
+                AND  B.sex = #{sex}
+            </if>
+            AND B.id NOT IN
+            (SELECT A.person_id  FROM xw_dorm_person A WHERE A.person_type = '3' AND A.school_id = #{schoolId})
+        </where>
+        ) T
+        LEFT JOIN jw_department_teacher M ON T.id = M.teacher_id
+        LEFT JOIN jw_department N ON M.department_id = N.id
+        <where>
+            <if test="departmentId!=null">
+                AND M.department_id = #{departmentId}
+            </if>
+        </where>
+        GROUP BY
+        T.id
+        ) M
+    </select>
+
+    <select id="findDormPersonListConnectStudent" parameterType="DormBuildVo" resultType="DormPerson">
+        SELECT
+            T.*,
+            B.NAME personName,
+            B.sex  personSex,
+            B.student_no,
+            B.img_url,
+            B.classes_id,
+            C.grade_name,
+            C.number
+        FROM
+            (
+              SELECT * FROM xw_dorm_person
+             <where>
+                 <if test="dormId!=null">
+                    AND dorm_id = #{dormId}
+                 </if>
+                 <if test="schoolId!=null">
+                     AND school_id = #{schoolId}
+                 </if>
+             </where>
+
+            ) T
+            LEFT JOIN jw_student B ON T.person_id = B.id
+            LEFT JOIN jw_classes C ON B.classes_id = C.id
+            <where>
+                <if test="isNullBunk!=null and isNullBunk==true">
+                    AND T.person_id IS NULL
+                </if>
+            </where>
+        ORDER BY
+	        T.bunk_sort
+        <include refid="page"/>
+    </select>
+
+
+    <select id="findDormPersonListConnectTeacher" parameterType="DormBuildVo" resultType="DormPerson">
+        SELECT
+            T.*,
+            B.NAME personName,
+            B.img_url,
+            B.sex personSex,
+            B.tel personTel,
+            B.work_number
+        FROM
+            (
+              SELECT * FROM xw_dorm_person
+                <where>
+                    <if test="dormId!=null">
+                        AND dorm_id = #{dormId}
+                    </if>
+                    <if test="schoolId!=null">
+                        AND school_id = #{schoolId}
+                    </if>
+                </where>
+             ) T
+            LEFT JOIN jw_teacher B ON T.person_id = B.id
+        ORDER BY
+	        T.bunk_sort
+        <include refid="page"/>
+    </select>
+
+    <select id="getDormBuildingById" parameterType="DormBuildVo" resultType="DormBuildingPersonInfo">
+        SELECT
+            A.id dormBuildId,
+            A.NAME dormBuildName,
+            B.id floorId,
+            B.NAME floor,
+            C.id dormId,
+            C.NAME dormName,
+            D.bunk_name
+        FROM
+            jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            INNER JOIN jw_building C ON B.id = C.parent_id
+            LEFT JOIN xw_dorm_person D ON C.id = D.dorm_id
+        WHERE
+            D.id = #{id}
+    </select>
+
+
+    <select id="findDormPersonOneConnectStudent" parameterType="DormBuildVo" resultType="DormPerson">
+        SELECT
+            A.*,
+            B.NAME personName,
+            B.sex  personSex,
+            C.grade_name,
+            C.number
+        FROM
+            (
+              SELECT * FROM xw_dorm_person
+              WHERE
+                  id = #{id}
+            ) A
+            LEFT JOIN jw_student B ON A.person_id = B.id
+            LEFT JOIN jw_classes C ON B.classes_id = C.id
+        ORDER BY
+	        A.bunk_sort
+    </select>
+
+
+    <select id="findDormPersonOneConnectTeacher" parameterType="DormBuildVo" resultType="DormPerson">
+        SELECT
+            A.*,
+            B.NAME personName,
+            B.sex personSex,
+            B.tel personTel
+        FROM
+            (
+              SELECT * FROM xw_dorm_person
+              WHERE
+                  id =#{id}
+             ) A
+            LEFT JOIN jw_teacher B ON A.person_id = B.id
+        ORDER BY
+	        A.bunk_sort
+    </select>
+
+
+    <update id="leaveDorm" parameterType="DormPerson">
+        update xw_dorm_person
+        <set>
+            <if test="dormId!=null ">
+                dorm_id=#{dormId},
+            </if>
+                move_into_time=null ,
+                person_id=null ,
+                person_type=null ,
+                is_dorm_leader=null ,
+                remarks=null ,
+            <if test="bunkName!=null ">
+                bunk_name=#{bunkName},
+            </if>
+            <if test="bunkSort!=null ">
+                bunk_sort=#{bunkSort},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="otherWord!=null ">
+                other_word=#{otherWord}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <select id="findDormPersonInfoWithStudent" parameterType="DormBuildingPersonInfo" resultType="DormBuildingPersonInfo">
+        SELECT
+            A.id dormBuildId,
+            A.NAME dormBuildName,
+            B.id floorId,
+            B.NAME floor,
+            C.id dormId,
+            C.NAME dormName,
+            T.id,
+            T.bunk_name,
+            D.id personId,
+            D.NAME personName,
+            D.sex,
+            D.guardian_contact,
+            D.img_url,
+            D.student_no,
+            D.classes_id,
+            E.grade_id,
+            E.grade_name,
+            E.number
+        FROM
+            jw_building A
+        INNER JOIN jw_building B ON A.id = B.parent_id
+        INNER JOIN jw_building C ON B.id = C.parent_id
+        INNER JOIN xw_dorm_person T ON T.dorm_id = C.id
+        INNER JOIN jw_student D ON D.id = T.person_id
+        INNER JOIN jw_classes E ON D.classes_id = E.id
+       <where>
+           <if test="dormBuildName!=null">
+               AND A.NAME LIKE  concat('%',#{dormBuildName},'%')
+           </if>
+           <if test="dormBuildIdList!=null">
+               AND A.id IN
+               <foreach collection="dormBuildIdList" item="dormBuildId" open="(" separator="," close=")">
+                   #{dormBuildId}
+               </foreach>
+           </if>
+           <if test="dormName!=null">
+               AND C.NAME LIKE  concat('%',#{dormName},'%')
+           </if>
+           <if test="gradeId!=null">
+               AND E.grade_id = #{gradeId}
+           </if>
+           <if test="number!=null">
+               AND E.number = #{number}
+           </if>
+           <if test="personName!=null">
+               AND D.NAME LIKE concat('%',#{personName},'%')
+           </if>
+           <if test="studentNo!=null">
+               AND D.student_no = #{studentNo}
+           </if>
+           <if test="classesId!=null">
+               AND D.classes_id = #{classesId}
+           </if>
+           <if test="schoolId">
+               AND T.school_id = #{schoolId}
+           </if>
+           <if test="personId">
+               AND T.person_id = #{personId}
+           </if>
+           <if test="dormId">
+               AND T.dorm_id = #{dormId}
+           </if>
+           <if test="ids!=null">
+               AND T.id IN
+               <foreach collection="ids" item="item" open="(" separator="," close=")">
+                   #{item}
+               </foreach>
+           </if>
+       </where>
+        ORDER BY
+        A.create_time,
+        B.NAME,
+        C.NAME,
+        T.bunk_sort
+        <include refid="page"/>
+    </select>
+
+    <select id="findDormPersonInfoCountWithStudent" parameterType="DormBuildingPersonInfo" resultType="long">
+        SELECT
+            count( * )
+        FROM
+            jw_building A
+        INNER JOIN jw_building B ON A.id = B.parent_id
+        INNER JOIN jw_building C ON B.id = C.parent_id
+        INNER JOIN xw_dorm_person T ON T.dorm_id = C.id
+        INNER JOIN jw_student D ON D.id = T.person_id
+        INNER JOIN jw_classes E ON D.classes_id = E.id
+        <where>
+            <if test="dormBuildName!=null">
+                AND A.NAME LIKE  concat('%',#{dormBuildName},'%')
+            </if>
+            <if test="dormBuildIdList!=null">
+                AND A.id IN
+                <foreach collection="dormBuildIdList" item="dormBuildId" open="(" separator="," close=")">
+                    #{dormBuildId}
+                </foreach>
+            </if>
+            <if test="dormName!=null">
+                AND C.NAME LIKE  concat('%',#{dormName},'%')
+            </if>
+            <if test="gradeId!=null">
+                AND E.grade_id = #{gradeId}
+            </if>
+            <if test="number!=null">
+                AND E.number = #{number}
+            </if>
+            <if test="personName!=null">
+                AND D.NAME LIKE concat('%',#{personName},'%')
+            </if>
+            <if test="studentNo!=null">
+                AND D.student_no = #{studentNo}
+            </if>
+            <if test="classesId!=null">
+                AND D.classes_id = #{classesId}
+            </if>
+            <if test="schoolId">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="dormId">
+                AND T.dorm_id = #{dormId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findDormPersonInfoWithTeacher" parameterType="DormBuildingPersonInfo" resultType="DormBuildingPersonInfo">
+        SELECT
+            A.id dormBuildId,
+            A.NAME dormBuildName,
+            B.id floorId,
+            B.NAME floor,
+            C.id dormId,
+            C.NAME dormName,
+            T.id,
+            T.bunk_name,
+            D.id personId,
+            D.NAME personName,
+            D.sex,
+            D.img_url,
+            D.work_number,
+            T.person_type,
+            D.tel
+        FROM
+            jw_building A
+        INNER JOIN jw_building B ON A.id = B.parent_id
+        INNER JOIN jw_building C ON B.id = C.parent_id
+        INNER JOIN xw_dorm_person T ON T.dorm_id = C.id
+        INNER JOIN jw_teacher D ON D.id = T.person_id
+        <where>
+            <if test="dormBuildName!=null">
+                AND A.NAME LIKE  concat('%',#{dormBuildName},'%')
+            </if>
+            <if test="dormBuildIdList!=null">
+                AND A.id IN
+                <foreach collection="dormBuildIdList" item="dormBuildId" open="(" separator="," close=")">
+                    #{dormBuildId}
+                </foreach>
+            </if>
+            <if test="dormName!=null">
+                AND C.NAME LIKE  concat('%',#{dormName},'%')
+            </if>
+            <if test="workNumber!=null">
+                AND D.work_number = #{workNumber}
+            </if>
+            <if test="personName!=null">
+                AND D.NAME LIKE concat('%',#{personName},'%')
+            </if>
+            <if test="tel!=null">
+                AND D.tel = #{tel}
+            </if>
+            <if test="schoolId">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="personType">
+                AND T.person_type = #{personType}
+            </if>
+            <if test="dormId">
+                AND T.dorm_id = #{dormId}
+            </if>
+            <if test="ids!=null">
+                AND T.id IN
+                <foreach collection="ids" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY
+            A.create_time,
+            B.NAME,
+            C.NAME,
+            T.bunk_sort
+        <include refid="page"/>
+    </select>
+
+
+    <select id="findDormPersonInfoCountWithTeacher" parameterType="DormBuildingPersonInfo" resultType="long">
+        SELECT
+          count( * )
+        FROM
+          jw_building A
+        INNER JOIN jw_building B ON A.id = B.parent_id
+        INNER JOIN jw_building C ON B.id = C.parent_id
+        INNER JOIN xw_dorm_person T ON T.dorm_id = C.id
+        INNER JOIN jw_teacher D ON D.id = T.person_id
+        <where>
+            <if test="dormBuildName!=null">
+                AND A.NAME LIKE  concat('%',#{dormBuildName},'%')
+            </if>
+            <if test="dormBuildIdList!=null">
+                AND A.id IN
+                <foreach collection="dormBuildIdList" item="dormBuildId" open="(" separator="," close=")">
+                    #{dormBuildId}
+                </foreach>
+            </if>
+            <if test="dormName!=null">
+                AND C.NAME LIKE  concat('%',#{dormName},'%')
+            </if>
+            <if test="workNumber!=null">
+                AND D.work_number = #{workNumber}
+            </if>
+            <if test="personName!=null">
+                AND D.NAME LIKE concat('%',#{personName},'%')
+            </if>
+            <if test="tel!=null">
+                AND D.tel = #{tel}
+            </if>
+            <if test="schoolId">
+                AND T.school_id = #{schoolId}
+            </if>
+            <if test="personType">
+                AND T.person_type = #{personType}
+            </if>
+            <if test="dormId">
+                AND T.dorm_id = #{dormId}
+            </if>
+            <if test="ids!=null">
+                AND T.id IN
+                <foreach collection="ids" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+
+    <select id="findEmptyDormByDormCategory" parameterType="DormBuildVo" resultType="java.util.LinkedHashMap">
+        SELECT
+            A.id dormBuildId,
+            A.`name` dormBuildName,
+            B.id floorId,
+            B.`name` floor,
+            C.id dormId,
+            C.`name` dormName,
+            D.dorm_type,
+            T.bunk_name,
+            T.id
+        FROM
+            jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            INNER JOIN jw_building C ON B.id = C.parent_id
+            INNER JOIN xw_dorm D ON D.dorm_id = C.id
+            INNER JOIN xw_dorm_person T ON C.id = T.dorm_id
+        WHERE
+            C.type_id = '107'
+            AND T.person_id IS NULL
+            AND T.school_id = #{schoolId}
+            <if test="dormCategory==1">
+                AND D.dorm_category = '1'
+            </if>
+            <if test="dormCategory==2 or dormCategory==3 or dormCategory==4">
+                AND D.dorm_category IN ('2','3','4' )
+            </if>
+            <if test="dormBuildIdList!=null and dormBuildIdList.size()>0">
+                AND A.id in
+                <foreach collection="dormBuildIdList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        ORDER BY
+            A.create_time,
+            B.NAME,
+            C.NAME,
+            T.bunk_sort
+    </select>
+
+
+    <update id="updateSaveDormPerson" parameterType="DormPerson" >
+        update xw_dorm_person
+        <set>
+            <if test="dormId!=null ">
+                dorm_id=#{dormId},
+            </if>
+            <if test="moveIntoTime!=null ">
+                move_into_time=#{moveIntoTime},
+            </if>
+            <if test="personId!=null ">
+                person_id=#{personId},
+            </if>
+            <if test="personType!=null ">
+                person_type=#{personType},
+            </if>
+            <if test="isDormLeader!=null ">
+                is_dorm_leader=#{isDormLeader},
+            </if>
+            <if test="remarks!=null ">
+                remarks=#{remarks},
+            </if>
+            <if test="bunkName!=null ">
+                bunk_name=#{bunkName},
+            </if>
+            <if test="bunkSort!=null ">
+                bunk_sort=#{bunkSort},
+            </if>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="otherWord!=null ">
+                other_word=#{otherWord}
+            </if>
+        </set>
+        <where>
+            person_id is null
+            AND id=#{id}
+        </where>
+
+
+    </update>
+
+
+
+    <update id="leaveDormByClassesId">
+        update xw_dorm_person
+        SET
+            move_into_time= null ,
+            person_id= null,
+            person_type= null,
+            is_dorm_leader= null,
+            remarks= null,
+        WHERE
+        person_id IN ( SELECT id FROM jw_student WHERE classes_id = #{classesId} )
+    </update>
+
+    <select id="findDormMoveIntoPersonNumByCondition"  parameterType="DormBuildVo" resultType="long">
+        SELECT
+            count( * )
+        FROM
+            jw_building A
+            INNER JOIN jw_building B ON A.id = B.parent_id
+            INNER JOIN jw_building C ON B.id = C.parent_id
+            INNER JOIN xw_dorm_person T ON T.dorm_id = C.id
+       <where>
+           T.person_id IS NOT NULL
+           <if test="schoolId!=null">
+               AND T.school_id =#{schoolId}
+           </if>
+           <if test="dormBuildId!=null">
+               AND A.id = #{dormBuildId}
+           </if>
+           <if test="dormBuildIdList!=null and dormBuildIdList.size()>0">
+               AND A.id IN
+               <foreach collection="dormBuildIdList" item="dormBuildId" open="(" separator="," close=")">
+                   #{dormBuildId}
+               </foreach>
+           </if>
+           <if test="floorId!=null">
+               AND B.id = #{floorId}
+           </if>
+           <if test="dormId!=null">
+               AND C.id = #{dormId}
+           </if>
+           <if test="dormIdList!=null and dormIdList.size()>0">
+               AND C.id IN
+               <foreach collection="dormIdList" item="dormId" open="(" separator="," close=")">
+                   #{dormId}
+               </foreach>
+           </if>
+       </where>
+
+    </select>
+
+    <delete id="batchDeleteDormPersonByDormIdList">
+        delete T from xw_dorm_person T where T.dorm_id in
+        <foreach collection="dormIdList" index="index" item="dormId" open="(" separator="," close=")">
+            #{dormId}
+        </foreach>
+    </delete>
+
+</mapper>

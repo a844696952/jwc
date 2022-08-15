@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yice.edu.cn.jw.dao.classSchedule.IClassScheduleDao">
+    <!--########################################################################################################################-->
+    <sql id="projection">
+        <choose>
+            <when test="pager!=null and pager.includes!=null">
+                <foreach collection="pager.includes" item="field" separator=",">
+                    T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(field)}
+                </foreach>
+            </when>
+            <when test="pager!=null and pager.excludes!=null">
+                <trim suffixOverrides=",">
+                    <if test="!pager.excludes.contains('id')">
+                        T.id,
+                    </if>
+                    <if test="!pager.excludes.contains('createTime')">
+                        T.create_time,
+                    </if>
+                    <if test="!pager.excludes.contains('updateTime')">
+                        T.update_time,
+                    </if>
+                    <if test="!pager.excludes.contains('del')">
+                        T.del,
+                    </if>
+                    <if test="!pager.excludes.contains('classId')">
+                        T.class_id,
+                    </if>
+                    <if test="!pager.excludes.contains('weekId')">
+                        T.week_id,
+                    </if>
+                    <if test="!pager.excludes.contains('numberId')">
+                        T.number_id,
+                    </if>
+                    <if test="!pager.excludes.contains('spaceId')">
+                        T.space_id,
+                    </if>
+                    <if test="!pager.excludes.contains('courseTeacherId')">
+                        T.course_teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherClasssCourseId')">
+                        T.teacher_classs_course_id,
+                    </if>
+                    <if test="!pager.excludes.contains('courseId')">
+                        T.course_id,
+                    </if>
+                    <if test="!pager.excludes.contains('teacherId')">
+                        T.teacher_id,
+                    </if>
+                    <if test="!pager.excludes.contains('typeId')">
+                        T.type_id,
+                    </if>
+                    <if test="!pager.excludes.contains('schoolId')">
+                        T.school_id,
+                    </if>
+                    <if test="!pager.excludes.contains('scheduleId')">
+                        T.schedule_id,
+                    </if>
+                </trim>
+            </when>
+            <otherwise>
+                T.*
+            </otherwise>
+        </choose>
+    </sql>
+    <sql id="match">
+        <if test="id!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('id')">
+                    T.id like concat('%',#{id},'%')
+                </when>
+                <otherwise>
+                    T.id=#{id}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="createTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('createTime')">
+                    and T.create_time like concat('%',#{createTime},'%')
+                </when>
+                <otherwise>
+                    and T.create_time=#{createTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="updateTime!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('updateTime')">
+                    and T.update_time like concat('%',#{updateTime},'%')
+                </when>
+                <otherwise>
+                    and T.update_time=#{updateTime}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="del!=null">
+            and T.del=#{del}
+        </if>
+        <if test="classId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('classId')">
+                    and T.class_id like concat('%',#{classId},'%')
+                </when>
+                <otherwise>
+                    and T.class_id=#{classId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="weekId!=null">
+            and T.week_id=#{weekId}
+        </if>
+        <if test="numberId!=null">
+            and T.number_id=#{numberId}
+        </if>
+        <if test="spaceId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('spaceId')">
+                    and T.space_id like concat('%',#{spaceId},'%')
+                </when>
+                <otherwise>
+                    and T.space_id=#{spaceId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="courseTeacherId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('courseTeacherId')">
+                    and T.course_teacher_id like concat('%',#{courseTeacherId},'%')
+                </when>
+                <otherwise>
+                    and T.course_teacher_id=#{courseTeacherId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="teacherClasssCourseId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('teacherClasssCourseId')">
+                    and T.teacher_classs_course_id like concat('%',#{teacherClasssCourseId},'%')
+                </when>
+                <otherwise>
+                    and T.teacher_classs_course_id=#{teacherClasssCourseId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="courseId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('courseId')">
+                    and T.course_id like concat('%',#{courseId},'%')
+                </when>
+                <otherwise>
+                    and T.course_id=#{courseId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="teacherId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('teacherId')">
+                    and T.teacher_id like concat('%',#{teacherId},'%')
+                </when>
+                <otherwise>
+                    and T.teacher_id=#{teacherId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="typeId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('typeId')">
+                    and T.type_id like concat('%',#{typeId},'%')
+                </when>
+                <otherwise>
+                    and T.type_id=#{typeId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="schoolId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('schoolId')">
+                    and T.school_id like concat('%',#{schoolId},'%')
+                </when>
+                <otherwise>
+                    and T.school_id=#{schoolId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="scheduleId!=null">
+            <choose>
+                <when test="pager!=null and pager.like!=null and pager.like.contains('scheduleId')">
+                    and T.schedule_id like concat('%',#{scheduleId},'%')
+                </when>
+                <otherwise>
+                    and T.schedule_id=#{scheduleId}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="pager!=null and pager.rangeField!=null and pager.rangeArray!=null and pager.rangeArray.length==2">
+            <foreach collection="pager.rangeArray" item="item"  index="i">
+                <if test="i==0 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &gt;= #{item}
+                </if>
+                <if test="i==1 and item!=null">
+                    and ${@cn.hutool.core.util.StrUtil@toUnderlineCase(pager.rangeField)} &lt;= #{item}
+                </if>
+            </foreach>
+
+        </if>
+    </sql>
+    <sql id="sort">
+        <if test="pager!=null and pager.sortField!=null and pager.sortOrder!=null">
+            order by
+            <foreach collection="pager.sortField.split(',')" item="s" index="i" separator=",">
+                T.${@cn.hutool.core.util.StrUtil@toUnderlineCase(s)} ${pager.sortOrder.split(',')[i]}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="page">
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+    </sql>
+
+
+    <select id="findClassScheduleListByCondition" parameterType="ClassSchedule" resultType="ClassSchedule">
+        select
+        <include refid="projection"/>
+        from jw_class_schedule T
+        <where>
+            <include refid="match"/>
+        </where>
+        <include refid="sort"/>
+        <include refid="page"/>
+
+
+    </select>
+    <select id="findClassScheduleCountByCondition" parameterType="ClassSchedule" resultType="long">
+        select count(*) from jw_class_schedule T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <select id="findClassScheduleById" resultType="ClassSchedule">
+        select * from jw_class_schedule where id=#{id}
+    </select>
+    <select id="findOneClassScheduleByCondition" parameterType="ClassSchedule" resultType="ClassSchedule">
+        select
+        <include refid="projection"/>
+        from jw_class_schedule T
+        <where>
+            <include refid="match"/>
+        </where>
+    </select>
+    <insert id="saveClassSchedule" parameterType="ClassSchedule">
+        INSERT INTO jw_class_schedule (  id,  create_time,  update_time,  del,  class_id,  week_id,  number_id,  space_id,  course_teacher_id,  teacher_classs_course_id,  course_id,  teacher_id,  type_id,  school_id,  schedule_id )
+         values
+         (   #{id}  ,   now()  ,   #{updateTime}  ,   #{del}  ,   #{classId}  ,   #{weekId}  ,   #{numberId}  ,   #{spaceId}  ,   #{courseTeacherId}  ,   #{teacherClasssCourseId}  ,   #{courseId}  ,   #{teacherId}  ,   #{typeId}  ,   #{schoolId}  ,   #{scheduleId}    )
+    </insert>
+    <update id="updateClassSchedule" parameterType="ClassSchedule">
+        update jw_class_schedule
+        <set>
+            <if test="createTime!=null ">
+                create_time=#{createTime},
+            </if>
+            update_time=now(),
+            <if test="del!=null ">
+                del=#{del},
+            </if>
+            <if test="classId!=null ">
+                class_id=#{classId},
+            </if>
+            <if test="weekId!=null ">
+                week_id=#{weekId},
+            </if>
+            <if test="numberId!=null ">
+                number_id=#{numberId},
+            </if>
+            <if test="spaceId!=null ">
+                space_id=#{spaceId},
+            </if>
+            <if test="courseTeacherId!=null ">
+                course_teacher_id=#{courseTeacherId},
+            </if>
+            <if test="teacherClasssCourseId!=null ">
+                teacher_classs_course_id=#{teacherClasssCourseId},
+            </if>
+            <if test="courseId!=null ">
+                course_id=#{courseId},
+            </if>
+            <if test="teacherId!=null ">
+                teacher_id=#{teacherId},
+            </if>
+            <if test="typeId!=null ">
+                type_id=#{typeId},
+            </if>
+            <if test="schoolId!=null ">
+                school_id=#{schoolId},
+            </if>
+            <if test="scheduleId!=null ">
+                schedule_id=#{scheduleId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="updateClassScheduleForAll" parameterType="ClassSchedule">
+        update jw_class_schedule
+        <set>
+            create_time=#{createTime},
+            update_time=now(),
+            del=#{del},
+            class_id=#{classId},
+            week_id=#{weekId},
+            number_id=#{numberId},
+            space_id=#{spaceId},
+            course_teacher_id=#{courseTeacherId},
+            teacher_classs_course_id=#{teacherClasssCourseId},
+            course_id=#{courseId},
+            teacher_id=#{teacherId},
+            type_id=#{typeId},
+            school_id=#{schoolId},
+            schedule_id=#{scheduleId}
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteClassSchedule" >
+        delete from jw_class_schedule where id=#{id}
+    </delete>
+    <delete id="deleteClassScheduleByCondition" >
+        delete T from jw_class_schedule T
+        <where>
+            <include refid="match"/>
+        </where>
+    </delete>
+    <insert id="batchSaveClassSchedule" parameterType="ClassSchedule">
+        INSERT INTO jw_class_schedule (  id,  create_time,  update_time,  del,  class_id,  week_id,  number_id,  space_id,  course_teacher_id,  teacher_classs_course_id,  course_id,  teacher_id,  type_id,  school_id,  schedule_id )
+        VALUES
+        <foreach collection="list" item="classSchedule" separator=",">
+            (   #{classSchedule.id}  ,   now()  ,   #{classSchedule.updateTime}  ,   #{classSchedule.del}  ,   #{classSchedule.classId}  ,   #{classSchedule.weekId}  ,   #{classSchedule.numberId}  ,   #{classSchedule.spaceId}  ,   #{classSchedule.courseTeacherId}  ,   #{classSchedule.teacherClasssCourseId}  ,   #{classSchedule.courseId}  ,   #{classSchedule.teacherId}  ,   #{classSchedule.typeId}  ,   #{classSchedule.schoolId}  ,   #{classSchedule.scheduleId}    )
+        </foreach>
+    </insert>
+
+    <!--########################################################################################################################-->
+
+    <!---计算出课时，教师姓名和课程名-->
+    <select id="getTeacherNameAndCourseAndCount" parameterType="ClassSchedule" resultType="ClassSchedule">
+        select count(*) course_time,teacher_name,course_id,course_name,type_id from jw_class_schedule where school_id =#{schoolId} and class_id = #{classId} GROUP BY course_id
+    </select>
+
+    <delete id="deleteSaveClassSchedule" parameterType="ClassSchedule">
+        delete from jw_class_schedule where
+        <foreach collection="list" item="classSchedule" separator="," open="(" close=")">
+            <if test="classSchedule.id!=null">
+               id =#{classSchedule.id}
+            </if>
+            <if test="classSchedule.updateTime!=null">
+              and   update_time =#{classSchedule.updateTime}
+            </if>
+            <if test="classSchedule.del!=null">
+                and del = #{classSchedule.del}
+            </if>
+            <if test="classSchedule.classId!=null">
+                and class_id = #{classSchedule.classId}
+            </if>
+            <if test="classSchedule.weerkId!=null">
+                and week_id = #{classSchedule.weekId}
+            </if>
+            <if test="classSchedule.numberId!=null">
+                and  number_id =#{classSchedule.numberId}
+            </if>
+            <if test="classSchedule.spaceId!=null">
+                and space_id = #{spaceId}
+            </if>
+            <if test="classSchedule.courseTeacherId!=null">
+                and course_teacher_id = #{classSchedule.courseTeacherId}
+            </if>
+            <if test="classSchedule.courseId!=null">
+                and course_id = #{classSchedule.courseId}
+            </if>
+            <if test="classSchedule.teacherId!=null">
+                and teacher_id = #{classSchedule.teacherId}
+            </if>
+            <if test="classSchedule.typeId!=null">
+                and type_id =#{classSchedule.typeId}
+            </if>
+            <if test="classSchedule.schoolId!=null">
+                and  school_id = #{classSchedule.schoolId}
+            </if>
+
+            <if test="classSchedule.teacherClasssCourseId!=null">
+                and teacher_classs_course_id = #{classSchedule.teacherClasssCourseId}
+            </if>
+        </foreach>
+
+    </delete>
+
+    <select id="findClassScheduleListByConditions" parameterType="ClassSchedule" resultType="ClassSchedule">
+        select
+        <include refid="projection"/>
+        ,jc.alias course_name,
+        s.grade_name,
+        s.number class_name,
+        te.NAME teacher_name,
+        te.img_url tearcher_img_url
+        from jw_class_schedule T
+        LEFT JOIN jw_teacher te ON te.id = T.teacher_id
+        left join jw_teacher_classes tc on tc.teacher_id = te.id and T.course_id = tc.course_id
+        LEFT JOIN jw_course jc ON jc.id = T.course_id
+        AND jc.school_id = T.school_id
+        LEFT JOIN jw_classes s ON T.class_id = s.id
+        <where>
+            <include refid="match"/>
+        </where>
+        group by T.id
+        order by T.number_id
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+
+
+    <select id="findClassScheduleListByConditionlong" parameterType="ClassSchedule" resultType="long">
+        select  count(*)
+        from jw_class_schedule T
+        LEFT JOIN jw_teacher te ON te.id = T.teacher_id
+        left join jw_teacher_classes tc on tc.teacher_id = te.id and T.course_id = tc.course_id
+        LEFT JOIN jw_course jc ON jc.id = T.course_id
+        AND jc.school_id = T.school_id
+        LEFT JOIN jw_classes s ON T.class_id = s.id
+        <where>
+            <if test="createTime!=null">
+                T.create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                and T.update_time=#{updateTime}
+            </if>
+            <if test="del!=null">
+                and T.del=#{del}
+            </if>
+            <if test="classId!=null">
+                and T.class_id=#{classId}
+            </if>
+            <if test="weekId!=null">
+                and T.week_id=#{weekId}
+            </if>
+            <if test="numberId!=null">
+                and T.number_id=#{numberId}
+            </if>
+            <if test="spaceId!=null">
+                and T.space_id=#{spaceId}
+            </if>
+            <if test="courseTeacherId!=null">
+                and T.course_teacher_id=#{courseTeacherId}
+            </if>
+            <if test="courseId!=null">
+                and T.course_id=#{courseId}
+            </if>
+            <if test="teacherId!=null">
+                and T.teacher_id=#{teacherId}
+            </if>
+            <if test="schoolId!=null">
+                and T.school_id=#{schoolId}
+            </if>
+            <if test="typeId!=null">
+                and T.type_id=#{typeId}
+            </if>
+            <if test="teacherClasssCourseId!=null">
+                and T.teacher_classs_course_id=#{teacherClasssCourseId}
+            </if>
+        </where>
+        group by T.id
+    </select>
+
+
+    <!--将场地id变为空-->
+    <update id="spaceIdNull" parameterType="ClassSchedule">
+        update jw_class_schedule set space_id = "" where id in
+         <foreach collection="list" item="classSchedule" open="(" separator="," close=")">
+              #{classSchedule.id}
+         </foreach>
+    </update>
+
+    <!--将课程id变为空-->
+    <update id="courseIdNull" parameterType="ClassSchedule">
+        update jw_class_schedule set course_id = "" where id in
+        <foreach collection="list" item="classSchedule" open="(" separator="," close=")">
+            #{classSchedule.id}
+        </foreach>
+    </update>
+    <!--验证导入课程表-->
+    <select id="verifyImport" resultType="ClassSchedule" parameterType="String">
+      SELECT
+        t.id,
+        t.name teacherName,
+        t1.id teacherClassesId,
+        t1.course_id,
+        t3.alias course_name
+      FROM
+        jw_teacher t
+        INNER JOIN jw_teacher_classes t1 ON t.id = t1.teacher_id
+        AND t1.classes_id = #{classesId}
+        INNER JOIN jw_course t3 ON t3.id = t1.course_id and t3.`school_id` = t1.`school_id`
+    </select>
+
+    <!--根据云班牌设备别名查询班牌id-->
+    <select id="findClassIdByUserName" resultType="String" parameterType="String">
+        select class_id from dm_class_card where user_name = #{userName}
+    </select>
+
+
+    <delete id="deleteSchoolScheduleInClassId" parameterType="java.util.List">
+        delete from jw_class_schedule where class_id in (
+        <foreach collection="list" separator="," item="id">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <delete id="deleteSchoolScheduleInClassIdAndScheduleId" parameterType="com.yice.edu.cn.common.pojo.jw.classSchedule.ScheduleDel">
+        delete from jw_class_schedule where class_id in (
+        <foreach collection="stringList" separator="," item="id">
+            #{id}
+        </foreach>
+        )
+        and schedule_id = #{scheduleId}
+    </delete>
+
+    <delete id="batchDeleteClassScheduleInScheduleId" parameterType="java.util.List">
+        delete from jw_class_schedule where schedule_id in (
+        <foreach collection="list" separator="," item="id">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <select id="batchSeleteClassScheduleInScheduleId" parameterType="java.util.List">
+        select * from jw_class_schedule where schedule_id in (
+          <foreach collection="list" separator="," item="id">
+              #{id}
+          </foreach>
+        )
+    </select>
+
+    <select id="findClassScheduleGroupClassId" parameterType="ClassSchedule" resultType="ClassSchedule">
+        select
+        <include refid="projection"/>
+        ,s.grade_name,
+        s.number class_name
+        from jw_class_schedule T
+        LEFT JOIN jw_classes s ON T.class_id = s.id
+        <where>
+           <include refid="match"/>
+        </where>
+        group by T.class_id
+        ORDER BY s.grade_id,s.number
+        <if test="pager!=null and  pager.paging">
+            limit #{pager.beginRow},#{pager.pageSize}
+        </if>
+
+    </select>
+</mapper>
